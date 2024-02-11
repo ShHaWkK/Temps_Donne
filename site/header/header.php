@@ -1,22 +1,28 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
 
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
+<header>
+    <div class="header-container">
+        <div class="logo-container">
                 <img src="./images/logo.png" alt="Logo Au Temps Donné" class="logo">
-            </div>
+        </div>
             <nav class="navigation-menu">
                 <ul>
-                    <li><a href="index.php" class="nav-item active">Accueil</a></li>
-                    <li><a href="services.php" class="nav-item">Services</a></li>
-                    <li><a href="espace_beneficiaire.php" class="nav-item">Espace bénéficiaire</a></li>
-                    <li><a href="espace_benevole.php" class="nav-item">Espace bénévole</a></li>
+                    <li><a href="index.php" class="nav-item active"><i class="fa fa-home"></i> Accueil</a></li>
+                    <li><a href="services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
+                    <li><a href="espace_beneficiaire.php" class="nav-item"><i class="fa fa-users"></i> Espace bénéficiaire</a></li>
+                    <li><a href="espace_benevole.php" class="nav-item"><i class="fa fa-hand-holding-heart"></i> Espace bénévole</a></li>
                 </ul>
             </nav>
-            <div class="search-icon">
-                <a href="search.php"><img src="./images/chercher.png" alt="Rechercher"></a>
-            </div>
-        </div>
-    </header>
+                <div class="search-icon">
+                    <a href="search.php"><i class="fa fa-search"></i></a>
+                </div>
+    </div>
+
+</header>
 
 <style>
 body, html {

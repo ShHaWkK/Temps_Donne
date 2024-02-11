@@ -55,14 +55,23 @@ body, html {
     padding: 0;
 }
 
+
+
 .navigation-menu ul li .nav-item {
-    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    background-color: #00334A; 
     color: white;
-    padding: 10px 20px;
-    border-radius: 10px; 
+    text-decoration: none;
+    border-radius: 5px; 
+    margin-right: 10px;
     transition: background-color 0.3s;
 }
 
+.navigation-menu ul li .nav-item.active,
+.navigation-menu ul li .nav-item:hover {
+    background-color: #002233; 
+}
 .search-icon {
     flex: 0.5; 
     display: flex;

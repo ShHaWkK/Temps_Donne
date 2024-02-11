@@ -38,7 +38,7 @@ body, html {
 }
 
 .logo-container .logo {
-    width: auto; 
+    width: 40%; 
     max-height: 60px; 
     padding: 10px;
 }

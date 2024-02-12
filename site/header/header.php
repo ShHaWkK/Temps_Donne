@@ -13,8 +13,8 @@
                 <ul>
                     <li><a href="index.php" class="nav-item active"><i class="fa fa-home"></i> Accueil</a></li>
                     <li><a href="services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
-                    <li><a href="espace_beneficiaire.php" class="nav-item"><i class="fa fa-users"></i> Espace bénéficiaire</a></li>
-                    <li><a href="espace_benevole.php" class="nav-item"><i class="fa fa-hand-holding-heart"></i> Espace bénévole</a></li>
+                    <li><a href="espace_beneficiaire.php" class="nav-item"><i class="fa-solid fa-handshake"></i> Espace bénéficiaire</a></li>
+                    <li><a href="espace_benevole.php" class="nav-item"> <i class='fa-solid fa-hand-holding-heart'></i> Espace bénévole</a></li>
                 </ul>
             </nav>
                 <div class="search-icon">

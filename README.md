@@ -2,5 +2,5 @@
 
 ## Contributors 
 
-    - ShHaWkK
+    - ShHaWkK alias Alexandre Uzan 
     

@@ -66,7 +66,7 @@ body, html {
 
 .navigation-menu ul li .nav-item {
     display: block;
-    padding: 10px 15px;
+    padding: 20px 15px;
     background-color: #00334A; 
     color: white;
     text-decoration: none;

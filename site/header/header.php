@@ -44,10 +44,11 @@ body, html {
 }
 
 .logo-container .logo {
-    width: 40%; 
-    max-height: 60px; 
-    padding: 10px;
+    max-width: 150px; 
+    height: auto; 
+    padding: 10px 0;
 }
+
 
 .navigation-menu {
     flex: 3; 

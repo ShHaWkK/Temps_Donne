@@ -35,6 +35,7 @@ CREATE TABLE UtilisateursRoles (
     PRIMARY KEY (ID_Utilisateur, ID_Role)
 );
 
+
 CREATE TABLE  Administrateurs (
     ID_Administrateur INT AUTO_INCREMENT PRIMARY KEY,
     Nom VARCHAR(255),
@@ -151,6 +152,7 @@ CREATE TABLE Vehicules (
     Statut VARCHAR(100),
     Localisation_Actuelle TEXT
 );
+
 CREATE TABLE Affectations_Vehicules (
     ID_Affectation INT AUTO_INCREMENT PRIMARY KEY,
     ID_Vehicule INT,
@@ -243,6 +245,7 @@ ALTER TABLE Utilisateurs ADD COLUMN Est_Verifie BOOLEAN DEFAULT FALSE;
 ALTER TABLE Utilisateurs ADD COLUMN Code_Verification VARCHAR(255);
 ALTER TABLE Utilisateurs ADD COLUMN Type_Permis VARCHAR(50);
 
+
 ALTER TABLE Dons ADD COLUMN ID_Source INT;
 ALTER TABLE Dons ADD FOREIGN KEY (ID_Source) REFERENCES SourcesDons(ID_Source);
 
@@ -253,6 +256,7 @@ ALTER TABLE Materiels ADD FOREIGN KEY (ID_Evenement) REFERENCES Evenements(ID_Ev
 ALTER TABLE Evenements ADD COLUMN ID_Administrateur INT;
 ALTER TABLE Evenements ADD FOREIGN KEY (ID_Administrateur) REFERENCES Administrateurs(ID_Administrateur);
 
+
 ALTER TABLE Ressources ADD COLUMN ID_Administrateur INT;
 ALTER TABLE Ressources ADD FOREIGN KEY (ID_Administrateur) REFERENCES Administrateurs(ID_Administrateur);
 ALTER TABLE Ressources ADD COLUMN ID_Activite INT;
@@ -261,5 +265,4 @@ ALTER TABLE Ressources ADD FOREIGN KEY (ID_Activite) REFERENCES Activites(ID_Act
 ALTER TABLE Tickets ADD COLUMN Date_Modification DATE;
 ALTER TABLE Tickets ADD COLUMN ID_Modificateur INT;
 ALTER TABLE Tickets ADD FOREIGN KEY (ID_Modificateur) REFERENCES Utilisateurs(ID_Utilisateur);
-
 

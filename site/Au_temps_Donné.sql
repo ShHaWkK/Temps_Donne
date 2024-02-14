@@ -44,7 +44,7 @@ CREATE TABLE  Administrateurs (
     Mot_de_passe VARCHAR(255),
     Role VARCHAR(255) -- 'Administrateur'
 );
-
+ALTER TABLE Administrateurs ADD COLUMN Photo_Profil VARCHAR(255);
 
 CREATE TABLE Services (
     ID_Service INT AUTO_INCREMENT PRIMARY KEY,

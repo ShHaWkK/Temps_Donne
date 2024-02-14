@@ -87,23 +87,34 @@ $users = $stmt->fetchAll();
                     <h2>Rappels Importants</h2>
                     <!-- Liste des rappels ou des tâches urgentes -->
                 </div>
-                <?php
-                echo "<table>";
-                    echo "<tr><th>Nom</th><th>Prénom</th><th>Email</th><th>Rôle</th><th>Actions</th></tr>";
-
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['Nom']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Prenom']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Nom_Role']) . "</td>";
-                    echo "<td><a href='details_utilisateur.php?id=" . $row['ID_Utilisateur'] . "'>Voir Détails</a></td>";
-                    echo "</tr>";
-                    }
-
-                    echo "</table>";
-                ?>
-
+                <!-- Tableau des Utilisateurs -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($users as $row): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['Nom']) ?></td>
+                                <td><?= htmlspecialchars($row['Prenom']) ?></td>
+                                <td><?= htmlspecialchars($row['Email']) ?></td>
+                                <td><?= htmlspecialchars($row['Nom_Role']) ?></td>
+                                <td>
+                                    <a href='details_utilisateur.php?id=<?= $row['ID_Utilisateur'] ?>' class="btn btn-info btn-sm">Voir Détails</a>
+                                    <!-- Ajoutez d'autres boutons/actions ici -->
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

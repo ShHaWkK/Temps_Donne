@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
         $adminEmail = $_POST['adminEmail'];
         $password = $_POST['password'];
 
-        $stmt = $conn->prepare('SELECT * FROM Administrateurs WHERE email = :email');
+        $stmt = $conn->prepare('SELECT * FROM administrateurs WHERE email = :email');
         $stmt->execute(array('email' => $adminEmail));
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

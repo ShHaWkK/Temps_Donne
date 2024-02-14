@@ -73,6 +73,23 @@ CREATE TABLE Inscriptions_Formations (
     FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
     FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation)
 );
+
+CREATE TABLE ChatMessages (
+    ID_Message INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Expediteur_Utilisateur INT, -- ID de l'utilisateur expéditeur
+    ID_Expediteur_Administrateur INT, -- ID de l'administrateur expéditeur
+    ID_Destinataire_Utilisateur INT, -- ID de l'utilisateur destinataire
+    ID_Destinataire_Administrateur INT, -- ID de l'administrateur destinataire
+    Message TEXT,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Lu BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
+    FOREIGN KEY (ID_Expediteur_Administrateur) REFERENCES Administrateurs(ID_Administrateur),
+    FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
+    FOREIGN KEY (ID_Destinataire_Administrateur) REFERENCES Administrateurs(ID_Administrateur)
+);
+
+
 CREATE TABLE Feedbacks (
     ID_Feedback INT AUTO_INCREMENT PRIMARY KEY,
     ID_Utilisateur INT,

@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Vérification
 if(!isset($_SESSION['admin'])){
@@ -17,6 +20,13 @@ if(isset($_POST['logout'])){
     header('Location: Admin_login.php');
     exit();
 }
+
+$sql = "SELECT Utilisateurs.*, Roles.Nom_Role FROM Utilisateurs 
+        LEFT JOIN UtilisateursRoles ON Utilisateurs.ID_Utilisateur = UtilisateursRoles.ID_Utilisateur 
+        LEFT JOIN Roles ON UtilisateursRoles.ID_Role = Roles.ID_Role";
+$stmt = $conn->query($sql);
+$users = $stmt->fetchAll();
+
 ?>
 
 
@@ -77,6 +87,23 @@ if(isset($_POST['logout'])){
                     <h2>Rappels Importants</h2>
                     <!-- Liste des rappels ou des tâches urgentes -->
                 </div>
+                <?php
+                echo "<table>";
+                    echo "<tr><th>Nom</th><th>Prénom</th><th>Email</th><th>Rôle</th><th>Actions</th></tr>";
+
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row['Nom']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['Prenom']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['Nom_Role']) . "</td>";
+                    echo "<td><a href='details_utilisateur.php?id=" . $row['ID_Utilisateur'] . "'>Voir Détails</a></td>";
+                    echo "</tr>";
+                    }
+
+                    echo "</table>";
+                ?>
+
             </div>
         </div>
     </div>

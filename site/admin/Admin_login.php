@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include('../BDD/Connection.php');
+include('BDD/Connection.php');
 
 $error_message = '';
 
@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
             // vérification du mot de passe
             if (password_verify($password, $row['Mot_de_passe'])) {
                 $_SESSION['admin'] = $row['Nom']; 
-                header('Location: ../Admin_Panel.php'); 
+                header('Location: Admin_Panel.php'); 
                 exit();
             } else {
                 $error_message = 'Mot de passe incorrect';

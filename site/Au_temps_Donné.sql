@@ -44,7 +44,7 @@ CREATE TABLE  Administrateurs (
     Mot_de_passe VARCHAR(255),
     Role VARCHAR(255) -- 'Administrateur'
 );
-
+ALTER TABLE Administrateurs ADD COLUMN Photo_Profil VARCHAR(255);
 
 CREATE TABLE Services (
     ID_Service INT AUTO_INCREMENT PRIMARY KEY,
@@ -99,17 +99,6 @@ CREATE TABLE Dons (
     FOREIGN KEY (ID_Donateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
 
-CREATE TABLE Visites (
-    ID_Visite INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Benevole INT,
-    ID_Personne_Agee INT, -- ou ID_Beneficiaire si les personnes âgées sont enregistrées en tant que bénéficiaires
-    Date_Visite DATE,
-    Heure_Visite TIME,
-    NFC_Tag_Data TEXT, -- Données récupérées du jeton NFC
-    Commentaires TEXT,
-    FOREIGN KEY (ID_Benevole) REFERENCES Utilisateurs(ID_Utilisateur),
-    FOREIGN KEY (ID_Personne_Agee) REFERENCES Utilisateurs(ID_Utilisateur) -- ou REFERENCES Beneficiaires(ID_Beneficiaire)
-);
 
 CREATE TABLE Stocks (
     ID_Stock INT AUTO_INCREMENT PRIMARY KEY,

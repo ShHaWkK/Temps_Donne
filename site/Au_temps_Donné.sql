@@ -55,6 +55,13 @@ CREATE TABLE Services (
     ID_Administrateur INT,
     FOREIGN KEY (ID_Administrateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
+
+ALTER TABLE Services ADD NFC_Tag_Data TEXT;
+ALTER TABLE Services ADD Type_Service VARCHAR(255);
+ALTER TABLE Services ADD Date_Debut DATE;
+ALTER Table Services ADD Date_Fin DATE;
+
+
 CREATE TABLE Formations (
     ID_Formation INT AUTO_INCREMENT PRIMARY KEY,
     Titre VARCHAR(255),
@@ -254,4 +261,3 @@ ALTER TABLE Ressources ADD FOREIGN KEY (ID_Activite) REFERENCES Activites(ID_Act
 ALTER TABLE Tickets ADD COLUMN Date_Modification DATE;
 ALTER TABLE Tickets ADD COLUMN ID_Modificateur INT;
 ALTER TABLE Tickets ADD FOREIGN KEY (ID_Modificateur) REFERENCES Utilisateurs(ID_Utilisateur);
-

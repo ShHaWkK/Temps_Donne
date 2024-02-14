@@ -1,4 +1,23 @@
+<?php
+session_start();
 
+// Vérification
+if(!isset($_SESSION['admin'])){
+    header('Location: Admin_login.php'); 
+    exit();
+}
+
+include('BDD/Connection.php'); 
+
+
+
+// Déconnecter l'administrateur
+if(isset($_POST['logout'])){
+    unset($_SESSION['admin']);
+    header('Location: Admin_login.php');
+    exit();
+}
+?>
 
 
 
@@ -9,17 +28,25 @@
     <meta charset="UTF-8">
     <title>Tableau de Bord - Espace d'Administration</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div id="admin-container">
         <div id="sidebar-menu">
             <ul>
+                <li><a href="#users" class="list-group-item list-group-item-action"><i class="fa fa-users mr-2"></i>Tous les utilisateurs</a></li>
                 <li><a href="gestion_stocks.php">Gestion des Stocks</a></li>
                 <li><a href="gestion_services.php">Gestion des Services</a></li>
                 <li><a href="gestion_benevoles.php">Gestion des Bénévoles</a></li>
                 <li><a href="gestion_activites.php">Gestion des Activités</a></li>
                 <li><a href="gestion_tickets.php">Gestion des Tickets</a></li>
+                <li><a href="Captcha/list_capcha.php" class="list-group-item list-group-item-action"><i class="fa fa-envelope mr-2"></i>Captcha</a></li>
+                <li><a href="Admin_login.php" class="list-group-item list-group-item-action"><i class="fa fa-sign-out mr-2"></i>Déconnexion</a></li>
             </ul>
+            <form method="POST" style="margin-top: 20px;">
+                    <button type="submit" name="logout" class="btn btn-danger btn-block">Se déconnecter <i class="fa fa-sign-out"></i></button>
+                </form>
         </div>
         
         <div id="main-content">

@@ -8,18 +8,25 @@ include('BDD/Connection.php');
 $error_message = '';
 
 if (isset($_POST['submit'])) {
-    if (isset($_POST['adminEmail']) && isset($_POST['password'])) {
+    if (!empty($_POST['adminEmail']) && !empty($_POST['password'])) {
         $adminEmail = $_POST['adminEmail'];
         $password = $_POST['password'];
 
-        $stmt = $conn->prepare('SELECT * FROM administrateurs WHERE email = :email');
-        $stmt->execute(array('email' => $adminEmail));
+        $stmt = $conn->prepare('SELECT * FROM administrateurs WHERE Email = :email');
+        $stmt->execute(array(':email' => $adminEmail));
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
             // vérification du mot de passe
             if (password_verify($password, $row['Mot_de_passe'])) {
-                $_SESSION['admin'] = $row['Nom']; 
+                // Assignation des valeurs de session ici
+                $_SESSION['admin'] = array(
+                    'ID_Administrateur' => $row['ID_Administrateur'],
+                    'Nom' => $row['Nom'],
+                    'Prenom' => $row['Prenom'],
+                    'Email' => $row['Email']
+                    // Ajoutez d'autres éléments au besoin
+                );
                 header('Location: Admin_Panel.php'); 
                 exit();
             } else {
@@ -31,6 +38,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
 <body>
     <div class="login-form">
         <h2>Connexion Admin</h2>

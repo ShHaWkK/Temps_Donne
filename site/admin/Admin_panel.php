@@ -252,9 +252,9 @@ button:hover {
                                 <td><?php echo $user['Email']; ?></td>
                                 <td><?php echo $user['Role']; ?></td>                                
                                 <td>
-                                    <a href="users/edit_user.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-primary">Modifier</a>
-                                    <a href="delete_user.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">Supprimer</a>
-                                    <a href="users/user_details.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-info">Voir la fiche</a>
+                                    <a href="users/edit_user.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+                                    <a href="delete_user.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                                    <a href="users/user_details.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-info"><i class="fas fa-info-circle"></i> Voir la fiche</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

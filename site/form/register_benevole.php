@@ -1,169 +1,144 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
     <meta charset="UTF-8">
     <title>Inscription Bénévole</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
-
-body {
+/* Main styling */
+body, input, select, button, textarea {
     font-family: 'Open Sans', sans-serif;
-    background-color: #eceff1;
-    margin: 0;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .form-container {
-    width: 100%;
-    max-width: 700px;
-    background: #ffffff;
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-h2 {
+.form-title {
+    text-align: center;
     color: #00334A;
-    font-size: 24px;
+    margin-bottom: 1rem;
+}
+
+.form-description {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 }
 
-p {
-    color: #666666;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-label {
-    color: #333333;
-    display: block;
-    margin-bottom: 10px;
-}
-
+/* Form inputs */
 input[type="text"],
 input[type="date"],
 input[type="email"],
 input[type="tel"],
 input[type="number"],
-select {
+select,
+textarea {
     width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;
 }
 
-select[multiple] {
-    height: auto;
-}
-
+/* Radio buttons and checkboxes */
 .radio-group,
 .checkbox-group {
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 1rem;
 }
 
 .radio-group label,
 .checkbox-group label {
-    display: inline-block;
-    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    position: relative;
-    padding-left: 30px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #eee;
-    border-radius: 50%;
+    background: #f7f7f7;
     border: 1px solid #ddd;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label {
+    background-color: #00334A;
+    color: white;
+    border-color: #00334A;
+}
+
+/* Styling for checkmarks */
+.checkmark {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
 }
 
 .checkbox-group .checkmark {
     border-radius: 4px;
 }
 
-input[type="radio"]:checked ~ .checkmark,
-input[type="checkbox"]:checked ~ .checkmark {
-    background-color: #00334A;
-    border-color: #00334A;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-input[type="radio"]:checked ~ .checkmark:after,
-input[type="checkbox"]:checked ~ .checkmark:after {
-    display: block;
-}
-
-.radio-group .checkmark:after {
-    top: 6px;
-    left: 6px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: white;
-}
-
-.checkbox-group .checkmark:after {
-    left: 7px;
-    top: 3px;
-    width: 6px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-}
-
-.button-container {
-    text-align: center;
-    margin-top: 30px;
-}
-
-button {
+/* Submit button */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
     background-color: #00506b;
     color: white;
-    padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s;
 }
 
-button:hover {
+button[type="submit"]:hover {
     background-color: #00334A;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-    body {
-        padding: 20px;
+    .form-container {
+        padding: 15px;
     }
 
-    .form-container {
-        padding: 20px;
+    .radio-group, .checkbox-group {
+        grid-template-columns: 1fr;
     }
 }
 
-</style>
+/* Security */
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #00334A;
+    outline: none;
+}
+
+/* Accessibility */
+input[type="text"]:focus-visible,
+input[type="date"]:focus-visible,
+input[type="email"]:focus-visible,
+input[type="tel"]:focus-visible,
+input[type="number"]:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0,51,74,0.5);
+}
+
+    </style>
 </head>
 <body>
 <div class="form-container">
@@ -357,7 +332,6 @@ button:hover {
                         <option value="aideLoisirs">Aide aux Loisirs</option>
                         <option value="aideVoyages">Aide aux Voyages</option>
                         <option value="aideUrgence">Aide d'Urgence</option>
-                        <
                     </select>
                 </div>
 
@@ -371,6 +345,7 @@ button:hover {
             <button type="submit" name="submit">Valider</button>
     </form>
 
+    <!-- Insérez vos scripts JavaScript ici pour la validation côté client -->
     <script>
         document.getElementById('formInscription').addEventListener('submit', function(e) {
             var errors = [];

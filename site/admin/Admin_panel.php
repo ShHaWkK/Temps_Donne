@@ -77,7 +77,7 @@ html,body {
     top: 0;
     left: 0;
     padding: 1rem;
-    /* other styles */
+    transition: width 0.3s;
 }
 .sidebar h2, .sidebar a {
     color: var(--background-color);
@@ -104,7 +104,7 @@ html,body {
 .main-content header {
     background-color: var(--primary-color);
     color: var(--background-color);
-    width: calc(100% - 250px); /* Adjust the width based on the sidebar width */
+    width: calc(100% - 250px); 
     position: fixed;
     top: 0;
     right: 0;
@@ -169,7 +169,7 @@ button {
 }
 
 button:hover {
-    background-color: #001f2d; /* Darker shade for hover effect */
+    background-color: #001f2d; 
 }
 
 .error-message {

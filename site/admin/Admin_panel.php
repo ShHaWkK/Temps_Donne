@@ -123,7 +123,7 @@ html,body {
 .user-actions button {
     background: none;
     border: none;
-    color: var(--background-color);
+    color: var(--secondary-color);
     cursor: pointer;
 }
 
@@ -159,6 +159,7 @@ html,body {
     text-shadow: 2px 2px 4px #000000; 
 }
 
+
 button {
     background-color: var(--secondary-color);
     color: var(--background-color);
@@ -171,6 +172,7 @@ button {
 button:hover {
     background-color: #001f2d; 
 }
+
 
 .error-message {
     color: var(--error-color);
@@ -251,16 +253,6 @@ button:hover {
         </main>
     </div>
 </body>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var menuToggle = document.querySelector('.menu-toggle');
-    var sidebar = document.querySelector('.sidebar');
-    menuToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('active'); // Bascule la classe active sur la barre latérale
-    });
-});
-
-</script>
 </html>
 
 

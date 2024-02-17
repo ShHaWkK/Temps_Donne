@@ -120,12 +120,21 @@ html,body {
     padding: 0.5rem;
 }
 
+
 .user-actions button {
-    background: none;
+    background-color: var(--secondary-color); /* Couleur de fond initiale */
+    color: var(--background-color); /* Couleur du texte initiale */
     border: none;
-    color: var(--secondary-color);
+    padding: 0.5rem 1rem;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Ajout d'une transition pour la couleur */
 }
+
+.user-actions button:hover {
+    background-color: #001f2d; /* Couleur de fond au survol */
+    color: #ffffff; /* Couleur du texte au survol */
+}
+
 
 .welcome h1 {
     margin-bottom: 1rem;

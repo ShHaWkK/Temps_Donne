@@ -3,84 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription Bénévole</title>
-    <style>
-        body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #eceff1;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form-container {
-    background-color: #fff;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.form-title {
-    text-align: center;
+h2 {
     color: #00334A;
-    margin-bottom: 30px;
-}
-
-.input-group {
+    font-size: 24px;
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.input-group h3 {
-    color: #00334A;
-    margin-bottom: 10px;
+p {
+    color: #666666;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 label {
+    color: #333333;
     display: block;
-    color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 input[type="text"],
 input[type="date"],
 input[type="email"],
 input[type="tel"],
-select,
-input[type="checkbox"],
-input[type="radio"],
-button {
+input[type="number"],
+select {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.radio-group label {
-    margin-right: 20px;
-}
-
-button {
-    background-color: #82CFD8;
-    color: #fff;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background-color: #00334A;
-}
-
-.required {
-    color: red;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 select[multiple] {
     height: auto;
 }
 
-    </style>
+.radio-group,
+.checkbox-group {
+    margin-bottom: 20px;
+}
+
+.radio-group label,
+.checkbox-group label {
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
+
+.checkbox-group .checkmark {
+    border-radius: 4px;
+}
+
+input[type="radio"]:checked ~ .checkmark,
+input[type="checkbox"]:checked ~ .checkmark {
+    background-color: #00334A;
+    border-color: #00334A;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+input[type="radio"]:checked ~ .checkmark:after,
+input[type="checkbox"]:checked ~ .checkmark:after {
+    display: block;
+}
+
+.radio-group .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.checkbox-group .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+button {
+    background-color: #00506b;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #00334A;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+}
+
+</style>
 </head>
 <body>
 <div class="form-container">
@@ -288,7 +371,6 @@ select[multiple] {
             <button type="submit" name="submit">Valider</button>
     </form>
 
-    <!-- Insérez vos scripts JavaScript ici pour la validation côté client -->
     <script>
         document.getElementById('formInscription').addEventListener('submit', function(e) {
             var errors = [];

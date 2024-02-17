@@ -25,8 +25,9 @@ if (isset($_POST['submit'])) {
                     'Nom' => $row['Nom'],
                     'Prenom' => $row['Prenom'],
                     'Email' => $row['Email']
-                    // Ajoutez d'autres éléments au besoin
                 );
+                // Stocker également l'ID dans une variable de session distincte pour un accès facile
+                $_SESSION['admin_id'] = $row['ID_Administrateur'];
                 header('Location: Admin_Panel.php'); 
                 exit();
             } else {
@@ -37,6 +38,7 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+
 ?>
 
 <body>

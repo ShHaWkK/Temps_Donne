@@ -230,7 +230,7 @@ button:hover {
                 <div class="user-management-header">
                     <h2>UTILISATEURS:</h2>
                     <div class="user-actions">
-                        <button>Ajouter un utilisateur</button>
+                        <button><a href="users/admin_add_user.php">Ajouter un utilisateur</a></button>
                         <button>Ajouter un rôle</button>
                     </div>
                 </div>
@@ -251,8 +251,10 @@ button:hover {
                                 <td><?php echo $user['Prenom']; ?></td>
                                 <td><?php echo $user['Email']; ?></td>
                                 <td><?php echo $user['Role']; ?></td>                                
-                                    <button>Modifier</button>
-                                    <button>Supprimer</button>
+                                <td>
+                                    <a href="users/edit_user.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-primary">Modifier</a>
+                                    <a href="delete_user.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">Supprimer</a>
+                                    <a href="users/user_details.php?id=<?php echo $user['ID_Utilisateur']; ?>" class="btn btn-info">Voir la fiche</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

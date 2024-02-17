@@ -122,17 +122,17 @@ html,body {
 
 
 .user-actions button {
-    background-color: var(--secondary-color); /* Couleur de fond initiale */
-    color: var(--background-color); /* Couleur du texte initiale */
+    background-color: var(--secondary-color); 
+    color: var(--background-color); 
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s; /* Ajout d'une transition pour la couleur */
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 .user-actions button:hover {
-    background-color: #001f2d; /* Couleur de fond au survol */
-    color: #ffffff; /* Couleur du texte au survol */
+    background-color: #001f2d;
+    color: #ffffff; 
 }
 
 
@@ -250,7 +250,7 @@ button:hover {
                                 <td><?php echo $user['Nom']; ?></td>
                                 <td><?php echo $user['Prenom']; ?></td>
                                 <td><?php echo $user['Email']; ?></td>
-                                <td><?php echo $user['Role']; ?></td>                                <td>
+                                <td><?php echo $user['Role']; ?></td>                                
                                     <button>Modifier</button>
                                     <button>Supprimer</button>
                                 </td>

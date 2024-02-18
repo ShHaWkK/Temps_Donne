@@ -1,3 +1,65 @@
+<?php
+session_start();
+error_reporting(E_ALL); 
+ini_set('display_errors', 1);
+require_once('Connection.php'); 
+require_once('check_attempts.php');
+
+
+function validatePhoneNumber($number) {
+
+    return preg_match('/^[0-9]{10}$/', $number); 
+
+}
+
+function hashPassword($password) {
+    return password_hash($password, PASSWORD_DEFAULT);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Récupération des données du formulaire
+    $nom = htmlspecialchars($_POST['nom']);
+    $prenom = htmlspecialchars($_POST['prenom']);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $telephone = htmlspecialchars($_POST['telephone']);
+    $adresse = htmlspecialchars($_POST['adresse']);
+    $dateNaissance = htmlspecialchars($_POST['date_naissance']);
+    $nationalite = htmlspecialchars($_POST['nationalite']);
+    $langues = implode(', ', array_map('htmlspecialchars', $_POST['langues']));
+    $emploi = htmlspecialchars($_POST['emploi'] ?? '');
+    $societe = htmlspecialchars($_POST['societe'] ?? '');
+    $role = 'Beneficiaire';
+
+
+    $sql = "INSERT INTO Utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Langues, Nationalite, Role, Emploi, Societe) VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :langues, :nationalite, :role, :emploi, :societe)";
+
+     // Validation des données
+     if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !validatePhoneNumber($telephone)) {
+        die('Données invalides.');
+    }
+
+    try {
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':prenom', $prenom);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':telephone', $telephone);
+        $stmt->bindParam(':adresse', $adresse);
+        $stmt->bindParam(':dateNaissance', $dateNaissance);
+        $stmt->bindParam(':langues', $langues);
+        $stmt->bindParam(':nationalite', $nationalite);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':emploi', $emploi);
+        $stmt->bindParam(':societe', $societe);
+
+        $stmt->execute();
+        echo "Inscription réussie.";
+    } catch (PDOException $e) {
+        echo "Erreur lors de l'inscription : " . $e->getMessage();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -188,6 +250,7 @@
 </head>
 <body>
     <div class="container">
+        <form id="beneficiaryRegistrationForm" method="post" enctype="multipart/form-data"<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <div class="row justify-content-md-center">
             <div class="col-md-8">
                 <div class="form-container">
@@ -394,7 +457,6 @@
                 console.log('Services:', services);
                 console.log('Terms:', terms);
                 console.log('Newsletter:', newsletter);
-                event.preventDefault();
             });
 
         document.getElementById('beneficiaryRegistrationForm').addEventListener('submit', function(event) {

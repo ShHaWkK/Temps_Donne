@@ -265,6 +265,15 @@ CREATE TABLE Captchas (
     FOREIGN KEY (ID_Administrateur) REFERENCES Administrateurs(ID_Administrateur)
 );
 
+CREATE TABLE Planning (
+    ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Utilisateur INT,
+    Date DATE,
+    Horaire TIME,
+    Description TEXT,
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+);
+
 
 ALTER TABLE Stocks ADD COLUMN QR_Code TEXT;
 

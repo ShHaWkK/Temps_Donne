@@ -1,3 +1,63 @@
+<?php
+session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+require_once('../BDD/Connection.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $email = $_POST['email'];
+    $telephone = $_POST['telephone'];
+    $adresse = $_POST['adresse'];
+    $dateNaissance = $_POST['date_naissance'];
+    $nationalite = $_POST['nationalite'];
+    $langues = $_POST['langues']; 
+    $situation = $_POST['situation']; 
+    $typePermis = $_POST['typePermis']; 
+    $dateInscription = date('Y-m-d'); 
+
+    // Gestion de la photo
+    $photo = $_FILES['photo']['name'];
+    $photoPath = "uploads/" . md5($email) . "/";
+    if (!file_exists($photoPath)) {
+        mkdir($photoPath, 0777, true);
+    }
+    $photoPath .= basename($photo);
+    move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath);
+    
+
+    $sql = "INSERT INTO utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Nationalite, Langues, Situation, Type_Permis, Date_d_inscription, Photo_Profil) 
+            VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalite, :langues, :situation, :typePermis, :dateInscription, :photo)";
+
+    $stmt = $conn->prepare($sql);
+
+    $stmt->bindParam(':nom', $nom);
+    $stmt->bindParam(':prenom', $prenom);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':telephone', $telephone);
+    $stmt->bindParam(':adresse', $adresse);
+    $stmt->bindParam(':dateNaissance', $dateNaissance);
+    $stmt->bindParam(':nationalite', $nationalite);
+    $stmt->bindParam(':langues', $langues);
+    $stmt->bindParam(':situation', $situation);
+    $stmt->bindParam(':typePermis', $typePermis);
+    $stmt->bindParam(':dateInscription', $dateInscription);
+    $stmt->bindParam(':photo', $photoPath);
+
+    try {
+        $stmt->execute();
+        echo "Inscription réussie.";
+    } catch (PDOException $e) {
+        echo "Erreur lors de l'insertion des données : " . $e->getMessage();
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -142,8 +202,7 @@ textarea:focus-visible {
 </head>
 <body>
 <div class="form-container">
-    <form id="volunteerRegistrationForm" action="submit_volunteer_form.php" method="post">
-        <legend>
+<form id="volunteerRegistrationForm" action="register_benevole.php" method="post" enctype="multipart/form-data">        <legend>
         <h2 class="form-title">JE DEVIENS BÉNÉVOLE</h2>
         </legend>
         <p class="form-description">Le bénévolat, comme la solidarité, peuvent prendre diverses formes! Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.</p>            
@@ -342,6 +401,11 @@ textarea:focus-visible {
                     <label><input type="checkbox" name="newsletter"> Je souhaite recevoir des informations de la part de "Au temps donné"</label>
                 </div>
             </div>
+            <!-- Champ pour la photo -->
+            <section class="photo-section">
+                <label for="photo">Photo de profil:</label>
+                <input type="file" id="photo" name="photo" required>
+            </section>
             <button type="submit" name="submit">Valider</button>
     </form>
 
@@ -385,6 +449,13 @@ textarea:focus-visible {
                 alert(errors.join('\n'));
             }
         });
+
+       // * => obligatoire à remplir 
+
+
+
+
+
     </script>
 </body>
 </html>

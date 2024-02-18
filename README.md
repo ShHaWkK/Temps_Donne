@@ -1,6 +1,5 @@
 # PA2yx
 
 ## Contributors 
-
-    - ShHaWkK alias Alexandre Uzan 
+- ShHaWkK alias Alexandre Uzan 
     

@@ -15,20 +15,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $adresse = $_POST['adresse'];
     $dateNaissance = $_POST['date_naissance'];
     $nationalite = $_POST['nationalite'];
-    $langues = $_POST['langues']; 
-    $situation = $_POST['situation']; 
-    $typePermis = $_POST['typePermis']; 
-    $dateInscription = date('Y-m-d'); 
+    $langues = implode(', ', $_POST['langues']); 
+    $situation = $_POST['situation_personnelle']; 
+    $type_permis = isset($_POST['type_permis']) ? $_POST['type_permis'] : 'aucun';
+    $date_inscription = date('Y-m-d'); 
 
-    // Gestion de la photo
-    $photo = $_FILES['photo']['name'];
-    $photoPath = "uploads/" . md5($email) . "/";
-    if (!file_exists($photoPath)) {
-        mkdir($photoPath, 0777, true);
+    if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
+        // Traitez le téléchargement de la photo
+        $photo_profil = $_FILES['photo_profil']['name'];
+        $photo_path = "uploads/" . md5($email) . "/";
+        if (!file_exists($photo_path)) {
+            mkdir($photo_path, 0777, true);
+        }
+        $photo_path .= basename($photo_profil);
+        move_uploaded_file($_FILES['photo_profil']['tmp_name'], $photo_path);
+    } else {
+        $photo_profil = '';
     }
-    $photoPath .= basename($photo);
-    move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath);
-    
+       
 // Vérifiez si l'utilisateur a téléchargé une photo de profil
 if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
     // Vérifiez si le fichier n'est pas trop gros
@@ -53,8 +57,9 @@ if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
         }
     }
 }
-    $sql = "INSERT INTO utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Nationalite, Langues, Situation, Type_Permis, Date_d_inscription, Photo_Profil) 
-            VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalite, :langues, :situation, :typePermis, :dateInscription, :photo)";
+
+$sql = "INSERT INTO utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Nationalite, Langues, Situation, Type_Permis, Date_d_inscription, Photo_profil) 
+VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalite, :langues, :situation, :type_permis, :date_inscription, :photo_profil)";
 
     $stmt = $conn->prepare($sql);
 
@@ -67,8 +72,8 @@ if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
     $stmt->bindParam(':nationalite', $nationalite);
     $stmt->bindParam(':langues', $langues);
     $stmt->bindParam(':situation', $situation);
-    $stmt->bindParam(':typePermis', $typePermis);
-    $stmt->bindParam(':dateInscription', $dateInscription);
+    $stmt->bindParam(':type_permis', $type_permis);
+    $stmt->bindParam(':date_inscription', $date_inscription);
     $stmt->bindParam(':photo_profil', $photo_path);
     try {
         $stmt->execute();
@@ -224,8 +229,7 @@ textarea:focus-visible {
 </head>
 <body>
 <div class="form-container">
-<form id="volunteerRegistrationForm" action="register_benevole.php" method="post" enctype="multipart/form-data">        <legend>
-        <h2 class="form-title">JE DEVIENS BÉNÉVOLE</h2>
+<form id="volunteerRegistrationForm" action="register_benevole.php" method="post" enctype="multipart/form-data">        <h2 class="form-title">JE DEVIENS BÉNÉVOLE</h2>
         </legend>
         <p class="form-description">Le bénévolat, comme la solidarité, peuvent prendre diverses formes! Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.</p>            
             
@@ -251,6 +255,21 @@ textarea:focus-visible {
 
             <label for="email">Adresse mail:</label>
             <input type="email" id="email" name="email" required>
+            <?php
+
+            $sqlEmailCheck = "SELECT COUNT(*) FROM utilisateurs WHERE Email = :email";
+            $stmtEmailCheck = $conn->prepare($sqlEmailCheck);
+            $stmtEmailCheck->bindParam(':email', $email);
+            $stmtEmailCheck->execute();
+            
+            if ($stmtEmailCheck->fetchColumn() > 0) {
+                echo "Un utilisateur avec cet email existe déjà.";
+
+            } else {
+                echo "Cet email est disponible.";
+            }
+             
+            ?>
 
             <label for="telephone">Numéro de téléphone:</label>
             <input type="tel" id="telephone" name="telephone" required>
@@ -380,14 +399,16 @@ textarea:focus-visible {
                 </fieldset>
 
                 <section class="availability-section">
-                <h3>Disponibilités et Domaine d'Intervention:</h3>
-                <!-- Mobility -->
-                <div class="input-group">
-                    <label>Mobilité: <span class="required">*</span></label>
-                    <input type="checkbox" id="permisB" name="mobility" value="permisB"><label for="permisB">Permis B</label>
-                    <input type="checkbox" id="permisPoidsLourd" name="mobility" value="permisPoidsLourd"><label for="permisPoidsLourd">Permis Poids Lourd</label>
-                    <input type="checkbox" id="caces" name="mobility" value="caces"><label for="caces">CACES</label>
-                </div>
+                    <h3>Disponibilités et Domaine d'Intervention:</h3>
+                    <!-- Mobility -->
+                    <label for="type_permis">Type de Permis :</label>
+                        <select id="type_permis" name="type_permis">
+                            <option value="aucun">Aucun</option>
+                            <option value="permisB">Permis B</option>
+                            <option value="permisPoidsLourd">Permis Poids Lourd</option>
+                            <option value="caces">CACES</option>
+                        </select>
+                </section>
                 <!-- Services -->
                 <div class="input-group">
                     <label>Services:</label>
@@ -426,8 +447,7 @@ textarea:focus-visible {
             <!-- Champ pour la photo -->
             <section class="photo-section">
                 <label for="photo">Photo de profil:</label>
-                <input type="file" id="photo" name="photo" required>
-            </section>
+                <input type="file" id="photo_profil" name="photo_profil" required>
             <button type="submit" name="submit">Valider</button>
     </form>
 

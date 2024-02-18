@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-    <style>
-        /* Vos styles CSS iraient ici */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
         /* Reset margin and padding */
@@ -175,6 +173,9 @@
         }
         .form-footer {
             margin-top: 20px;
+        }
+        .is-invalid {
+            border-color: #dc3545;
         }
 
         /* Responsive design */
@@ -345,9 +346,9 @@
     </div>
     <script>
         const form = document.getElementById('beneficiaryRegistrationForm');
+            // Récupération des valeurs des champs
 
         form.addEventListener('submit', function(event) {
-            // Récupération des valeurs des champs
             const genre = form.genre.value;
             const nom = form.nom.value;
             const prenom = form.prenom.value;
@@ -362,7 +363,6 @@
             const terms = form.terms.checked;
             const newsletter = form.newsletter.checked;
 
-            // Affichage des valeurs dans la console
             console.log('Genre:', genre);
             console.log('Nom:', nom);
             console.log('Prénom:', prenom);
@@ -376,12 +376,39 @@
             console.log('Services:', services);
             console.log('Terms:', terms);
             console.log('Newsletter:', newsletter);
-
-            // Empêcher l'envoi du formulaire
             event.preventDefault();
         });
 
-        
+         // Fonction de validation du formulaire
+        function validateForm() {
+            let isValid = true;
+            document.querySelectorAll('input[required], select[required]').forEach(function(element) {
+                if (!element.value.trim()) {
+                    element.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    element.classList.remove('is-invalid');
+                }
+            });
+
+            return isValid;
+        }
+
+        document.getElementById('beneficiaryRegistrationForm').addEventListener('submit', function(event) {
+            if (!validateForm()) {
+                event.preventDefault(); 
+            }
+        });
+
+        document.querySelectorAll('input[required], select[required]').forEach(function(element) {
+            element.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.classList.remove('is-invalid');
+                } else {
+                    this.classList.add('is-invalid');
+                }
+            });
+        });
 
 
 

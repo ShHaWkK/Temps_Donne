@@ -204,22 +204,22 @@
                 
                 
                 <label for="nom"><i class="fa fa-user icon"></i>Nom: <color style="color: red;">*</color></label>
-                <input type="text" id="nom" name="nom" required>
+                <input type="text" id="nom" name="nom"  placeholder="Votre nom" required>
                 
                 <label for="prenom">Prénom: <color style="color: red;">*</color></label>
-                <input type="text" id="prenom" name="prenom" required>
+                <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
                 
                 <label for="date_naissance">Date de naissance: <color style="color: red;">*</color></label>
-                <input type="date" id="date_naissance" name="date_naissance" required>
+                <input type="date" id="date_naissance" name="date_naissance"  placeholder="Votre date de naissance" required>
                 
                 <label for="email">Adresse mail: <color style="color: red;">*</color></label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email"  placeholder="Votre adresse mail" required>
                 
                 <label for="telephone">Numéro de téléphone: <color style="color: red;">*</color></label>
-                <input type="tel" id="telephone" name="telephone" required>
+                <input type="tel" id="telephone" name="telephone" placeholder="Votre numéro de téléphone" required>
                 
                 <label for="nationalite">Nationalité:<color style="color: red;">*</color></label>
-                <input type="text" id="nationalite" name="nationalite" required>
+                <input type="text" id="nationalite" name="nationalite" placeholder="Votre nationalité" required>
             </fieldset>
                 
                 <label for="langues">Langues: <color style="color: red;">*</color></label>
@@ -299,10 +299,10 @@
 
                 
                 <label for="adresse">Adresse: <color style="color: red;">*</color></label>
-                <input type="text" id="adresse" name="adresse" required>
+                <input type="text" id="adresse" name="adresse" placeholder="Votre adresse" required>
                 
                 <label for="situation_personnelle">Situation personnelle: <color style="color: red;">*</color></label>
-                <select id="situation_personnelle" name="situation_personnelle" required>
+                <select id="situation_personnelle" name="situation_personnelle" placeholder="Votre situation personnelle" required>
                     <!-- Options de situation personnelle -->
                     <option value="celibataire">Célibataire</option>
                     <option value="marie">Marié(e)</option>
@@ -312,6 +312,17 @@
                     <option value="separe">Séparé(e)</option>
                 </select>
             </fieldset>
+
+            <fieldset>
+                <legend>Informations Professionnelles:</legend>
+                
+                <label for="emploi">Emploi actuel:</label>
+                <input type="text" id="emploi" name="emploi" placeholder="Votre emploi actuel">
+
+                <label for="societe">Société / Organisation:</label>
+                <input type="text" id="societe" name="societe" placeholder="Nom de votre société ou organisation">
+            </fieldset>
+
             
             <fieldset>
                 <legend>Besoins et Attentes:</legend>

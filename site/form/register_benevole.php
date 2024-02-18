@@ -69,8 +69,7 @@ if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
     $stmt->bindParam(':situation', $situation);
     $stmt->bindParam(':typePermis', $typePermis);
     $stmt->bindParam(':dateInscription', $dateInscription);
-    $stmt->bindParam(':photo', $photoPath);
-
+    $stmt->bindParam(':photo_profil', $photo_path);
     try {
         $stmt->execute();
         echo "Inscription réussie.";

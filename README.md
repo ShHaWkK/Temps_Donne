@@ -3,7 +3,7 @@
 ## Contributors 
 - ShHaWkK alias Alexandre Uzan 
 - Djouaher Rachid
-- FrenchPower7 alias Ethan 
+- FrenchPower7 alias Ethan BREARD
 
 ## Project Overview
 

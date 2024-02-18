@@ -448,6 +448,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </fieldset>
 
             <fieldset>
+                <legend>Photo de Profil:</legend>
+                <label for="photo_profil">Photo de profil:<color style="color: red;">*</color></label>
+                <input type="file" id="photo_profil" name="photo_profil" required>
+            </fieldset>
+
+            <fieldset>
                 <legend>Conditions d'Utilisation:</legend>
                 
                 <label>

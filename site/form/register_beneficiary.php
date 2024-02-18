@@ -245,10 +245,10 @@
                 </select>
 
                 
-                <label for="adresse">Adresse: *</label>
+                <label for="adresse">Adresse: <color style="color: red;">*</color></label>
                 <input type="text" id="adresse" name="adresse" required>
                 
-                <label for="situation_personnelle">Situation personnelle: *</label>
+                <label for="situation_personnelle">Situation personnelle: <color style="color: red;">*</color></label>
                 <select id="situation_personnelle" name="situation_personnelle" required>
                     <!-- Options de situation personnelle -->
                     <option value="celibataire">Célibataire</option>
@@ -262,7 +262,7 @@
             
             <fieldset>
                 <legend>Besoins et Attentes:</legend>
-                <label for="services">Service(s) demandé(s): *</label>
+                <label for="services">Service(s) demandé(s): <color style="color: red;">*</color></label>
                 <select id="services" name="services[]" multiple required>
                     <!-- Options de services -->
                     <option value="aide_menagere">Aide ménagère</option>
@@ -288,12 +288,51 @@
                 <input type="checkbox" name="newsletter"> Je souhaite recevoir des informations de la part de "Au temps donné"
             </label>
             
-            <button type="submit" name="submit">Valider</button>
+            <button type="submit" name="submit"><i class="fas fa-paper-plane"></i> Valider</button>
         </form>
     </div>
-
-    <!-- Scripts JavaScript si nécessaire -->
     <script>
+        const form = document.getElementById('beneficiaryRegistrationForm');
+
+        form.addEventListener('submit', function(event) {
+            // Récupération des valeurs des champs
+            const genre = form.genre.value;
+            const nom = form.nom.value;
+            const prenom = form.prenom.value;
+            const date_naissance = form.date_naissance.value;
+            const email = form.email.value;
+            const telephone = form.telephone.value;
+            const nationalite = form.nationalite.value;
+            const langues = form.langues.value;
+            const adresse = form.adresse.value;
+            const situation_personnelle = form.situation_personnelle.value;
+            const services = form.services.value;
+            const terms = form.terms.checked;
+            const newsletter = form.newsletter.checked;
+
+            // Affichage des valeurs dans la console
+            console.log('Genre:', genre);
+            console.log('Nom:', nom);
+            console.log('Prénom:', prenom);
+            console.log('Date de naissance:', date_naissance);
+            console.log('Email:', email);
+            console.log('Téléphone:', telephone);
+            console.log('Nationalité:', nationalite);
+            console.log('Langues:', langues);
+            console.log('Adresse:', adresse);
+            console.log('Situation personnelle:', situation_personnelle);
+            console.log('Services:', services);
+            console.log('Terms:', terms);
+            console.log('Newsletter:', newsletter);
+
+            // Empêcher l'envoi du formulaire
+            event.preventDefault();
+        });
+
+        
+
+
+
     </script>
 </body>
 </html>

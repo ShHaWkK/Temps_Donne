@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
 require_once('../BDD/Connection.php');
+require_once('check_attempts.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom = $_POST['nom'];

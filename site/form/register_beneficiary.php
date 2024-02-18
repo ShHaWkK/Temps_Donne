@@ -3,41 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <title>Devenir Bénéficiaire</title>
+    <meta name="description" content="Formulaire d'inscription pour devenir bénéficiaire">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2f6d5ebd3e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         /* Vos styles CSS iraient ici */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        /* Reset margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and general styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+            color: #333;
+        }
+
+        .form-container {
+            background: #fff;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form title */
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        /* Form description */
+        p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Form fieldset */
+        fieldset {
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        /* Form legend */
+        legend {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        /* Form label */
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Form input fields */
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Multiple select */
+        select[multiple] {
+            height: auto;
+        }
+
+        /* Radio buttons and checkboxes */
+        .radio-group,
+        .checkbox-group {
+            margin-bottom: 15px;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            margin-right: 10px;
+        }
+
+        /* Icon style */
+        .icon {
+            margin-right: 5px;
+            color: #0056b3;
+        }
+
+        /* Terms and newsletter */
+        .terms,
+        .newsletter {
+            margin-bottom: 20px;
+        }
+
+        /* Submit button */
+        button {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #003d82;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
+    <img src="images/etopia.jpg" alt="Devenir bénéficiaire" style="width:100%; border-top-left-radius: 10px; border-top-right-radius: 10px;">
         <form id="beneficiaryRegistrationForm" action="register_beneficiary.php" method="post">
             <h1>JE DEVIENS BÉNÉFICIAIRE</h1>
             <p>En remplissant ce formulaire, vous nous permettez de cerner vos besoins spécifiques, ce qui nous aidera à vous proposer des missions adaptées à vos capacités et aspirations.</p>
             
             <fieldset>
                 <legend>Informations Personnelles:</legend>
-                <label for="genre">Genre: *</label>
-                <input type="radio" id="homme" name="genre" value="homme" required> Homme
-                <input type="radio" id="femme" name="genre" value="femme" required> Femme
+                    <label for="genre"><i class="fa fa-user icon"></i>Genre:<color style="color: red;">*</color></label>
+                    <input type="radio" id="homme" name="genre" value="homme" required> Homme
+                    <input type="radio" id="femme" name="genre" value="femme" required> Femme
+                    <input type="radio" id="autre" name="genre" value="autre" required> Autre
                 
-                <label for="nom">Nom: *</label>
+                
+                <label for="nom"><i class="fa fa-user icon"></i>Nom: <color style="color: red;">*</color></label>
                 <input type="text" id="nom" name="nom" required>
                 
-                <label for="prenom">Prénom: *</label>
+                <label for="prenom">Prénom: <color style="color: red;">*</color></label>
                 <input type="text" id="prenom" name="prenom" required>
                 
-                <label for="date_naissance">Date de naissance: *</label>
+                <label for="date_naissance">Date de naissance: <color style="color: red;">*</color></label>
                 <input type="date" id="date_naissance" name="date_naissance" required>
                 
-                <label for="email">Adresse mail: *</label>
+                <label for="email">Adresse mail: <color style="color: red;">*</color></label>
                 <input type="email" id="email" name="email" required>
                 
-                <label for="telephone">Numéro de téléphone: *</label>
+                <label for="telephone">Numéro de téléphone: <color style="color: red;">*</color></label>
                 <input type="tel" id="telephone" name="telephone" required>
                 
-                <label for="nationalite">Nationalité: *</label>
+                <label for="nationalite">Nationalité:<color style="color: red;">*</color></label>
                 <input type="text" id="nationalite" name="nationalite" required>
+            </fieldset>
                 
-                <label for="langues">Langues: *</label>
+                <label for="langues">Langues: <color style="color: red;">*</color></label>
                 <select id="langues" name="langues[]" multiple required>
                     <!-- Options de langues -->
                     <option value="francais">Français</option>

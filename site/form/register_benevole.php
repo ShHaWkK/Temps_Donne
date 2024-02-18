@@ -510,11 +510,21 @@ textarea:focus-visible {
         });
 
        // * => obligatoire à remplir 
+       document.getElementById('volunteerRegistrationForm').addEventListener('submit', function(e) {
+            var inputs = document.querySelectorAll('input, select, textarea');
+            var errors = [];
 
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].hasAttribute('required') && inputs[i].value === '') {
+                    errors.push('Le champ ' + inputs[i].name + ' est obligatoire.');
+                }
+            }
 
-
-
-
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert(errors.join('\n'));
+            }
+        });
     </script>
 </body>
 </html>

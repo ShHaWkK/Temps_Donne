@@ -21,6 +21,8 @@ CREATE TABLE Utilisateurs (
 ALTER TABLE Utilisateurs ADD COLUMN Photo_Profil TEXT;
 ALTER TABLE Utilisateurs ADD COLUMN Date_Derniere_Connexion DATE;
 ALTER TABLE Utilisateurs ADD COLUMN Statut_Connexion BOOLEAN;
+ALTER TABLE Utilisateurs ADD Emploi VARCHAR(255);
+ALTER TABLE Utilisateurs ADD Societe VARCHAR(255);
 
 CREATE TABLE Roles (
     ID_Role INT AUTO_INCREMENT PRIMARY KEY,
@@ -269,6 +271,14 @@ CREATE TABLE Planning (
     Description TEXT,
     FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
+
+CREATE TABLE tentatives_connexion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip_adresse VARCHAR(50),
+    tentative_count INT DEFAULT 0,
+    last_attempt TIMESTAMP
+);
+
 
 
 ALTER TABLE Stocks ADD COLUMN QR_Code TEXT;

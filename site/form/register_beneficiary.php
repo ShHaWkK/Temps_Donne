@@ -359,70 +359,56 @@
         const form = document.getElementById('beneficiaryRegistrationForm');
             // Récupération des valeurs des champs
 
-        form.addEventListener('submit', function(event) {
-            const genre = form.genre.value;
-            const nom = form.nom.value;
-            const prenom = form.prenom.value;
-            const date_naissance = form.date_naissance.value;
-            const email = form.email.value;
-            const telephone = form.telephone.value;
-            const nationalite = form.nationalite.value;
-            const langues = form.langues.value;
-            const adresse = form.adresse.value;
-            const situation_personnelle = form.situation_personnelle.value;
-            const services = form.services.value;
-            const terms = form.terms.checked;
-            const newsletter = form.newsletter.checked;
+            form.addEventListener('submit', function(event) {
+                const genre = form.genre.value;
+                const nom = form.nom.value;
+                const prenom = form.prenom.value;
+                const date_naissance = form.date_naissance.value;
+                const email = form.email.value;
+                const telephone = form.telephone.value;
+                const nationalite = form.nationalite.value;
+                const langues = form.langues.value;
+                const adresse = form.adresse.value;
+                const situation_personnelle = form.situation_personnelle.value;
+                const services = form.services.value;
+                const terms = form.terms.checked;
+                const newsletter = form.newsletter.checked;
 
-            console.log('Genre:', genre);
-            console.log('Nom:', nom);
-            console.log('Prénom:', prenom);
-            console.log('Date de naissance:', date_naissance);
-            console.log('Email:', email);
-            console.log('Téléphone:', telephone);
-            console.log('Nationalité:', nationalite);
-            console.log('Langues:', langues);
-            console.log('Adresse:', adresse);
-            console.log('Situation personnelle:', situation_personnelle);
-            console.log('Services:', services);
-            console.log('Terms:', terms);
-            console.log('Newsletter:', newsletter);
-            event.preventDefault();
-        });
-
-         // Fonction de validation du formulaire
-        function validateForm() {
-            let isValid = true;
-            document.querySelectorAll('input[required], select[required]').forEach(function(element) {
-                if (!element.value.trim()) {
-                    element.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    element.classList.remove('is-invalid');
-                }
+                console.log('Genre:', genre);
+                console.log('Nom:', nom);
+                console.log('Prénom:', prenom);
+                console.log('Date de naissance:', date_naissance);
+                console.log('Email:', email);
+                console.log('Téléphone:', telephone);
+                console.log('Nationalité:', nationalite);
+                console.log('Langues:', langues);
+                console.log('Adresse:', adresse);
+                console.log('Situation personnelle:', situation_personnelle);
+                console.log('Services:', services);
+                console.log('Terms:', terms);
+                console.log('Newsletter:', newsletter);
+                event.preventDefault();
             });
-
-            return isValid;
-        }
 
         document.getElementById('beneficiaryRegistrationForm').addEventListener('submit', function(event) {
-            if (!validateForm()) {
-                event.preventDefault(); 
-            }
-        });
+        let isValid = true;
+            const requiredFields = this.querySelectorAll('[required]');
 
-        document.querySelectorAll('input[required], select[required]').forEach(function(element) {
-            element.addEventListener('input', function() {
-                if (this.value.trim()) {
-                    this.classList.remove('is-invalid');
+            requiredFields.forEach(function(field) {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = 'red';
+
                 } else {
-                    this.classList.add('is-invalid');
+                    field.style.borderColor = 'initial';
                 }
             });
+
+            if (!isValid) {
+                event.preventDefault();
+                alert('Veuillez remplir tous les champs requis.');
+            }
         });
-
-
-
     </script>
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

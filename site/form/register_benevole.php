@@ -29,7 +29,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $photoPath .= basename($photo);
     move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath);
     
+// Vérifiez si l'utilisateur a téléchargé une photo de profil
+if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
+    // Vérifiez si le fichier n'est pas trop gros
+    if ($_FILES['photo_profil']['size'] <= 1000000) {
+        // Extension autorisées et vérification du type de fichier
+        $allowed_extensions = array('jpg', 'jpeg', 'png');
+        $file_extension = pathinfo($_FILES['photo_profil']['name'], PATHINFO_EXTENSION);
 
+        if (in_array(strtolower($file_extension), $allowed_extensions)) {
+            // Créez un dossier unique pour chaque utilisateur pour stocker leur photo
+            $user_folder = '../uploads/' . $email . '/';
+
+            if (!is_dir($user_folder)) {
+                mkdir($user_folder, 0777, true);
+            }
+
+            // Nom du fichier et chemin
+            $photo_path = $user_folder . uniqid() . '.' . $file_extension;
+            
+            // Déplacez le fichier téléchargé
+            move_uploaded_file($_FILES['photo_profil']['tmp_name'], $photo_path);
+        }
+    }
+}
     $sql = "INSERT INTO utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Nationalite, Langues, Situation, Type_Permis, Date_d_inscription, Photo_Profil) 
             VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalite, :langues, :situation, :typePermis, :dateInscription, :photo)";
 

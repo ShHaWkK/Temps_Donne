@@ -343,14 +343,21 @@
                 </select>
             </fieldset>
 
-            
-            <label>
-                <input type="checkbox" name="terms" required> J'accepte les termes et mentions légales
-            </label>
-            
-            <label>
-                <input type="checkbox" name="newsletter"> Je souhaite recevoir des informations de la part de "Au temps donné"
-            </label>
+            <fieldset>
+                <legend>Conditions d'Utilisation:</legend>
+                
+                <label>
+                    <input type="checkbox" name="terms" required> J'accepte les termes et mentions légales<color style="color: red;">*</color>
+                </label>
+                
+                <label>
+                    <input type="checkbox" name="newsletter"> Je souhaite recevoir des informations de la part de "Au temps donné"<color style="color: red;">*</color>
+                </label>
+
+                <label>
+                    <input type="checkbox" name="acceptation"> Les demandes seront examinées attentivement par notre équipe, qui se réserve le droit d'accepter ou de refuser une demande en fonction des besoins de l'association et des disponibilités des bénévoles.<color style="color: red;">*</color>
+                </label>
+            </fieldset>
             
             <button type="submit" name="submit"><i class="fas fa-paper-plane"></i> Valider</button>
         </form>

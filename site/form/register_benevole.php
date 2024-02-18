@@ -153,7 +153,9 @@ textarea {
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
-
+.format-info {
+    color: red;
+}
 input[type="radio"]:checked + label,
 input[type="checkbox"]:checked + label {
     background-color: #00334A;
@@ -275,9 +277,9 @@ textarea:focus-visible {
 
             <label for="telephone">Numéro de téléphone:</label>
             <input type="tel" id="telephone" name="telephone" required>
-            <small>Format: 0123456789</small>
+            <small class="format-info" color="red" >Format: 0123456789</small>
         </fieldset>
-        
+
             <label for="nationalite">Nationalité:</label>
             <input type="text" id="nationalite" name="nationalite" required>
 

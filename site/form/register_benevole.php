@@ -233,6 +233,8 @@ textarea:focus-visible {
         </legend>
         <p class="form-description">Le bénévolat, comme la solidarité, peuvent prendre diverses formes! Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.</p>            
             
+        <fieldset>
+            <legend>Informations Personnelles</legend>
             <!-- Informations Personnelles -->
             <div class="form-group">
                 <label>Genre: <span class="mandatory">*</span></label>
@@ -273,7 +275,9 @@ textarea:focus-visible {
 
             <label for="telephone">Numéro de téléphone:</label>
             <input type="tel" id="telephone" name="telephone" required>
-
+            <small>Format: 0123456789</small>
+        </fieldset>
+        
             <label for="nationalite">Nationalité:</label>
             <input type="text" id="nationalite" name="nationalite" required>
 
@@ -365,7 +369,10 @@ textarea:focus-visible {
 
             </select>
 
+
+        <fieldset>
             <label for="situation_familiale">Situation familiale:</label>
+
             <select id="situation_familiale" name="situation_familiale" required>
                 <option value="celibataire">Célibataire</option>
                 <option value="marie">Marié(e)</option>
@@ -377,12 +384,13 @@ textarea:focus-visible {
 
             <label for="enfants">Nombre d'enfants:</label>
             <input type="number" id="enfants" name="enfants" required>
+        </fieldset>
 
             <label for="emploi">Emploi:</label>
             <input type="text" id="emploi" name="emploi" required>
     
 
-            <!-- Ajoutez les champs pour les disponibilités et les services ici -->
+            <!-- Disponibilités -->
                 <fieldset>
                     <legend>Disponibilités:</legend>
                         <div class="availability-options">
@@ -398,9 +406,9 @@ textarea:focus-visible {
                         <label><input type="checkbox" name="disponibilite[]" value="dimanche"> Dimanche</label>
                 </fieldset>
 
+                 <!-- Mobility -->
                 <section class="availability-section">
                     <h3>Disponibilités et Domaine d'Intervention:</h3>
-                    <!-- Mobility -->
                     <label for="type_permis">Type de Permis :</label>
                         <select id="type_permis" name="type_permis">
                             <option value="aucun">Aucun</option>
@@ -409,11 +417,12 @@ textarea:focus-visible {
                             <option value="caces">CACES</option>
                         </select>
                 </section>
+
                 <!-- Services -->
+
                 <div class="input-group">
                     <label>Services:</label>
                     <select id="services" name="services">
-                        <!-- Pour une association humanitaire -->
                         <option value="aideAlimentaire">Aide Alimentaire</option>
                         <option value="aideVestimentaire">Aide Vestimentaire</option>
                         <option value="aideLogement">Aide au Logement</option>
@@ -437,6 +446,15 @@ textarea:focus-visible {
                     </select>
                 </div>
 
+
+            <!-- Photo de profil -->
+
+            <section class="photo-section">
+                <label for="photo">Photo de profil:</label>
+                <input type="file" id="photo_profil" name="photo_profil" required>
+            </section>
+            <!-- Terms and newsletter -->
+
             <div class="form-group terms">
                 <label><input type="checkbox" name="terms" required> J'accepte les termes et mentions légales</label>
                 </div>
@@ -444,11 +462,8 @@ textarea:focus-visible {
                     <label><input type="checkbox" name="newsletter"> Je souhaite recevoir des informations de la part de "Au temps donné"</label>
                 </div>
             </div>
-            <!-- Champ pour la photo -->
-            <section class="photo-section">
-                <label for="photo">Photo de profil:</label>
-                <input type="file" id="photo_profil" name="photo_profil" required>
-            <button type="submit" name="submit">Valider</button>
+
+            <button type="submit" name="submit" value="Bénévole">Valider</button>
     </form>
 
     <!-- Insérez vos scripts JavaScript ici pour la validation côté client -->

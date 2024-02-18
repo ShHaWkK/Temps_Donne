@@ -5,8 +5,9 @@
     <title>Devenir Bénéficiaire</title>
     <meta name="description" content="Formulaire d'inscription pour devenir bénéficiaire">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/2f6d5ebd3e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
     <style>
         /* Vos styles CSS iraient ici */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -126,6 +127,55 @@
         button:hover {
             background-color: #003d82;
         }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
+            padding-top: 50px;
+        }
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .header-image {
+            width: 100%;
+            height: 300px;
+            background: url('images/etopia.jpg') no-repeat center center;
+            background-size: cover;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0056b3;
+        }
+        .form-description {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .icon {
+            color: #0056b3;
+        }
+        button[type="submit"] {
+            background-color: #0056b3;
+            color: #fff;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        button[type="submit"]:hover {
+            background-color: #004494;
+        }
+        .terms, .newsletter {
+            margin-bottom: 10px;
+        }
+        .form-footer {
+            margin-top: 20px;
+        }
 
         /* Responsive design */
         @media (max-width: 768px) {
@@ -136,12 +186,14 @@
     </style>
 </head>
 <body>
-    <div class="form-container">
-    <img src="images/etopia.jpg" alt="Devenir bénéficiaire" style="width:100%; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-        <form id="beneficiaryRegistrationForm" action="register_beneficiary.php" method="post">
-            <h1>JE DEVIENS BÉNÉFICIAIRE</h1>
-            <p>En remplissant ce formulaire, vous nous permettez de cerner vos besoins spécifiques, ce qui nous aidera à vous proposer des missions adaptées à vos capacités et aspirations.</p>
-            
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <div class="header-image"></div>
+                    <div class="form-body">
+                        <h2 class="form-title">JE DEVIENS BÉNÉFICIAIRE</h2>
+                        <p class="form-description">En remplissant ce formulaire, vous nous permettez de cerner vos besoins spécifiques, ce qui nous aidera à vous proposer des missions adaptées à vos capacités et aspirations.</p>
             <fieldset>
                 <legend>Informations Personnelles:</legend>
                     <label for="genre"><i class="fa fa-user icon"></i>Genre:<color style="color: red;">*</color></label>
@@ -334,5 +386,9 @@
 
 
     </script>
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

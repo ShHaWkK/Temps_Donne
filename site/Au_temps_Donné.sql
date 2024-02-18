@@ -251,6 +251,16 @@ CREATE TABLE UtilisateursLangues (
     PRIMARY KEY (ID_Utilisateur, ID_Langue)
 );
 
+CREATE TABLE Captchas (
+    ID_Captcha INT AUTO_INCREMENT PRIMARY KEY,
+    Image_Path VARCHAR(255) NOT NULL,
+    Answer VARCHAR(255) NOT NULL,
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('active', 'solved', 'inactive') DEFAULT 'active',
+    ID_Administrateur INT, 
+    FOREIGN KEY (ID_Administrateur) REFERENCES Administrateurs(ID_Administrateur)
+);
+
 
 ALTER TABLE Stocks ADD COLUMN QR_Code TEXT;
 

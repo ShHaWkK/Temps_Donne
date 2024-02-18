@@ -16,6 +16,44 @@ function hashPassword($password) {
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
+if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
+    // Traitez le téléchargement de la photo
+    $photo_profil = $_FILES['photo_profil']['name'];
+    $photo_path = "uploads/" . md5($email) . "/";
+    if (!file_exists($photo_path)) {
+        mkdir($photo_path, 0777, true);
+    }
+    $photo_path .= basename($photo_profil);
+    move_uploaded_file($_FILES['photo_profil']['tmp_name'], $photo_path);
+} else {
+    $photo_profil = '';
+}
+   
+// Vérifiez si l'utilisateur a téléchargé une photo de profil
+if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
+// Vérifiez si le fichier n'est pas trop gros
+if ($_FILES['photo_profil']['size'] <= 1000000) {
+    // Extension autorisées et vérification du type de fichier
+    $allowed_extensions = array('jpg', 'jpeg', 'png');
+    $file_extension = pathinfo($_FILES['photo_profil']['name'], PATHINFO_EXTENSION);
+
+    if (in_array(strtolower($file_extension), $allowed_extensions)) {
+        // Créez un dossier unique pour chaque utilisateur pour stocker leur photo
+        $user_folder = '../uploads/' . $email . '/';
+
+        if (!is_dir($user_folder)) {
+            mkdir($user_folder, 0777, true);
+        }
+
+        // Nom du fichier et chemin
+        $photo_path = $user_folder . uniqid() . '.' . $file_extension;
+        
+        // Déplacez le fichier téléchargé
+        move_uploaded_file($_FILES['photo_profil']['tmp_name'], $photo_path);
+    }
+}
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des données du formulaire
     $nom = htmlspecialchars($_POST['nom']);
@@ -28,10 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $langues = implode(', ', array_map('htmlspecialchars', $_POST['langues']));
     $emploi = htmlspecialchars($_POST['emploi'] ?? '');
     $societe = htmlspecialchars($_POST['societe'] ?? '');
+    $photo_profil = htmlspecialchars($_POST['photo_profil'] ?? '');
     $role = 'Beneficiaire';
+    $date_inscription = date('Y-m-d H:i:s');
 
-
-    $sql = "INSERT INTO Utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Langues, Nationalite, Role, Emploi, Societe) VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :langues, :nationalite, :role, :emploi, :societe)";
+    $sql = "INSERT INTO Utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Langues, Nationalite, Role, Emploi, Societe, Date_d_inscription, Photo_profil) VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :langues, :nationalite, :role, :emploi, :societe, NOW(), :photo_profil";
 
      // Validation des données
      if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !validatePhoneNumber($telephone)) {
@@ -51,6 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':role', $role);
         $stmt->bindParam(':emploi', $emploi);
         $stmt->bindParam(':societe', $societe);
+        $stmt->bindParam(':date_inscription', $date_inscription);
+        $stmt->bindParam(':photo_profil', $photo_path);
 
         $stmt->execute();
         echo "Inscription réussie.";

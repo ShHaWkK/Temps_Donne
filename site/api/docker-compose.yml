@@ -3,19 +3,19 @@ version: '3.8'
 services:
   administrateurs:
     build:
-      context: ./api/Administrateurs
+      context: ./Administrateurs
     ports:
       - "8080:80"
 
   beneficiaire:
     build:
-      context: ./api/Beneficiaire
+      context: ./Beneficiaire
     ports:
       - "8081:80"
 
   benevole:
     build:
-      context: ./api/Benevole
+      context: ./Benevole
     ports:
       - "8082:80"
 

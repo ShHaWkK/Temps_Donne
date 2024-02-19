@@ -307,3 +307,14 @@ ALTER TABLE Ressources ADD FOREIGN KEY (ID_Activite) REFERENCES Activites(ID_Act
 ALTER TABLE Tickets ADD COLUMN Date_Modification DATE;
 ALTER TABLE Tickets ADD COLUMN ID_Modificateur INT;
 ALTER TABLE Tickets ADD FOREIGN KEY (ID_Modificateur) REFERENCES Utilisateurs(ID_Utilisateur);
+
+-- une table associative entre services et utilisateurs où tu mets les horaires, le lieu, et le bénévole associé
+CREATE TABLE AffectationsServices (
+    ID_Affectation INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Service INT,
+    ID_Utilisateur INT,
+    Horaire TIME,
+    Lieu VARCHAR(255),
+    FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service),
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+);

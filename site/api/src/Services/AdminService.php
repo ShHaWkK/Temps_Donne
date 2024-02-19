@@ -1,4 +1,6 @@
 <?php
+
+//file : api/src/Services/AdminService.php
 require_once 'Repository/AdminRepository.php';
 
 class AdminService {
@@ -57,7 +59,7 @@ class AdminService {
     public function getError($error) {
         return $this->adminRepository->getError($error);
     }
-    
+
 }
 ?>
 

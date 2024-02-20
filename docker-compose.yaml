@@ -17,22 +17,33 @@ services:
       - "8082:80"
     volumes:
       - ./src:/var/www/html/  
-
     depends_on:
-      - db  
-
-  # Database Service
+      - db
+# Database Service
   db:
-    image: mysql:5.7  
+    image: postgres:latest
     volumes:
-      - db-data:/var/lib/mysql  
+      - db-data:/var/lib/postgresql/data
     environment:
-      - MYSQL_ROOT_PASSWORD=root 
-      - MYSQL_DATABASE=au_temps_donnee  # Database name to create
-      - MYSQL_USER=root  # Database user
-      - MYSQL_PASSWORD=root  # Database user password
+      - POSTGRES_DB=au_temps_donnee
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
     ports:
-      - "3306:3306"  
+      - "5432:5432"
 
 volumes:
   db-data:  
+
+
+    # Database Service
+    # db:
+    #   image: mysql:5.7  
+    #   volumes:
+    #     - db-data:/var/lib/mysql  # Corrected: no space before the path
+    #   environment:
+    #     - MYSQL_ROOT_PASSWORD=root 
+    #     - MYSQL_DATABASE=au_temps_donnee
+    #     - MYSQL_USER=root
+    #     - MYSQL_PASSWORD=root
+    #   ports:
+    #     - "3306:3306"

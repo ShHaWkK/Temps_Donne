@@ -8,6 +8,47 @@ if (!isset($_SESSION['admin'])) {
     exit();
 }
 
+// Paramètres de pagination
+$limit = 10; // Nombre de demandes par page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
+
+// Paramètres de recherche et filtrage
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$filter = isset($_GET['filter']) ? $_GET['filter'] : '';
+
+// Construction de la requête de base
+$sql = "SELECT * FROM Utilisateurs WHERE Nom LIKE :search OR Prenom LIKE :search OR Email LIKE :search";
+if ($filter) {
+    $sql .= " AND Statut_Validation = :filter";
+}
+$sql .= " LIMIT :start, :limit";
+
+$stmt = $conn->prepare($sql);
+$stmt->bindValue(':search', '%' . $search . '%');
+if ($filter) {
+    $stmt->bindValue(':filter', $filter);
+}
+$stmt->bindValue(':start', $start, PDO::PARAM_INT);
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->execute();
+$demandes = $stmt->fetchAll();
+
+// Calcul du nombre total de pages
+$sqlTotal = "SELECT COUNT(*) FROM Utilisateurs WHERE Nom LIKE :search OR Prenom LIKE :search OR Email LIKE :search";
+if ($filter) {
+    $sqlTotal .= " AND Statut_Validation = :filter";
+}
+$stmtTotal = $conn->prepare($sqlTotal);
+$stmtTotal->bindValue(':search', '%' . $search . '%');
+if ($filter) {
+    $stmtTotal->bindValue(':filter', $filter);
+}
+$stmtTotal->execute();
+$totalDemandes = $stmtTotal->fetchColumn();
+$totalPages = ceil($totalDemandes / $limit);
+
+// Fonctions pour les actions
 function updateStatutValidation($id, $statut) {
     global $conn;
     $sql = "UPDATE Utilisateurs SET Statut_Validation = :statut WHERE ID_Utilisateur = :id";
@@ -20,6 +61,8 @@ function updateStatutValidation($id, $statut) {
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
     $id = $_GET['id'];
+
+    // Ajouter la logique de confirmation ici
 
     switch ($action) {
         case 'valider':
@@ -34,10 +77,26 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     }
 }
 
-$sql = "SELECT * FROM Utilisateurs WHERE Statut_Validation = 'En attente' OR Statut_Validation = 'Rejeté'";
-$stmt = $conn->query($sql);
-$demandes = $stmt->fetchAll();
+$sql = "SELECT * FROM Utilisateurs WHERE (Nom LIKE :search OR Prenom LIKE :search OR Email LIKE :search)";
+$params = [
+    ':search' => '%' . $search . '%'
+];
 
+if (!empty($filter)) {
+    $sql .= " AND Statut_Validation = :filter";
+    $params[':filter'] = $filter;
+}
+
+$sql .= " LIMIT :start, :limit";
+$params[':start'] = $start;
+$params[':limit'] = $limit;
+
+$stmt = $conn->prepare($sql);
+foreach ($params as $key => &$val) {
+    $stmt->bindParam($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+}
+$stmt->execute();
+$demandes = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>

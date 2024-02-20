@@ -205,6 +205,7 @@ button:hover {
             <a href="#users"><i class="fas fa-users"></i> Gestion des utilisateurs</a>
             <a href="#roles"><i class="fas fa-user-tag"></i> Gestion des rôles</a>
             <a href="Captcha/list_capcha.php"<i class="fas fa-puzzle-piece"></i> Gestion des captchas</a>
+            <a href="demandes_inscription.php"><i class="fas fa-user-check"></i> Demandes d'Inscription</a>
         </nav>
         <form method="POST" style="margin-top: 20px;">
             <button type="submit" name="logout" class="btn btn-danger btn-block">Se déconnecter <i class="fa fa-sign-out"></i></button>

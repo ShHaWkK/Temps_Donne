@@ -11,39 +11,26 @@ services:
   # API Service
   api:
     build:
-      context: ./api
+      context: .api
       dockerfile: Dockerfile  
     ports:
       - "8082:80"
     volumes:
-      - ./src:/var/www/html/  
-    depends_on:
-      - db
-# Database Service
-  db:
-    image: postgres:latest
+      - ./api:/var/www/html/ 
+  
+  # Database Service
+  database:
+    image: postgres
     volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=au_temps_donnee
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
+      - db-data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=temps
+      - POSTGRES_USER=temps
 
 volumes:
-  db-data:  
-
-
-    # Database Service
-    # db:
-    #   image: mysql:5.7  
-    #   volumes:
-    #     - db-data:/var/lib/mysql  # Corrected: no space before the path
-    #   environment:
-    #     - MYSQL_ROOT_PASSWORD=root 
-    #     - MYSQL_DATABASE=au_temps_donnee
-    #     - MYSQL_USER=root
-    #     - MYSQL_PASSWORD=root
-    #   ports:
-    #     - "3306:3306"
+  pgadmin-data:
+  db-data:

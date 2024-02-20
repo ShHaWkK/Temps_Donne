@@ -23,6 +23,8 @@ ALTER TABLE Utilisateurs ADD COLUMN Date_Derniere_Connexion DATE;
 ALTER TABLE Utilisateurs ADD COLUMN Statut_Connexion BOOLEAN;
 ALTER TABLE Utilisateurs ADD Emploi VARCHAR(255);
 ALTER TABLE Utilisateurs ADD Societe VARCHAR(255);
+ALTER TABLE Utilisateurs ADD COLUMN Statut_Validation VARCHAR(255) DEFAULT 'En attente';
+
 
 CREATE TABLE Roles (
     ID_Role INT AUTO_INCREMENT PRIMARY KEY,

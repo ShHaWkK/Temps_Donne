@@ -59,51 +59,60 @@ if (isset($_POST['delete_capcha'])) {
 }
 ?>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #cde8d6;
-        margin: 0;
-        padding: 0;
-    }
+:root {
+    --primary-color: #82CFD8; /* Primary color for the header and sidebar */
+    --secondary-color: #00334A; /* Secondary color for buttons and table headers */
+    --text-color: #000000; /* Main text color */
+    --background-color: #FFFFFF; /* Main background color */
+    --error-color: #ff4d4d; /* Color for error messages */
+}
 
-    .capcha-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid #138d75;
-        border-radius: 10px;
-        margin: 20px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
 
-    .capcha-img {
-        margin-bottom: 15px;
-        width: 300px;
-        border-radius: 10px;
-    }
+.capcha-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}
 
-    h3 {
-        color: #138d75;
-        margin-bottom: 10px;
-    }
+.capcha-img {
+    margin-bottom: 15px;
+    width: 300px;
+    border-radius: 10px;
+}
 
-    .delete-btn {
-        background-color: #138d75;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-    }
+h3 {
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
 
-    .delete-btn:hover {
-        background-color: #117e64;
-    }
+.delete-btn {
+    background-color: var(--error-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.delete-btn:hover {
+    background-color: #ff3333;
+}
+
 
 </style>
 </body>

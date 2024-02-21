@@ -1,5 +1,5 @@
 <?php
-include 'BDD/Connection.php';
+include '../BDD/Connection.php';
 
 // Traitement du formulaire lorsqu'il est soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

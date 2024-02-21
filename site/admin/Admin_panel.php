@@ -34,8 +34,7 @@ if (isset($_SESSION['admin']) && is_array($_SESSION['admin'])) {
     header('Location: Admin_login.php');
     exit();
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -201,7 +200,7 @@ button:hover {
         <nav class="menu">
             <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
             <a href="#stocks"><i class="fas fa-boxes"></i> Gestion des stocks</a>
-            <a href="#services"><i class="fas fa-concierge-bell"></i> Gestion des services</a>
+            <a href="services/add_service.php"><i class="fas fa-concierge-bell"></i> Gestion des services</a>
             <a href="#users"><i class="fas fa-users"></i> Gestion des utilisateurs</a>
             <a href="#roles"><i class="fas fa-user-tag"></i> Gestion des rôles</a>
             <a href="Captcha/list_capcha.php"<i class="fas fa-puzzle-piece"></i> Gestion des captchas</a>
@@ -228,7 +227,11 @@ button:hover {
                 <h1>BIENVENUE DANS L'ESPACE ADMINISTRATION</h1>
             </div>
             <section class="user-management">
+            <div class="welcome">
+                    <h1>BIENVENUE DANS L'ESPACE ADMINISTRATION</h1>
+                </div>
                 <div class="user-management-header">
+                
                     <h2>UTILISATEURS:</h2>
                     <div class="user-actions">
                         <button><a href="users/admin_add_user.php">Ajouter un utilisateur</a></button>
@@ -266,5 +269,3 @@ button:hover {
     </div>
 </body>
 </html>
-
-

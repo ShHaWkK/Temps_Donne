@@ -9,45 +9,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Liste</title>
+<style>
     <style>
-        #capcha {
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    color: rgb(80, 197, 227);
-}
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
 
-#title {
-    height: 150px;
-    width: 400px;
-}
+        button {
+            background-color: #00334A;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-#board {
-    position: relative; /* nouvelle ligne */
-    width: 300px;
-    height: 300px;
-    background-color: rgb(96, 240, 233);
-    border: 10px solid rgb(21, 162, 190);
-
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#board img {
-width: calc(100% / 3);
-height: calc(100% / 3);
-border: 1px solid #0c67ae;
-margin: 0px;
-padding: 0px;
-box-sizing: border-box;
-}
-
-#board img:hover {
-    cursor: pointer;
-}
+        button:hover {
+            background-color: #002333;
+        }
+    </style>
 </style>
 </head>
 <body>
     <button onclick="window.location.href = 'add_capcha.php';">Ajouter un captcha</button>
+    <button onclick="window.location.href = 'api/list_suppr.php';">Supprimer tous les captchas</button>
 </body>
 </html>

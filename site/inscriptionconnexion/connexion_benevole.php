@@ -124,7 +124,7 @@
     </div>
     <h1>ESPACE BÉNÉVOLE</h1>
     <p>ENSEMBLE, FAISONS LA DIFFÉRENCE</p>
-    <a href="#" class="engage-button">JE M'ENGAGE</a>
+    <p>PAS DE COMPTE BÉNÉVOLE ! </p><a href="#" class="engage-button">JE M'ENGAGE</a>
   </div>
   <div class="right-panel">
     <form class="login-form">

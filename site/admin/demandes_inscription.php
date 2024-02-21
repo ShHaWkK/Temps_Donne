@@ -97,6 +97,18 @@ foreach ($params as $key => &$val) {
 }
 $stmt->execute();
 $demandes = $stmt->fetchAll();
+
+$sql = "SELECT * FROM Utilisateurs WHERE Statut_Validation = 'En attente'";
+$result = $conn->query($sql);
+
+if ($result->rowCount() > 0) {
+    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        echo "Nom: " . $row["Nom"]. " - Email: " . $row["Email"]. " <a href='valider_benevole.php?id=".$row["ID_Utilisateur"]."'>Valider</a> <a href='rejeter_benevole.php?id=".$row["ID_Utilisateur"]."'>Rejeter</a><br>";
+    }
+} else {
+    echo "Aucun bénévole en attente de validation.";
+}
+?>
 ?>
 
 <!DOCTYPE html>

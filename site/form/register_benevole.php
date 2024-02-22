@@ -9,17 +9,17 @@ require_once('../BDD/Connection.php');
 require_once('check_attempts.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $email = $_POST['email'];
-    $telephone = $_POST['telephone'];
-    $adresse = $_POST['adresse'];
-    $dateNaissance = $_POST['date_naissance'];
-    $nationalite = $_POST['nationalite'];
-    $langues = implode(', ', $_POST['langues']); 
-    $situation = $_POST['situation_personnelle']; 
-    $type_permis = isset($_POST['type_permis']) ? $_POST['type_permis'] : 'aucun';
-    $date_inscription = date('Y-m-d'); 
+    $nom = ($_POST['nom']);
+    $prenom = ($_POST['prenom']);
+    $email = ($_POST['email']);
+    $telephone = ($_POST['telephone']);
+    $adresse = ($_POST['adresse']);
+    $dateNaissance = ($_POST['date_naissance']);
+    $nationalite = ($_POST['nationalite']);
+    $langues = implode(', ', ('', $_POST['langues']));
+    $situation = ($_POST['situation_personnelle']);
+    $type_permis = isset($_POST['type_permis']) ? ($_POST['type_permis']) : 'aucun';
+    $date_inscription = date('Y-m-d');
 
     if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
         // Traitez le téléchargement de la photo

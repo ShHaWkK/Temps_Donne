@@ -14,11 +14,11 @@ function connectDB() {
     $host = 'db';
     $port = 5432;
     $dbname = 'temps';
-    $user = 'temps';
-    $password = 'password';
+    $user = 'root';
+    $password = $_ENV['MYSQL_ROOT_PASSWORD'];
 
     try {
-        $db = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password", null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $db = new PDO("mysql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password", null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     } catch (PDOException $e) {
         exit_with_message("ERROR: Connection to the database failed: " . $e->getMessage());
     }
@@ -72,7 +72,8 @@ function insertDB($table, $columnArray, $columnData, $returningData = null){
 }
 
 // Function to update data in the database
-function updateDB($table, $columnArray, $columnData, $condition){
+function updateDB($table, $columnArray, $columnData, $condition)
+{
     checkData($table, $columnArray, $columnData, $condition);
 
     $db = connectDB();
@@ -96,7 +97,8 @@ function updateDB($table, $columnArray, $columnData, $condition){
 
 
 // Function to delete data from the database
-function deleteDB($table, $condition, $conditionValues = []){
+function deleteDB($table, $condition, $conditionValues = [])
+{
     checkData($table, -10, -10, $condition);
 
     $db = connectDB();

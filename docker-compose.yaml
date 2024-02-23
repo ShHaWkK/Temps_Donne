@@ -16,21 +16,17 @@ services:
     volumes:
       - ./api:/var/www/html/ 
 
-  # pgAdmin Service
   
   # Database Service
   db:
-    image: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data/
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    image: mysql:latest
+    #restart: always
+    env_file:
+      - .env 
     ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=
-      - POSTGRES_DB=temps
-      - POSTGRES_USER=temps
-
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+      
 volumes:
-  pgadmin-data:
   db-data:

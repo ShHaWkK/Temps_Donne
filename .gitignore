@@ -2,3 +2,5 @@
 site/admin/Captcha/image/
 
 site/form/vendor/
+
+.env

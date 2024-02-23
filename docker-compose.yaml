@@ -8,18 +8,18 @@ services:
     volumes:
       - ./front:/usr/local/apache2/htdocs/ 
 
-  # API Service
+   # API Service
   api:
-    build:
-      context: .api
-      dockerfile: Dockerfile  
+    build: .
     ports:
       - "8082:80"
     volumes:
       - ./api:/var/www/html/ 
+
+  # pgAdmin Service
   
   # Database Service
-  database:
+  db:
     image: postgres
     volumes:
       - db-data:/var/lib/postgresql/data/
@@ -27,7 +27,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=
       - POSTGRES_DB=temps
       - POSTGRES_USER=temps
 

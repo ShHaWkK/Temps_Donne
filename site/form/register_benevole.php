@@ -8,6 +8,8 @@ ini_set('display_startup_errors', 1);
 require_once('../BDD/Connection.php');
 require_once('check_attempts.php');
 
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom = ($_POST['nom']);
     $prenom = ($_POST['prenom']);
@@ -20,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $situation = ($_POST['situation_personnelle']);
     $type_permis = isset($_POST['type_permis']) ? ($_POST['type_permis']) : 'aucun';
     $date_inscription = date('Y-m-d');
+
+   
 
     if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
         // Traitez le téléchargement de la photo
@@ -88,148 +92,128 @@ VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalit
 
 <!DOCTYPE html>
 <html lang="fr">
-<head>
 
+<head>
     <meta charset="UTF-8">
     <title>Inscription Bénévole</title>
-<style>
-/* Main styling */
-body, input, select, button, textarea {
-    font-family: 'Open Sans', sans-serif;
-}
+    <style>
+        /* Main styling */
+        body,
+        input,
+        select,
+        button,
+        textarea {
+            font-family: 'Open Sans', sans-serif;
+        }
 
-.form-container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.form-title {
-    text-align: center;
-    color: #00334A;
-    margin-bottom: 1rem;
-}
+        .form-title {
+            text-align: center;
+            color: #00334A;
+            margin-bottom: 1rem;
+        }
 
-.form-description {
-    text-align: center;
-    margin-bottom: 2rem;
-}
+        .form-description {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-/* Form inputs */
-input[type="text"],
-input[type="date"],
-input[type="email"],
-input[type="tel"],
-input[type="number"],
-select,
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        /* Form inputs */
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-/* Radio buttons and checkboxes */
-.radio-group,
-.checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 1rem;
-}
+        /* Radio buttons and checkboxes */
+        .radio-group,
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
 
-.radio-group label,
-.checkbox-group label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: #f7f7f7;
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-.format-info {
-    color: red;
-}
-input[type="radio"]:checked + label,
-input[type="checkbox"]:checked + label {
-    background-color: #00334A;
-    color: white;
-    border-color: #00334A;
-}
+        .radio-group label,
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
 
-/* Styling for checkmarks */
-.checkmark {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    background: white;
-    border-radius: 50%;
-    position: relative;
-}
+        .format-info {
+            color: red;
+        }
 
-.checkbox-group .checkmark {
-    border-radius: 4px;
-}
+        input[type="radio"]:checked+label,
+        input[type="checkbox"]:checked+label {
+            background-color: #00334A;
+            color: white;
+            border-color: #00334A;
+        }
 
-/* Submit button */
-button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #00506b;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+        /* Styling for checkmarks */
+        .checkmark {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+        }
 
-button[type="submit"]:hover {
-    background-color: #00334A;
-}
+        .checkbox-group .checkmark {
+            border-radius: 4px;
+        }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .form-container {
-        padding: 15px;
-    }
+        /* Submit button */
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #00506b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-    .radio-group, .checkbox-group {
-        grid-template-columns: 1fr;
-    }
-}
+        button[type="submit"]:hover {
+            background-color: #00334A;
+        }
 
-/* Security */
-input[type="text"]:focus,
-input[type="date"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus,
-input[type="number"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #00334A;
-    outline: none;
-}
-
-/* Accessibility */
-input[type="text"]:focus-visible,
-input[type="date"]:focus-visible,
-input[type="email"]:focus-visible,
-input[type="tel"]:focus-visible,
-input[type="number"]:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-    box-shadow: 0 0 0 3px rgba(0,51,74,0.5);
-}
-
+        /* Responsive */
+        @media (max-width: 768px) {
+            .radio-group,
+            .checkbox-group {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
     </style>
 </head>
+
 <body>
 <div class="form-container">
 <form id="volunteerRegistrationForm" action="register_benevole.php" method="post" enctype="multipart/form-data">        <h2 class="form-title">JE DEVIENS BÉNÉVOLE</h2>

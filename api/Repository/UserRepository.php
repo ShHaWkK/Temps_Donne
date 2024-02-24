@@ -109,4 +109,14 @@ class UserRepository {
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    //----------------- Delete => Suppression d'un utilisateur -----------------//
+
+    public function deleteUser($id) {
+        $query = "DELETE FROM Utilisateurs WHERE id_utilisateur = :id";
+        $statement = $this->db->prepare($query);
+        $statement->bindValue(':id', $id);
+        return $statement->execute();
+    }
+    
 }

@@ -2,7 +2,7 @@
 
 require_once './Repository/UserRepository.php';
 require_once './Models/UserModel.php';
-// Inclure d'autres dépendances si nécessaire
+
 
 class UserService {
     private $userRepository;
@@ -33,6 +33,10 @@ class UserService {
     
         // Sauvegardez l'utilisateur dans la base de données
         return $this->userRepository->save($user);
+    }
+
+    public function deleteUser($userId) {
+        return $this->userRepository->deleteUser($userId);
     }
     
 

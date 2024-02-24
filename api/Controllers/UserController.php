@@ -136,8 +136,16 @@ class UserController {
     }
 
     public function deleteUser($id) {
-        $result = $this->userService->deleteUser($id);
-        ResponseHelper::sendResponse($result);
+        try {
+            $result = $this->userService->deleteUser($id);
+            if ($result) {
+                ResponseHelper::sendResponse(['success' => 'Utilisateur supprimé avec succès.']);
+            } else {
+                ResponseHelper::sendNotFound('Utilisateur non trouvé.');
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
     }
 }
 

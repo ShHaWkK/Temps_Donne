@@ -12,7 +12,7 @@ function exit_with_message($message) {
 // Function to connect to the database
 function connectDB() {
     $host = 'db';
-    $port = 5432;
+    $port = 3306;
     $dbname = 'temps';
     $user = 'root';
     $password = $_ENV['MYSQL_ROOT_PASSWORD'];

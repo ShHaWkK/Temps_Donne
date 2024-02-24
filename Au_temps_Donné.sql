@@ -145,13 +145,16 @@ CREATE TABLE Evenements (
     ID_Evenement INT AUTO_INCREMENT PRIMARY KEY,
     Nom_Evenement VARCHAR(255),
     Description TEXT,
-    Date_Evenement DATE,
+    Date_Debut DATE,          
+    Date_Fin DATE,             
     Lieu VARCHAR(255),
     Budget DECIMAL(10,2),
     Sponsor VARCHAR(255),
+    Type VARCHAR(255),         
     Organisateur INT,
     FOREIGN KEY (Organisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
+
 
 -- Table Participations
 CREATE TABLE Participations (

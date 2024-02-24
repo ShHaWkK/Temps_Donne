@@ -25,6 +25,7 @@ class UserModel {
     public $code_verification;
     public $type_permis;
     public $statut_benevole;
+    public $role_effectif;
 
     public function __construct($data = []) {
         if (!empty($data)) {
@@ -53,59 +54,21 @@ class UserModel {
             $this->type_permis = $data['type_permis'] ?? null;
             // statut_bénévole Validé, En attente de validation, Refusé
             $this->statut_benevole = $data['statut_benevole'] ?? null;
+            $this->role_effectif = $data['role_effectif'] ?? 'En attente';
 
             $this->validate($data); // corrected line
         }
     }
 
-    //Ignore 
-    // public function toJson() {
-    //     return json_encode([
-    //         'id_utilisateur' => $this->id_utilisateur,
-    //         'nom' => $this->nom,
-    //         'prenom' => $this->prenom,
-    //         'email' => $this->email,
-    //         'role' => $this->role,
-    //         'adresse' => $this->adresse,
-    //         'telephone' => $this->telephone,
-    //         'date_de_naissance' => $this->date_de_naissance,
-    //         'langues' => $this->langues,
-    //         'nationalite' => $this->nationalite,
-    //         'date_d_inscription' => $this->date_d_inscription,
-    //         'statut' => $this->statut,
-    //         'situation' => $this->situation,
-    //         'besoins_specifiques' => $this->besoins_specifiques,
-    //         'photo_profil' => $this->photo_profil,
-    //         'date_derniere_connexion' => $this->date_derniere_connexion,
-    //         'statut_connexion' => $this->statut_connexion,
-    //         'emploi' => $this->emploi,
-    //         'societe' => $this->societe,
-    //         'est_verifie' => $this->est_verifie,
-    //         'code_verification' => $this->code_verification,
-    //         'type_permis' => $this->type_permis
-    //     ]);
-    // }
-    // public static function fromJson($json) {
-    //     $data = json_decode($json, true);
-    //     return new self($data);
-    // }
-
-
     public function validate($data) {
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Adresse email invalide.");
         }
-        // if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 8) {
-        //     throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 8 caractères.");
-        // }
-        if ($this->role === 'Benevole' && empty($data['statut_benevole'])) {
-            throw new Exception("Le statut du bénévole est requis.");
+        if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 8) {
+            throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 8 caractères.");
         }
     }
 
-
-
-    // Méthode pour hacher le mot de passe
     public function hashPassword() {
         if ($this->mot_de_passe !== null) {
             $this->mot_de_passe = password_hash($this->mot_de_passe, PASSWORD_DEFAULT);
@@ -113,7 +76,7 @@ class UserModel {
             throw new Exception("Password cannot be null.");
         }
     }
-    // Méthode pour générer un code de vérification
+
     public function generateVerificationCode() {
         $this->code_verification = bin2hex(random_bytes(16));
     }

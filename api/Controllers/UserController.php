@@ -48,12 +48,13 @@ class UserController {
         }
     }
 
-    public function getAllUsers() {
-        $users = $this->userService->getAllUsers();
-        ResponseHelper::sendResponse($users);
-    }
-
     public function getUser($id) {
+        // Vérification du rôle
+        if (!$this->checkRole('admin')) {
+            throw new Exception("Accès non autorisé.");
+        }
+        
+        // Récupération de l'utilisateur
         $user = $this->userService->getUserById($id);
         if (!$user) {
             ResponseHelper::sendNotFound("User not found.");
@@ -61,6 +62,24 @@ class UserController {
             ResponseHelper::sendResponse($user);
         }
     }
+    
+    
+    private function checkRole($requiredRole) {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            return false;
+        }
+
+        $user = $this->userService->getUserById($_SESSION['user_id']);
+        return $user->role_effectif === $requiredRole;
+    }
+
+    public function getAllUsers() {
+        $users = $this->userService->getAllUsers();
+        ResponseHelper::sendResponse($users);
+    }
+
+    
 
     // private function createUser() {
     //     $data = json_decode(file_get_contents("php://input"), true);
@@ -174,15 +193,17 @@ class UserController {
     public function registerVolunteer() {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
-
+    
         if (json_last_error() !== JSON_ERROR_NONE) {
             ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
             return;
         }
-
+    
         try {
             $user = new UserModel($data);
-            $user->role = 'Benevole'; // Définir le rôle comme bénévole
+            if ($user->role !== 'Benevole') {
+                throw new Exception("Role non autorisé pour cette route.");
+            }
             $user->validate($data);
             $this->userService->registerUser($user);
             ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie et en attente de validation."]);
@@ -190,6 +211,60 @@ class UserController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+
+    public function validateVolunteer($userId) {
+        $user = $this->userService->getUserById($userId);
+        if ($user && $user->role === 'Benevole') {
+            $user->role_effectif = 'Benevole';
+            $this->userService->updateUserProfile($user);
+            ResponseHelper::sendResponse(['success' => 'Bénévole validé avec succès.']);
+        } else {
+            ResponseHelper::sendNotFound('Utilisateur non trouvé ou non éligible.');
+        }
+    }
+
+    public function refuseVolunteer($userId) {
+        $user = $this->userService->getUserById($userId);
+        if ($user && $user->role === 'Benevole') {
+            $this->userService->deleteUser($userId);
+            ResponseHelper::sendResponse(['success' => 'Bénévole refusé avec succès.']);
+        } else {
+            ResponseHelper::sendNotFound('Utilisateur non trouvé ou non éligible.');
+        }
+    }
+
+    //-------------------- Create Admin -------------------//
+
+    public function createAdmin() {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+    
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+            return;
+        }
+    
+        try {
+            $user = new UserModel($data);
+            if ($user->role !== 'Admin') {
+                throw new Exception("Role non autorisé pour cette route.");
+            }
+            $user->validate($data);
+            $user->hashPassword();
+            $this->userService->registerUser($user);
+            ResponseHelper::sendResponse(["success" => "Admin créé avec succès."]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    } 
+
+    // Quelle est l'url pour créer un admin? => on est en http://localhost:8082/index.php/ et on veut créer un admin
+    // => on est en http://localhost:8082/index.php/admins/ et on veut créer un admin
+
+    
+    
+    
+    
 }
 
 // Récupération de la méthode et des segments d'URI

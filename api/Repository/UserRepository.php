@@ -12,7 +12,8 @@ class UserRepository {
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function save(UserModel $user) {
-        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, role, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis, statut_benevole) VALUES (:nom, :prenom, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis, :statut_benevole)";
+        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, type_permis)
+         VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :type_permis)";
 
         $statement = $this->db->prepare($query);
 
@@ -21,7 +22,7 @@ class UserRepository {
         $statement->bindValue(':prenom', $user->prenom);
         $statement->bindValue(':email', $user->email);
         $statement->bindValue(':mot_de_passe', $user->mot_de_passe);
-        $statement->bindValue(':role', $user->role);
+        //$statement->bindValue(':role', $user->role);
         $statement->bindValue(':adresse', $user->adresse);
         $statement->bindValue(':telephone', $user->telephone);
         $statement->bindValue(':date_de_naissance', $user->date_de_naissance);
@@ -34,10 +35,8 @@ class UserRepository {
         $statement->bindValue(':photo_profil', $user->photo_profil);
         $statement->bindValue(':emploi', $user->emploi);
         $statement->bindValue(':societe', $user->societe);
-        $statement->bindValue(':est_verifie', $user->est_verifie, PDO::PARAM_BOOL);
-        $statement->bindValue(':code_verification', $user->code_verification);
         $statement->bindValue(':type_permis', $user->type_permis);
-        $statement->bindValue(':statut_benevole', $user->statut_benevole);
+        // $statement->bindValue(':role_effectif', $user->role_effectif);
 
         return $statement->execute();
     }
@@ -66,11 +65,11 @@ class UserRepository {
 
 // ----------------- Récupération des informations de l'utilisateur -----------------//
     public function updateUserProfile(UserModel $user) {
-        $query = "UPDATE Utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis WHERE id_utilisateur = :id";
+        $query = "UPDATE Utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis, photo_profil = :photo_profil, role_effectif = :role_effectif WHERE id_utilisateur = :id"; // Ajouté role_effectif
 
         $statement = $this->db->prepare($query);
 
-
+        // Lier les valeurs
         $statement->bindValue(':id', $user->id_utilisateur);
         $statement->bindValue(':nom', $user->nom);
         $statement->bindValue(':prenom', $user->prenom);
@@ -83,9 +82,12 @@ class UserRepository {
         $statement->bindValue(':emploi', $user->emploi);
         $statement->bindValue(':societe', $user->societe);
         $statement->bindValue(':type_permis', $user->type_permis);
+        $statement->bindValue(':photo_profil', $user->photo_profil);
+        $statement->bindValue(':role_effectif', $user->role_effectif); // Ajouté
 
         return $statement->execute();
     }
+
 
     // ----------------- Réinitialisation du mot de passe -----------------//
 

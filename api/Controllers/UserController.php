@@ -168,6 +168,28 @@ class UserController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+
+    //-------------------- Volunteer Registration -------------------//
+
+    public function registerVolunteer() {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+            return;
+        }
+
+        try {
+            $user = new UserModel($data);
+            $user->role = 'Benevole'; // Définir le rôle comme bénévole
+            $user->validate($data);
+            $this->userService->registerUser($user);
+            ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie et en attente de validation."]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
 }
 
 // Récupération de la méthode et des segments d'URI

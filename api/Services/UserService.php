@@ -25,15 +25,22 @@ class UserService {
             throw new Exception("Un compte avec cet email existe déjà.");
         }
     
-        // Validez et préparez les données utilisateur
         $user->hashPassword();
         $user->generateVerificationCode();
         $user->date_d_inscription = date('Y-m-d');
         $user->statut = true; 
     
-        // Sauvegardez l'utilisateur dans la base de données
-        return $this->userRepository->save($user);
-    }
+       $user->hashPassword();
+       $user->generateVerificationCode();
+       $user->date_d_inscription = date('Y-m-d');
+       $user->statut = true; 
+
+       if ($user->role === 'Benevole') {
+           $user->statut_benevole = 'En attente de validation';
+       }
+
+       return $this->userRepository->save($user);
+   }
 
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);

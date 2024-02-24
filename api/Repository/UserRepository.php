@@ -144,5 +144,36 @@ class UserRepository {
         return $statement->execute();
     }
 
+    public function save(UserModel $user) {
+        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, role, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis, statut_benevole) VALUES (:nom, :prenom, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis, :statut_benevole)";
+
+        $statement = $this->db->prepare($query);
+
+        // Lier les valeurs
+        $statement->bindValue(':nom', $user->nom);
+        $statement->bindValue(':prenom', $user->prenom);
+        $statement->bindValue(':email', $user->email);
+        $statement->bindValue(':mot_de_passe', $user->mot_de_passe);
+        $statement->bindValue(':role', $user->role);
+        $statement->bindValue(':adresse', $user->adresse);
+        $statement->bindValue(':telephone', $user->telephone);
+        $statement->bindValue(':date_de_naissance', $user->date_de_naissance);
+        $statement->bindValue(':langues', json_encode($user->langues));
+        $statement->bindValue(':nationalite', $user->nationalite);
+        $statement->bindValue(':date_d_inscription', $user->date_d_inscription);
+        $statement->bindValue(':statut', $user->statut, PDO::PARAM_BOOL);
+        $statement->bindValue(':situation', $user->situation);
+        $statement->bindValue(':besoins_specifiques', $user->besoins_specifiques);
+        $statement->bindValue(':photo_profil', $user->photo_profil);
+        $statement->bindValue(':emploi', $user->emploi);
+        $statement->bindValue(':societe', $user->societe);
+        $statement->bindValue(':est_verifie', $user->est_verifie, PDO::PARAM_BOOL);
+        $statement->bindValue(':code_verification', $user->code_verification);
+        $statement->bindValue(':type_permis', $user->type_permis);
+        $statement->bindValue(':statut_benevole', $user->statut_benevole);
+
+        return $statement->execute();
+    }
+
 
 }

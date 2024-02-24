@@ -24,6 +24,7 @@ class UserModel {
     public $est_verifie;
     public $code_verification;
     public $type_permis;
+    public $statut_benevole;
 
     public function __construct($data = []) {
         if (!empty($data)) {
@@ -50,6 +51,8 @@ class UserModel {
             $this->est_verifie = $data['est_verifie'] ?? false;
             $this->code_verification = $data['code_verification'] ?? null;
             $this->type_permis = $data['type_permis'] ?? null;
+            // statut_bénévole Validé, En attente de validation, Refusé
+            $this->statut_benevole = $data['statut_benevole'] ?? null;
 
             $this->validate($data); // corrected line
         }
@@ -95,6 +98,9 @@ class UserModel {
         // if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 8) {
         //     throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 8 caractères.");
         // }
+        if ($this->role === 'Benevole' && empty($data['statut_benevole'])) {
+            throw new Exception("Le statut du bénévole est requis.");
+        }
     }
 
 

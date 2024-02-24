@@ -118,5 +118,31 @@ class UserRepository {
         $statement->bindValue(':id', $id);
         return $statement->execute();
     }
-    
+
+    //----------------- Update => Mise à jour des informations de l'utilisateur -----------------//
+
+    public function updateUser(UserModel $user) {
+        $query = "UPDATE Utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis, photo_profil = :photo_profil WHERE id_utilisateur = :id";
+
+        $statement = $this->db->prepare($query);
+
+        // Lier les valeurs
+        $statement->bindValue(':id', $user->id_utilisateur);
+        $statement->bindValue(':nom', $user->nom);
+        $statement->bindValue(':prenom', $user->prenom);
+        $statement->bindValue(':adresse', $user->adresse);
+        $statement->bindValue(':telephone', $user->telephone);
+        $statement->bindValue(':langues', json_encode($user->langues));
+        $statement->bindValue(':nationalite', $user->nationalite);
+        $statement->bindValue(':situation', $user->situation);
+        $statement->bindValue(':besoins_specifiques', $user->besoins_specifiques);
+        $statement->bindValue(':emploi', $user->emploi);
+        $statement->bindValue(':societe', $user->societe);
+        $statement->bindValue(':type_permis', $user->type_permis);
+        $statement->bindValue(':photo_profil', $user->photo_profil);
+
+        return $statement->execute();
+    }
+
+
 }

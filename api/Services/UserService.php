@@ -38,6 +38,10 @@ class UserService {
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);
     }
+
+    public function updateUserProfile(UserModel $user) {
+        return $this->userRepository->updateUserProfile($user);
+    }
     
 
     public function authenticateUser($email, $password) {

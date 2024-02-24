@@ -126,15 +126,16 @@ class UserController {
     }
     
 
+    // //-
+    // public function updateUser($id) {
+    //     $data = json_decode(file_get_contents("php://input"), true);
+    //     $user = new UserModel($data);
+    //     $user->id_utilisateur = $id; // Make sure to set the user ID for update
+    //     $result = $this->userService->updateUserProfile($user);
+    //     ResponseHelper::sendResponse($result);
+    // }
 
-    public function updateUser($id) {
-        $data = json_decode(file_get_contents("php://input"), true);
-        $user = new UserModel($data);
-        $user->id_utilisateur = $id; // Make sure to set the user ID for update
-        $result = $this->userService->updateUserProfile($user);
-        ResponseHelper::sendResponse($result);
-    }
-
+    //-------------------- Delete User -------------------//
     public function deleteUser($id) {
         try {
             $result = $this->userService->deleteUser($id);
@@ -145,6 +146,26 @@ class UserController {
             }
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    //-------------------- Update User -------------------//
+    public function updateUser($id) {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+            return;
+        }
+
+        try {
+            $user = new UserModel($data);
+            $user->id_utilisateur = $id; 
+            $this->userService->updateUserProfile($user);
+            ResponseHelper::sendResponse(["success" => "Utilisateur mis à jour avec succès."]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
 }

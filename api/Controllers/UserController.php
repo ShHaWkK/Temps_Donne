@@ -1,11 +1,10 @@
 <?php
 
-include_once './Services/UserService.php';
-include_once './Models/UserModel.php';
-include_once './exceptions.php';
-include_once './Repository/UserRepository.php';
-include_once './Helpers/ResponseHelper.php';
-include_once './Repository/BDD.php';
+require_once './Services/UserService.php';
+require_once './Models/UserModel.php';
+require_once './exceptions.php';
+require_once './Helpers/ResponseHelper.php';
+require_once './Repository/BDD.php';
 
 class UserController {
     private $userService;

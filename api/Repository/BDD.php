@@ -1,6 +1,6 @@
 <?php
 
-include_once './Services/globalFunctions.php';
+require_once './Services/globalFunctions.php';
 
 // Function to handle exiting with a message
 function exit_with_message($message) {

@@ -2,15 +2,16 @@
 
 // file: api/index.php
 
-header("Content-Type: application/json; charset=utf8");
+// header("Content-Type: application/json; charset=utf8");
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-include_once 'Repository/BDD.php';
-include_once 'Controllers/UserController.php';
-include_once 'Repository/UserRepository.php';
+// require_once 'Repository/BDD.php';
+// require_once 'Controllers/UserController.php';
+// require_once 'Repository/UserRepository.php';
 
+require_once 'Services/UserService.php'; 
 
 error_reporting(E_ERROR | E_PARSE);
 
@@ -23,11 +24,11 @@ function exitWithError($message = "Internal Server Error", $code = 500) {
     exit();
 }
 
-function sendJsonResponse($data, $statusCode = 200) {
-    http_response_code($statusCode);
-    echo json_encode($data);
-    exit();
-}
+// function sendJsonResponse($data, $statusCode = 200) {
+//     http_response_code($statusCode);
+//     echo json_encode($data);
+//     exit();
+// }
 
 function router($uri) {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -45,7 +46,9 @@ function router($uri) {
                         if (isset($uri[3])) {
                             $controller->getUser($uri[3]);
                         } else {
+                            exit; 
                             $controller->getAllUsers();
+                            
                         }
                         break;
                     case 'POST':

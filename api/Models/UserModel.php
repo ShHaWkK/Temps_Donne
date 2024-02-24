@@ -56,36 +56,36 @@ class UserModel {
     }
 
     //Ignore 
-    public function toJson() {
-        return json_encode([
-            'id_utilisateur' => $this->id_utilisateur,
-            'nom' => $this->nom,
-            'prenom' => $this->prenom,
-            'email' => $this->email,
-            'role' => $this->role,
-            'adresse' => $this->adresse,
-            'telephone' => $this->telephone,
-            'date_de_naissance' => $this->date_de_naissance,
-            'langues' => $this->langues,
-            'nationalite' => $this->nationalite,
-            'date_d_inscription' => $this->date_d_inscription,
-            'statut' => $this->statut,
-            'situation' => $this->situation,
-            'besoins_specifiques' => $this->besoins_specifiques,
-            'photo_profil' => $this->photo_profil,
-            'date_derniere_connexion' => $this->date_derniere_connexion,
-            'statut_connexion' => $this->statut_connexion,
-            'emploi' => $this->emploi,
-            'societe' => $this->societe,
-            'est_verifie' => $this->est_verifie,
-            'code_verification' => $this->code_verification,
-            'type_permis' => $this->type_permis
-        ]);
-    }
-    public static function fromJson($json) {
-        $data = json_decode($json, true);
-        return new self($data);
-    }
+    // public function toJson() {
+    //     return json_encode([
+    //         'id_utilisateur' => $this->id_utilisateur,
+    //         'nom' => $this->nom,
+    //         'prenom' => $this->prenom,
+    //         'email' => $this->email,
+    //         'role' => $this->role,
+    //         'adresse' => $this->adresse,
+    //         'telephone' => $this->telephone,
+    //         'date_de_naissance' => $this->date_de_naissance,
+    //         'langues' => $this->langues,
+    //         'nationalite' => $this->nationalite,
+    //         'date_d_inscription' => $this->date_d_inscription,
+    //         'statut' => $this->statut,
+    //         'situation' => $this->situation,
+    //         'besoins_specifiques' => $this->besoins_specifiques,
+    //         'photo_profil' => $this->photo_profil,
+    //         'date_derniere_connexion' => $this->date_derniere_connexion,
+    //         'statut_connexion' => $this->statut_connexion,
+    //         'emploi' => $this->emploi,
+    //         'societe' => $this->societe,
+    //         'est_verifie' => $this->est_verifie,
+    //         'code_verification' => $this->code_verification,
+    //         'type_permis' => $this->type_permis
+    //     ]);
+    // }
+    // public static function fromJson($json) {
+    //     $data = json_decode($json, true);
+    //     return new self($data);
+    // }
 
 
     public function validate($data) {

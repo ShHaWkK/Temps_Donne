@@ -1,7 +1,7 @@
 <?php
 
-include_once './Repository/UserRepository.php';
-include_once './Models/UserModel.php';
+require_once './Repository/UserRepository.php';
+require_once './Models/UserModel.php';
 // Inclure d'autres dépendances si nécessaire
 
 class UserService {

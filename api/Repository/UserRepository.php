@@ -1,7 +1,7 @@
 <?php
 
-include_once './Models/UserModel.php';
-include_once './Repository/BDD.php';
+require_once './Models/UserModel.php';
+require_once './Repository/BDD.php';
 
 class UserRepository {
     private $db;

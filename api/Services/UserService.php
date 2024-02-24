@@ -14,22 +14,27 @@ class UserService {
     public function getAllUsers() {
         return $this->userRepository->findAll();
     }
+    
+    public function findByEmail($email) {
+        return $this->userRepository->findByEmail($email);
+    }
 
     public function registerUser(UserModel $user) {
-        // Vérifiez si l'email est déjà utilisé
-        if ($this->userRepository->findByEmail($user->email)) {
+        $existingUser = $this->userRepository->findByEmail($user->email);
+        if ($existingUser) {
             throw new Exception("Un compte avec cet email existe déjà.");
         }
-
+    
         // Validez et préparez les données utilisateur
         $user->hashPassword();
         $user->generateVerificationCode();
         $user->date_d_inscription = date('Y-m-d');
-        $user->statut = true; // Ou false, selon la logique de votre application
-
+        $user->statut = true; 
+    
         // Sauvegardez l'utilisateur dans la base de données
         return $this->userRepository->save($user);
     }
+    
 
     public function authenticateUser($email, $password) {
         $user = $this->userRepository->findByEmail($email);

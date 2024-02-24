@@ -8,6 +8,7 @@ require_once './Repository/BDD.php';
 
 class UserController {
     private $userService;
+    
 
     public function __construct() {
         $db = connectDB();
@@ -71,24 +72,59 @@ class UserController {
     // }
 
 
+    // public function createUser() {
+    //     $json = file_get_contents("php://input");
+    //     $data = json_decode($json, true);
+    
+    //     if (json_last_error() !== JSON_ERROR_NONE) {
+    //         ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+    //         return;
+    //     }
+    
+    //     try {
+    //         $user = new UserModel($data);
+    //         $user->validate($data); 
+    //         $user->hashPassword();
+    //         $result = $this->userService->registerUser($user);
+    
+    //         // Ne créez pas l'utilisateur si une exception a été levée avant cette ligne
+    //         $roleMessage = $user->role === 'Bénévole' ? 'Bénévole' : 'Bénéficiaire';
+    //         ResponseHelper::sendResponse(["success" => "Le compte a bien été créé en tant que " . $roleMessage]);
+    //     } catch (Exception $e) {
+    //         // Si une exception est levée, envoyez l'erreur, ne continuez pas le processus
+    //         ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+    //         return;
+    //     }
+    // }
+    
     public function createUser() {
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (!$data) {
-            ResponseHelper::sendResponse(["error" => "Invalid JSON"], 400);
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
             return;
         }
 
         try {
             $user = new UserModel($data);
             $user->validate($data);
+
+            if ($this->userService->findByEmail($user->email)) {
+                ResponseHelper::sendResponse(["error" => "Un compte avec cet email existe déjà."], 400);
+                return;
+            }
+
             $user->hashPassword();
             $result = $this->userService->registerUser($user);
-            ResponseHelper::sendResponse($result);
+
+            $roleMessage = $user->role === 'Bénévole' ? 'Bénévole' : 'Bénéficiaire';
+            ResponseHelper::sendResponse(["success" => "Le compte a bien été créé en tant que " . $roleMessage]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
-
+    
 
 
     public function updateUser($id) {

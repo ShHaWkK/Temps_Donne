@@ -10,8 +10,9 @@ class UserRepository {
         $this->db = $db;
     }
 
+    //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function save(UserModel $user) {
-        $query = "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis) VALUES (:nom, :prenom, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis)";
+        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, role, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis) VALUES (:nom, :prenom, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis)";
 
         $statement = $this->db->prepare($query);
 
@@ -24,7 +25,7 @@ class UserRepository {
         $statement->bindValue(':adresse', $user->adresse);
         $statement->bindValue(':telephone', $user->telephone);
         $statement->bindValue(':date_de_naissance', $user->date_de_naissance);
-        $statement->bindValue(':langues', $user->langues);
+        $statement->bindValue(':langues', json_encode($user->langues));
         $statement->bindValue(':nationalite', $user->nationalite);
         $statement->bindValue(':date_d_inscription', $user->date_d_inscription);
         $statement->bindValue(':statut', $user->statut, PDO::PARAM_BOOL);
@@ -40,8 +41,9 @@ class UserRepository {
         return $statement->execute();
     }
 
+    //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function updateLastLoginDate($userId, $date) {
-        $query = "UPDATE utilisateurs SET date_derniere_connexion = :date WHERE id_utilisateur = :id";
+        $query = "UPDATE Utilisateurs SET date_derniere_connexion = :date WHERE id_utilisateur = :id";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':date', $date);
         $statement->bindValue(':id', $userId);
@@ -49,9 +51,9 @@ class UserRepository {
     }
 
 
-//----------------- Il sert à vérifier si l'email existe déjà dans la base de données -----------------
+//----------------- Il sert à vérifier si l'email existe déjà dans la base de données -----------------//
     public function findByEmail($email) {
-        $query = "SELECT * FROM utilisateurs WHERE email = :email LIMIT 1";
+        $query = "SELECT * FROM Utilisateurs WHERE email = :email LIMIT 1";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':email', $email);
         $statement->execute();
@@ -62,9 +64,9 @@ class UserRepository {
 
 
 
-// ----------------- Récupération des informations de l'utilisateur -----------------
+// ----------------- Récupération des informations de l'utilisateur -----------------//
     public function updateUserProfile(UserModel $user) {
-        $query = "UPDATE utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis WHERE id_utilisateur = :id";
+        $query = "UPDATE Utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis WHERE id_utilisateur = :id";
 
         $statement = $this->db->prepare($query);
 
@@ -74,7 +76,7 @@ class UserRepository {
         $statement->bindValue(':prenom', $user->prenom);
         $statement->bindValue(':adresse', $user->adresse);
         $statement->bindValue(':telephone', $user->telephone);
-        $statement->bindValue(':langues', $user->langues);
+        $statement->bindValue(':langues', json_encode($user->langues));
         $statement->bindValue(':nationalite', $user->nationalite);
         $statement->bindValue(':situation', $user->situation);
         $statement->bindValue(':besoins_specifiques', $user->besoins_specifiques);
@@ -85,11 +87,11 @@ class UserRepository {
         return $statement->execute();
     }
 
-    // ----------------- Réinitialisation du mot de passe -----------------
+    // ----------------- Réinitialisation du mot de passe -----------------//
 
     public function resetPassword($userId, $newPassword) {
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $query = "UPDATE utilisateurs SET mot_de_passe = :newPassword WHERE id_utilisateur = :id";
+        $query = "UPDATE Utilisateurs SET mot_de_passe = :newPassword WHERE id_utilisateur = :id";
 
         $statement = $this->db->prepare($query);
         $statement->bindValue(':id', $userId);
@@ -98,4 +100,13 @@ class UserRepository {
         return $statement->execute();
     }
 
+    //----------------- Find all => Récupération de tous les utilisateurs -----------------//
+
+    public function findAll() {
+        $query = "SELECT * FROM Utilisateurs";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

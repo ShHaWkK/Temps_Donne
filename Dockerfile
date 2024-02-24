@@ -5,6 +5,8 @@ RUN apt-get update
 # Debugeur 
 RUN pecl install xdebug && docker-php-ext-enable xdebug 
 
+#Install PDO
+RUN docker-php-ext-install pdo pdo_mysql
 
 # PHP extensions
 RUN apt-get install -y libpq-dev \

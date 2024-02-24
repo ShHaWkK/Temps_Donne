@@ -54,13 +54,12 @@ function router($uri) {
                             $controller = new UserController();
                             if ($requestMethod == 'POST') {
                                 $controller->registerVolunteer();
-                                break;
+                              
+                            } else {
+                                exitWithError('Method Not Allowed', 405);
                             }
-                                default:
-                                    exitWithError('Method Not Allowed', 405);
-                                    break;
-                            }
-                            break;
+                            break; 
+                        
                     case 'POST':
                         $controller->createUser();
 
@@ -87,6 +86,7 @@ function router($uri) {
         }
     } else {
         exitWithError('Not Found', 404);
+}
 }
 
 

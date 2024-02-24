@@ -27,6 +27,9 @@ CREATE TABLE Utilisateurs (
     Type_Permis VARCHAR(50)
 );
 
+ALTER TABLE Utilisateurs
+ADD Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation';
+
 -- Table Roles
 CREATE TABLE Roles (
     ID_Role INT AUTO_INCREMENT PRIMARY KEY,

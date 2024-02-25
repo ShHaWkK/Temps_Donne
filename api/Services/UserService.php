@@ -36,13 +36,11 @@ class UserService {
        $user->statut = true; 
 
        if ($user->role === 'Benevole') {
-        $user->role_effectif = 'En attente';
-    } else {
-        $user->role_effectif = $user->role;
-    }
+           $user->statut_benevole = 'En attente de validation';
+       }
 
-    return $this->userRepository->save($user);
-}
+       return $this->userRepository->save($user);
+   }
 
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);
@@ -55,22 +53,24 @@ class UserService {
 
     public function authenticateUser($email, $password) {
         $user = $this->userRepository->findByEmail($email);
+
         if ($user && password_verify($password, $user->mot_de_passe)) {
+            // Connectez l'utilisateur (par exemple, démarrez une session)
             $this->startUserSession($user);
             return $user;
         }
+
+        // Gérez l'échec de l'authentification
         throw new Exception("Identifiants incorrects.");
     }
 
-
     private function startUserSession(UserModel $user) {
         session_start();
-        $_SESSION['user_id'] = $user->id_utilisateur;
-        // $_SESSION['user'] = [
-        //     'id' => $user->id_utilisateur,
-        //     'email' => $user->email,
-        //     'role' => $user->role
-        // ];
+        $_SESSION['user'] = [
+            'id' => $user->id_utilisateur,
+            'email' => $user->email,
+            'role' => $user->role
+        ];
     }
 
     public function logout() {

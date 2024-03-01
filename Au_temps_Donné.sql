@@ -44,6 +44,18 @@ CREATE TABLE UtilisateursRoles (
     FOREIGN KEY (ID_Role) REFERENCES Roles(ID_Role),
     PRIMARY KEY (ID_Utilisateur, ID_Role)
 );
+ALTER TABLE UtilisateursRoles
+ADD statut VARCHAR(255) DEFAULT 'En attente';$
+
+UPDATE UtilisateursRoles
+SET statut = 'Validé'
+WHERE id_utilisateur = 1 AND id_role = 3;
+
+SELECT u.Nom, r.Nom_Role, ur.statut
+FROM Utilisateurs u
+JOIN UtilisateursRoles ur ON u.ID_Utilisateur = ur.ID_Utilisateur
+JOIN Roles r ON ur.ID_Role = r.ID_Role;
+WHERE u.ID_Utilisateur = 1; 
 
 -- Table Services
 CREATE TABLE Services (

@@ -9,7 +9,9 @@ class AdminController {
     private $userService; // Remarque: userService au lieu de adminService
 
     public function __construct() {
-        $this->userService = new UserService(new UserRepository());
+        $db = connectDB();
+        $userRepository = new UserRepository($db);
+        $this->userService = new UserService($userRepository);
     }
 
     public function getAllAdmins() {
@@ -28,12 +30,23 @@ class AdminController {
 
     public function registerAdmin() {
         $data = json_decode(file_get_contents('php://input'), true);
-        $data['role'] = 'Administrateur'; // Définir le rôle à 'Administrateur'
+
+        // Vérifiez que le mot de passe est présent et a au moins 8 caractères
+        if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 8) {
+            ResponseHelper::sendResponse(["error" => "Le mot de passe est obligatoire et doit contenir au moins 8 caractères."], 400);
+            return;
+        }
+
+
+        $adminRoleId = 3; 
+        $data['role'] = 'Administrateur'; 
 
         $admin = new UserModel($data);
-        $this->userService->registerUser($admin);
+        $this->userService->registerUser($admin, $adminRoleId);
         ResponseHelper::sendResponse(['message' => 'Admin created successfully'], 201);
     }
+
+
 
     public function deleteAdmin($id) {
         $this->userService->deleteUser($id, 'Administrateur');

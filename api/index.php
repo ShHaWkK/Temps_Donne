@@ -29,6 +29,7 @@ function router($uri, $requestMethod) {
     }
 
     switch ($uri[2]) {
+
         case 'admins':
             $controller = new AdminController();
             break;

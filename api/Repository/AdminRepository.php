@@ -84,12 +84,11 @@ class AdminRepository {
     }
 
     public function findByEmail($email) {
-        $sql = "SELECT u.* FROM Utilisateurs u INNER JOIN UtilisateursRoles ur ON u.ID_Utilisateur = ur.ID_Utilisateur INNER JOIN Roles r ON ur.ID_Role = r.ID_Role WHERE r.Nom_Role = 'Administrateur' AND u.email = :email";
+        $sql = "SELECT u.* FROM Utilisateurs u INNER JOIN UtilisateursRoles ur ON u.ID_Utilisateur = ur.ID_Utilisateur INNER JOIN Roles r ON ur.ID_Role = r.ID_Role WHERE r.Nom_Role = 'Administrateur' AND u.Email = :email";
         $statement = $this->bdd->prepare($sql);
         $statement->bindValue(':email', $email);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result ? new AdminModel($result) : null;
     }
-
 }

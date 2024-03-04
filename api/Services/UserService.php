@@ -32,11 +32,13 @@ class UserService {
         $result = $this->userRepository->save($user);
         if ($user->role === 'Benevole') {
             $user->statut_benevole = 'En attente de validation';
-            $this->assignRole($user->id_utilisateur, $roleIdForBenevole, 'En attente');
+            $this->assignRole($user->id_utilisateur, $roleId);
         }
 
-        return $result;
-    }
+        
+    
+    return $result;
+}
 
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);
@@ -72,7 +74,7 @@ class UserService {
 
     // Gestion des rôles
     public function assignRole($userId, $roleId, $status = 'En attente') {
-        return $this->userRepository->assignRole($userId, $roleId, $status);
+        $this->userRepository->assignRoleToUser($userId, $roleId, $status);
     }
 
     public function getUserRoles($userId) {
@@ -80,7 +82,7 @@ class UserService {
     }
 
     public function updateUserRole($userId, $roleId, $newStatus) {
-        return $this->userRepository->updateUserRole($userId, $roleId, $newStatus);
+        $this->userRepository->updateUserRole($userId, $roleId, $newStatus);
     }
 }
 

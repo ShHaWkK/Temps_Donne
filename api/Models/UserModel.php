@@ -5,6 +5,7 @@ class UserModel {
     public $nom;
     public $prenom;
     public $email;
+    public $role;
     public $mot_de_passe;
     public $adresse;
     public $telephone;
@@ -30,6 +31,7 @@ class UserModel {
         $this->nom = $data['nom'] ?? null;
         $this->prenom = $data['prenom'] ?? null;
         $this->email = $data['email'] ?? null;
+        $this->role = $data['role'] ?? null;
         $this->mot_de_passe = $data['mot_de_passe'] ?? null;
         $this->adresse = $data['adresse'] ?? null;
         $this->telephone = $data['telephone'] ?? null;

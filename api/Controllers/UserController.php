@@ -201,16 +201,22 @@ class UserController {
     
         try {
             $user = new UserModel($data);
-            if ($user->role !== 'Benevole') {
+            if (strtolower($user->role) !== 'benevole') {
                 throw new Exception("Role non autorisé pour cette route.");
             }
+            
+            $user->role = 'Benevole';
             $user->validate($data);
-            $this->userService->registerUser($user);
+            
+            $roleIdForBenevole = 1;
+            $this->userService->registerUser($user, $roleIdForBenevole);
+            
             ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie et en attente de validation."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+    
 
     public function validateVolunteer($userId) {
         $user = $this->userService->getUserById($userId);
@@ -233,30 +239,30 @@ class UserController {
         }
     }
 
-    //-------------------- Create Admin -------------------//
+    // //-------------------- Create Admin -------------------//
 
-    public function createAdmin() {
-        $json = file_get_contents("php://input");
-        $data = json_decode($json, true);
+    // public function createAdmin() {
+    //     $json = file_get_contents("php://input");
+    //     $data = json_decode($json, true);
     
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
-            return;
-        }
+    //     if (json_last_error() !== JSON_ERROR_NONE) {
+    //         ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+    //         return;
+    //     }
     
-        try {
-            $user = new UserModel($data);
-            if ($user->role !== 'Admin') {
-                throw new Exception("Role non autorisé pour cette route.");
-            }
-            $user->validate($data);
-            $user->hashPassword();
-            $this->userService->registerUser($user);
-            ResponseHelper::sendResponse(["success" => "Admin créé avec succès."]);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
-    } 
+    //     try {
+    //         $user = new UserModel($data);
+    //         if ($user->role !== 'Admin') {
+    //             throw new Exception("Role non autorisé pour cette route.");
+    //         }
+    //         $user->validate($data);
+    //         $user->hashPassword();
+    //         $this->userService->registerUser($user);
+    //         ResponseHelper::sendResponse(["success" => "Admin créé avec succès."]);
+    //     } catch (Exception $e) {
+    //         ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+    //     }
+    // } 
 
     // Quelle est l'url pour créer un admin? => on est en http://localhost:8082/index.php/ et on veut créer un admin
     // => on est en http://localhost:8082/index.php/admins/ et on veut créer un admin

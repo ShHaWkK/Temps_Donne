@@ -29,7 +29,8 @@ class AdminService {
             throw new Exception("Email already exists", 400);
         }
         $admin->mot_de_passe = password_hash($admin->mot_de_passe, PASSWORD_DEFAULT);
-        $admin->role = 'Administrateur';
+        $role = 'Administrateur';
+        $admin->setRole($role);
         $this->adminRepository->save($admin);
     }
 

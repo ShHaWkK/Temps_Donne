@@ -144,6 +144,35 @@ class UserRepository {
         return $statement->execute();
     }
 
+    //----------------- Assigner un rôle à un utilisateur -----------------//
+    public function assignRoleToUser($userId, $roleId, $status) {
+        $query = "INSERT INTO UtilisateursRoles (ID_Utilisateur, ID_Role, statut) VALUES (:userId, :roleId, :status)";
+        $statement = $this->db->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':roleId', $roleId);
+        $statement->bindValue(':status', $status);
+        $statement->execute();
+    }
+
+    //----------------- Récupérer les rôles d'un utilisateur -----------------//
+    public function getUserRoles($userId) {
+        $query = "SELECT r.Nom_Role FROM UtilisateursRoles ur JOIN Roles r ON ur.ID_Role = r.ID_Role WHERE ur.ID_Utilisateur = :userId";
+        $statement = $this->db->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    //----------------- Mettre à jour le statut d'un rôle d'un utilisateur -----------------//
+    public function updateUserRole($userId, $roleId, $newStatus) {
+        $query = "UPDATE UtilisateursRoles SET statut = :newStatus WHERE ID_Utilisateur = :userId AND ID_Role = :roleId";
+        $statement = $this->db->prepare($query);
+        $statement->bindValue(':newStatus', $newStatus);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':roleId', $roleId);
+        $statement->execute();
+    }
+
    
 
 

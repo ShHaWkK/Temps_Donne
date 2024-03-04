@@ -1,8 +1,7 @@
 <?php
-
+//file : api/Services/UserService.php
 require_once './Repository/UserRepository.php';
 require_once './Models/UserModel.php';
-
 
 class UserService {
     private $userRepository;
@@ -14,7 +13,7 @@ class UserService {
     public function getAllUsers() {
         return $this->userRepository->findAll();
     }
-    
+
     public function findByEmail($email) {
         return $this->userRepository->findByEmail($email);
     }
@@ -24,23 +23,20 @@ class UserService {
         if ($existingUser) {
             throw new Exception("Un compte avec cet email existe déjà.");
         }
-    
+
         $user->hashPassword();
         $user->generateVerificationCode();
         $user->date_d_inscription = date('Y-m-d');
-        $user->statut = true; 
-    
-       $user->hashPassword();
-       $user->generateVerificationCode();
-       $user->date_d_inscription = date('Y-m-d');
-       $user->statut = true; 
+        $user->statut = true;
 
-       if ($user->role === 'Benevole') {
-           $user->statut_benevole = 'En attente de validation';
-       }
+        $result = $this->userRepository->save($user);
+        if ($user->role === 'Benevole') {
+            $user->statut_benevole = 'En attente de validation';
+            $this->assignRole($user->id_utilisateur, $roleIdForBenevole, 'En attente');
+        }
 
-       return $this->userRepository->save($user);
-   }
+        return $result;
+    }
 
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);
@@ -49,16 +45,10 @@ class UserService {
     public function updateUserProfile(UserModel $user) {
         return $this->userRepository->updateUserProfile($user);
     }
-    
 
-    public function authenticateUser($email, $password)
-    {
+    public function authenticateUser($email, $password) {
         $user = $this->userRepository->findByEmail($email);
-
         if ($user && password_verify($password, $user->mot_de_passe)) {
-            session_start();
-            $_SESSION['user_id'] = $user->id_utilisateur;
-            $_SESSION['role'] = $user->role_effectif;
             $this->startUserSession($user);
             return $user;
         } else {
@@ -78,6 +68,19 @@ class UserService {
     public function logout() {
         session_start();
         session_destroy();
+    }
+
+    // Gestion des rôles
+    public function assignRole($userId, $roleId, $status = 'En attente') {
+        return $this->userRepository->assignRole($userId, $roleId, $status);
+    }
+
+    public function getUserRoles($userId) {
+        return $this->userRepository->getUserRoles($userId);
+    }
+
+    public function updateUserRole($userId, $roleId, $newStatus) {
+        return $this->userRepository->updateUserRole($userId, $roleId, $newStatus);
     }
 }
 

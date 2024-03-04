@@ -1,5 +1,5 @@
 <?php
-	
+//file : api/Services/globalFunctions.php
 function checkError($msg){
 	if (strpos(strtolower($msg), "error") !== false){
 		return true;

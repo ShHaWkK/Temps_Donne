@@ -35,6 +35,7 @@ CREATE TABLE Roles (
     ID_Role INT AUTO_INCREMENT PRIMARY KEY,
     Nom_Role VARCHAR(255)
 );
+INSERT INTO Roles (Nom_Role) VALUES ('Benevole'), ('Beneficiaire'), ('Administrateur');
 
 -- Table UtilisateursRoles
 CREATE TABLE UtilisateursRoles (

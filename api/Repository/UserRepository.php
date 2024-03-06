@@ -12,16 +12,13 @@ class UserRepository {
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function save(UserModel $user) {
-        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, role, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis, statut_benevole) VALUES (:nom, :prenom, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis, :statut_benevole)";
-
+        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis)";
         $statement = $this->db->prepare($query);
 
-        // Lier les valeurs
         $statement->bindValue(':nom', $user->nom);
         $statement->bindValue(':prenom', $user->prenom);
         $statement->bindValue(':email', $user->email);
         $statement->bindValue(':mot_de_passe', $user->mot_de_passe);
-        $statement->bindValue(':role', $user->role);
         $statement->bindValue(':adresse', $user->adresse);
         $statement->bindValue(':telephone', $user->telephone);
         $statement->bindValue(':date_de_naissance', $user->date_de_naissance);
@@ -37,9 +34,15 @@ class UserRepository {
         $statement->bindValue(':est_verifie', $user->est_verifie, PDO::PARAM_BOOL);
         $statement->bindValue(':code_verification', $user->code_verification);
         $statement->bindValue(':type_permis', $user->type_permis);
-        $statement->bindValue(':statut_benevole', $user->statut_benevole);
+        
+        $success = $statement->execute();
+        if (!$success) {
+            throw new Exception("Error saving user.");
+        }
 
-        return $statement->execute();
+        // Assigner un rôle à l'utilisateur
+        $userId = $this->db->lastInsertId();
+        return $userId;
     }
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function updateLastLoginDate($userId, $date) {
@@ -145,15 +148,17 @@ class UserRepository {
     }
 
     //----------------- Assigner un rôle à un utilisateur -----------------//
-    public function assignRoleToUser($userId, $roleId, $status) {
-        $query = "INSERT INTO UtilisateursRoles (ID_Utilisateur, ID_Role, statut) VALUES (:userId, :roleId, :status)";
+    public function assignRoleToUser($userId, $roleId, $status = 'Actif') {
+        $query = "INSERT INTO UtilisateursRoles (ID_Utilisateur, ID_Role, Statut) VALUES (:userId, :roleId, :status)";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':userId', $userId);
         $statement->bindValue(':roleId', $roleId);
         $statement->bindValue(':status', $status);
-        $statement->execute();
+        $success = $statement->execute();
+        if (!$success) {
+            throw new Exception("Error assigning role to user.");
+        }
     }
-
     //----------------- Récupérer les rôles d'un utilisateur -----------------//
     public function getUserRoles($userId) {
         $query = "SELECT r.Nom_Role FROM UtilisateursRoles ur JOIN Roles r ON ur.ID_Role = r.ID_Role WHERE ur.ID_Utilisateur = :userId";

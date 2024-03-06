@@ -115,15 +115,15 @@ class UserController {
     //         return;
     //     }
     // }
-    
+
     public function createUser() {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
-            return;
-        }
+        //if (json_last_error() !== JSON_ERROR_NONE) {
+        //    ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+        //    return;
+        //}
 
         try {
             $user = new UserModel($data);
@@ -135,10 +135,15 @@ class UserController {
             }
 
             $user->hashPassword();
-            $result = $this->userService->registerUser($user);
+            $roleId = $this->userService->findRoleIdByRoleName($user->role);
+            if ($roleId === null) {
+                ResponseHelper::sendResponse(["error" => "Rôle invalide."], 400);
+                return;
+            }
 
-            $roleMessage = $user->role === 'Bénévole' ? 'Bénévole' : 'Bénéficiaire';
-            ResponseHelper::sendResponse(["success" => "Le compte a bien été créé en tant que " . $roleMessage]);
+            $result = $this->userService->registerUser($user, $roleId);
+
+            ResponseHelper::sendResponse(["success" => "Le compte a bien été créé avec le rôle de " . $user->role]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -218,26 +223,6 @@ class UserController {
     }
     
 
-    public function validateVolunteer($userId) {
-        $user = $this->userService->getUserById($userId);
-        if ($user && $user->role === 'Benevole') {
-            $user->role_effectif = 'Benevole';
-            $this->userService->updateUserProfile($user);
-            ResponseHelper::sendResponse(['success' => 'Bénévole validé avec succès.']);
-        } else {
-            ResponseHelper::sendNotFound('Utilisateur non trouvé ou non éligible.');
-        }
-    }
-
-    public function refuseVolunteer($userId) {
-        $user = $this->userService->getUserById($userId);
-        if ($user && $user->role === 'Benevole') {
-            $this->userService->deleteUser($userId);
-            ResponseHelper::sendResponse(['success' => 'Bénévole refusé avec succès.']);
-        } else {
-            ResponseHelper::sendNotFound('Utilisateur non trouvé ou non éligible.');
-        }
-    }
 
     // //-------------------- Create Admin -------------------//
 

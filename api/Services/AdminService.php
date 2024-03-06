@@ -71,9 +71,10 @@ class AdminService {
         if (!$user) {
             throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
         }
-
-        $this->adminRepository->validateUserRole($userId, 'Benevole');
+    
+        $this->adminRepository->validateUserRole($userId, 'Benevole', 'Validé');
     }
+    
 
     public function refuseVolunteer($userId) {
         $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');

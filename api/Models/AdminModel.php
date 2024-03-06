@@ -6,6 +6,7 @@ class AdminModel {
     public $prenom;
     public $email;
     public $mot_de_passe;
+    public $role_id; 
     public $role;
     public $date_d_inscription;
     public $statut;
@@ -17,25 +18,23 @@ class AdminModel {
         $this->email = $data['email'];
         $this->mot_de_passe = $data['mot_de_passe'];
         $this->role = $data['role'];
+        $this->role_id = $data['role_id'] ?? null;
         $this->date_d_inscription = $data['date_d_inscription'] ?? date('Y-m-d');
         $this->statut = $data['statut'] ?? true;
 
         $this->validate();
     }
 
-    private function validate() {
+    public function validate() {
         if (empty($this->nom) || empty($this->prenom) || empty($this->email) || empty($this->mot_de_passe)) {
             throw new Exception("Missing required fields", 400);
         }
-
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Invalid email format", 400);
         }
-
         if (strlen($this->mot_de_passe) < 8) {
             throw new Exception("Password must be at least 8 characters", 400);
         }
-
     }
 
     // Méthode pour hacher le mot de passe

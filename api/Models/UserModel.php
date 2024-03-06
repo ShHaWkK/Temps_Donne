@@ -31,7 +31,7 @@ class UserModel {
         $this->nom = $data['nom'] ?? null;
         $this->prenom = $data['prenom'] ?? null;
         $this->email = $data['email'] ?? null;
-        $this->role = $data['role'] ?? null;
+        $this->role = $data['role']; 
         $this->mot_de_passe = $data['mot_de_passe'] ?? null;
         $this->adresse = $data['adresse'] ?? null;
         $this->telephone = $data['telephone'] ?? null;

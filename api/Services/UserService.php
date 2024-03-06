@@ -18,7 +18,8 @@ class UserService {
         return $this->userRepository->findByEmail($email);
     }
 
-    public function registerUser(UserModel $user) {
+    public function registerUser(UserModel $user)
+    {
         $existingUser = $this->userRepository->findByEmail($user->email);
         if ($existingUser) {
             throw new Exception("Un compte avec cet email existe déjà.");
@@ -34,11 +35,8 @@ class UserService {
             $user->statut_benevole = 'En attente de validation';
             $this->assignRole($user->id_utilisateur, $roleId);
         }
-
-        
-    
-    return $result;
-}
+        return $result;
+    }
 
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);
@@ -84,6 +82,11 @@ class UserService {
     public function updateUserRole($userId, $roleId, $newStatus) {
         $this->userRepository->updateUserRole($userId, $roleId, $newStatus);
     }
+
+    public function findRoleIdByRoleName($roleName) {
+        return $this->userRepository->findRoleIdByRoleName($roleName);
+    }
+
 }
 
 /*

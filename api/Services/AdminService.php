@@ -24,13 +24,16 @@ class AdminService {
         return $admin;
     }
 
+    public function findRoleIdByRoleName($roleName) {
+        return $this->adminRepository->findRoleIdByRoleName($roleName);
+    }
+
     public function registerAdmin(AdminModel $admin) {
+        $admin->validate();
+        $admin->hashPassword();
         if ($this->adminRepository->findByEmail($admin->email)) {
             throw new Exception("Email already exists", 400);
         }
-        $admin->mot_de_passe = password_hash($admin->mot_de_passe, PASSWORD_DEFAULT);
-        $role = 'Administrateur';
-        $admin->setRole($role);
         $this->adminRepository->save($admin);
     }
 
@@ -59,6 +62,27 @@ class AdminService {
         } else {
             throw new Exception("Invalid email or password", 401);
         }
+    }
+
+    //-------------- Validate Volunteer ----------//
+
+    public function validateVolunteer($userId) {
+        $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');
+        if (!$user) {
+            throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
+        }
+
+        $this->adminRepository->validateUserRole($userId, 'Benevole');
+    }
+
+    public function refuseVolunteer($userId) {
+        $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');
+        if (!$user) {
+            throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
+        }
+
+        $this->adminRepository->deleteUser($userId);
+
     }
 
     public function logout() {

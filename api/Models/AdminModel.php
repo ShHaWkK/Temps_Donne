@@ -7,7 +7,7 @@ class AdminModel {
     public $email;
     public $mot_de_passe;
     public $role_id; 
-    public $role;
+    // public $role;
     public $date_d_inscription;
     public $statut;
 
@@ -17,7 +17,7 @@ class AdminModel {
         $this->prenom = $data['prenom'];
         $this->email = $data['email'];
         $this->mot_de_passe = $data['mot_de_passe'];
-        $this->role = $data['role'];
+        // $this->role = $data['role'] ?? NULL ;
         $this->role_id = $data['role_id'] ?? null;
         $this->date_d_inscription = $data['date_d_inscription'] ?? date('Y-m-d');
         $this->statut = $data['statut'] ?? true;

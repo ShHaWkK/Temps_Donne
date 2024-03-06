@@ -173,7 +173,16 @@ class UserRepository {
         $statement->execute();
     }
 
-   
+    //------------------- findRoleidByRoleName -------------------//
+
+    public function findRoleIdByRoleName($roleName) {
+        $sql = "SELECT ID_Role FROM Roles WHERE Nom_Role = :roleName";
+        $statement = $this->db->prepare($sql);
+        $statement->bindValue(':roleName', $roleName);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
 
 
 }

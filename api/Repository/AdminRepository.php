@@ -65,6 +65,14 @@ class AdminRepository {
         }
     }
 
+    public function findRoleIdByName($roleName) {
+        $sql = "SELECT ID_Role FROM Roles WHERE Nom_Role = :roleName";
+        $statement = $this->bdd->prepare($sql);
+        $statement->bindValue(':roleName', $roleName);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
     public function deleteAdmin($id) {
         $sql = "DELETE FROM Utilisateurs WHERE ID_Utilisateur = :id";
         $statement = $this->bdd->prepare($sql);
@@ -91,4 +99,14 @@ class AdminRepository {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result ? new AdminModel($result) : null;
     }
+
+    public function findRoleIdByRoleName($roleName) {
+        $sql = "SELECT ID_Role FROM Roles WHERE Nom_Role = :roleName";
+        $statement = $this->bdd->prepare($sql); 
+        $statement->bindValue(':roleName', $roleName);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
+
 }

@@ -29,12 +29,19 @@ function router($uri, $requestMethod) {
     }
 
     switch ($uri[2]) {
-
         case 'admins':
             $controller = new AdminController();
             break;
         case 'users':
             $controller = new UserController();
+            break;
+        case 'volunteers':
+            // Gestion spécifique pour les bénévoles
+            $controller = new UserController();
+            if ($requestMethod == 'POST') {
+                $controller->registerVolunteer();
+                return;
+            }
             break;
         default:
             sendJsonResponse(['message' => 'Not Found'], 404);
@@ -51,11 +58,8 @@ function router($uri, $requestMethod) {
                 }
                 break;
             case 'POST':
-                if ($uri[2] === 'volunteers') {
-                    $controller->registerVolunteer();
-                } else {
-                    $controller->registerAdmin();
-                }
+                // Pour créer un administrateur
+                $controller->registerAdmin();
                 break;
             case 'PUT':
                 if (isset($uri[3])) {

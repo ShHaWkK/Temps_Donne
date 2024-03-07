@@ -1,8 +1,7 @@
 <?php
 
 // file: api/index.php
-
-//header("Content-Type: application/json; charset=utf8");
+header("Content-Type: application/json"); 
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
@@ -37,11 +36,7 @@ function router($uri, $requestMethod) {
             break;
         case 'volunteers':
             // Gestion spécifique pour les bénévoles
-            $controller = new UserController();
-            if ($requestMethod == 'POST') {
-                $controller->registerVolunteer();
-                return;
-            }
+            $controller = new AdminController();
             break;
         default:
             sendJsonResponse(['message' => 'Not Found'], 404);
@@ -52,23 +47,36 @@ function router($uri, $requestMethod) {
         switch ($requestMethod) {
             case 'GET':
                 if (isset($uri[3])) {
-                    $controller->getUser($uri[3]);
+                    $controller->getAdmin($uri[3]);
                 } else {
-                    $controller->getAllUsers();
+                    $controller->getAllAdmins();
                 }
                 break;
             case 'POST':
-                // Pour créer un administrateur
                 $controller->registerAdmin();
                 break;
             case 'PUT':
-                if (isset($uri[3])) {
-                    $controller->updateUser($uri[3]);
+                if ($uri[2] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {
+                    switch ($uri[4]) {
+                        case 'approve':
+                            $controller->approveVolunteer($uri[3]);
+                            break;
+                        case 'hold':
+                            $controller->holdVolunteer($uri[3]);
+                            break;
+                        case 'reject':
+                            $controller->rejectVolunteer($uri[3]);
+                            break;
+                        default:
+                            sendJsonResponse(['message' => 'Action Not Found'], 404);
+                    }
+                } else if (isset($uri[3])) {
+                    $controller->updateAdmin($uri[3]);
                 }
                 break;
             case 'DELETE':
                 if (isset($uri[3])) {
-                    $controller->deleteUser($uri[3]);
+                    $controller->deleteAdmin($uri[3]);
                 }
                 break;
             default:

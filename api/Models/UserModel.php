@@ -59,17 +59,15 @@ class UserModel {
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Adresse email invalide.");
         }
-        if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 8) {
-            throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 8 caractères.");
-        }
+        // if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 7) {
+        //     throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 7 caractères.");
+        // }
         // Vous pouvez ajouter d'autres règles de validation si nécessaire
     }
 
     public function hashPassword() {
         if (!empty($this->mot_de_passe)) {
             $this->mot_de_passe = password_hash($this->mot_de_passe, PASSWORD_DEFAULT);
-        } else {
-            throw new Exception("Le mot de passe ne peut pas être vide.");
         }
     }
 

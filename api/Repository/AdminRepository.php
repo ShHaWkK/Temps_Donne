@@ -109,4 +109,17 @@ class AdminRepository {
     }
 
 
+    //------------------------- Update Volontaire Role -------------------------//
+
+    public function updateVolunteerStatus($userId, $status) {
+        $sql = "UPDATE Utilisateurs SET statut_benevole = :status WHERE ID_Utilisateur = :userId";
+        $statement = $this->bdd->prepare($sql);
+        $statement->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $statement->bindValue(':status', $status);
+        $statement->execute();
+    }
+
+    
+
+
 }

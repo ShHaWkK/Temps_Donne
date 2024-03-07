@@ -111,15 +111,28 @@ class AdminRepository {
 
     //------------------------- Update Volontaire Role -------------------------//
 
-    public function updateVolunteerStatus($userId, $status) {
-        $sql = "UPDATE Utilisateurs SET statut_benevole = :status WHERE ID_Utilisateur = :userId";
-        $statement = $this->bdd->prepare($sql);
-        $statement->bindValue(':userId', $userId, PDO::PARAM_INT);
-        $statement->bindValue(':status', $status);
-        $statement->execute();
-    }
-
+    public function updateVolunteerStatus($userId, $statusVolunteer, $statusUserRole) {
+        $this->bdd->beginTransaction();
+        try {
+            // Mise à jour du statut du bénévole dans la table Utilisateurs
+            $sqlUtilisateur = "UPDATE Utilisateurs SET statut_benevole = :statusVolunteer WHERE ID_Utilisateur = :userId";
+            $stmtUtilisateur = $this->bdd->prepare($sqlUtilisateur);
+            $stmtUtilisateur->bindValue(':statusVolunteer', $statusVolunteer);
+            $stmtUtilisateur->bindValue(':userId', $userId);
+            $stmtUtilisateur->execute();
     
-
-
+            // Mise à jour du statut du rôle dans la table UtilisateursRoles
+            $sqlUtilisateurRoles = "UPDATE UtilisateursRoles SET Statut = :statusUserRole WHERE ID_Utilisateur = :userId AND ID_Role = (SELECT ID_Role FROM Roles WHERE Nom_Role = 'Benevole')";
+            $stmtUtilisateurRoles = $this->bdd->prepare($sqlUtilisateurRoles);
+            $stmtUtilisateurRoles->bindValue(':statusUserRole', $statusUserRole);
+            $stmtUtilisateurRoles->bindValue(':userId', $userId);
+            $stmtUtilisateurRoles->execute();
+    
+            $this->bdd->commit();
+        } catch (Exception $e) {
+            $this->bdd->rollBack();
+            throw $e;
+        }
+    }
+    
 }

@@ -87,17 +87,19 @@ class AdminService {
     // }
 
     public function approveVolunteer($userId) {
-        $this->adminRepository->updateVolunteerStatus($userId, 'Approuvé');
+        // Appeler avec les bons paramètres selon la méthode consolidée dans AdminRepository
+        $this->adminRepository->updateVolunteerStatus($userId, 'Approuvé', 'Approuvé');
     }
 
     public function holdVolunteer($userId) {
-        $this->adminRepository->updateVolunteerStatus($userId, 'En attente');
+        // Appeler avec les bons paramètres selon la méthode consolidée dans AdminRepository
+        $this->adminRepository->updateVolunteerStatus($userId, 'En attente', 'En attente');
     }
 
     public function rejectVolunteer($userId) {
-        $this->adminRepository->deleteUser($userId);
+        // Appeler avec les bons paramètres selon la méthode consolidée dans AdminRepository
+        $this->adminRepository->updateVolunteerStatus($userId, 'Rejeté', 'Refusé');
     }
-
     public function logout() {
         session_start();
         session_destroy();

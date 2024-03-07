@@ -20,9 +20,6 @@ class UserService {
 
     public function registerUser(UserModel $user, $roleName) {
         $existingUser = $this->userRepository->findByEmail($user->email);
-        if ($existingUser) {
-            throw new Exception("Un compte avec cet email existe déjà.");
-        }
         
         $user->hashPassword();
         $user->generateVerificationCode();
@@ -47,27 +44,28 @@ class UserService {
         if ($existingUser) {
             throw new Exception("Un compte avec cet email existe déjà.");
         }
-
+    
         // Hash the password and generate a verification code
         $user->hashPassword();
         $user->generateVerificationCode();
         $user->date_d_inscription = date('Y-m-d');
         $user->statut = true;  // Active by default
-
+    
         // Save the user and get the ID
         $userId = $this->userRepository->save($user);
-
+    
         // Find the role ID for 'Benevole'
         $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
         if (!$roleId) {
             throw new Exception("Rôle 'Benevole' non trouvé.");
         }
-
+    
         // Assign the role to the user
         $this->userRepository->assignRoleToUser($userId, $roleId, 'En attente'); // Status 'En attente'
-
+    
         return $userId; // Return the user ID or any other success indicator
     }
+    
 
     
     

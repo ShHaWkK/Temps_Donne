@@ -66,24 +66,36 @@ class AdminService {
 
     //-------------- Validate Volunteer ----------//
 
-    public function validateVolunteer($userId) {
-        $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');
-        if (!$user) {
-            throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
-        }
+    // public function validateVolunteer($userId) {
+    //     $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');
+    //     if (!$user) {
+    //         throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
+    //     }
     
-        $this->adminRepository->validateUserRole($userId, 'Benevole', 'Validé');
+    //     $this->adminRepository->validateUserRole($userId, 'Benevole', 'Validé');
+    // }
+    
+
+    // public function refuseVolunteer($userId) {
+    //     $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');
+    //     if (!$user) {
+    //         throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
+    //     }
+
+    //     $this->adminRepository->deleteUser($userId);
+
+    // }
+
+    public function approveVolunteer($userId) {
+        $this->adminRepository->updateVolunteerStatus($userId, 'Approuvé');
     }
-    
 
-    public function refuseVolunteer($userId) {
-        $user = $this->adminRepository->findUserAndRoleById($userId, 'Benevole');
-        if (!$user) {
-            throw new Exception('Utilisateur non trouvé ou non éligible.', 404);
-        }
+    public function holdVolunteer($userId) {
+        $this->adminRepository->updateVolunteerStatus($userId, 'En attente');
+    }
 
+    public function rejectVolunteer($userId) {
         $this->adminRepository->deleteUser($userId);
-
     }
 
     public function logout() {

@@ -104,19 +104,46 @@ class AdminController {
 
     //--------------- Volunteer ------------------- //
 
-    public function validateVolunteer($userId) {
+    // public function validateVolunteer($userId) {
+    //     try {
+    //         $this->adminService->validateVolunteer($userId);
+    //         ResponseHelper::sendResponse(['success' => 'Bénévole validé avec succès.']);
+    //     } catch (Exception $e) {
+    //         ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+    //     }
+    // }
+
+    // public function refuseVolunteer($userId) {
+    //     try {
+    //         $this->adminService->refuseVolunteer($userId);
+    //         ResponseHelper::sendResponse(['success' => 'Bénévole refusé avec succès.']);
+    //     } catch (Exception $e) {
+    //         ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+    //     }
+    // }
+
+    public function approveVolunteer($userId) {
         try {
-            $this->adminService->validateVolunteer($userId);
-            ResponseHelper::sendResponse(['success' => 'Bénévole validé avec succès.']);
+            $this->adminService->approveVolunteer($userId);
+            ResponseHelper::sendResponse(['success' => 'Bénévole approuvé.']);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
     }
 
-    public function refuseVolunteer($userId) {
+    public function holdVolunteer($userId) {
         try {
-            $this->adminService->refuseVolunteer($userId);
-            ResponseHelper::sendResponse(['success' => 'Bénévole refusé avec succès.']);
+            $this->adminService->holdVolunteer($userId);
+            ResponseHelper::sendResponse(['success' => 'Bénévole mis en attente.']);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function rejectVolunteer($userId) {
+        try {
+            $this->adminService->rejectVolunteer($userId);
+            ResponseHelper::sendResponse(['success' => 'Bénévole refusé.']);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }

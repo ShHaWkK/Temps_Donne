@@ -90,9 +90,8 @@ class UserController {
             $user = new UserModel($data);
             $user->validate($data);
     
-            if ($this->userService->findByEmail($user->email)) {
-                ResponseHelper::sendResponse(["error" => "Un compte avec cet email existe déjà."], 400);
-                return;
+            if ($this->userService->emailExists($user->email)) {
+                throw new Exception("Email déjà utilisé.", 400);
             }
     
             $user->hashPassword();
@@ -155,6 +154,8 @@ class UserController {
     public function registerVolunteer() {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
+
+        error_log(print_r($data, true));
 
         try {
             $user = new UserModel($data);

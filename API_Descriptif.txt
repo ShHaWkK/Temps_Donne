@@ -1,0 +1,26 @@
+Dossier API :
+
+- Dossier Controller
+  LoginController
+	AdminController
+	UserController
+	planningController 
+
+- Dossier Models
+  LoginModel
+	AdminModel
+	UserModel
+
+- Dossier Repository
+  LoginRepository
+	AdminRepository
+	UserRepository
+	
+- Dossier Service
+  LoginService
+	AdminService
+  UserService
+	
+
+Dossier website (ou front)
+- Tous les fichiers pour faire tourner le site internet

@@ -125,7 +125,7 @@ class AdminController {
     public function approveVolunteer($userId) {
         try {
             $this->adminService->approveVolunteer($userId);
-            ResponseHelper::sendResponse(['success' => 'Bénévole approuvé.']);
+            ResponseHelper::sendResponse(['message' => 'Bénévole approuvé avec succès.']);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
@@ -134,7 +134,7 @@ class AdminController {
     public function holdVolunteer($userId) {
         try {
             $this->adminService->holdVolunteer($userId);
-            ResponseHelper::sendResponse(['success' => 'Bénévole mis en attente.']);
+            ResponseHelper::sendResponse(['message' => 'Bénévole placé en attente.']);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
@@ -143,7 +143,7 @@ class AdminController {
     public function rejectVolunteer($userId) {
         try {
             $this->adminService->rejectVolunteer($userId);
-            ResponseHelper::sendResponse(['success' => 'Bénévole refusé.']);
+            ResponseHelper::sendResponse(['message' => 'Bénévole rejeté avec succès.']);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }

@@ -19,7 +19,7 @@ Dossier API :
 - Dossier Service
   LoginService
 	AdminService
-  UserService
+  	UserService
 	
 
 Dossier website (ou front)

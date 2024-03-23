@@ -3,11 +3,15 @@
 // file: api/index.php
 header("Content-Type: application/json"); 
 header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
 
 require_once 'Controllers/AdminController.php';
 require_once 'Controllers/UserController.php';
+require_once 'Controllers/LoginController.php';
+require_once 'Controllers/TicketController.php';
+require_once 'Controllers/VolunteerController.php';
 require_once 'Helpers/ResponseHelper.php';
 
 error_reporting(E_ERROR | E_PARSE);
@@ -28,11 +32,22 @@ function router($uri, $requestMethod) {
     }
 
     switch ($uri[2]) {
+         case "login":
+            if ($requestMethod === 'POST') {
+                $controller = new LoginController();
+                $controller->login();
+            } else {
+                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+            }
+            break;
         case 'admins':
             $controller = new AdminController();
             break;
         case 'users':
             $controller = new UserController();
+            break;
+        case 'tickets': 
+            $controller = new TicketController();
             break;
         case 'volunteers':
             // Gestion spécifique pour les bénévoles

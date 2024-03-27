@@ -24,3 +24,12 @@ ADD file : .env
 ## Then make this 
 > docker-compose up --build
 
+
+## Utils
+
+>composer require firebase/php-jwt
+>openssl rand -base64 32
+>composer require vlucas/phpdotenv
+
+
+

@@ -27,9 +27,9 @@ ADD file : .env
 
 ## Utils
 
->composer require firebase/php-jwt
->openssl rand -base64 32
->composer require vlucas/phpdotenv
+- composer require firebase/php-jwt
+- openssl rand -base64 32
+- composer require vlucas/phpdotenv
 
 
 

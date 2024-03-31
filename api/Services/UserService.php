@@ -10,6 +10,31 @@ class UserService {
         $this->userRepository = $userRepository;
     }
 
+    public function authenticateAdmin($email, $password) {
+        return $this->authenticateRole($email, $password, 'Administrateur');
+    }
+
+    public function authenticateVolunteer($email, $password) {
+        return $this->authenticateRole($email, $password, 'Benevole');
+    }
+
+    public function authenticateBeneficiary($email, $password) {
+        return $this->authenticateRole($email, $password, 'Beneficiaire');
+    }
+
+    private function authenticateRole($email, $password, $roleName) {
+        $user = $this->userRepository->findByEmail($email);
+        if ($user && password_verify($password, $user->mot_de_passe)) {
+            $roles = $this->userRepository->getUserRoles($user->id_utilisateur);
+            if (in_array($roleName, $roles)) {
+                $this->startUserSession($user);
+                return $user;
+            }
+        }
+        return null;
+    }
+    
+
     public function getAllUsers() {
         return $this->userRepository->findAll();
     }
@@ -96,6 +121,15 @@ class UserService {
             'role' => $user->role
         ];
     }
+    
+
+
+    public function checkVolunteerStatus($userId) {
+        // Vérifier le statut du bénévole
+        $user = $this->userRepository->findByUserId($userId);
+        return $user->statut_benevole === 'validé';
+    }
+
 
     public function logout() {
         session_start();
@@ -118,5 +152,18 @@ class UserService {
     public function findRoleIdByRoleName($roleName) {
         return $this->userRepository->findRoleIdByRoleName($roleName);
     }
+
+    public function validateVolunteer($userId) {
+        $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
+        $this->userRepository->updateUserRole($userId, $roleId,'Approuvé');
+    }
+
+    public function refuseVolunteer($userId) {
+        $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
+        $this->userRepository->updateUserRole($userId, $roleId, 'Refusé');
+    }
+
+
+
 
 }

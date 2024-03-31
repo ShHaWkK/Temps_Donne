@@ -171,6 +171,15 @@ class UserController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+
+    //-------------------- Access Control -------------------//
+    public function accessVolunteerSpace($userId) {
+        if (!$this->userService->checkVolunteerStatus($userId)) {
+            throw new Exception("Accès non autorisé. Bénévole non validé.");
+        }
+        // Logique pour accéder à l'espace privé du bénévole
+        
+    }
     
 }
 

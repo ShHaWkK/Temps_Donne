@@ -62,7 +62,6 @@ class UserModel {
         // if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 7) {
         //     throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 7 caractères.");
         // }
-        // Vous pouvez ajouter d'autres règles de validation si nécessaire
     }
 
     public function hashPassword() {
@@ -75,7 +74,7 @@ class UserModel {
         $this->code_verification = bin2hex(random_bytes(16));
     }
 
-    // Vous pouvez ajouter d'autres méthodes utiles ici, comme toJson() pour convertir les données en JSON
+   
 }
 
 ?>

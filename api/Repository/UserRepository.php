@@ -12,6 +12,10 @@ class UserRepository {
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function save(UserModel $user) {
+        if (empty($user->nom)) {
+            throw new Exception("Le champ 'nom' ne peut pas être vide.");
+        }
+    
         $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis)";
         $statement = $this->db->prepare($query);
 
@@ -37,12 +41,11 @@ class UserRepository {
         
         $success = $statement->execute();
         if (!$success) {
-            throw new Exception("Error saving user.");
+            throw new Exception("Erreur lors de la sauvegarde de l'utilisateur.");
         }
-
-        // Assigner un rôle à l'utilisateur
-        $userId = $this->db->lastInsertId();
-        return $userId;
+    
+        // Retourner l'ID de l'utilisateur nouvellement créé
+        return $this->db->lastInsertId();
     }
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function updateLastLoginDate($userId, $date) {
@@ -187,6 +190,24 @@ class UserRepository {
         $statement->execute();
         return $statement->fetchColumn();
     }
+    public function updateUserValidationStatus($userId, $status) {
+        $query = "UPDATE Utilisateurs SET statut_benevole = :status WHERE id_utilisateur = :userId";
+        $statement = $this->db->prepare($query);
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':status', $status);
+        $statement->execute();
+    }
+
+    //--------------------- Récupérer le statut du bénévole ---------------------//
+
+    public function isUserVolunteer($userId) {
+        $query = "SELECT COUNT(*) FROM UtilisateursRoles WHERE ID_Utilisateur = :userId AND ID_Role = (SELECT ID_Role FROM Roles WHERE Nom_Role = 'Benevole')";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(['userId' => $userId]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    
 
 
 

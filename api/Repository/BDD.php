@@ -15,7 +15,7 @@ function connectDB() {
     $port = $_ENV['MYSQL_PORT'];
     $dbname =  $_ENV['MYSQL_DATABASE'];
     $user = $_ENV['MYSQL_USER'];
-    $password = $_ENV['MYSQL_PASSWORD'];
+    $password = $_ENV['MYSQL_ROOT_PASSWORD'];
 
     try {
         $db = new PDO("mysql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password", null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
@@ -112,6 +112,17 @@ function deleteDB($table, $condition, $conditionValues = [])
     } catch (PDOException $e) {
         exit_with_message("PDO error :" . $e->getMessage());
     }
+
+    //--------------------------------------------//
+
+    // Function to handle exiting with a message
+    function exit_with_message($message) {
+        echo json_encode(['error' => $message]);
+        exit;
+    }
+
+
 }
+
 
 ?>

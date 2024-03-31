@@ -1,17 +1,19 @@
 <?php
 
 // file: api/index.php
+
+//-------------------- CORS --------------------// 
 header("Content-Type: application/json"); 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-
+//-------------------- ROUTER --------------------//
 require_once 'Controllers/AdminController.php';
 require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
 require_once 'Controllers/TicketController.php';
-require_once 'Controllers/VolunteerController.php';
+require_once 'Controllers/PlanningController.php'; 
 require_once 'Helpers/ResponseHelper.php';
 
 error_reporting(E_ERROR | E_PARSE);
@@ -25,41 +27,89 @@ function sendJsonResponse($data, $statusCode = 200) {
     exit();
 }
 
+//-------------------- ROUTER --------------------//
+
 function router($uri, $requestMethod) {
+    $controller = null;
     if (!isset($uri[2])) {
         sendJsonResponse(['message' => 'Not Found'], 404);
         return;
     }
+    error_log(print_r($uri, true));
 
+    //---------------------- ROUTES ----------------------//
     switch ($uri[2]) {
-         case "login":
-            if ($requestMethod === 'POST') {
-                $controller = new LoginController();
-                $controller->login();
-            } else {
-                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
-            }
+        case "login":
+            $controller = new LoginController();
             break;
         case 'admins':
+        case 'volunteers':
             $controller = new AdminController();
             break;
         case 'users':
             $controller = new UserController();
             break;
-        case 'tickets': 
+        case 'tickets':
             $controller = new TicketController();
             break;
-        case 'volunteers':
-            // Gestion spécifique pour les bénévoles
-            $controller = new AdminController();
+        case 'planning':
+            $controller = new PlanningController();
             break;
         default:
             sendJsonResponse(['message' => 'Not Found'], 404);
             return;
     }
 
+ 
+
     try {
+         // Gestion des requêtes pour 'planning'
+         if ($uri[2] === 'planning') {
+            $planningController = new PlanningController();
+            switch ($requestMethod) {
+                case 'GET':
+                    if (isset($uri[3])) {
+                        $planningController->getPlanning($uri[3]);
+                    } else {
+                        $planningController->getAllPlannings();
+                    }
+                    break;
+                case 'POST':
+                    $planningController->addPlanning();
+                    break;
+                case 'PUT':
+                    if (isset($uri[3])) {
+                        $planningController->updatePlanning($uri[3]);
+                    }
+                    break;
+                case 'DELETE':
+                    if (isset($uri[3])) {
+                        $planningController->deletePlanning($uri[3]);
+                    }
+                    break;
+                default:
+                    sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+                    break;
+            }
+        } else {
+            // Gestion des requêtes pour 'tickets'
+            if ($uri[2] === 'tickets') {
+                $ticketController->processRequest($requestMethod, $uri);
+            } else {
+                // Gestion des requêtes pour 'users'
+                if ($uri[2] === 'users') {
+                    $controller->processRequest($requestMethod, $uri);
+                } else {
+                    // Gestion des requêtes pour 'admins'
+                    if ($uri[2] === 'admins') {
+                        $controller->processRequest($requestMethod, $uri);
+                    }
+                }
+            }
+        }
+
         switch ($requestMethod) {
+
             case 'GET':
                 if (isset($uri[3])) {
                     $controller->getAdmin($uri[3]);
@@ -68,7 +118,13 @@ function router($uri, $requestMethod) {
                 }
                 break;
             case 'POST':
-                $controller->registerAdmin();
+                if ($uri[2] === 'login') {
+                    $controller->processRequest($requestMethod, $uri);
+                } else if ($uri[2] === 'volunteers') {
+                    $controller->registerVolunteer();
+                } else {
+                    $controller->registerAdmin();
+                }
                 break;
             case 'PUT':
                 if ($uri[2] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {

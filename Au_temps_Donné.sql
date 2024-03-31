@@ -322,12 +322,16 @@ CREATE TABLE Captchas (
 
 CREATE TABLE Planning (
     ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Utilisateur INT,
+    ID_Utilisateur INT NOT NULL,
     Date DATE,
-    Horaire TIME,
     Description TEXT,
-    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
-);
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION
+) ENGINE=InnoDB;
+
+ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
+ALTER TABLE Planning ADD COLUMN startTime TIME;
+ALTER TABLE Planning ADD COLUMN endTime TIME;
+
 
 -- Table tentatives_connexion
 
@@ -368,7 +372,6 @@ CREATE TABLE UtilisateursCompetences (
     PRIMARY KEY (ID_Utilisateur, ID_Competence)
 );
 
--- Ajout des compétences spécifiques
 
 INSERT INTO Competences (Nom_Competence, Description) VALUES
     ('Français', 'Capacité à parler et comprendre le français'),

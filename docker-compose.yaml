@@ -39,6 +39,10 @@ services:
       - 8086:80
     depends_on:
       - db
+  php:
+    image: php:7.4-fpm
+    volumes:
+      - ./config/php.ini:/usr/local/etc/php/php.ini
 
 volumes:
   db-data:

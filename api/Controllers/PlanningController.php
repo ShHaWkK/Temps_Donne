@@ -1,5 +1,5 @@
 <?php
-
+require_once './Repository/UserRepository.php';
 require_once './Services/PlanningService.php';
 require_once './Models/PlanningModel.php';
 require_once './exceptions.php';
@@ -8,12 +8,13 @@ require_once './Repository/BDD.php';
 
 class PlanningController {
     private $planningService;
+    private $userRepository;
 
     public function __construct() {
         $db = connectDB();
         $planningRepository = new PlanningRepository($db);
-        $userRepository = new UserRepository($db);
-        $this->planningService = new PlanningService($planningRepository, $userRepository);
+        $this->userRepository = new UserRepository($db);
+        $this->planningService = new PlanningService($planningRepository, $this->userRepository);
     }
 
     public function processRequest($method, $uri) {
@@ -64,20 +65,26 @@ class PlanningController {
     }
     
 
+    //-------------------- Add Planning -------------------//
+
     public function addPlanning() {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
 
         try {
+            $userId = $data['ID_Utilisateur'] ?? null;
+            if (!$userId || !$this->userRepository->findById($userId)) {
+                throw new Exception("Invalid user ID");
+            }
+
             $planning = new PlanningModel($data);
-            // Vous pouvez ajouter des validations ici si nécessaire
             $this->planningService->addPlanning($planning);
             ResponseHelper::sendResponse(["success" => "Planning added successfully."], 201);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
-
+    
     public function updatePlanning($id) {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);

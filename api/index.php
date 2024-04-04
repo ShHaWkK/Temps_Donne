@@ -12,7 +12,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once 'Controllers/AdminController.php';
 require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
-require_once 'Controllers/TicketController.php';
+// require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php'; 
 require_once 'Helpers/ResponseHelper.php';
 
@@ -63,6 +63,36 @@ function router($uri, $requestMethod) {
  
 
     try {
+        // Gestionn de Login
+        if ($uri[2] === 'login') {
+            $loginController = new LoginController();
+            $loginController->login();
+        }
+        // Pour les users => créer juste un user, voir ,supprimer et mettre à jour
+        if ($uri[2] === 'users') {
+            switch ($requestMethod) {
+                case 'GET':
+                    if (isset($uri[3])) {
+                        $controller->getUser($uri[3]);
+                    } else {
+                        $controller->getAllUsers();
+                    }
+                    break;
+                case 'POST':
+                    $controller->createUser();
+                    break;
+                case 'PUT':
+                    if (isset($uri[3])) {
+                        $controller->updateUser($uri[3]);
+                    }
+                    break;
+                case 'DELETE':
+                    if (isset($uri[3])) {
+                        $controller->deleteUser($uri[3]);
+                    }
+                    break;
+                }
+            }   
          // Gestion des requêtes pour 'planning'
          if ($uri[2] === 'planning') {
             $planningController = new PlanningController();
@@ -154,6 +184,7 @@ function router($uri, $requestMethod) {
                 sendJsonResponse(['message' => 'Method Not Allowed'], 405);
                 break;
         }
+        
     } catch (Exception $e) {
         sendJsonResponse(['error' => $e->getMessage()], $e->getCode());
     }

@@ -19,14 +19,14 @@
     <div class="right-side">
       <form class="login-form">
         <div class="input-group">
-          <label for="username">Nom d'utilisateur:</label>
-          <input type="text" id="username" name="username" required>
+          <label for="email">E-mail:</label>
+          <input type="text" id="email" name="email" required>
         </div>
         <div class="input-group">
           <label for="password">Mot de passe:</label>
           <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit" class="login-button">S'identifier</button>
+        <button type="submit" class="login-button" >S'identifier</button>
         <a href="#" class="forgot-password">Mot de passe oublié ?</a>
       </form>
     </div>

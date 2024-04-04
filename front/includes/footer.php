@@ -1,6 +1,7 @@
-<head>
-<link rel="stylesheet" href="css/footer.css">
-</head>
+<?php
+    include_once('includes/head.php');
+?>
+
 
 <footer class="footer-container">
         <div class="footer-column">

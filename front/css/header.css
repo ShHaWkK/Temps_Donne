@@ -1,0 +1,376 @@
+
+.header-container {
+    font-family: 'Poppins', sans-serif; 
+}
+
+body {
+    display: block;
+    margin: 0px;
+}
+
+.dark-mode {
+    background-color: #434242; 
+    color: #D3D2D2; 
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  background-image: url('./images/moon.png');  
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  background-image: url('./images/sun.png');  
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Styles pour le bouton de bascule arrondi */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #82CFD8;
+}
+
+/* Styles pour le menu hamburger */
+.hamburger-menu {
+    display: none; /* caché par défaut */
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+.navigation-menu ul li .nav-item {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+
+/* CSS pour la navigation */
+.navigation-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-menu ul li {
+    margin: 0 10px; /* Ajustez l'espacement entre les liens */
+}
+
+.nav-item,
+.nav-item-space {
+    background-color: #00334A;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 10px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 5px;
+    min-width: 100px; /* Utiliser min-content pour des boutons plus dynamiques */
+    max-width: 160px; /* Limiter la taille maximale */
+}
+
+.nav-item i {
+    margin-right: 8px; /* Espace entre l'icône et le texte */
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: #005f86; 
+}
+
+.logo-container {
+    flex: 1; 
+    margin-left: 20px;
+}
+
+/* .logo-container .logo {
+    max-width: 150px;
+    max-height: 100px;
+    height: auto; 
+    padding: 10px 0;
+} */
+.logo-container .logo {
+    max-width: 150px;
+    max-height: 100px;
+}
+
+.navigation-menu {
+    flex: 3; 
+}
+
+.dark-mode-toggle {
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    padding: 10px;
+}
+
+.navigation-menu ul li {
+    margin-right: 20px;
+}
+
+.navigation-menu ul li:last-child {
+    margin-right: 0;
+}
+
+
+.navigation-menu ul li .nav-item.active,
+.navigation-menu ul li .nav-item:hover {
+    background-color: #002233; 
+}
+
+.navigation-menu ul li .nav-item,
+.navigation-menu ul li .nav-item-space {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00334A;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 10px; 
+    min-width: min-content; 
+    max-width: 100px; 
+    margin: 5px 10px; 
+    transition: background-color 0.3s;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.navigation-menu ul li .nav-item i,
+.navigation-menu ul li .nav-item-space i {
+    margin-right: 5px; 
+}
+
+
+.search-icon {
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    padding: 10px;
+    width: 50px; 
+    height: 50px;
+}
+
+.search-icon img {
+    width: 50px; 
+    height: 50px;
+}
+
+/* Media queries  */
+
+@media (max-width: 1300px) {
+    .header-container {
+      /* ajustements pour la mise en page générale du header à 1300px */
+      flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+    }
+  
+    .logo-container .logo {
+      /* ajustements pour le logo pour s'assurer qu'il s'adapte bien */
+      max-width: 120px; /* ajustez selon les besoins */
+      margin: 10px 0;
+    }
+  
+    .navigation-menu ul {
+      /* ajustements pour la liste de navigation */
+      justify-content: space-around; /* Espacement égal autour des éléments */
+    }
+  
+    .navigation-menu ul li {
+      /* ajustements pour les liens de navigation */
+      margin: 10px; /* ajoutez de l'espace autour des liens */
+    }
+  
+    .nav-item,
+    .nav-item-space {
+      /* ajustements pour les éléments de navigation */
+      padding: 8px 15px; /* Ajustez le padding pour réduire la taille des boutons */
+      font-size: 0.95rem; /* Réduisez la taille de la police pour éviter les débordements */
+    }
+  
+    .search-icon,
+    .dark-mode-toggle {
+      /* ajustements pour l'icône de recherche et le toggle du mode sombre */
+      margin: 10px 0; /* ajoutez de l'espace autour pour éviter le chevauchement */
+    }
+  
+    .search-icon img,
+    .dark-mode-toggle .slider {
+      /* ajustements pour l'icône de recherche et le slider du mode sombre */
+      width: 40px; /* ajustez la taille comme nécessaire */
+      height: 40px;
+    }
+
+    .hamburger-menu {
+        display: flex; /* Le menu hamburger est maintenant visible */
+    }
+    .navigation-menu {
+        display: none; /* La navigation est cachée */
+    }
+  }
+
+
+/* Règles CSS pour les tablettes */
+
+@media (max-width: 1228px ) {
+    .nav-item,
+    .nav-item-space {
+        padding: 8px 15px; 
+        font-size: 0.95rem; 
+    }
+
+    .search-icon,
+    .dark-mode-toggle {
+        margin: 10px 0; 
+    }
+
+    .search-icon img,
+    .dark-mode-toggle .slider {
+        width: 40px; 
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+
+
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navigation-menu ul {
+        flex-direction: column;
+    }
+
+    .nav-item,
+    .nav-item-space {
+        width: 100%; /* Les éléments de navigation prennent toute la largeur disponible */
+        margin: 5px 0; /* Espacement vertical entre les éléments de navigation */
+    }
+    
+    
+
+    .navigation-menu ul {
+        flex-direction: column; 
+    }
+
+    .navigation-menu ul li,
+    .navigation-menu ul li .nav-item,
+    .navigation-menu ul li .nav-item-space {
+        width: 100%; 
+        margin: 5px 0; 
+    }
+
+    .nav-item,
+    .nav-item-space {
+        justify-content: center; 
+        padding: 10px; 
+        font-size: 0.9rem; 
+    }
+
+    .search-icon img {
+        width: 30px; 
+        height: 30px;
+    }
+}
+
+
+
+
+@media (max-width: 480px) {
+    .nav-item, .nav-item-space {
+        padding: 8px 16px; 
+        font-size: 0.9rem; 
+    }
+
+    .search-icon a {
+        font-size: 1.5rem; 
+    }
+}
+
+/* Règles CSS pour les mobiles */
+@media (max-width: 480px) { 
+    
+    .logo-container .logo {
+        max-width: 120px; 
+        margin-bottom: 0; 
+    }
+
+    .navigation-menu ul li .nav-item i,
+    .navigation-menu ul li .nav-item-space i {
+        font-size: 1rem; 
+        margin-right: 5px;
+    }
+}
+

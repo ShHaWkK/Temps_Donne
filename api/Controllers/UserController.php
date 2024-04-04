@@ -28,7 +28,7 @@ class UserController {
                     break;
                 case 'POST':
                     if ($uri[2] === 'register') {
-                        $this->registerUser();
+                        $this->createUser();
                     } elseif ($uri[2] === 'volunteers') {
                         $this->registerVolunteer();
                     }
@@ -178,6 +178,7 @@ class UserController {
             throw new Exception("Accès non autorisé. Bénévole non validé.");
         }
         // Logique pour accéder à l'espace privé du bénévole
+        ResponseHelper::sendResponse(["message" => "Accès autorisé. Bienvenue dans votre espace bénévole."]);
         
     }
     

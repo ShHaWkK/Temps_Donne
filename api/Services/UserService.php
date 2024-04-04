@@ -22,17 +22,36 @@ class UserService {
         return $this->authenticateRole($email, $password, 'Beneficiaire');
     }
 
-    private function authenticateRole($email, $password, $roleName) {
+    // private function authenticateRole($email, $password, $roleName) {
+    //     $user = $this->userRepository->findByEmail($email);
+    //     if (!$user) {
+    //         throw new AuthenticationException("Utilisateur non trouvé");
+    //     }
+    //     if (!password_verify($password, $user->mot_de_passe)) {
+    //         throw new AuthenticationException("Mot de passe incorrect");
+    //     }
+    //     $roles = $this->userRepository->getUserRoles($user->id_utilisateur);
+    //     if (!in_array($roleName, $roles)) {
+    //         throw new RoleException("Rôle non autorisé");
+    //     }
+    //     return $user;
+    // }
+
+    public function authenticate($email, $password, $role) {
         $user = $this->userRepository->findByEmail($email);
-        if ($user && password_verify($password, $user->mot_de_passe)) {
-            $roles = $this->userRepository->getUserRoles($user->id_utilisateur);
-            if (in_array($roleName, $roles)) {
-                $this->startUserSession($user);
-                return $user;
-            }
+        if (!$user) {
+            throw new AuthenticationException("Utilisateur non trouvé");
         }
-        return null;
+        if (!password_verify($password, $user->mot_de_passe)) {
+            throw new AuthenticationException("Mot de passe incorrect");
+        }
+        $roles = $this->userRepository->getUserRoles($user->id_utilisateur);
+        if (!in_array($role, $roles)) {
+            throw new RoleException("Rôle non autorisé");
+        }
+        return $user;
     }
+
     
 
     public function getAllUsers() {
@@ -42,26 +61,38 @@ class UserService {
     public function findByEmail($email) {
         return $this->userRepository->findByEmail($email);
     }
+    public function createUserWithRole($userData, $roleName) {
+        return $this->userRepository->createUserWithRole($userData, $roleName);
+    }
 
     public function registerUser(UserModel $user, $roleName) {
+        // Vérifier si l'utilisateur existe déjà
         $existingUser = $this->userRepository->findByEmail($user->email);
-        
+        if ($existingUser) {
+            throw new Exception("Un compte avec cet email existe déjà.");
+        }
+    
+        // Hachage du mot de passe et autres préparations
         $user->hashPassword();
         $user->generateVerificationCode();
         $user->date_d_inscription = date('Y-m-d');
         $user->statut = true;
-        
+    
+        // Enregistrement de l'utilisateur
         $userId = $this->userRepository->save($user);
-        
+    
+        // Trouver l'ID du rôle
         $roleId = $this->userRepository->findRoleIdByRoleName($roleName);
         if (!$roleId) {
             throw new Exception("Rôle non trouvé.");
         }
-        
+    
+        // Assignation du rôle à l'utilisateur
         $this->userRepository->assignRoleToUser($userId, $roleId, 'Actif');
-        
+    
         return $userId;
     }
+    
 
     public function registerVolunteer(UserModel $user) {
         // Check if the email already exists
@@ -162,6 +193,13 @@ class UserService {
         $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
         $this->userRepository->updateUserRole($userId, $roleId, 'Refusé');
     }
+
+    public function emailExists($email) {
+        $user = $this->userRepository->findByEmail($email);
+        return $user !== null;
+    }
+
+    
 
 
 

@@ -3,6 +3,12 @@
 require_once './Models/UserModel.php';
 require_once './Repository/BDD.php';
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+
+
 class UserRepository {
     private $db;
 
@@ -38,14 +44,21 @@ class UserRepository {
         $statement->bindValue(':est_verifie', $user->est_verifie, PDO::PARAM_BOOL);
         $statement->bindValue(':code_verification', $user->code_verification);
         $statement->bindValue(':type_permis', $user->type_permis);
+
+        // Ajouter l'instruction de débogage juste avant d'exécuter la requête
+        error_log("Sauvegarde de l'utilisateur : " . print_r($user, true));
         
         $success = $statement->execute();
         if (!$success) {
+            error_log("Erreur lors de la sauvegarde de l'utilisateur : " . print_r($statement->errorInfo(), true));
             throw new Exception("Erreur lors de la sauvegarde de l'utilisateur.");
+        } else {
+            // Si l'exécution a réussi, obtenir l'ID inséré
+            $insertedId = $this->db->lastInsertId();
+            error_log("ID de l'utilisateur inséré : " . $insertedId);
+            return $insertedId;
         }
-    
-        // Retourner l'ID de l'utilisateur nouvellement créé
-        return $this->db->lastInsertId();
+        
     }
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function updateLastLoginDate($userId, $date) {
@@ -206,6 +219,17 @@ class UserRepository {
         $stmt->execute(['userId' => $userId]);
         return $stmt->fetchColumn() > 0;
     }
+
+    //--------------------- Voir si un utilisateur existe ---------------------//
+
+    public function findById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM Utilisateurs WHERE id_utilisateur = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    
 
     
 

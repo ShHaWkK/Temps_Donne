@@ -16,7 +16,7 @@
                 <li><a href="services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
                 <li><a href="dons.php" class="nav-item"><i class="fa-solid fa-hand-holding-dollar"></i> Faire un don</a></li>
                 <li><a href="espace_beneficiaire.php" class="nav-item"><i class="fa-solid fa-handshake"></i> Espace bénéficiaire</a></li>
-                <li><a href="espace_benevole.php" class="nav-item"> <i class='fa-solid fa-hand-holding-heart'></i> Espace bénévole</a></li>
+                <li><a href="./inscription_conn/connexion_benevole.php" class="nav-item"> <i class='fa-solid fa-hand-holding-heart'></i> Espace bénévole</a></li>
             </ul>
         </nav>
         <div class="dark-mode-toggle">

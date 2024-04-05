@@ -25,9 +25,29 @@
         <!-- Barre de recherche et icône de recherche -->
         <div class="search-container">
             <div class="search-icon">
-                <input type="text" placeholder="Recherche..." id="searchInput">
+                <input class="search-input" type="text" placeholder="Recherche..." id="searchInput">
                 <a><i class="fa-solid fa-magnifying-glass"></i></a>
             </div>
+        </div>
+
+        <!-- Menu déroulant pour les langues -->
+        <div class="popover-container">
+            <button class="language-button" onclick="toggleLanguageList()">
+                <img src="./images/france.png" width="30" height="30">
+                <i class="icon icon--md icon--caret-down"></i>
+            </button>
+            <ul class="popover-content" id="languageList">
+                <li>
+                    <a href="https://www.flaticon.com/search?word=french" class="active track" >
+                        <span class="text__general--heading">Français</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://media.flaticon.com/dist/min/img/flags/en.svg" class="track">
+                        <span class="text__general--heading">English</span>
+                    </a>
+                </li>
+            </ul>
         </div>
 
         <!-- Bouton de mode sombre -->
@@ -41,6 +61,63 @@
 </header>
 
 <style>
+    /*Menu déroulant pour les langues */
+    .language-button{        
+        padding: 15px;
+        background-color: #00334A;
+        border-radius: 50px;
+        margin-right: 10px;
+        transition: background-color 0.3s;
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        height: 50px; 
+        width: 50px; 
+        cursor: pointer;
+    }
+    
+    .popover-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .popover-content {
+        position: absolute;
+        z-index: 1;
+        top: 100%; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        display: none;
+        overflow: visible;
+        width: auto; 
+        margin: 0;
+        padding: 10px;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        background: #fff;
+        box-shadow: 0 0 60px rgba(14,42,71,.25);
+        animation: popover .2s ease-in-out;
+        list-style-type: none;
+        text-align: center; /* Centrer le texte */
+    }
+
+
+
+    .popover-content a {
+        color: black;
+        padding: 12px 12px;
+        text-decoration: none;
+        display: flex;
+    }
+
+    .popover-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .popover-container:hover .popover-content {
+        display: block;
+    }
+
     body, header {
     margin: 0;
     padding: 0;
@@ -131,7 +208,10 @@
     }
 
     .navigation-menu ul li .nav-item.active,
-    .navigation-menu ul li .nav-item:hover {
+    .navigation-menu ul li .nav-item:hover,
+    .navigation-menu ul li .nav-item-space.active,
+    .navigation-menu ul li .nav-item-space:hover,
+    .language-button:hover{
         background-color: #002233; 
     }
 
@@ -146,8 +226,8 @@
         outline: none;
         padding: 10px;
         font-size: 16px;
+        border: 3px solid;
         border-color: black;
-        border-block: 5px;
         border-radius: 20px;
         width: 200px;
         background-color: #fff;
@@ -158,6 +238,12 @@
         cursor: pointer;
         font-size: 24px;
         margin-right: 10px;
+    }
+
+    .search-icon a i:hover
+    {
+        color: #002233; 
+        transform: scale(1.2);
     }
 
     .dark-mode-toggle {
@@ -270,4 +356,10 @@
             document.body.classList.remove("dark-mode");
         }
     });
+
+    function toggleLanguageList() {
+    var languageList = document.getElementById("languageList");
+    languageList.classList.toggle("show");
+  }
+
 </script>

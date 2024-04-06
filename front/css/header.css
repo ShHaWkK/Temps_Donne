@@ -1,376 +1,294 @@
 
-.header-container {
-    font-family: 'Poppins', sans-serif; 
-}
-
-body {
-    display: block;
-    margin: 0px;
-}
-
-.dark-mode {
-    background-color: #434242; 
-    color: #D3D2D2; 
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  background-image: url('./images/moon.png');  
-  background-size: cover;
-  background-repeat: no-repeat;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-  background-image: url('./images/sun.png');  
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-/* Styles pour le bouton de bascule arrondi */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #82CFD8;
-}
-
-/* Styles pour le menu hamburger */
-.hamburger-menu {
-    display: none; /* caché par défaut */
-    font-size: 24px;
-    cursor: pointer;
-}
-
-
-.navigation-menu ul li .nav-item {
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-}
-
-
-/* CSS pour la navigation */
-.navigation-menu ul {
-    list-style: none;
-    padding: 0;
+/* Style général du body et du header */
+body, header {
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.navigation-menu ul li {
-    margin: 0 10px; /* Ajustez l'espacement entre les liens */
-}
-
-.nav-item,
-.nav-item-space {
-    background-color: #00334A;
-    color: white;
-    text-decoration: none;
-    border-radius: 20px;
-    padding: 10px;
-    transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 5px;
-    min-width: 100px; /* Utiliser min-content pour des boutons plus dynamiques */
-    max-width: 160px; /* Limiter la taille maximale */
-}
-
-.nav-item i {
-    margin-right: 8px; /* Espace entre l'icône et le texte */
-}
-
-.nav-item:hover,
-.nav-item.active {
-    background-color: #005f86; 
-}
-
-.logo-container {
-    flex: 1; 
-    margin-left: 20px;
-}
-
-/* .logo-container .logo {
-    max-width: 150px;
-    max-height: 100px;
-    height: auto; 
-    padding: 10px 0;
-} */
-.logo-container .logo {
-    max-width: 150px;
-    max-height: 100px;
-}
-
-.navigation-menu {
-    flex: 3; 
-}
-
-.dark-mode-toggle {
-    flex: 0.5;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    padding: 10px;
-}
-
-.navigation-menu ul li {
-    margin-right: 20px;
-}
-
-.navigation-menu ul li:last-child {
-    margin-right: 0;
-}
-
-
-.navigation-menu ul li .nav-item.active,
-.navigation-menu ul li .nav-item:hover {
-    background-color: #002233; 
-}
-
-.navigation-menu ul li .nav-item,
-.navigation-menu ul li .nav-item-space {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #00334A;
-    color: white;
-    text-decoration: none;
-    border-radius: 20px;
-    padding: 10px; 
-    min-width: min-content; 
-    max-width: 100px; 
-    margin: 5px 10px; 
-    transition: background-color 0.3s;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.navigation-menu ul li .nav-item i,
-.navigation-menu ul li .nav-item-space i {
-    margin-right: 5px; 
-}
-
-
-.search-icon {
-    flex: 0.5;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    padding: 10px;
-    width: 50px; 
-    height: 50px;
-}
-
-.search-icon img {
-    width: 50px; 
-    height: 50px;
-}
-
-/* Media queries  */
-
-@media (max-width: 1300px) {
-    .header-container {
-      /* ajustements pour la mise en page générale du header à 1300px */
-      flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+    padding: 0;
     }
-  
+
+    .dark-mode {
+        background-color: #434242; 
+        color: #D3D2D2; 
+    }
+
+    .header-container {
+        font-family: 'Poppins', sans-serif; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%; 
+        background-color: #82CFD8; 
+    }
+
+    .logo-container {
+        margin-left: 20px;
+    }
+
     .logo-container .logo {
-      /* ajustements pour le logo pour s'assurer qu'il s'adapte bien */
-      max-width: 120px; /* ajustez selon les besoins */
-      margin: 10px 0;
+        max-width: 150px;
+        max-height: 100px;
+        height: auto; 
+        padding: 10px 0;
     }
-  
+
+    /* Boutons de navigation */
+   
     .navigation-menu ul {
-      /* ajustements pour la liste de navigation */
-      justify-content: space-around; /* Espacement égal autour des éléments */
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        flex-wrap: wrap;
     }
-  
+
     .navigation-menu ul li {
-      /* ajustements pour les liens de navigation */
-      margin: 10px; /* ajoutez de l'espace autour des liens */
-    }
-  
-    .nav-item,
-    .nav-item-space {
-      /* ajustements pour les éléments de navigation */
-      padding: 8px 15px; /* Ajustez le padding pour réduire la taille des boutons */
-      font-size: 0.95rem; /* Réduisez la taille de la police pour éviter les débordements */
-    }
-  
-    .search-icon,
-    .dark-mode-toggle {
-      /* ajustements pour l'icône de recherche et le toggle du mode sombre */
-      margin: 10px 0; /* ajoutez de l'espace autour pour éviter le chevauchement */
-    }
-  
-    .search-icon img,
-    .dark-mode-toggle .slider {
-      /* ajustements pour l'icône de recherche et le slider du mode sombre */
-      width: 40px; /* ajustez la taille comme nécessaire */
-      height: 40px;
+        margin-right: 20px;
     }
 
-    .hamburger-menu {
-        display: flex; /* Le menu hamburger est maintenant visible */
-    }
-    .navigation-menu {
-        display: none; /* La navigation est cachée */
-    }
-  }
-
-
-/* Règles CSS pour les tablettes */
-
-@media (max-width: 1228px ) {
-    .nav-item,
-    .nav-item-space {
-        padding: 8px 15px; 
-        font-size: 0.95rem; 
+    .navigation-menu ul li:last-child {
+        margin-right: 0;
     }
 
-    .search-icon,
-    .dark-mode-toggle {
-        margin: 10px 0; 
+    .navigation-menu ul li .nav-item {
+        display: block;
+        padding: 15px;
+        background-color: #00334A;
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        margin-right: 10px;
+        transition: background-color 0.3s;
+        flex-grow: 1;
+        height: 20px;
+        width: 100px;
+        max-width: 100px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: break-word; 
     }
 
-    .search-icon img,
-    .dark-mode-toggle .slider {
-        width: 40px; 
-        height: 40px;
+    .navigation-menu ul li .nav-item-space {
+        display: block;
+        padding: 10px;
+        background-color: #00334A;
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        margin-right: 10px;
+        transition: background-color 0.3s;
+        flex-grow: 1;
+        height: auto;
+        width: 100px;
+        max-width: 100px;
+        text-align: center;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: break-word; 
     }
-}
 
-@media (max-width: 768px) {
+    .navigation-menu ul li .nav-item.active,
+    .navigation-menu ul li .nav-item:hover,
+    .navigation-menu ul li .nav-item-space.active,
+    .navigation-menu ul li .nav-item-space:hover,
+    .popup-button:hover{
+        background-color: #002233; 
+        cursor: pointer;
+    }
 
-
-    .header-container {
-        flex-direction: column;
+    /* Barre de recherche et icône de recherche */
+    .search-container {
+        display: flex;
+        white-space: nowrap;
         align-items: center;
     }
 
-    .navigation-menu ul {
-        flex-direction: column;
+    .search-icon input[type="text"] {
+        border: none;
+        outline: none;
+        padding: 10px;
+        font-size: 16px;
+        border: 3px solid;
+        border-color: black;
+        border-radius: 20px;
+        width: 200px;
+        background-color: #fff;
     }
 
-    .nav-item,
-    .nav-item-space {
-        width: 100%; /* Les éléments de navigation prennent toute la largeur disponible */
-        margin: 5px 0; /* Espacement vertical entre les éléments de navigation */
-    }
-    
-    
-
-    .navigation-menu ul {
-        flex-direction: column; 
+    .search-icon a i {
+        color: black;
+        cursor: pointer;
+        font-size: 24px;
+        margin-right: 10px;
     }
 
-    .navigation-menu ul li,
-    .navigation-menu ul li .nav-item,
-    .navigation-menu ul li .nav-item-space {
-        width: 100%; 
-        margin: 5px 0; 
+    .search-icon a i:hover
+    {
+        color: #002233; 
+        transform: scale(1.2);
     }
 
-    .nav-item,
-    .nav-item-space {
+    /* Styles du bouton de mode sombre */
+    .dark-mode-toggle {
+        margin-right: 20px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 34px;
+        width: 60px;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        background-image: url('../images/sun.png');  
+        background-size: cover;
+        background-repeat: no-repeat;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+        background-image: url('../images/moon.png');  
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    /*Menu déroulant pour les langues */
+    .popup-button{        
+        color: white;
+        padding: 15px;
+        background-color: #00334A;
+        border-radius: 50px;
+        margin-right: 10px;
+        transition: background-color 0.3s;
+        display: flex; 
+        align-items: center; 
         justify-content: center; 
-        padding: 10px; 
-        font-size: 0.9rem; 
+        height: 50px; 
+        width: 50px; 
+        cursor: pointer;
     }
-
-    .search-icon img {
-        width: 30px; 
-        height: 30px;
-    }
-}
-
-
-
-
-@media (max-width: 480px) {
-    .nav-item, .nav-item-space {
-        padding: 8px 16px; 
-        font-size: 0.9rem; 
-    }
-
-    .search-icon a {
-        font-size: 1.5rem; 
-    }
-}
-
-/* Règles CSS pour les mobiles */
-@media (max-width: 480px) { 
     
-    .logo-container .logo {
-        max-width: 120px; 
-        margin-bottom: 0; 
+    .popover-container {
+        position: relative;
+        display: inline-block;
     }
 
-    .navigation-menu ul li .nav-item i,
-    .navigation-menu ul li .nav-item-space i {
-        font-size: 1rem; 
-        margin-right: 5px;
+    .popover-content {
+        position: absolute;
+        z-index: 1;
+        top: 100%; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        display: none;
+        overflow: visible;
+        width: auto; 
+        margin: 0;
+        padding: 10px;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        background: #fff;
+        box-shadow: 0 0 60px rgba(14,42,71,.25);
+        animation: popover .2s ease-in-out;
+        list-style-type: none;
+        text-align: center; 
     }
-}
+
+    .popover-content a {
+        color: black;
+        padding: 12px 12px;
+        text-decoration: none;
+        display: flex;
+    }
+
+    .popover-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .popover-container:hover .popover-content {
+        display: block;
+    }
+
+    /* Styles pour les écrans de petite taille (mobile) */
+    @media screen and (max-width: 768px) {
+        .navigation-menu{
+            display: none;
+        }
+
+        .popover-container.menu {
+            display: block;
+        }
+    }
+
+    /* Styles pour les écrans de taille moyenne (tablettes) */
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+        .navigation-menu{
+            display: none;
+        }
+
+        .popover-container.menu {
+            display: block;
+        }
+    }
+    /* Styles pour les écrans de grande taille (PC) */
+    @media screen and (min-width: 1025px) {
+        .navigation-menu{
+            display: block;
+        }
+
+        .popover-container.menu {
+            display: none;
+        }
+    }
+
 

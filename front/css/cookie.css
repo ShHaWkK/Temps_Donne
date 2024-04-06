@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.cookie-wrapper {
+    position: fixed;
+    bottom: 50px;
+    right: -370px;
+    max-width: 345px;
+    width: 100%;
+    background: #FFFFFF; 
+    color: #000000; 
+    border-radius: 8px;
+    padding: 15px 25px 22px;
+    transition: right 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5); 
+}
+
+.cookie-wrapper.show {
+    right: 20px;
+}
+
+.cookie-wrapper .titre h2 {
+    color: #00334A; 
+}
+
+.cookie-wrapper .data p {
+    color: #434242; 
+}
+
+.data p a {
+    color: #007FA9; 
+}
+
+.data p a:hover {
+    color: #23B5BE; 
+    text-decoration: underline;
+}
+
+.cookie-wrapper .choisir .choix {
+    border: none;
+    padding: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    width: calc(100% / 2 - 10px);
+    transition: all 0.2s ease;
+}
+
+.choisir #acceptBtn {
+    background-color: #82CFD8; 
+    color: #000000;
+}
+
+.choisir #acceptBtn:hover {
+    background-color: #23B5BE; 
+}
+
+#declineBtn {
+    background-color: #D9D9D9; 
+    color: #545454; 
+}
+
+#declineBtn:hover {
+    background-color: #B0C4C4; 
+}

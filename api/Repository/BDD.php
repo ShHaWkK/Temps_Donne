@@ -14,8 +14,8 @@ function connectDB() {
     $host =  $_ENV['MYSQL_HOST'];
     $port = $_ENV['MYSQL_PORT'];
     $dbname =  $_ENV['MYSQL_DATABASE'];
-    $user = $_ENV['MYSQL_USER'];
-    $password = $_ENV['MYSQL_PASSWORD'];
+    $user = $_ENV['MYSQL_ROOT'];
+    $password = $_ENV['MYSQL_ROOT_PASSWORD'];
 
     try {
         $db = new PDO("mysql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password", null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);

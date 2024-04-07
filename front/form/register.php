@@ -354,10 +354,17 @@
 
         if (xhr.status === 200) {
             document.getElementById('header').innerHTML = xhr.responseText;
+            // Ajouter le contenu de header.php et inclure darkmode.js après
+            includeDarkModeScript();
         }
     };
 
     xhr.send();
+
+    function includeDarkModeScript() {
+        var script = document.createElement('script');
+        script.src = "../scripts/darkmode.js";
+        document.body.appendChild(script);
+    }
 </script>
 
-<script src="../script/darkmode.js"></script>

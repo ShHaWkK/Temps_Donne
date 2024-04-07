@@ -3,13 +3,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="../css/header.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 
 <header>
     <div class="header-container">
         <!-- Logo -->
         <div class="logo-container">
-            <img src="./images/logo.png" alt="Logo Au Temps Donné" class="logo">
+            <img src="../images/logo.png" alt="Logo Au Temps Donné" class="logo">
         </div>
 
         <!-- Boutons de navigation -->

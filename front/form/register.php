@@ -10,7 +10,8 @@
 </head>
 
 <body>
-<?php require '../header/header.php'; ?>
+<div id="header"></div>
+<?php include("../header/header.php"); ?>
 
 <div class="form-container">
     <div class="form-content">
@@ -346,3 +347,18 @@
 </body> 
 
 </html>
+
+<script>
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '../header/header.php', true);
+
+    xhr.onload = function() {
+
+        if (xhr.status === 200) {
+            document.getElementById('header').innerHTML = xhr.responseText;
+        }
+    };
+
+    xhr.send();
+</script>

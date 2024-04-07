@@ -67,6 +67,14 @@
                 <a><i class="fa-solid fa-magnifying-glass"></i></a>
             </div>
         </div>
+        
+        <form class="search-icon-mobile">
+            <input type="text"
+            placeholder="Search..">
+                <i class="fa-solid fa-magnifying-glass"></i>
+        </form>
+        <script src="https://kit.fontawesome.com/a692e1c39f.js"
+        crossorigin="anonymous"></script>
 
         <!-- Menu déroulant pour les langues -->
         <div class="popover-container">
@@ -98,7 +106,10 @@
     </div> 
 </header>
 
+<script src="../scripts/darkmode.js"></script>
+
 <script>
+    /*
     // Fonction pour charger le mode à partir de localStorage
     function loadModeFromLocalStorage() {
         var mode = localStorage.getItem('mode');
@@ -127,6 +138,6 @@
             document.body.classList.remove("dark-mode");
             localStorage.setItem('mode', 'light'); 
         }
-    });
+    });*/
 </script>
 

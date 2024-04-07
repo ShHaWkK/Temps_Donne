@@ -342,10 +342,7 @@
 
     </div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
-
-    <script src="script.js"></script>
 </body> 
-
 </html>
 
 <script>
@@ -362,3 +359,5 @@
 
     xhr.send();
 </script>
+
+<script src="../script/darkmode.js"></script>

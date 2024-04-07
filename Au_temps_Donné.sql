@@ -385,3 +385,27 @@ CREATE TABLE Inscriptions (
     FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
     FOREIGN KEY (ID_Evenement) REFERENCES Evenements(ID_Evenement)
 );
+
+/*Rajouter pour les entrepôts */
+CREATE TABLE Circuits (
+    ID_Circuit INT AUTO_INCREMENT PRIMARY KEY,
+    Date_Circuit DATE NOT NULL,
+    Itineraire TEXT,
+    ID_Chauffeur INT,
+    FOREIGN KEY (ID_Chauffeur) REFERENCES Utilisateurs(ID_Utilisateur)
+);
+
+CREATE TABLE PlanRoutes (
+    ID_Plan INT AUTO_INCREMENT PRIMARY KEY,
+    Description TEXT,
+    Date_Plan DATE,
+    Itineraire TEXT
+);
+
+CREATE TABLE Inventaire (
+    ID_Inventaire INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Stock INT,
+    Quantite_Actuelle INT,
+    Date_Mise_a_Jour DATE,
+    FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
+);

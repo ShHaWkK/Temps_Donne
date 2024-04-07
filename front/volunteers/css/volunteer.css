@@ -1,0 +1,174 @@
+/* volunteer.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bebas-neue {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem; /* Légèrement agrandi */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #82CFD8;
+    color: #00334A;
+}
+
+.navbar-left, .navbar-center, .navbar-right {
+    flex: 1;
+}
+
+.menu-toggle {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-container input {
+    padding: 5px;
+    font-size: 1.6vh;
+}
+
+.search-container button {
+    padding: 5px;
+    font-size: 1.6vh;
+}
+
+.navbar-right .icon-container {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.icon {
+    font-size: 2.4vh;
+    text-decoration: none;
+    color: #000000;
+    margin: 0 10px;
+}
+
+.header-title {
+    position: absolute;
+    right: 1vh;
+    top: 1vh;
+}
+
+.sidebar {
+    background-color: #82CFD8;
+    width: 15vw; 
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 1vh;
+    transition: transform 0.3s ease, width 0.3s ease; /* Smooth transition for zoom and width */
+    z-index: 1000; /* Ensure the sidebar stays on top of other elements */
+}
+
+/* Sidebar zoom effect on hover */
+.sidebar:hover {
+    transform: scale(1.05); /* Scale up the sidebar to 105% of its size */
+}
+.profile-section {
+    background-color: #82CFD8;
+    text-align: center;
+    padding: 2vh 0;
+}
+
+.profile-section .avatar {
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    width: 10vw; 
+    height: 10vw; 
+    margin: 0 auto;
+    padding: 0.5vh;
+}
+
+.profile-section h2 {
+    background-color: #82CFD8;
+    color: #000000;
+    font-size: 2.5vh; 
+    margin: 0;
+    padding: 1vh 0;
+}
+
+.sidebar-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-nav .nav-item {
+    background-color: #82CFD8;
+    color: #000000;
+    padding: 2vh 2vw;
+    text-decoration: none;
+    display: block;
+    border-bottom: 0.1vh solid #000000; 
+}
+
+.sidebar-nav .nav-item:hover {
+    background-color: #23B5BE;
+    color: #00334A;
+}
+
+.sidebar-nav i {
+    font-size: 2.4vh;
+    margin-right: 1vw; 
+}
+
+.sidebar-footer .nav-item {
+    background-color: #d01d1d;
+    color: #000000;
+    padding: 2vh 2vw;
+    text-decoration: none;
+    display: block;
+    border-bottom: 0.1vh solid #000000; 
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 25vw; /* Increase the sidebar width on smaller screens */
+    }
+
+    .sidebar:hover {
+        transform: none; /* Disable zoom effect on smaller screens if it disrupts the layout */
+    }
+
+    .profile-section .avatar {
+        width: 8vw; 
+        height: 8vw;
+    }
+
+    .sidebar-nav .nav-item, .sidebar-footer .nav-item {
+        padding: 2vh 5%; /* Adjust padding to be more responsive */
+    }
+
+    /* Additional styles to adjust icon sizes and other elements if needed */
+    .icon {
+        font-size: 3.6vh;
+    }
+
+    .header-title {
+        right: 2vh;
+        top: 2vh;
+    }
+
+    .search-container input, .search-container button {
+        padding: 5px;
+        font-size: 2.4vh;
+    }
+
+    .menu-toggle {
+        padding: 15px;
+    }
+}

@@ -3,10 +3,15 @@
         input,
         select,
         button,
-        textarea {
-            font-family: 'Open Sans', sans-serif;
+        textarea,
+        label {
+            font-family: 'Poppins', 'sans-serif';
         }
-
+        /*
+        .h1{
+            font-family: 'BEBAS NEUE';
+        }
+        */
         .form-container {
             max-width: 800px;
             margin: auto;
@@ -27,6 +32,17 @@
             margin-bottom: 2rem;
         }
 
+        .line{
+            display: flex;
+            flex-direction: row;
+        }
+
+        .col{
+            display: flex;
+            flex-direction: column;
+            margin-right: 30px;
+        }
+
         /* Form inputs */
         input[type="text"],
         input[type="date"],
@@ -35,11 +51,15 @@
         input[type="number"],
         select,
         textarea {
-            width: 100%;
+            border: none;
+            outline: none;
             padding: 10px;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            font-size: 16px;
+            max-width: 50ch;
+            resize: none;
+            border-radius: 20px;
+            width: 200px;
+            background-color: #D9D9D9;
         }
 
         /* Radio buttons and checkboxes */
@@ -98,7 +118,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background 0.3s;
+            /*transition: background 0.3s;*/
         }
 
         button[type="submit"]:hover {

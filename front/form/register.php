@@ -1,146 +1,335 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <title>Inscription Bénévole</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="../css/register.css">
+    <title>Inscription Bénévole</title>
 </head>
 
 <body>
+<?php require '../header/header.php'; ?>
+
 <div class="form-container">
-<form id="volunteerRegistrationForm" action="register_benevole.php" method="post" enctype="multipart/form-data">        <h2 class="form-title">JE DEVIENS BÉNÉVOLE</h2>
-        </legend>
-        <p class="form-description">Le bénévolat, comme la solidarité, peuvent prendre diverses formes! Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.</p>            
-            
-        <fieldset>
-            <legend>Informations Personnelles</legend>
-            <!-- Informations Personnelles -->
-            <div class="form-group">
-                <label>Genre: <span class="mandatory">*</span></label>
-                <div class="radio-group">
-                    <label><input type="radio" name="genre" value="homme" required> Homme</label>
-                    <label><input type="radio" name="genre" value="femme" required> Femme</label>
-                    <label><input type="radio" name="genre" value="autre" required> Autre</label>
-                </div>
+    <div class="form-content">
+        <h1> Je deviens Bénévole </h1>
+        <p>Le bénévolat, comme la solidarité, peuvent prendre diverses formes !
+        Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.
+        <h2> Informations personnelles </h2>
+        <h3> Genre: * </h3>
+        <div class="line"> 
+            <label><input type="radio" name="genre" value="homme" required> Homme</label>
+            <label><input type="radio" name="genre" value="femme" required> Femme</label>
+            <label><input type="radio" name="genre" value="autre" required> Autre</label>
+        </div>
+        
+        <div class="line">
+            <div class="col">
+            <label for="nom"> <h3>Nom: *</h3></label>
+                <input type="text" id="nom" name="nom" required>
             </div>
+            <div class="col">
+                <label for="prenom"> <h3>Prénom: *</h3></label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+        </div> 
 
+        <label for="date_naissance"><h3> Date de naissance: * </h3></label>
+        <input type="date" id="date_naissance" name="date_naissance" required>  
 
-            <label for="nom">Nom:</label>
-            <input type="text" id="nom" name="nom" required>
+        <label for="email"> <h3> Adresse mail: * </h3> </label>
+        <input type="email" id="email" name="email" required>
+        
+        <!-- TODO vérifier si l'adresse mail existe-->
+        <?php
+        ?> 
 
-            <label for="prenom">Prénom:</label>
-            <input type="text" id="prenom" name="prenom" required>
-
-            <label for="date_naissance">Date de naissance:</label>
-            <input type="date" id="date_naissance" name="date_naissance" required>
-
-            <label for="email">Adresse mail:</label>
-            <input type="email" id="email" name="email" required>
-            <?php
-
-            $sqlEmailCheck = "SELECT COUNT(*) FROM utilisateurs WHERE Email = :email";
-            $stmtEmailCheck = $conn->prepare($sqlEmailCheck);
-            $stmtEmailCheck->bindParam(':email', $email);
-            $stmtEmailCheck->execute();
-            
-            if ($stmtEmailCheck->fetchColumn() > 0) {
-                echo "Un utilisateur avec cet email existe déjà.";
-
-            } else {
-                echo "Cet email est disponible.";
-            }
-             
-            ?>
-
-            <label for="telephone">Numéro de téléphone:</label>
-            <input type="tel" id="telephone" name="telephone" required>
-            <small class="format-info" color="red" >Format: 0123456789</small>
+        <label for="telephone"><h3> Numéro de téléphone: * </h3></label>
+        <input type="tel" id="telephone" name="telephone" required>
+        <small class="format-info" color="red" >Format: 0123456789</small>
         </fieldset>
 
-            <label for="nationalite">Nationalité:</label>
-            <input type="text" id="nationalite" name="nationalite" required>
+        <div class="line">
+            <div class="col">
+                <label for="nationalite"><h3> Nationalité: * </h3> </label>
+                <select id="nationalite" name="nationalite" required>
+                    <option value="AF">Afghanistan</option>
+                    <option value="ZA">Afrique du Sud</option>
+                    <option value="AL">Albanie</option>
+                    <option value="DZ">Algérie</option>
+                    <option value="DE">Allemagne</option>
+                    <option value="AD">Andorre</option>
+                    <option value="AO">Angola</option>
+                    <option value="AI">Anguilla</option>
+                    <option value="AQ">Antarctique</option>
+                    <option value="AG">Antigua-et-Barbuda</option>
+                    <option value="SA">Arabie Saoudite</option>
+                    <option value="AR">Argentine</option>
+                    <option value="AM">Arménie</option>
+                    <option value="AW">Aruba</option>
+                    <option value="AU">Australie</option>
+                    <option value="AT">Autriche</option>
+                    <option value="AZ">Azerbaïdjan</option>
+                    <option value="BS">Bahamas</option>
+                    <option value="BH">Bahreïn</option>
+                    <option value="BD">Bangladesh</option>
+                    <option value="BB">Barbade</option>
+                    <option value="BY">Biélorussie</option>
+                    <option value="BE">Belgique</option>
+                    <option value="BZ">Belize</option>
+                    <option value="BJ">Bénin</option>
+                    <option value="BM">Bermudes</option>
+                    <option value="BT">Bhoutan</option>
+                    <option value="BO">Bolivie</option>
+                    <option value="BA">Bosnie-Herzégovine</option>
+                    <option value="BW">Botswana</option>
+                    <option value="BR">Brésil</option>
+                    <option value="BN">Brunéi Darussalam</option>
+                    <option value="BG">Bulgarie</option>
+                    <option value="BF">Burkina Faso</option>
+                    <option value="BI">Burundi</option>
+                    <option value="KH">Cambodge</option>
+                    <option value="CM">Cameroun</option>
+                    <option value="CA">Canada</option>
+                    <option value="CV">Cap-Vert</option>
+                    <option value="CL">Chili</option>
+                    <option value="CN">Chine</option>
+                    <option value="CY">Chypre</option>
+                    <option value="CO">Colombie</option>
+                    <option value="KM">Comores</option>
+                    <option value="CG">Congo</option>
+                    <option value="KP">Corée du Nord</option>
+                    <option value="KR">Corée du Sud</option>
+                    <option value="CR">Costa Rica</option>
+                    <option value="CI">Côte d'Ivoire</option>
+                    <option value="HR">Croatie</option>
+                    <option value="CU">Cuba</option>
+                    <option value="DK">Danemark</option>
+                    <option value="DJ">Djibouti</option>
+                    <option value="DM">Dominique</option>
+                    <option value="EG">Égypte</option>
+                    <option value="SV">El Salvador</option>
+                    <option value="AE">Émirats arabes unis</option>
+                    <option value="EC">Équateur</option>
+                    <option value="ER">Érythrée</option>
+                    <option value="ES">Espagne</option>
+                    <option value="EE">Estonie</option>
+                    <option value="US">États-Unis</option>
+                    <option value="ET">Éthiopie</option>
+                    <option value="FK">Îles Falkland</option>
+                    <option value="FO">Îles Féroé</option>
+                    <option value="FJ">Fidji</option>
+                    <option value="FI">Finlande</option>
+                    <option value="FR" selected>France</option>
+                    <option value="GA">Gabon</option>
+                    <option value="GM">Gambie</option>
+                    <option value="GE">Géorgie</option>
+                    <option value="GS">Géorgie du Sud et îles Sandwich du Sud</option>
+                    <option value="GH">Ghana</option>
+                    <option value="GI">Gibraltar</option>
+                    <option value="GR">Grèce</option>
+                    <option value="GD">Grenade</option>
+                    <option value="GL">Groenland</option>
+                    <option value="GP">Guadeloupe</option>
+                    <option value="GU">Guam</option>
+                    <option value="GT">Guatemala</option>
+                    <option value="GG">Guernesey</option>
+                    <option value="GN">Guinée</option>
+                    <option value="GQ">Guinée équatoriale</option>
+                    <option value="GW">Guinée-Bissau</option>
+                    <option value="GY">Guyana</option>
+                    <option value="GF">Guyane française</option>
+                    <option value="HT">Haïti</option>
+                    <option value="HN">Honduras</option>
+                    <option value="HU">Hongrie</option>
+                    <option value="BV">Île Bouvet</option>
+                    <option value="CX">Île Christmas</option>
+                    <option value="AC">Île de l'Ascension</option>
+                    <option value="IM">Île de Man</option>
+                    <option value="NF">Île Norfolk</option>
+                    <option value="AX">Îles Åland</option>
+                    <option value="KY">Îles Caïmans</option>
+                    <option value="CC">Îles Cocos</option>
+                    <option value="CK">Îles Cook</option>
+                    <option value="UM">Îles mineures éloignées des États-Unis</option>
+                    <option value="SB">Îles Salomon</option>
+                    <option value="TC">Îles Turques-et-Caïques</option>
+                    <option value="VG">Îles Vierges britanniques</option>
+                    <option value="VI">Îles Vierges des États-Unis</option>
+                    <option value="IN">Inde</option>
+                    <option value="ID">Indonésie</option>
+                    <option value="IR">Iran</option>
+                    <option value="IQ">Iraq</option>
+                    <option value="IE">Irlande</option>
+                    <option value="IS">Islande</option>
+                    <option value="IL">Israël</option>
+                    <option value="IT">Italie</option>
+                    <option value="JM">Jamaïque</option>
+                    <option value="JP">Japon</option>
+                    <option value="JE">Jersey</option>
+                    <option value="JO">Jordanie</option>
+                    <option value="KZ">Kazakhstan</option>
+                    <option value="KE">Kenya</option>
+                    <option value="KG">Kirghizistan</option>
+                    <option value="KI">Kiribati</option>
+                    <option value="KW">Koweït</option>
+                    <option value="LA">Laos</option>
+                    <option value="LS">Lesotho</option>
+                    <option value="LV">Lettonie</option>
+                    <option value="LB">Liban</option>
+                    <option value="LR">Libéria</option>
+                    <option value="LY">Libye</option>
+                    <option value="LI">Liechtenstein</option>
+                    <option value="LT">Lituanie</option>
+                    <option value="LU">Luxembourg</option>
+                    <option value="MK">Macédoine</option>
+                    <option value="MG">Madagascar</option>
+                    <option value="MY">Malaisie</option>
+                    <option value="MW">Malawi</option>
+                    <option value="MV">Maldives</option>
+                    <option value="ML">Mali</option>
+                    <option value="MT">Malte</option>
+                    <option value="MP">Îles Mariannes du Nord</option>
+                    <option value="MA">Maroc</option>
+                    <option value="MH">Îles Marshall</option>
+                    <option value="MQ">Martinique</option>
+                    <option value="MU">Maurice</option>
+                    <option value="MR">Mauritanie</option>
+                    <option value="YT">Mayotte</option>
+                    <option value="MX">Mexique</option>
+                    <option value="FM">Micronésie</option>
+                    <option value="MD">Moldavie</option>
+                    <option value="MC">Monaco</option>
+                    <option value="MN">Mongolie</option>
+                    <option value="MS">Montserrat</option>
+                    <option value="MZ">Mozambique</option>
+                    <option value="MM">Myanmar</option>
+                    <option value="NA">Namibie</option>
+                    <option value="NR">Nauru</option>
+                    <option value="NP">Népal</option>
+                    <option value="NI">Nicaragua</option>
+                    <option value="NE">Niger</option>
+                    <option value="NG">Nigéria</option>
+                    <option value="NU">Niue</option>
+                    <option value="NO">Norvège</option>
+                    <option value="NC">Nouvelle-Calédonie</option>
+                    <option value="NZ">Nouvelle-Zélande</option>
+                    <option value="OM">Oman</option>
+                    <option value="UG">Ouganda</option>
+                    <option value="UZ">Ouzbékistan</option>
+                    <option value="PK">Pakistan</option>
+                    <option value="PW">Palaos</option>
+                    <option value="PS">Palestine</option>
+                    <option value="PA">Panama</option>
+                    <option value="PG">Papouasie-Nouvelle-Guinée</option>
+                    <option value="PY">Paraguay</option>
+                    <option value="NL">Pays-Bas</option>
+                    <option value="PE">Pérou</option>
+                    <option value="PH">Philippines</option>
+                    <option value="PN">Îles Pitcairn</option>
+                    <option value="PL">Pologne</option>
+                    <option value="PF">Polynésie française</option>
+                    <option value="PR">Porto Rico</option>
+                    <option value="PT">Portugal</option>
+                    <option value="QA">Qatar</option>
+                    <option value="HK">R.A.S. chinoise de Hong Kong</option>
+                    <option value="MO">R.A.S. chinoise de Macao</option>
+                    <option value="CF">République centrafricaine</option>
+                    <option value="CD">République démocratique du Congo</option>
+                    <option value="DO">République dominicaine</option>
+                    <option value="CZ">République tchèque</option>
+                    <option value="RE">Réunion</option>
+                    <option value="RO">Roumanie</option>
+                    <option value="GB">Royaume-Uni</option>
+                    <option value="RU">Russie</option>
+                    <option value="RW">Rwanda</option>
+                    <option value="EH">Sahara occidental</option>
+                    <option value="BL">Saint-Barthélémy</option>
+                    <option value="SH">Sainte-Hélène</option>
+                    <option value="KN">Saint-Kitts-et-Nevis</option>
+                    <option value="LC">Sainte-Lucie</option>
+                    <option value="SM">Saint-Marin</option>
+                    <option value="MF">Saint-Martin</option>
+                    <option value="PM">Saint-Pierre-et-Miquelon</option>
+                    <option value="VC">Saint-Vincent-et-les Grenadines</option>
+                    <option value="WS">Samoa</option>
+                    <option value="AS">Samoa américaines</option>
+                    <option value="ST">Sao Tomé-et-Principe</option>
+                    <option value="SN">Sénégal</option>
+                    <option value="RS">Serbie</option>
+                    <option value="SC">Seychelles</option>
+                    <option value="SL">Sierra Leone</option>
+                    <option value="SG">Singapour</option>
+                    <option value="SK">Slovaquie</option>
+                    <option value="SI">Slovénie</option>
+                    <option value="SO">Somalie</option>
+                    <option value="SD">Soudan</option>
+                    <option value="SS">Soudan du Sud</option>
+                    <option value="LK">Sri Lanka</option>
+                    <option value="SE">Suède</option>
+                    <option value="CH">Suisse</option>
+                    <option value="SR">Suriname</option>
+                    <option value="SJ">Svalbard et Île Jan Mayen</option>
+                    <option value="SZ">Swaziland</option>
+                    <option value="SY">Syrie</option>
+                    <option value="TJ">Tadjikistan</option>
+                    <option value="TW">Taïwan</option>
+                    <option value="TZ">Tanzanie</option>
+                    <option value="TD">Tchad</option>
+                    <option value="TF">Terres australes françaises</option>
+                    <option value="IO">Territoire britannique de l'océan Indien</option>
+                    <option value="PS">Territoire palestinien</option>
+                    <option value="TH">Thaïlande</option>
+                    <option value="TL">Timor oriental</option>
+                    <option value="TG">Togo</option>
+                    <option value="TK">Tokelau</option>
+                    <option value="TO">Tonga</option>
+                    <option value="TT">Trinité-et-Tobago</option>
+                    <option value="TN">Tunisie</option>
+                    <option value="TM">Turkménistan</option>
+                    <option value="TR">Turquie</option>
+                    <option value="TV">Tuvalu</option>
+                    <option value="UA">Ukraine</option>
+                    <option value="UY">Uruguay</option>
+                    <option value="VU">Vanuatu</option>
+                    <option value="VE">Venezuela</option>
+                    <option value="VN">Viet Nam</option>
+                    <option value="WF">Wallis-et-Futuna</option>
+                    <option value="YE">Yémen</option>
+                    <option value="ZM">Zambie</option>
+                    <option value="ZW">Zimbabwe</option>
+                </select>
+    
+            </div>
+            <div class="col">
+                <label for="langues"> <h3>Langues: *</h3><span class="required" multiple required></span></label>
+                <select id="langues" name="langues[]" >
+                    <?php
+                        $langues = array(
+                            "Français", "Anglais", "Espagnol", "Allemand", "Italien", "Arabe", "Chinois", "Japonais", "Russe", 
+                            "Portugais", "Hindi", "Bengali", "Punjabi", "Javanais", "Telegu", "Marathi", "Tamil", "Turc", 
+                            "Vietnamien", "Coréen", "Thaï", "Polonais", "Ukrainien", "Roumain", "Grec", "Tchèque", "Hongrois", 
+                            "Bulgare", "Danois", "Finnois", "Norvégien", "Suédois", "Néerlandais", "Géorgien", "Arménien", 
+                            "Albanais", "Serbe", "Croate", "Bosniaque", "Macédonien", "Monténégrin", "Slovène", "Slovaque", 
+                            "Lituanien", "Letton", "Estonien", "Biélorusse", "Arménien", "Azerbaïdjanais", "Kazakh", "Ouzbek", 
+                            "Tadjik", "Turkmène", "Kirghiz", "Mongol", "Tibétain", "Népalais", "Bhoutanais", "Sri Lankais", 
+                            "Maldivien", "Indonésien", "Malais", "Philippin", "Singapourien", "Thaïlandais", "Birman", "Laotien", 
+                            "Cambodgien", "Vietnamien"
+                        );
+                        foreach ($langues as $langue) {
+                            echo "<option value=\"$langue\">$langue</option>";
+                        }
+                    ?>
+                </select>
+            </div>        <!-- end of col -->
+        </div><!-- end of line -->
 
-            <div class="input-group">
-                <label for="langues">Langues: <span class="required">*</span></label>
-                <select id="langues" name="langues[]" multiple required>
-                <option value="francais">Français</option>
-                <option value="anglais">Anglais</option>
-                <option value="espagnol">Espagnol</option>
-                <option value="allemand">Allemand</option>
-                <option value="italien">Italien</option>
-                <option value="arabe">Arabe</option>
-                <option value="chinois">Chinois</option>
-                <option value="japonais">Japonais</option>
-                <option value="russe">Russe</option>
-                <option value="portugais">Portugais</option>
-                <option value="hindi">Hindi</option>
-                <option value="bengali">Bengali</option>
-                <option value="punjabi">Punjabi</option>
-                <option value="javanais">Javanais</option>
-                <option value="telegu">Telegu</option>
-                <option value="marathi">Marathi</option>
-                <option value="tamil">Tamil</option>
-                <option value="turc">Turc</option>
-                <option value="vietnamien">Vietnamien</option>
-                <option value="coréen">Coréen</option>
-                <option value="thaï">Thaï</option>
-                <option value="polonais">Polonais</option>
-                <option value="ukrainien">Ukrainien</option>
-                <option value="roumain">Roumain</option>
-                <option value="grec">Grec</option>
-                <option value="tchèque">Tchèque</option>
-                <option value="hongrois">Hongrois</option>
-                <option value="bulgare">Bulgare</option>
-                <option value="danois">Danois</option>
-                <option value="finnois">Finnois</option>
-                <option value="norvégien">Norvégien</option>
-                <option value="suédois">Suédois</option>
-                <option value="néerlandais">Néerlandais</option>
-                <option value="portugais">Portugais</option>
-                <option value="géorgien">Géorgien</option>
-                <option value="arménien">Arménien</option>
-                <option value="albanais">Albanais</option>
-                <option value="serbe">Serbe</option>
-                <option value="croate">Croate</option>
-                <option value="bosniaque">Bosniaque</option>
-                <option value="macédonien">Macédonien</option>
-                <option value="monténégrin">Monténégrin</option>
-                <option value="slovène">Slovène</option>
-                <option value="slovaque">Slovaque</option>
-                <option value="lituanien">Lituanien</option>
-                <option value="letton">Letton</option>
-                <option value="estonien">Estonien</option>
-                <option value="biélorusse">Biélorusse</option>
-                <option value="arménien">Arménien</option>
-                <option value="azerbaïdjanais">Azerbaïdjanais</option>
-                <option value="kazakh">Kazakh</option>
-                <option value="ouzbek">Ouzbek</option>
-                <option value="tadjik">Tadjik</option>
-                <option value="turkmène">Turkmène</option>
-                <option value="kirghiz">Kirghiz</option>
-                <option value="mongol">Mongol</option>
-                <option value="tibétain">Tibétain</option>
-                <option value="nepali">Népalais</option>
-                <option value="bhoutanais">Bhoutanais</option>
-                <option value="sri_lankais">Sri Lankais</option>
-                <option value="maldivien">Maldivien</option>
-                <option value="indonésien">Indonésien</option>
-                <option value="malais">Malais</option>
-                <option value="philippin">Philippin</option>
-                <option value="singapourien">Singapourien</option>
-                <option value="thaïlandais">Thaïlandais</option>
-                <option value="birman">Birman</option>
-                <option value="laotien">Laotien</option>
-                <option value="cambodgien">Cambodgien</option>
-                <option value="vietnamien">Vietnamien</option>
-            </select>
+        <h3> Adresse: * </h3>
+        <textarea id="name" name="name" rows="1" cols="1"></textarea>
 
-            <label for="adresse">Adresse:</label>
-            <input type="text" id="adresse" name="adresse" required>
-
-            <label for="situation_personnelle">Situation personnelle:</label>
+        <label for="situation_personnelle"> <h3> Situation personnelle: *</h3> </label>
             <select id="situation_personnelle" name="situation_personnelle" required>
                 <option value="etudiant">Étudiant</option>
                 <option value="employe">Employé</option>
@@ -150,160 +339,10 @@
 
             </select>
 
+    </div> <!-- end of form-content -->
+</div> <!-- end of form-container -->
 
-        <fieldset>
-            <label for="situation_familiale">Situation familiale:</label>
+    <script src="script.js"></script>
+</body> 
 
-            <select id="situation_familiale" name="situation_familiale" required>
-                <option value="celibataire">Célibataire</option>
-                <option value="marie">Marié(e)</option>
-                <option value="divorce">Divorcé(e)</option>
-                <option value="veuf">Veuf/Veuve</option>
-                <option value="en_couple">En couple</option>
-                <option value="separe">Séparé(e)</option>
-            </select>
-
-            <label for="enfants">Nombre d'enfants:</label>
-            <input type="number" id="enfants" name="enfants" required>
-        </fieldset>
-
-            <label for="emploi">Emploi:</label>
-            <input type="text" id="emploi" name="emploi" required>
-    
-
-            <!-- Disponibilités -->
-                <fieldset>
-                    <legend>Disponibilités:</legend>
-                        <div class="availability-options">
-                            <label><input type="radio" name="availability" value="regular"> Disponibilité régulière</label>
-                            <label><input type="radio" name="availability" value="punctual"> Disponibilité ponctuelle</label>
-                        </div>
-                        <label><input type="checkbox" name="disponibilite[]" value="lundi"> Lundi</label>
-                        <label><input type="checkbox" name="disponibilite[]" value="mardi"> Mardi</label>
-                        <label><input type="checkbox" name="disponibilite[]" value="mercredi"> Mercredi</label>
-                        <label><input type="checkbox" name="disponibilite[]" value="jeudi"> Jeudi</label>
-                        <label><input type="checkbox" name="disponibilite[]" value="vendredi"> Vendredi</label>
-                        <label><input type="checkbox" name="disponibilite[]" value="samedi"> Samedi</label>
-                        <label><input type="checkbox" name="disponibilite[]" value="dimanche"> Dimanche</label>
-                </fieldset>
-
-                 <!-- Mobility -->
-                <section class="availability-section">
-                    <h3>Disponibilités et Domaine d'Intervention:</h3>
-                    <label for="type_permis">Type de Permis :</label>
-                        <select id="type_permis" name="type_permis">
-                            <option value="aucun">Aucun</option>
-                            <option value="permisB">Permis B</option>
-                            <option value="permisPoidsLourd">Permis Poids Lourd</option>
-                            <option value="caces">CACES</option>
-                        </select>
-                </section>
-
-                <!-- Services -->
-
-                <div class="input-group">
-                    <label>Services:</label>
-                    <select id="services" name="services">
-                        <option value="aideAlimentaire">Aide Alimentaire</option>
-                        <option value="aideVestimentaire">Aide Vestimentaire</option>
-                        <option value="aideLogement">Aide au Logement</option>
-                        <option value="aideScolaire">Aide Scolaire</option>
-                        <option value="aideAdministrative">Aide Administrative</option>
-                        <option value="aideJuridique">Aide Juridique</option>
-                        <option value="aideMedicale">Aide Médicale</option>
-                        <option value="aideEmploi">Aide à l'Emploi</option>
-                        <option value="aideHandicap">Aide Handicap</option>
-                        <option value="aidePersonnesAgees">Aide aux Personnes Âgées</option>
-                        <option value="aideEnfants">Aide aux Enfants</option>
-                        <option value="aideAnimaux">Aide aux Animaux</option>
-                        <option value="aideEnvironnement">Aide à l'Environnement</option>
-                        <option value="aideCulture">Aide à la Culture</option>
-                        <option value="aideSport">Aide au Sport</option>
-                        <option value="aidechauffeur">Aide Chauffeur</option>
-                        <option value="aiderecolte">Aide à la Récolte</option>
-                        <option value="aideLoisirs">Aide aux Loisirs</option>
-                        <option value="aideVoyages">Aide aux Voyages</option>
-                        <option value="aideUrgence">Aide d'Urgence</option>
-                    </select>
-                </div>
-
-
-            <!-- Photo de profil -->
-
-            <section class="photo-section">
-                <label for="photo">Photo de profil:</label>
-                <input type="file" id="photo_profil" name="photo_profil" required>
-            </section>
-            <!-- Terms and newsletter -->
-
-            <div class="form-group terms">
-                <label><input type="checkbox" name="terms" required> J'accepte les termes et mentions légales</label>
-                </div>
-                <div class="form-group newsletter">
-                    <label><input type="checkbox" name="newsletter"> Je souhaite recevoir des informations de la part de "Au temps donné"</label>
-                </div>
-            </div>
-
-            <button type="submit" name="submit" value="Bénévole">Valider</button>
-    </form>
-
-    <!-- Insérez vos scripts JavaScript ici pour la validation côté client -->
-    <script>
-        document.getElementById('formInscription').addEventListener('submit', function(e) {
-            var errors = [];
-            var nom = document.getElementById('nom').value;
-            var prenom = document.getElementById('prenom').value;
-            var email = document.getElementById('email').value;
-            var telephone = document.getElementById('telephone').value;
-            var nationalite = document.getElementById('nationalite').value;
-            var adresse = document.getElementById('adresse').value;
-
-            if (nom.length < 3) {
-                errors.push('Le nom doit contenir au moins 3 caractères.');
-            }
-
-            if (prenom.length < 3) {
-                errors.push('Le prénom doit contenir au moins 3 caractères.');
-            }
-
-            if (email.indexOf('@') === -1) {
-                errors.push('Adresse e-mail invalide.');
-            }
-
-            if (telephone.length < 10) {
-                errors.push('Numéro de téléphone invalide.');
-            }
-
-            if (nationalite.length < 3) {
-                errors.push('Nationalité invalide.');
-            }
-
-            if (adresse.length < 5) {
-                errors.push('Adresse invalide.');
-            }
-
-            if (errors.length > 0) {
-                e.preventDefault();
-                alert(errors.join('\n'));
-            }
-        });
-
-       // * => obligatoire à remplir 
-       document.getElementById('volunteerRegistrationForm').addEventListener('submit', function(e) {
-            var inputs = document.querySelectorAll('input, select, textarea');
-            var errors = [];
-
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].hasAttribute('required') && inputs[i].value === '') {
-                    errors.push('Le champ ' + inputs[i].name + ' est obligatoire.');
-                }
-            }
-
-            if (errors.length > 0) {
-                e.preventDefault();
-                alert(errors.join('\n'));
-            }
-        });
-    </script>
-</body>
 </html>

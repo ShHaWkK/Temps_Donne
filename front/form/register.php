@@ -9,8 +9,10 @@
     <title>Inscription Bénévole</title>
 </head>
 
+<?php 
+require_once '../header/header.php'; 
+?>
 <body>
-<?php require '../header/header.php'; ?>
 
 <div class="form-container">
     <div class="form-content">

@@ -156,6 +156,7 @@
         display: inline-block;
         width: 60px;
         height: 34px;
+        margin-right: 5px;
     }
 
     .switch input {
@@ -178,7 +179,7 @@
         transition: .4s;
     }
 
-    .slider:before {
+    .slider.round.dark:before {
         position: absolute;
         content: "";
         height: 26px;
@@ -193,19 +194,41 @@
         transition: .4s;
     }
 
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        background-size: cover;
+        background-repeat: no-repeat;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
     input:checked + .slider {
-        background-color: #2196F3;
+        background-color: #00334A;
     }
 
     input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
+        box-shadow: 0 0 1px #00334A;
+    }
+
+    input:checked + .slider.round.dark:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+        background-image: url('../images/moon.png');  
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     input:checked + .slider:before {
         -webkit-transform: translateX(26px);
         -ms-transform: translateX(26px);
-        transform: translateX(26px);
-        background-image: url('../images/moon.png');  
+        transform: translateX(26px); 
         background-size: cover;
         background-repeat: no-repeat;
     }

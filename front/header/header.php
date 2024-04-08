@@ -98,9 +98,9 @@
 
         <!-- Bouton de mode sombre -->
         <div class="dark-mode-toggle">
-            <label class="switch">
+            <label class="switch darkmode">
                 <input type="checkbox" id="darkModeToggle">
-                <span class="slider round"></span>
+                <span class="slider round dark"></span>
             </label>
         </div>
     </div> 

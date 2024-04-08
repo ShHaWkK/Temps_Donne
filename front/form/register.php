@@ -21,9 +21,9 @@
         <h2> Informations personnelles </h2>
         <h3> Genre: * </h3>
         <div class="line"> 
-            <label><input type="radio" name="genre" value="homme" required> Homme</label>
-            <label><input type="radio" name="genre" value="femme" required> Femme</label>
-            <label><input type="radio" name="genre" value="autre" required> Autre</label>
+            <label class="radio-label"> Homme <input type="radio" name="genre" value="homme" required> </label>
+            <label class="radio-label"> Femme <input type="radio" name="genre" value="femme" required> </label>
+            <label class="radio-label"> Autre <input type="radio" name="genre" value="autre" required> </label>
         </div>
         
         <div class="line">
@@ -336,10 +336,100 @@
                 <option value="employe">Employé</option>
                 <option value="chomeur">Chômeur</option>
                 <option value="retraite">Retraité</option>
-                <!-- Ajoutez d'autres options de situation personnelle ici -->
-
+                <!-- Ajoutez d'autres options de situation personnelle ici -->  
             </select>
 
+        <h2> Disponibilités et domaine d'intervention </h2>
+        <h3>Mobilité: *</h3>
+        <div class="col">
+            <div class="line permis">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <a>Permis B</a>
+            </div>
+            <div class="line permis">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <a>Permis Poids Lourd</a>
+                </div>
+            <div class="line permis">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <a>CACES</a>
+                </div>
+        </div>
+        <h3>Justificatif: *</h3>
+        <form action="upload.php" method="post" enctype="multipart/form-data" required>
+            <label for="pdfFile">Veuillez envoyer une copie scannée de votre permis de conduire : <br></label>
+            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf">
+        </form>
+
+        <h3>Expérience: </h3>
+        <form action="upload.php" method="post" enctype="multipart/form-data" required>
+            <label for="pdfFile"> Veuillez envoyer votre CV : <br></label>
+            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf">
+        </form>
+
+        <h3>Disponibilités: </h3>
+        <div class="line"> 
+            <label class="radio-label"> Disponibilité régulière <input type="radio" name="disponibilite" value="reguliere" required> </label>
+            <label class="radio-label"> Disponibilité ponctuelle <input type="radio" name="disponibilite" value="ponctuelle" required> </label>
+        </div>
+
+        <div class="line">
+            <h4>Je peux consacrer </h4>
+            <select class="heures" id="heures" name="heures" required>
+                <option value="1">1 demi-journée</option>
+                <option value="2">2 demi-journées</option>
+                <option value="3">3 demi-journées</option>
+                <option value="4">4 demi-journées</option>
+                <option value="5">5 demi-journées</option>
+                <option value="6">6 demi-journées</option>
+                <option value="7">7 demi-journées</option>
+                <option value="8">8 demi-journées</option>
+                <option value="9">9 demi-journées</option>
+                <option value="10">10 demi-journées</option>
+                <option value="11">11 demi-journées</option>
+                <option value="12">12 demi-journées</option>
+                <option value="13">13 demi-journées</option>
+                <option value="14">14 demi-journées</option>
+            </select>
+            <h4> par semaine pour des missions de bénévolat, le : <br> </h4>
+        </div>
+
+        <div class="line">
+            <div class="col">
+            <label><input type="checkbox" id="lundi" name="jour" value="lundi"> Lundi</label><br>
+                <label><input type="checkbox" id="mardi" name="jour" value="mardi"> Mardi</label><br>
+                <label><input type="checkbox" id="mercredi" name="jour" value="mercredi"> Mercredi</label><br>
+                <label><input type="checkbox" id="jeudi" name="jour" value="jeudi"> Jeudi</label><br>
+            </div>
+            <div class="col">
+                <label><input type="checkbox" id="vendredi" name="jour" value="vendredi"> Vendredi</label><br>
+                <label><input type="checkbox" id="samedi" name="jour" value="samedi"> Samedi</label><br>
+                <label><input type="checkbox" id="dimanche" name="jour" value="dimanche"> Dimanche</label><br>
+            </div>
+        </div>
+
+        <label>
+        J’ai lu et j'accepte les <a href=""> termes et mentions légales: *</a>
+        <input type="checkbox" id="légales" name="conditions" value="légales">  
+        </label>
+        <br>
+        <label>
+        Je souhaite recevoir des informations de la part de “Au temps donné" par email
+        <input type="checkbox" id="email_info" name="conditions" value="email_info">  
+        </label>
+        <p>Les demandes seront examinées attentivement par notre équipe, qui se réserve le droit d'accepter ou de refuser
+         une demande en fonction des besoins de l'association et des disponibilités des bénévoles.</p>
+
+         <button class="btn confirm-button">Valider</button>
     </div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
 </body> 

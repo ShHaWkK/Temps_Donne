@@ -28,6 +28,7 @@
             <ul>
                 <li><a href="#">Mentions légales</a></li>
                 <li><a href="#">Politique de confidentialité</a></li>
+                <li><a href="#">Respecte à vie : Basile Paoli </a></li>
             </ul>
         </div>
     </footer>

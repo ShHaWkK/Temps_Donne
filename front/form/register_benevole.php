@@ -1,95 +1,3 @@
-<?php
-session_start();
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-
-require_once('../BDD/Connection.php');
-require_once('check_attempts.php');
-
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nom = ($_POST['nom']);
-    $prenom = ($_POST['prenom']);
-    $email = ($_POST['email']);
-    $telephone = ($_POST['telephone']);
-    $adresse = ($_POST['adresse']);
-    $dateNaissance = ($_POST['date_naissance']);
-    $nationalite = ($_POST['nationalite']);
-   /* $langues = implode(', ', ('', $_POST['langues']));*/
-    $situation = ($_POST['situation_personnelle']);
-    $type_permis = isset($_POST['type_permis']) ? ($_POST['type_permis']) : 'aucun';
-    $date_inscription = date('Y-m-d');
-
-   
-
-    if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
-        // Traitez le téléchargement de la photo
-        $photo_profil = $_FILES['photo_profil']['name'];
-        $photo_path = "uploads/" . md5($email) . "/";
-        if (!file_exists($photo_path)) {
-            mkdir($photo_path, 0777, true);
-        }
-        $photo_path .= basename($photo_profil);
-        move_uploaded_file($_FILES['photo_profil']['tmp_name'], $photo_path);
-    } else {
-        $photo_profil = '';
-    }
-       
-// Vérifiez si l'utilisateur a téléchargé une photo de profil
-if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] == 0) {
-    // Vérifiez si le fichier n'est pas trop gros
-    if ($_FILES['photo_profil']['size'] <= 1000000) {
-        // Extension autorisées et vérification du type de fichier
-        $allowed_extensions = array('jpg', 'jpeg', 'png');
-        $file_extension = pathinfo($_FILES['photo_profil']['name'], PATHINFO_EXTENSION);
-
-        if (in_array(strtolower($file_extension), $allowed_extensions)) {
-            // Créez un dossier unique pour chaque utilisateur pour stocker leur photo
-            $user_folder = '../uploads/' . $email . '/';
-
-            if (!is_dir($user_folder)) {
-                mkdir($user_folder, 0777, true);
-            }
-
-            // Nom du fichier et chemin
-            $photo_path = $user_folder . uniqid() . '.' . $file_extension;
-            
-            // Déplacez le fichier téléchargé
-            move_uploaded_file($_FILES['photo_profil']['tmp_name'], $photo_path);
-        }
-    }
-}
-
-$sql = "INSERT INTO utilisateurs (Nom, Prenom, Email, Telephone, Adresse, Date_de_naissance, Nationalite, Langues, Situation, Type_Permis, Date_d_inscription, Photo_profil) 
-VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalite, :langues, :situation, :type_permis, :date_inscription, :photo_profil)";
-
-    $stmt = $conn->prepare($sql);
-
-    $stmt->bindParam(':nom', $nom);
-    $stmt->bindParam(':prenom', $prenom);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':telephone', $telephone);
-    $stmt->bindParam(':adresse', $adresse);
-    $stmt->bindParam(':dateNaissance', $dateNaissance);
-    $stmt->bindParam(':nationalite', $nationalite);
-    $stmt->bindParam(':langues', $langues);
-    $stmt->bindParam(':situation', $situation);
-    $stmt->bindParam(':type_permis', $type_permis);
-    $stmt->bindParam(':date_inscription', $date_inscription);
-    $stmt->bindParam(':photo_profil', $photo_path);
-    try {
-        $stmt->execute();
-        echo "Inscription réussie.";
-    } catch (PDOException $e) {
-        echo "Erreur lors de l'insertion des données : " . $e->getMessage();
-    }
-}
-?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -129,21 +37,7 @@ VALUES (:nom, :prenom, :email, :telephone, :adresse, :dateNaissance, :nationalit
 
             <label for="email">Adresse mail:</label>
             <input type="email" id="email" name="email" required>
-            <?php
-
-            $sqlEmailCheck = "SELECT COUNT(*) FROM utilisateurs WHERE Email = :email";
-            $stmtEmailCheck = $conn->prepare($sqlEmailCheck);
-            $stmtEmailCheck->bindParam(':email', $email);
-            $stmtEmailCheck->execute();
-            
-            if ($stmtEmailCheck->fetchColumn() > 0) {
-                echo "Un utilisateur avec cet email existe déjà.";
-
-            } else {
-                echo "Cet email est disponible.";
-            }
-             
-            ?>
+        
 
             <label for="telephone">Numéro de téléphone:</label>
             <input type="tel" id="telephone" name="telephone" required>

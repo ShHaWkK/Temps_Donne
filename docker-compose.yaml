@@ -4,11 +4,11 @@ version: '3.8'
 
 services:
   frontend:
-    image: httpd:2.4  
+    image: php:8-apache
     ports:
       - "8083:80"
     volumes:
-      - ./front:/usr/local/apache2/htdocs/ 
+      - ./front:/var/www/html/ 
 
    # API Service
   api:

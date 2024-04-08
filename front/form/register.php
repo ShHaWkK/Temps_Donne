@@ -9,10 +9,7 @@
     <title>Inscription Bénévole</title>
 </head>
 
-<?php 
-require_once '../header/header.php'; 
-?>
-<body>
+<div id="header"></div>
 
 <div class="form-container">
     <div class="form-content">
@@ -445,7 +442,7 @@ require_once '../header/header.php';
 
         if (xhr.status === 200) {
             document.getElementById('header').innerHTML = xhr.responseText;
-            // Ajouter le contenu de header.php et inclure darkmode.js après
+
             includeDarkModeScript();
         }
     };

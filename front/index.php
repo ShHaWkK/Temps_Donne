@@ -13,7 +13,9 @@ echo "<title>Accueil - Au temps donné</title>";
     <button class="carousel-arrow">&lt;</button>
     <div class="carousel-caption">
       <h1>ENSEMBLE, CHANGEONS DES VIES</h1>
-      <p>Devenez bénévole dès maintenant !</p>
+      <center>
+     Devenez bénévole dès maintenant !
+      </center>
       <button>JE DEVIENS BÉNÉVOLE</button>
     </div>
     <button class="carousel-arrow">&gt;</button>

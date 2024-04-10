@@ -88,8 +88,8 @@
 
 <aside class="sidebar bebas-neue">
         <div class="profile-section">
-        <i class="fa-solid fa-user"></i>
-            <h2>Nom et Prénom</h2>
+                <img src="../../images/Ethan.jpg" alt="Photo de profil">
+                <h2>Nom et Prénom</h2>
         </div>
         <nav class="sidebar-nav">
             <a href="#" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>
@@ -104,7 +104,7 @@
         </div>
 </aside>
 
-<script src="../scripts/darkmode.js"></script>
+<script src="../../scripts/darkmode.js"></script>
 
 <script>
     const menuButton = document.getElementById('menuButton');
@@ -114,5 +114,6 @@
     menuButton.addEventListener('click', function() {
         sidebar.classList.toggle('sidebar-visible');
         mainHeader.classList.toggle('sidebar-visible');
+        menuButton.classList.toggle('sidebar-visible'); // Ajoutez cette ligne pour ajouter la classe à l'icône du menu
     });
 </script>

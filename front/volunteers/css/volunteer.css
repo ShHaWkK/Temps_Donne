@@ -11,6 +11,11 @@ body {
     font-size: 1.1rem; /* Légèrement agrandi */
 }
 
+.dark-mode {
+    background-color: #434242; 
+    color: #D3D2D2; 
+}
+
 header {
     padding: 10px;
     display: flex;
@@ -119,6 +124,15 @@ header {
 .popup-button i{
     margin-right: 3px;
 }
+
+#menuButton {
+    transition: transform 0.3s ease; 
+}
+
+#menuButton.sidebar-visible .fa-bars {
+    transform: rotate(90deg); 
+}
+
 
 /* Style de la barre de recherche */
 .search-container {

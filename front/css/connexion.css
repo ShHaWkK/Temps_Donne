@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+button {
+  font-family: 'Poppins', sans-serif;
+}
+
 body, html {
   font-family: 'Poppins', sans-serif;
   display: flex;
@@ -122,7 +126,4 @@ body, html {
     padding: 1rem;
   }
 
-  .left-side {
-    order: 2;
-  }
 }

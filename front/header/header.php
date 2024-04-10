@@ -27,7 +27,7 @@
         </nav>
 
         <div class="popover-container menu">
-            <button class="popup-button" >
+             <button class="popup-button" >
                 <i class="fa-solid fa-bars"></i><i class="icon icon--md icon--caret-down"></i></i>
             </button>
             <ul class="popover-content" id="serviceList">
@@ -80,7 +80,6 @@
         <div class="popover-container">
             <button class="popup-button" onclick="toggleLanguageList()">
                 <img src="../images/france.png" width="30" height="30">
-                <i class="icon icon--md icon--caret-down"></i>
             </button>
             <ul class="popover-content" id="languageList">
                 <li>

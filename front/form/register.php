@@ -415,6 +415,7 @@
             </div>
         </div>
 
+        <h2>Termes et mentions légales </h2>
         <label>
         J’ai lu et j'accepte les <a href=""> termes et mentions légales: *</a>
         <input type="checkbox" id="légales" name="conditions" value="légales">  

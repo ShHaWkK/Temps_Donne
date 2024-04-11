@@ -1,5 +1,5 @@
 /* Style général du body et du header */
-    body,header {
+body,header {
     margin: 0;
     padding: 0;
     }
@@ -14,7 +14,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%; 
+        width: 100vw;
         background-color: #82CFD8; 
     }
 
@@ -335,6 +335,7 @@
 
     /* Styles pour les écrans de taille moyenne (tablettes) */
     @media screen and (min-width: 769px) and (max-width: 1024px) {
+
         .navigation-menu{
             display: none;
         }
@@ -384,5 +385,3 @@
         }
 
     }
-
-

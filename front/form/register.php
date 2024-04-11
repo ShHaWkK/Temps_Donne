@@ -9,7 +9,8 @@
     <title>Inscription Bénévole</title>
 </head>
 
-<div id="header"></div>
+<div id="header">
+</div>
 
 <div class="form-container">
     <div class="form-content">

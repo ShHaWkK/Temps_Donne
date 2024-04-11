@@ -14,7 +14,7 @@
 
 <div id="header"></div>
 
-    <div class="main-container">
+    <div class="main-container shade">
         <h1>Services</h1>
         <div class="service-list">
             <button class="service-button">

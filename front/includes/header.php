@@ -1,13 +1,6 @@
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-</head>
-
+<?php
+    include_once('includes/head.php');
+?>
 <header>
     <div class="header-container">
         <!-- Logo -->
@@ -19,15 +12,15 @@
         <nav class="navigation-menu">   
             <ul class="header-menu">
                 <li><a href="index.php" class="nav-item active"><i class="fa fa-home"></i> Accueil</a></li>
-                <li><a href="../services/services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
+                <li><a href="includes/services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
                 <li><a href="dons.php" class="nav-item-space"><i class="fa-solid fa-hand-holding-dollar"></i> Faire un <br>don</a></li>
-                <li><a href="espace_beneficiaire.php" class="nav-item-space"><i class="fa-solid fa-handshake"></i> Espace <br> bénéficiaire</a></li>
-                <li><a href="espace_benevole.php" class="nav-item-space"> <i class='fa-solid fa-hand-holding-heart'></i> Espace <br>bénévole</a></li>
+                <li><a href="inscription_conn/connexion_beneficiaire.php" class="nav-item-space"><i class="fa-solid fa-handshake"></i> Espace <br> bénéficiaire</a></li>
+                <li><a href="inscription_conn/connexion_benevole.php" class="nav-item-space"> <i class='fa-solid fa-hand-holding-heart'></i> Espace <br>bénévole</a></li>
             </ul>
         </nav>
 
         <div class="popover-container menu">
-             <button class="popup-button" >
+            <button class="popup-button" >
                 <i class="fa-solid fa-bars"></i><i class="icon icon--md icon--caret-down"></i></i>
             </button>
             <ul class="popover-content" id="serviceList">
@@ -79,7 +72,8 @@
         <!-- Menu déroulant pour les langues -->
         <div class="popover-container">
             <button class="popup-button" onclick="toggleLanguageList()">
-            <img src="../images/france.png" width="30" height="30">
+                <img src="../images/france.png" width="30" height="30">
+                <i class="icon icon--md icon--caret-down"></i>
             </button>
             <ul class="popover-content" id="languageList">
                 <li>

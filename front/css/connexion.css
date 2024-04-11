@@ -1,0 +1,129 @@
+/* Import des polices Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amatica+SC&display=swap');
+
+/* Styles de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  font-family: 'Poppins', sans-serif;
+}
+
+body, html {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff; 
+}
+
+/* Conteneur de la page */
+.container {
+  display: flex;
+  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1); 
+  width: 80%;
+  max-width: 1200px;
+  background: #FFF; 
+}
+
+/* Section gauche avec le logo et le texte */
+.left-side {
+  background-color: #82CFD8;
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  max-width: 150px;
+  margin-bottom: 1rem;
+}
+
+.login-title {
+  font-family: 'Bebas Neue', cursive;
+  color: #00334A;
+  font-size: 2.25rem;
+}
+
+.login-subtitle {
+  font-family: 'Amatica SC', cursive;
+  color: #00334A;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.register {
+  margin-top: 2rem;
+}
+
+.register-button {
+  background-color: #005f73;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Section droite avec le formulaire */
+.right-side {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  margin-bottom: .5rem;
+}
+
+.input-group input {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.login-button {
+  padding: 1rem;
+  background-color: #007FA9;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.forgot-password {
+  color: #007FA9;
+  text-align: center;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left-side, .right-side {
+    width: 100%;
+    padding: 1rem;
+  }
+
+}

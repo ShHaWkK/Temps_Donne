@@ -25,6 +25,7 @@ CREATE TABLE Utilisateurs (
     Est_Verifie BOOLEAN DEFAULT FALSE,
     Code_Verification VARCHAR(255),
     Type_Permis VARCHAR(50)
+    statut_benevole => En attente, Accordé, Refusé 
 );
 
 ALTER TABLE Utilisateurs
@@ -33,14 +34,16 @@ ADD Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation';
 -- Table Roles
 CREATE TABLE Roles (
     ID_Role INT AUTO_INCREMENT PRIMARY KEY,
-    Nom_Role VARCHAR(255)
+    Nom_Role VARCHAR(255) id 1 => Bénévole 
+    id 2 => Bénéficiaire 
+    id 3 => Administrateur 
 );
 INSERT INTO Roles (Nom_Role) VALUES ('Benevole'), ('Beneficiaire'), ('Administrateur');
 
 -- Table UtilisateursRoles
 CREATE TABLE UtilisateursRoles (
     ID_Utilisateur INT,
-    ID_Role INT,
+    ID_Role INT, 
     FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
     FOREIGN KEY (ID_Role) REFERENCES Roles(ID_Role),
     PRIMARY KEY (ID_Utilisateur, ID_Role)

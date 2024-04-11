@@ -1,0 +1,222 @@
+/* Styles CSS */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+/* Déclarations générales */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f0f0;
+}
+
+/* Conteneur principal du carrousel */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 300px; 
+  background-image: url('../images/mains-solidarite.jpg'); 
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Styles des flèches du carrousel */
+.carousel-arrow {
+  font-size: 2em;
+  color: white;
+  background: #007FA9; 
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Styles du titre et bouton dans le carrousel */
+.carousel-caption h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.carousel-caption button {
+  margin-left: 20%;
+  font-family: 'Poppins', sans-serif;
+  background-color: #007FA9; 
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel-caption button:hover {
+  background-color: #005f86; 
+}
+
+/* Styles de la section "Qui sommes-nous ?" */
+.section {
+  background-color: #f0f0f0; 
+  padding: 20px;
+  text-align: center; 
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem; 
+  color: #00334A; 
+  margin-bottom: 15px;
+}
+
+.section-content {
+  font-size: 1rem;
+  color: #434242; 
+  margin-bottom: 20px;
+}
+
+.section-button {
+  font-family: 'Poppins', sans-serif;
+  background-color: #007FA9; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 15px; 
+  margin-bottom: 20px;
+}
+
+.section-button:hover {
+  background-color: #005f86; 
+}
+
+/* Styles de la section "Où nous trouver ?" */
+.location-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.location-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  color: #00334A;
+  margin: 0;
+  flex-basis: 30%; /* Base pour le flexbox */
+  text-align: left;
+}
+
+.location-text {
+  font-size: 1rem;
+  color: #000;
+  flex-basis: 60%; /* Base pour le flexbox */
+  text-align: left;
+  padding-right: 20px; /* Ajoute de l'espace autour du texte */
+}
+
+.location-icon {
+  font-size: 4rem;
+  color: #000;
+}
+/*DARK MODE */
+
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode .carousel-caption h1 {
+  background: rgba(255, 255, 255, 0.5);
+  color: #333;
+}
+
+.dark-mode .carousel-caption button {
+  background-color: #005f86;
+  color: #fff;
+}
+
+.dark-mode .section {
+  background-color: #333;
+}
+
+.dark-mode .section-title {
+  color: #fff;
+}
+
+.dark-mode .section-content {
+  color: #ccc;
+}
+
+.dark-mode .section-button {
+  background-color: #005f86;
+  color: #fff;
+}
+
+.dark-mode .location-section {
+  background-color: #333;
+}
+
+.dark-mode .location-title {
+  color: #fff;
+}
+
+.dark-mode .location-text {
+  color: #ccc;
+}
+
+/* Pour les tablettes */
+@media (max-width: 992px) { 
+  .carousel-caption, .carousel-caption h1, .carousel-caption button,
+  .section-title, .section-content, .section-button,
+  .location-title, .location-text, .location-icon {
+    font-size: smaller; 
+  }
+
+  .carousel-container {
+    height: 200px; 
+  }
+}
+/* Pour les mobiles */
+@media (max-width: 768px) { 
+  .carousel-container, .carousel-caption {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+  }
+
+  .carousel-arrow:first-of-type {
+    left: 10px; 
+  }
+
+  .carousel-arrow:last-of-type {
+    right: 10px; 
+  }
+
+  .location-section {
+    flex-direction: column;
+  }
+
+  .location-title, .location-text, .location-icon {
+    flex-basis: auto; 
+    text-align: center;
+  }
+
+  .location-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+}

@@ -79,7 +79,7 @@
         <!-- Menu déroulant pour les langues -->
         <div class="popover-container">
             <button class="popup-button" onclick="toggleLanguageList()">
-                <img src="../images/france.png" width="30" height="30">
+            <img src="../images/france.png" width="30" height="30">
             </button>
             <ul class="popover-content" id="languageList">
                 <li>

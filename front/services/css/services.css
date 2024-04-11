@@ -10,7 +10,7 @@
      font-family: 'Poppins', 'sans-serif';
  }
  
- h1,h2{
+ h1,h2,h3{
      font-family: 'Bebas Neue', sans-serif;
      text-transform: uppercase;
  }     
@@ -20,7 +20,7 @@
  }
 
  h2{
-     font-size: 2.5rem;
+     font-size: 2rem;
  }
 
  h4{
@@ -40,15 +40,14 @@
      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
  }
 
- .service_list{
+ .service-list{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    justify-content: center;
     width: 100%;
     margin: auto;   
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
  }
 
   /*Bouton représentant les services*/
@@ -57,10 +56,10 @@
     padding: 15px;
     background-color: #82CFD8;
     border-radius: 50px;
-    margin-right: 50px;
-    margin-bottom: 20px;
+    margin: 20px;
     transition: background-color 0.3s;
     display: flex; 
+    flex-direction: column;
     align-items: center; 
     justify-content: center; 
     height: 200px; 
@@ -71,6 +70,7 @@
 .service-button:hover{
     background-color: #23B5BE;
     transform: scale(1.05); 
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
  /* Responsive */

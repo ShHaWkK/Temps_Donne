@@ -1,4 +1,4 @@
-File : Au_temps_Donné.sql
+-- File : Au_temps_Donné.sql
 
 -- Table Utilisateurs
 CREATE TABLE Utilisateurs (
@@ -14,7 +14,6 @@ CREATE TABLE Utilisateurs (
     Langues TEXT,
     Nationalite TEXT,
     Date_d_inscription DATE,
-    Statut BOOLEAN,
     Situation TEXT,
     Besoins_specifiques TEXT,
     Photo_Profil TEXT,
@@ -24,8 +23,8 @@ CREATE TABLE Utilisateurs (
     Societe VARCHAR(255),
     Est_Verifie BOOLEAN DEFAULT FALSE,
     Code_Verification VARCHAR(255),
-    Type_Permis VARCHAR(50)
-    statut_benevole => En attente, Accordé, Refusé 
+    Type_Permis VARCHAR(50),
+    statut ENUM('En attente', 'Accordé', 'Refusé')
 );
 
 ALTER TABLE Utilisateurs
@@ -34,9 +33,7 @@ ADD Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation';
 -- Table Roles
 CREATE TABLE Roles (
     ID_Role INT AUTO_INCREMENT PRIMARY KEY,
-    Nom_Role VARCHAR(255) id 1 => Bénévole 
-    id 2 => Bénéficiaire 
-    id 3 => Administrateur 
+    Nom_Role ENUM('Bénévole', 'Bénéficiaire', 'Administrateur')
 );
 INSERT INTO Roles (Nom_Role) VALUES ('Benevole'), ('Beneficiaire'), ('Administrateur');
 
@@ -49,7 +46,7 @@ CREATE TABLE UtilisateursRoles (
     PRIMARY KEY (ID_Utilisateur, ID_Role)
 );
 ALTER TABLE UtilisateursRoles
-ADD statut VARCHAR(255) DEFAULT 'En attente';$
+ADD statut VARCHAR(255) DEFAULT 'En attente';
 
 UPDATE UtilisateursRoles
 SET statut = 'Validé'
@@ -59,7 +56,7 @@ SELECT u.Nom, r.Nom_Role, ur.statut
 FROM Utilisateurs u
 JOIN UtilisateursRoles ur ON u.ID_Utilisateur = ur.ID_Utilisateur
 JOIN Roles r ON ur.ID_Role = r.ID_Role;
-WHERE u.ID_Utilisateur = 1; 
+WHERE u.ID_Utilisateur = 1;
 
 -- Table Services
 CREATE TABLE Services (

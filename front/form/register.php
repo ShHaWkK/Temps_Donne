@@ -2,14 +2,16 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="../css/register.css">
-    <title>Inscription Bénévole</title>
 </head>
 
-<div id="header">
+<?php
+include_once('../includes/head.php');
+include_once('../includes/header.php');
+
+echo "<title>Services - Au temps donné</title>";
+?>
+
 </div>
 
 <div class="form-container">
@@ -432,7 +434,11 @@
          <button class="btn confirm-button">Valider</button>
     </div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
-</body> 
+</body>
+
+<?php
+include_once('../includes/footer.php');
+?>
 </html>
 
 <script>

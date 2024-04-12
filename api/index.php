@@ -35,7 +35,6 @@ function router($uri, $requestMethod) {
         sendJsonResponse(['message' => 'Not Found'], 404);
         return;
     }
-    error_log(print_r($uri, true));
 
     //---------------------- ROUTES ----------------------//
     switch ($uri[2]) {
@@ -94,6 +93,7 @@ function router($uri, $requestMethod) {
                 }
             }   
          // Gestion des requêtes pour 'planning'
+         /*
          if ($uri[2] === 'planning') {
             $planningController = new PlanningController();
             switch ($requestMethod) {
@@ -136,7 +136,7 @@ function router($uri, $requestMethod) {
                     }
                 }
             }
-        }
+        } */
 
         switch ($requestMethod) {
 

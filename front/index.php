@@ -1,8 +1,8 @@
 
 <?php
 
-require_once('includes/head.php');
-require_once('includes/header.php');
+include_once('includes/head.php');
+include_once('includes/header.php');
 
 echo "<title>Accueil - Au temps donné</title>";
 ?>
@@ -48,8 +48,8 @@ echo "<title>Accueil - Au temps donné</title>";
     <button class="section-button"><i class="fa-solid fa-hand-holding-heart"></i> Faire un don</button>
   </div>
 
-  <?php 
-    include_once('includes/footer.php');
+  <?php
+  include_once('includes/footer.php');
   ?>
 
 </body>

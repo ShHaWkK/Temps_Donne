@@ -2,8 +2,8 @@
 
 // file: api/index.php
 
-//-------------------- CORS --------------------// 
-header("Content-Type: application/json"); 
+//-------------------- CORS --------------------//
+header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
@@ -13,7 +13,7 @@ require_once 'Controllers/AdminController.php';
 require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
 // require_once 'Controllers/TicketController.php';
-require_once 'Controllers/PlanningController.php'; 
+require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
 
 error_reporting(E_ERROR | E_PARSE);
@@ -59,7 +59,7 @@ function router($uri, $requestMethod) {
             return;
     }
 
- 
+
 
     try {
         // Gestionn de Login
@@ -90,53 +90,53 @@ function router($uri, $requestMethod) {
                         $controller->deleteUser($uri[3]);
                     }
                     break;
-                }
-            }   
-         // Gestion des requêtes pour 'planning'
-         /*
-         if ($uri[2] === 'planning') {
-            $planningController = new PlanningController();
-            switch ($requestMethod) {
-                case 'GET':
-                    if (isset($uri[3])) {
-                        $planningController->getPlanning($uri[3]);
-                    } else {
-                        $planningController->getAllPlannings();
-                    }
-                    break;
-                case 'POST':
-                    $planningController->addPlanning();
-                    break;
-                case 'PUT':
-                    if (isset($uri[3])) {
-                        $planningController->updatePlanning($uri[3]);
-                    }
-                    break;
-                case 'DELETE':
-                    if (isset($uri[3])) {
-                        $planningController->deletePlanning($uri[3]);
-                    }
-                    break;
-                default:
-                    sendJsonResponse(['message' => 'Method Not Allowed'], 405);
-                    break;
             }
-        } else {
-            // Gestion des requêtes pour 'tickets'
-            if ($uri[2] === 'tickets') {
-                $ticketController->processRequest($requestMethod, $uri);
-            } else {
-                // Gestion des requêtes pour 'users'
-                if ($uri[2] === 'users') {
-                    $controller->processRequest($requestMethod, $uri);
-                } else {
-                    // Gestion des requêtes pour 'admins'
-                    if ($uri[2] === 'admins') {
-                        $controller->processRequest($requestMethod, $uri);
-                    }
-                }
-            }
-        } */
+        }
+        // Gestion des requêtes pour 'planning'
+        /*
+        if ($uri[2] === 'planning') {
+           $planningController = new PlanningController();
+           switch ($requestMethod) {
+               case 'GET':
+                   if (isset($uri[3])) {
+                       $planningController->getPlanning($uri[3]);
+                   } else {
+                       $planningController->getAllPlannings();
+                   }
+                   break;
+               case 'POST':
+                   $planningController->addPlanning();
+                   break;
+               case 'PUT':
+                   if (isset($uri[3])) {
+                       $planningController->updatePlanning($uri[3]);
+                   }
+                   break;
+               case 'DELETE':
+                   if (isset($uri[3])) {
+                       $planningController->deletePlanning($uri[3]);
+                   }
+                   break;
+               default:
+                   sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+                   break;
+           }
+       } else {
+           // Gestion des requêtes pour 'tickets'
+           if ($uri[2] === 'tickets') {
+               $ticketController->processRequest($requestMethod, $uri);
+           } else {
+               // Gestion des requêtes pour 'users'
+               if ($uri[2] === 'users') {
+                   $controller->processRequest($requestMethod, $uri);
+               } else {
+                   // Gestion des requêtes pour 'admins'
+                   if ($uri[2] === 'admins') {
+                       $controller->processRequest($requestMethod, $uri);
+                   }
+               }
+           }
+       } */
 
         switch ($requestMethod) {
 
@@ -184,7 +184,7 @@ function router($uri, $requestMethod) {
                 sendJsonResponse(['message' => 'Method Not Allowed'], 405);
                 break;
         }
-        
+
     } catch (Exception $e) {
         sendJsonResponse(['error' => $e->getMessage()], $e->getCode());
     }

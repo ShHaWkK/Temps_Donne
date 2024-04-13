@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="./css/services.css">
+    <link rel="stylesheet" href="../css/services.css">
     <title>Services</title>
 </head>
 

@@ -173,6 +173,41 @@
             background-color: #00334A;
         }
 
+        /*Boutons des moyens de paiement*/
+        .payment-list{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            margin: auto;
+            border-radius: 8px;
+        }
+
+        /*Bouton représentant les paiements*/
+        .payment-button{
+            color: black;
+            padding: 15px;
+            background-color: #82CFD8;
+            border-radius: 50px;
+            margin: 20px;
+            transition: background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            width: 150px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .payment-button:hover{
+            background-color: #23B5BE;
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .radio-group,

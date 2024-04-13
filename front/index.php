@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include_once('includes/lang.php');
 include_once('includes/head.php');

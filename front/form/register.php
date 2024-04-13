@@ -1,16 +1,17 @@
+<?php
+session_start();
+include_once('../includes/lang.php');
+include_once('../includes/head.php');
+include_once('../includes/header.php');
+echo "<title>Inscription bénévole - Au temps donné</title>";
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <link rel="stylesheet" href="../css/register.css">
 </head>
-
-<?php
-include_once('../includes/head.php');
-include_once('../includes/header.php');
-
-echo "<title>Inscription bénévole - Au temps donné</title>";
-?>
 
 </div>
 
@@ -307,7 +308,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             </div>
             <div class="col">
                 <label for="langues"> <h3>Langues: *</h3></label>
-                <select id="langues" name="langues[]" multiple required>
+                <select id="langues" name="langues[]" multiple >
                     <option value="francais">Francais</option>
                     <option value="anglais">Anglais</option>
                     <option value="espagnol">Espagnol</option>
@@ -407,9 +408,24 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 
         <h2>Termes et mentions légales </h2>
         <label>
-            J’ai lu et j'accepte les <a href=""> termes et mentions légales: *</a>
-            <input type="checkbox" id="légales" name="conditions" value="légales">
+            J’ai lu et j'accepte les <a href="#" id="termsLink"> termes et mentions légales *</a>
+            <input type="checkbox" id="légales" name="conditions" value="légales" required>
         </label>
+
+        <div id="termsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <!-- Contenu des termes et conditions -->
+                <?php
+                // Charger le contenu du fichier texte
+                $contenu = file_get_contents("./user_conditions.txt");
+
+                // Insérer le contenu dans la balise <p>
+                echo "<p>$contenu</p>";
+                ?>
+            </div>
+        </div>
+
         <br>
         <label>
             Je souhaite recevoir des informations de la part de “Au temps donné" par email
@@ -418,71 +434,162 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
         <p>Les demandes seront examinées attentivement par notre équipe, qui se réserve le droit d'accepter ou de refuser
             une demande en fonction des besoins de l'association et des disponibilités des bénévoles.</p>
 
-        <script>
-            function sendDataToAPI() {
-                // Récupérer les données du formulaire
-                var genre = document.getElementById('genre').value;
-                var nom = document.getElementById('nom').value;
-                var prenom = document.getElementById('prenom').value;
-                var date_naissance = document.getElementById('date_naissance').value;
-                var email = document.getElementById('email').value;
-                var telephone = document.getElementById('telephone').value;
-
-                // Récupérer les cases cochées pour les permis
-                var permisArray = [];
-                var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
-                permisCheckboxes.forEach(function(checkbox) {
-                    permisArray.push(checkbox.value);
-                });
-
-                // Créer un objet JSON avec les données du formulaire
-                var data = {
-                    genre: genre,
-                    nom: nom,
-                    prenom: prenom,
-                    date_naissance: date_naissance,
-                    email: email,
-                    telephone: telephone,
-                    type_permis: permisArray
-                };
-
-                // Convertir l'objet JSON en chaîne JSON
-                var jsonData = JSON.stringify(data);
-
-                // URL de votre API
-                var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
-
-                // Configuration de la requête POST
-                var options = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: jsonData
-                };
-
-                // Envoyer les données à l'API via une requête HTTP POST
-                fetch(apiUrl, options)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erreur lors de l\'envoi des données à l\'API.');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Traiter la réponse de l'API ici, si nécessaire
-                        console.log('Réponse de l\'API :', data);
-                        alert('Données envoyées avec succès à l\'API.');
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de l\'envoi des données à l\'API :', error);
-                        alert('Erreur lors de l\'envoi des données à l\'API.');
-                    });
-            }
-        </script>
-        <button class="btn confirm-button" onclick="sendDataToAPI()">Valider</button>
+        <button id="validationButton" class="btn confirm-button">Valider</button>
     </div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
+
+<script>
+    // Fonction pour valider les champs obligatoires avant d'envoyer les données à l'API
+    // Fonction pour valider le formulaire et envoyer les données à l'API
+    function validateFormAndSendData() {
+        // Récupérer les champs obligatoires
+        var requiredFields = document.querySelectorAll('[required]');
+
+        // Parcourir les champs obligatoires
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = requiredFields[i];
+
+            // Vérifier si le champ est vide
+            if (field.type === 'radio') {
+                var radioGroup = document.getElementsByName(field.name);
+
+                // Vérifier si aucun bouton radio n'est coché dans le groupe
+                var isChecked = false;
+                for (var j = 0; j < radioGroup.length; j++) {
+                    if (radioGroup[j].checked) {
+                        isChecked = true;
+                        break;
+                    }
+                }
+
+                // Si aucun bouton radio n'est coché, renvoyer vers les boutons radio
+                if (!isChecked) {
+                    // Faire défiler la page jusqu'au premier bouton radio du groupe
+                    radioGroup[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // Mettre en évidence tous les boutons radio du groupe
+                    for (var k = 0; k < radioGroup.length; k++) {
+                        radioGroup[k].style.outline = '2px solid red';
+                    }
+
+                    // Arrêter la validation du formulaire
+                    return false;
+                }
+            } else if (field.value === '') {
+                // Faire défiler la page jusqu'au champ vide
+                field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Mettre en évidence le champ vide
+                field.style.border = '2px solid red';
+
+                // Arrêter la validation du formulaire
+                return false;
+            }
+        }
+
+        // Si tous les champs obligatoires sont remplis, envoyer les données à l'API
+        sendDataToAPI();
+    }
+
+    // Événement de clic sur le bouton de validation
+    document.getElementById('validationButton').addEventListener('click', function(event) {
+        // Empêcher le comportement par défaut du bouton
+        event.preventDefault();
+
+        // Appeler la fonction pour valider les champs et envoyer les données à l'API
+        validateFormAndSendData();
+    });
+
+    function sendDataToAPI() {
+        // Récupérer les données du formulaire
+        var genre = document.getElementById('genre').value;
+        var nom = document.getElementById('nom').value;
+        var prenom = document.getElementById('prenom').value;
+        var date_naissance = document.getElementById('date_naissance').value;
+        var email = document.getElementById('email').value;
+        var telephone = document.getElementById('telephone').value;
+
+        // Récupérer les cases cochées pour les permis
+        var permisArray = [];
+        var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
+        permisCheckboxes.forEach(function(checkbox) {
+            permisArray.push(checkbox.value);
+        });
+
+        // Créer un objet JSON avec les données du formulaire
+        var data = {
+            genre: genre,
+            nom: nom,
+            prenom: prenom,
+            date_naissance: date_naissance,
+            email: email,
+            telephone: telephone,
+            type_permis: permisArray
+        };
+
+        // Convertir l'objet JSON en chaîne JSON
+        var jsonData = JSON.stringify(data);
+
+        // URL de votre API
+        var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
+
+        // Configuration de la requête POST
+        var options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonData
+        };
+
+        // Envoyer les données à l'API via une requête HTTP POST
+        fetch(apiUrl, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de l\'envoi des données à l\'API.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Traiter la réponse de l'API ici, si nécessaire
+                console.log('Réponse de l\'API :', data);
+                alert('Données envoyées avec succès à l\'API.');
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi des données à l\'API :', error);
+                alert('Erreur lors de l\'envoi des données à l\'API.');
+            });
+    }
+
+    // Récupérer les éléments du DOM
+    var termsLink = document.getElementById('termsLink');
+    var modal = document.getElementById('termsModal');
+    var closeBtn = document.getElementsByClassName('close')[0];
+
+    // Lorsque l'utilisateur clique sur le lien des termes
+    termsLink.onclick = function() {
+        modal.style.display = 'block'; // Afficher la fenêtre modale
+    }
+
+    // Lorsque l'utilisateur clique sur le bouton "fermer"
+    closeBtn.onclick = function() {
+        modal.style.display = 'none'; // Masquer la fenêtre modale
+    }
+
+    // Lorsque l'utilisateur clique en dehors de la fenêtre modale, elle se ferme
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none'; // Masquer la fenêtre modale
+        }
+    }
+
+    // Lorsque l'utilisateur clique sur le lien des termes
+    termsLink.onclick = function(event) {
+        event.preventDefault(); // Empêcher le comportement par défaut du lien
+        modal.style.display = 'block'; // Afficher la fenêtre modale
+    }
+</script>
+
 </body>
 
 <?php

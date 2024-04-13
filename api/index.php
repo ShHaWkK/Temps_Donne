@@ -2,10 +2,10 @@
 // file: api/index.php
 
 //-------------------- CORS --------------------//
-header("Content-Type: application/json");
+// Autorise les requêtes depuis localhost
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS,PATCH');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, auth');
 
 //-------------------- ROUTER --------------------//
 require_once 'Controllers/AdminController.php';
@@ -25,10 +25,13 @@ function sendJsonResponse($data, $statusCode = 200) {
     echo json_encode($data);
     exit();
 }
+
+// Vérifier si la méthode de la requête est OPTIONS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    header("HTTP/1.1 200 OK");
     exit();
 }
+
 //-------------------- ROUTER --------------------//
 
 function router($uri, $requestMethod) {

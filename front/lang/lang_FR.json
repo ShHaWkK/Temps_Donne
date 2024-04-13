@@ -1,0 +1,45 @@
+
+{
+    "WELCOME": "ENSEMBLE, CHANGEONS DES VIES",
+    "BECOME_VOLUNTEER": "Devenez bénévole dès maintenant !",
+    "JOIN_NOW": "JE DEVIENS BÉNÉVOLE",
+
+    "WHO_WE_ARE_TITLE": "QUI SOMMES NOUS ?",
+    "WHO_WE_ARE_CONTENT": "Fondée en 1987 à Saint-Quentin, en réponse à la crise industrielle locale, 'Au temps donné' n’a cessé de proposer son aide à ceux qui en ont besoin. À l'origine centrée sur la distribution alimentaire et les maraudes urbaines, nous avons progressivement élargi notre gamme de services au fil du temps : de l'administratif aux navettes pour les rendez-vous éloignés, des cours d'alphabétisation au soutien scolaire, ainsi que des événements de collecte de fonds et des activités pour les personnes âgées. Notre engagement envers la communauté reste notre priorité.",
+
+
+    "FIND_US_TITLE": "OÙ NOUS TROUVER ?",
+    "FIND_US_CONTENT": "Le local historique de l’association a été créé à Saint-Quentin, au 6 boulevard Gambetta... Mais au fil des années, l’association s’est dotée d’un entrepôt et de plusieurs annexes. Que vous souhaitiez vous engager en tant que bénévole ou bénéficier de nos services, découvrez nos différents sites une différence dans la vie des autres.",
+
+    "HOW_TO_HELP_TITLE": "COMMENT NOUS AIDER ?",
+    "HOW_TO_HELP_CONTENT": "Vous pouvez nous aider de différentes manières : en faisant un don, en devenant bénévole, en participant à nos événements de collecte de fonds, ou en partageant notre cause sur les réseaux sociaux. Chaque geste compte, et nous vous en sommes reconnaissants.",
+
+    "MAKE_A_DONATION": "FAIRE UN DON",
+    "DISCOVER_OUR_SERVICES": "DÉCOUVRIR NOS SERVICES",
+
+    "HOME": "Accueil",
+    "SERVICES": "Services",
+    "MAKE_DONATION": "Faire un Don",
+    "BENEFICIARY_SPACE": "Espace Bénéficiaire",
+    "VOLUNTEER_SPACE": "Espace Bénévole",
+    "SEARCH_PLACEHOLDER": "Recherche...",
+    "CHANGE_LANGUAGE": "Changer de langue",
+    "DARK_MODE": "Mode sombre", 
+
+    "OUR_SERVICES": "NOS SERVICES",
+    "FOOD_DISTRIBUTION": "Distribution alimentaire",
+    "FOOD_DISTRIBUTION_ALT": "Distribution Alimentaire", 
+    "ADMINISTRATIVE_SERVICES": "Services administratifs",
+    "ADMINISTRATIVE_SERVICES_ALT": "Services Administratifs",
+    "LITERACY_COURSES": "Cours d'alphabétisation",
+    "LITERACY_COURSES_ALT": "Cours d'alphabétisation",
+    "ACADEMIC_SUPPORT": "Soutien scolaire",
+    "ACADEMIC_SUPPORT_ALT": "Soutien scolaire",
+    "ACTIVITIES_FOR_ELDERLY": "Activités pour les personnes âgées",
+    "ACTIVITIES_FOR_ELDERLY_ALT": "Activités pour les personnes âgées",
+    "SHUTTLE_SERVICES": "Navettes pour les rendez-vous éloignés",
+    "SHUTTLE_SERVICES_ALT": "Navettes pour les rendez-vous éloignés"
+}
+  
+
+

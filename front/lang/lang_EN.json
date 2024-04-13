@@ -1,0 +1,41 @@
+{
+    "WELCOME": "TOGETHER, LET'S CHANGE LIVES",
+    "BECOME_VOLUNTEER": "Become a volunteer today!",
+    "JOIN_NOW": "I BECOME A VOLUNTEER",
+    "WHO_WE_ARE_TITLE": "WHO ARE WE?",
+    "WHO_WE_ARE_CONTENT": "Founded in 1987 in Saint-Quentin, in response to the local industrial crisis, 'Au temps donné' has continuously offered its help to those in need. Initially focused on food distribution and urban marauding, we have gradually expanded our range of services over time: from administrative to shuttles for remote appointments, literacy courses to tutoring, as well as fundraising events and activities for the elderly. Our commitment to the community remains our priority.",
+    "FIND_US_TITLE": "WHERE TO FIND US?",
+    "FIND_US_CONTENT": "The historic location of the association was created in Saint-Quentin, at 6 Boulevard Gambetta... Over the years, the association has acquired a warehouse and several annexes. Whether you want to engage as a volunteer or benefit from our services, discover our different sites a difference in the lives of others.",
+    "HOW_TO_HELP_TITLE": "HOW TO HELP US?",
+    "HOW_TO_HELP_CONTENT": "You can help us in different ways: by donating, becoming a volunteer, participating in our fundraising events, or sharing our cause on social media. Every gesture counts, and we are grateful for it.",
+    "DISCOVER_OUR_SERVICES": "Discover our services",
+    "MAKE_A_DONATION": "Make a donation",
+
+    "HOME": "Home",
+    "SERVICES": "Services",
+    "MAKE_DONATION": "Make a donation",
+    "BENEFICIARY_SPACE": "Beneficiary Space",
+    "VOLUNTEER_SPACE": "Volunteer Space",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER_MOBILE": "Search...",
+    "TOGGLE_LANGUAGE_LIST": "Change Language",
+    "DARK_MODE_TOGGLE": "Dark Mode", 
+
+    "OUR_SERVICES": "OUR SERVICES",
+    "FOOD_DISTRIBUTION": "Food Distribution",
+    "FOOD_DISTRIBUTION_ALT": "Food Distribution",
+    "ADMINISTRATIVE_SERVICES": "Administrative Services",
+    "ADMINISTRATIVE_SERVICES_ALT": "Administrative Services",
+    "LITERACY_COURSES": "Literacy Courses",
+    "LITERACY_COURSES_ALT": "Literacy Courses",
+    "ACADEMIC_SUPPORT": "Academic Support",
+    "ACADEMIC_SUPPORT_ALT": "Academic Support",
+    "ACTIVITIES_FOR_ELDERLY": "Activities for the Elderly",
+    "ACTIVITIES_FOR_ELDERLY_ALT": "Activities for the Elderly",
+    "SHUTTLE_SERVICES": "Shuttle Services",
+    "SHUTTLE_SERVICES_ALT": "Shuttle Services"
+
+    
+
+
+}

@@ -1,3 +1,4 @@
+<?php include_once('lang.php'); ?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,86 +15,88 @@
         <div class="logo-container">
             <img src="../images/logo.png" alt="Logo Au Temps Donné" class="logo">
         </div>
-
-        <!-- Boutons de navigation -->
-        <nav class="navigation-menu">
+         <!-- Boutons de navigation -->
+         <nav class="navigation-menu">   
             <ul class="header-menu">
-                <li><a href="/index.php" class="nav-item active"><i class="fa fa-home"></i> Accueil</a></li>
-                <li><a href="/services/services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
-                <li><a href="/form/donations.php" class="nav-item-space"><i class="fa-solid fa-hand-holding-dollar"></i> Faire un <br>don</a></li>
-                <li><a href="/inscription_conn/connexion_beneficiaire.php" class="nav-item-space"><i class="fa-solid fa-handshake"></i> Espace <br> bénéficiaire</a></li>
-                <li><a href="/inscription_conn/connexion_benevole.php" class="nav-item-space"> <i class='fa-solid fa-hand-holding-heart'></i> Espace <br>bénévole</a></li>
+                <li><a href="../index.php" class="nav-item active"><i class="fa fa-home"></i> <?php echo htmlspecialchars($data["HOME"]); ?></a></li>
+                <li><a href="../services/services.php" class="nav-item"><i class="fa-solid fa-users"></i> <?php echo htmlspecialchars($data["SERVICES"]); ?></a></li>
+                <li><a href="../form/dons.php" class="nav-item-space"><i class="fa-solid fa-hand-holding-dollar"></i> <?php echo htmlspecialchars($data["MAKE_DONATION"]); ?></a></li>
+                <li><a href="../inscription_conn/connexion_beneficiaire.php" class="nav-item-space"><i class="fa-solid fa-handshake"></i> <?php echo htmlspecialchars($data["BENEFICIARY_SPACE"]); ?></a></li>
+                <li><a href="../inscription_conn/connexion_benevole.php" class="nav-item-space"> <i class='fa-solid fa-hand-holding-heart'></i> <?php echo htmlspecialchars($data["VOLUNTEER_SPACE"]); ?></a></li>
             </ul>
         </nav>
 
-        <div class="popover-container menu">
-             <button class="popup-button" >
-                <i class="fa-solid fa-bars"></i><i class="icon icon--md icon--caret-down"></i></i>
-            </button>
-            <ul class="popover-content" id="serviceList">
-                <li>
-                    <a href="index.php" class="nav-item active">
-                        <i class="fa fa-home"></i> Accueil
-                    </a>
-                </li>
-                <li>
-                    <a href="services.php" class="nav-item">
-                        <i class="fa-solid fa-users"></i> Services
-                    </a>
-                </li>
-                <li>
-                    <a href="dons.php" class="nav-item-space">
-                        <i class="fa-solid fa-hand-holding-dollar"></i> Faire un don
-                    </a>
-                </li>
-                <li>
-                    <a href="espace_beneficiaire.php" class="nav-item-space">
-                        <i class="fa-solid fa-handshake"></i> Espace bénéficiaire
-                    </a>
-                </li>
-                <li>
-                    <a href="espace_benevole.php" class="nav-item-space">
-                        <i class="fa-solid fa-hand-holding-heart"></i> Espace bénévole
-                    </a>
-                </li>
-            </ul>
-        </div>
+
+<div class="popover-container menu">
+  <button class="popup-button">
+    <i class="fa-solid fa-bars"></i><i class="icon icon--md icon--caret-down"></i>
+  </button>
+  <ul class="popover-content" id="serviceList">
+    <li>
+      <a href="index.php" class="nav-item active">
+        <i class="fa fa-home"></i> <?php echo htmlspecialchars($data["HOME"]); ?>
+      </a>
+    </li>
+    <li>
+    <a href="../services/services.php" class="nav-item">
+        <i class="fa-solid fa-users"></i> <?php echo htmlspecialchars($data["SERVICES"]); ?>
+      </a>
+    </li>
+    <li>
+        <a href="../form/dons.php" class="nav-item-space">
+        <i class="fa-solid fa-hand-holding-dollar"></i> <?php echo htmlspecialchars($data["MAKE_DONATION"]); ?>
+      </a>
+    </li>
+    <li>
+      <a href="espace_beneficiaire.php" class="nav-item-space">
+        <i class="fa-solid fa-handshake"></i> <?php echo htmlspecialchars($data["BENEFICIARY_SPACE"]); ?>
+      </a>
+    </li>
+    <li>
+      <a href="espace_benevole.php" class="nav-item-space">
+        <i class="fa-solid fa-hand-holding-heart"></i> <?php echo htmlspecialchars($data["VOLUNTEER_SPACE"]); ?>
+      </a>
+    </li>
+  </ul>
+</div>
 
 
-        <!-- Barre de recherche et icône de recherche -->
-        <div class="search-container">
-            <div class="search-icon">
-                <input class="search-input" type="text" placeholder="Recherche..." id="searchInput">
-                <a><i class="fa-solid fa-magnifying-glass"></i></a>
-            </div>
-        </div>
+
+
+<!-- Search bar -->
+<div class="search-container">
+  <div class="search-icon">
+    <input class="search-input" type="text" placeholder="<?php echo htmlspecialchars($data["SEARCH_PLACEHOLDER"] ?? 'Search...'); ?>" id="searchInput">
+    <a><i class="fa-solid fa-magnifying-glass"></i></a>
+  </div>
+</div>
         
-        <form class="search-icon-mobile">
-            <input type="text"
-            placeholder="Search..">
-                <i class="fa-solid fa-magnifying-glass"></i>
-        </form>
-        <script src="https://kit.fontawesome.com/a692e1c39f.js"
-        crossorigin="anonymous"></script>
+<!-- Mobile search icon -->
+<form class="search-icon-mobile">
+  <input type="text" placeholder="<?php echo htmlspecialchars($data["SEARCH_PLACEHOLDER_MOBILE"] ?? 'Search...'); ?>">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</form>
+
+<script src="https://kit.fontawesome.com/a692e1c39f.js" crossorigin="anonymous"></script>
 
         <!-- Menu déroulant pour les langues -->
-        <div class="popover-container">
-            <button class="popup-button" onclick="toggleLanguageList()">
-            <img src="../images/france.png" width="30" height="30">
-            </button>
-            <ul class="popover-content" id="languageList">
-                <li>
-                    <a class="active track" >
-                        <span class="text__general--heading">Français</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="track">
-                        <span class="text__general--heading">English</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="popover-container">
+  <button class="popup-button" onclick="toggleLanguageList()">
+    <img src="../images/france.png" width="30" height="30">
+  </button>
+  <ul class="popover-content" id="languageList">
+    <li>
+      <a href="javascript:void(0);" onclick="changeLanguage('fr')">
+        <span class="text__general--heading"><?php echo htmlspecialchars($data["FRENCH"] ?? 'Français'); ?></span>
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0);" onclick="changeLanguage('en')">
+        <span class="text__general--heading"><?php echo htmlspecialchars($data["ENGLISH"] ?? 'English'); ?></span>
+      </a>
+    </li>
+  </ul>
+</div>
 
         <!-- Bouton de mode sombre -->
         <div class="dark-mode-toggle">

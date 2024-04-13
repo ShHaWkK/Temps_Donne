@@ -38,7 +38,17 @@
     "ACTIVITIES_FOR_ELDERLY": "Activités pour les personnes âgées",
     "ACTIVITIES_FOR_ELDERLY_ALT": "Activités pour les personnes âgées",
     "SHUTTLE_SERVICES": "Navettes pour les rendez-vous éloignés",
-    "SHUTTLE_SERVICES_ALT": "Navettes pour les rendez-vous éloignés"
+    "SHUTTLE_SERVICES_ALT": "Navettes pour les rendez-vous éloignés", 
+
+
+    "BENEFICIARY_SPACE_TITLE": "ESPACE BÉNÉFICIAIRE",
+    "BENEFICIARY_SPACE_SUBTITLE": "Votre engagement, notre force",
+    "NEW_HERE": "Nouveau ici ?",
+    "CREATE_ACCOUNT": "Créer un compte",
+    "EMAIL_LABEL": "E-mail:",
+    "PASSWORD_LABEL": "Mot de passe:",
+    "LOGIN_BUTTON": "S'identifier",
+    "FORGOT_PASSWORD": "Mot de passe oublié ?"
 }
   
 

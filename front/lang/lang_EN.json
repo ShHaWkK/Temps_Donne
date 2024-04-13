@@ -33,9 +33,16 @@
     "ACTIVITIES_FOR_ELDERLY": "Activities for the Elderly",
     "ACTIVITIES_FOR_ELDERLY_ALT": "Activities for the Elderly",
     "SHUTTLE_SERVICES": "Shuttle Services",
-    "SHUTTLE_SERVICES_ALT": "Shuttle Services"
+    "SHUTTLE_SERVICES_ALT": "Shuttle Services", 
 
-    
 
+    "BENEFICIARY_SPACE_TITLE": "BENEFICIARY SPACE",
+    "BENEFICIARY_SPACE_SUBTITLE": "Your commitment, our strength",
+    "NEW_HERE": "New here?",
+    "CREATE_ACCOUNT": "Create Account",
+    "EMAIL_LABEL": "Email:",
+    "PASSWORD_LABEL": "Password:",
+    "LOGIN_BUTTON": "Log In",
+    "FORGOT_PASSWORD": "Forgot Password?"
 
 }

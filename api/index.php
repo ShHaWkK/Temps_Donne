@@ -1,5 +1,4 @@
 <?php
-
 // file: api/index.php
 
 //-------------------- CORS --------------------//
@@ -26,7 +25,10 @@ function sendJsonResponse($data, $statusCode = 200) {
     echo json_encode($data);
     exit();
 }
-
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 //-------------------- ROUTER --------------------//
 
 function router($uri, $requestMethod) {

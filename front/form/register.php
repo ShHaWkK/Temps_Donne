@@ -22,9 +22,9 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
         <h2> Informations personnelles </h2>
         <h3> Genre: * </h3>
         <div class="line">
-            <label class="radio-label"> Homme <input type="radio" name="genre" value="homme" required> </label>
-            <label class="radio-label"> Femme <input type="radio" name="genre" value="femme" required> </label>
-            <label class="radio-label"> Autre <input type="radio" name="genre" value="autre" required> </label>
+            <label class="radio-label"> Homme <input type="radio" id="genre" name="genre" value="homme" required> </label>
+            <label class="radio-label"> Femme <input type="radio" id="genre" name="genre" value="femme" required> </label>
+            <label class="radio-label"> Autre <input type="radio" id="genre" name="genre" value="autre" required> </label>
         </div>
 
         <div class="line">
@@ -306,8 +306,8 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 
             </div>
             <div class="col">
-                <label for="langues"> <h3>Langues: *</h3><span class="required" multiple required></span></label>
-                <select id="nationalite" name="nationalite" required>
+                <label for="langues"> <h3>Langues: *</h3></label>
+                <select id="langues" name="langues[]" multiple required>
                     <option value="francais">Francais</option>
                     <option value="anglais">Anglais</option>
                     <option value="espagnol">Espagnol</option>
@@ -318,8 +318,8 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
         <h3> Adresse: * </h3>
         <textarea id="name" name="name" rows="1" cols="1"></textarea>
 
-        <label for="situation_personnelle"> <h3> Situation personnelle: *</h3> </label>
-        <select id="situation_personnelle" name="situation_personnelle" required>
+        <label for="situation"> <h3> Situation personnelle: *</h3> </label>
+        <select id="situation" name="situation" required>
             <option value="etudiant">Étudiant</option>
             <option value="employe">Employé</option>
             <option value="chomeur">Chômeur</option>
@@ -418,7 +418,69 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
         <p>Les demandes seront examinées attentivement par notre équipe, qui se réserve le droit d'accepter ou de refuser
             une demande en fonction des besoins de l'association et des disponibilités des bénévoles.</p>
 
-        <button class="btn confirm-button">Valider</button>
+        <script>
+            function sendDataToAPI() {
+                // Récupérer les données du formulaire
+                var genre = document.getElementById('genre').value;
+                var nom = document.getElementById('nom').value;
+                var prenom = document.getElementById('prenom').value;
+                var date_naissance = document.getElementById('date_naissance').value;
+                var email = document.getElementById('email').value;
+                var telephone = document.getElementById('telephone').value;
+
+                // Récupérer les cases cochées pour les permis
+                var permisArray = [];
+                var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
+                permisCheckboxes.forEach(function(checkbox) {
+                    permisArray.push(checkbox.value);
+                });
+
+                // Créer un objet JSON avec les données du formulaire
+                var data = {
+                    genre: genre,
+                    nom: nom,
+                    prenom: prenom,
+                    date_naissance: date_naissance,
+                    email: email,
+                    telephone: telephone,
+                    type_permis: permisArray
+                };
+
+                // Convertir l'objet JSON en chaîne JSON
+                var jsonData = JSON.stringify(data);
+
+                // URL de votre API
+                var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
+
+                // Configuration de la requête POST
+                var options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: jsonData
+                };
+
+                // Envoyer les données à l'API via une requête HTTP POST
+                fetch(apiUrl, options)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de l\'envoi des données à l\'API.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Traiter la réponse de l'API ici, si nécessaire
+                        console.log('Réponse de l\'API :', data);
+                        alert('Données envoyées avec succès à l\'API.');
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'envoi des données à l\'API :', error);
+                        alert('Erreur lors de l\'envoi des données à l\'API.');
+                    });
+            }
+        </script>
+        <button class="btn confirm-button" onclick="sendDataToAPI()">Valider</button>
     </div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
 </body>
@@ -426,47 +488,4 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 <?php
 include_once('../includes/footer.php');
 ?>
-
-<script>
-    document.getElementById("myForm").addEventListener("submit", function(event){
-        // Empêcher le comportement par défaut du formulaire
-        event.preventDefault();
-
-        // Récupérer les valeurs des champs du formulaire
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-
-        // Créer un objet de données à envoyer à l'API
-        var data = {
-            username: username,
-            password: password
-        };
-
-        // Effectuer une requête POST vers l'API
-        fetch('https://example.com/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => {
-                // Vérifier le statut de la réponse
-                if (response.ok) {
-                    // Traiter la réponse si la requête a réussi
-                    console.log("Connexion réussie !");
-                    // Rediriger l'utilisateur vers une autre page par exemple
-                    window.location.href = 'https://example.com/dashboard';
-                } else {
-                    // Traiter l'erreur si la requête a échoué
-                    console.error("Échec de la connexion !");
-                }
-            })
-            .catch(error => {
-                // Gérer les erreurs de requête
-                console.error('Erreur lors de la requête:', error);
-            });
-    });
-</script>
-
 </html>

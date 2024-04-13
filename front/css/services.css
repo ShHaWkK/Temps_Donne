@@ -30,14 +30,15 @@
      margin-bottom: 20px;
  }
   
-/*main*/ 
+/*main*/
  .main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
      max-width: 800px;
      margin: auto;
      border-radius: 8px;
+     overflow: hidden;
  }
 
  .main-container.shade{

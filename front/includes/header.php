@@ -16,13 +16,13 @@
         </div>
 
         <!-- Boutons de navigation -->
-        <nav class="navigation-menu">   
+        <nav class="navigation-menu">
             <ul class="header-menu">
-                <li><a href="../index.php" class="nav-item active"><i class="fa fa-home"></i> Accueil</a></li>
-                <li><a href="../services/services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
-                <li><a href="../form/donations.php" class="nav-item-space"><i class="fa-solid fa-hand-holding-dollar"></i> Faire un <br>don</a></li>
-                <li><a href="../inscription_conn/connexion_beneficiaire.php" class="nav-item-space"><i class="fa-solid fa-handshake"></i> Espace <br> bénéficiaire</a></li>
-                <li><a href="../inscription_conn/connexion_benevole.php" class="nav-item-space"> <i class='fa-solid fa-hand-holding-heart'></i> Espace <br>bénévole</a></li>
+                <li><a href="/index.php" class="nav-item active"><i class="fa fa-home"></i> Accueil</a></li>
+                <li><a href="/services/services.php" class="nav-item"><i class="fa-solid fa-users"></i> Services</a></li>
+                <li><a href="/form/donations.php" class="nav-item-space"><i class="fa-solid fa-hand-holding-dollar"></i> Faire un <br>don</a></li>
+                <li><a href="/inscription_conn/connexion_beneficiaire.php" class="nav-item-space"><i class="fa-solid fa-handshake"></i> Espace <br> bénéficiaire</a></li>
+                <li><a href="/inscription_conn/connexion_benevole.php" class="nav-item-space"> <i class='fa-solid fa-hand-holding-heart'></i> Espace <br>bénévole</a></li>
             </ul>
         </nav>
 

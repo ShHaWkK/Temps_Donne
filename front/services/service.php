@@ -13,8 +13,6 @@ echo "<title>Services - Au temps donné</title>";
 
 <body>
 
-<div id="header"></div>
-
     <div class="main-container">
         <h1>Nom du service</h1>
         <p>
@@ -37,20 +35,8 @@ include_once('../includes/footer.php');
 </html>
 
 <script>
-    var xhr = new XMLHttpRequest();
-
-    xhr.open('GET', '../header/header.php', true);
-
-    xhr.onload = function() {
-
-        if (xhr.status === 200) {
-            document.getElementById('header').innerHTML = xhr.responseText;
-
-            includeDarkModeScript();
-        }
-    };
-
-    xhr.send();
+    // Appel du script darkmode.js directement
+    includeDarkModeScript();
 
     function includeDarkModeScript() {
         var script = document.createElement('script');

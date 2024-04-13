@@ -9,7 +9,7 @@
 include_once('../includes/head.php');
 include_once('../includes/header.php');
 
-echo "<title>Services - Au temps donné</title>";
+echo "<title>Inscription bénévole - Au temps donné</title>";
 ?>
 
 </div>
@@ -307,23 +307,10 @@ echo "<title>Services - Au temps donné</title>";
             </div>
             <div class="col">
                 <label for="langues"> <h3>Langues: *</h3><span class="required" multiple required></span></label>
-                <select id="langues" name="langues[]" >
-                    <?php
-                    $langues = array(
-                        "Français", "Anglais", "Espagnol", "Allemand", "Italien", "Arabe", "Chinois", "Japonais", "Russe",
-                        "Portugais", "Hindi", "Bengali", "Punjabi", "Javanais", "Telegu", "Marathi", "Tamil", "Turc",
-                        "Vietnamien", "Coréen", "Thaï", "Polonais", "Ukrainien", "Roumain", "Grec", "Tchèque", "Hongrois",
-                        "Bulgare", "Danois", "Finnois", "Norvégien", "Suédois", "Néerlandais", "Géorgien", "Arménien",
-                        "Albanais", "Serbe", "Croate", "Bosniaque", "Macédonien", "Monténégrin", "Slovène", "Slovaque",
-                        "Lituanien", "Letton", "Estonien", "Biélorusse", "Arménien", "Azerbaïdjanais", "Kazakh", "Ouzbek",
-                        "Tadjik", "Turkmène", "Kirghiz", "Mongol", "Tibétain", "Népalais", "Bhoutanais", "Sri Lankais",
-                        "Maldivien", "Indonésien", "Malais", "Philippin", "Singapourien", "Thaïlandais", "Birman", "Laotien",
-                        "Cambodgien", "Vietnamien"
-                    );
-                    foreach ($langues as $langue) {
-                        echo "<option value=\"$langue\">$langue</option>";
-                    }
-                    ?>
+                <select id="nationalite" name="nationalite" required>
+                    <option value="francais">Francais</option>
+                    <option value="anglais">Anglais</option>
+                    <option value="espagnol">Espagnol</option>
                 </select>
             </div>        <!-- end of col -->
         </div><!-- end of line -->
@@ -439,5 +426,47 @@ echo "<title>Services - Au temps donné</title>";
 <?php
 include_once('../includes/footer.php');
 ?>
+
+<script>
+    document.getElementById("myForm").addEventListener("submit", function(event){
+        // Empêcher le comportement par défaut du formulaire
+        event.preventDefault();
+
+        // Récupérer les valeurs des champs du formulaire
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        // Créer un objet de données à envoyer à l'API
+        var data = {
+            username: username,
+            password: password
+        };
+
+        // Effectuer une requête POST vers l'API
+        fetch('https://example.com/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                // Vérifier le statut de la réponse
+                if (response.ok) {
+                    // Traiter la réponse si la requête a réussi
+                    console.log("Connexion réussie !");
+                    // Rediriger l'utilisateur vers une autre page par exemple
+                    window.location.href = 'https://example.com/dashboard';
+                } else {
+                    // Traiter l'erreur si la requête a échoué
+                    console.error("Échec de la connexion !");
+                }
+            })
+            .catch(error => {
+                // Gérer les erreurs de requête
+                console.error('Erreur lors de la requête:', error);
+            });
+    });
+</script>
 
 </html>

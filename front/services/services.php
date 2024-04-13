@@ -13,8 +13,6 @@ echo "<title>Services - Au temps donné</title>";
 
 <body>
 
-<div id="header"></div>
-
     <div class="main-container shade">
         <h1>Services</h1>
         <div class="service-list">
@@ -51,26 +49,3 @@ echo "<title>Services - Au temps donné</title>";
 </body>
 
 </html>
-
-<script>
-    var xhr = new XMLHttpRequest();
-
-    xhr.open('GET', '../header/header.php', true);
-
-    xhr.onload = function() {
-
-        if (xhr.status === 200) {
-            document.getElementById('header').innerHTML = xhr.responseText;
-
-            includeDarkModeScript();
-        }
-    };
-
-    xhr.send();
-
-    function includeDarkModeScript() {
-        var script = document.createElement('script');
-        script.src = "../scripts/darkmode.js";
-        document.body.appendChild(script);
-    }
-</script>

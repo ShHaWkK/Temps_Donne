@@ -41,6 +41,7 @@ echo "<title>Accueil - Au temps donné</title>";
 </div>
 
   <?php
+  include_once('includes/cookie.php');
   include_once('includes/footer.php');
   ?>
 

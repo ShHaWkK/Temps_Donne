@@ -68,6 +68,7 @@
     "PHONE_NUMBER": "Phone number",
     "NATIONALITY" : "Nationality",
     "LANGUAGES": "Languages",
+    "LANGUAGES_EXPLAINATION": "Select all the languages you can speak fluently. This will help us assign you more relevant assignments (especially for adult and child literacy classes)",
     "ADDRESS": "Address",
     "PERSONAL_SITUATION": "Personal situation",
     "STUDENT": "Student",

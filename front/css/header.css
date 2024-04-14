@@ -1,12 +1,19 @@
 /* Style général du body et du header */
+:root {
+    --margin-color: white;
+    --background-color: white;
+    --text_color: black;
+}
+
+
 body,header {
     margin: 0;
     padding: 0;
     }
 
     .dark-mode {
-        background-color: #434242; 
-        color: #D3D2D2; 
+        background-color: #434242;
+        color: #D3D2D2;
     }
 
     .header-container {
@@ -16,7 +23,7 @@ body,header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #82CFD8; 
+        background-color: #82CFD8;
     }
 
     .logo-container {

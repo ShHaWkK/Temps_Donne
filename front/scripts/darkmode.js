@@ -5,9 +5,12 @@
         if (mode === 'dark') {
             document.body.classList.add("dark-mode");
             document.getElementById("darkModeToggle").checked = true; // Cocher l'interrupteur
+            // Détection du mode sombre et mise à jour de la variable CSS en conséquence
+            document.documentElement.style.setProperty('--margin-color', '#434242');
         } else {
             document.body.classList.remove("dark-mode");
             document.getElementById("darkModeToggle").checked = false; // Décocher l'interrupteur
+            document.documentElement.style.setProperty('--margin-color', '#D3D2D2');
         }
     }
 

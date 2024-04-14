@@ -1,9 +1,8 @@
-//Mode de paiement interractifs:
 document.addEventListener("DOMContentLoaded", function() {
     var paymentButtons = document.querySelectorAll('.payment-button');
     var paymentDetailsDivs = document.querySelectorAll('.payment-details');
 
-// Fonction pour afficher les détails de paiement appropriés en fonction de la sélection
+    // Fonction pour afficher les détails de paiement appropriés en fonction de la sélection
     function showPaymentDetails(paymentMethod) {
         // Masquer tous les détails de paiement
         paymentDetailsDivs.forEach(function(div) {

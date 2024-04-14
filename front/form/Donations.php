@@ -89,7 +89,6 @@ include_once('../includes/lang.php');
             </div>
         </div>
 
-
         <div class="section">
             <div class="col">
                 <h2> <?php echo htmlspecialchars($data["DONATION_INFORMATIONS"]);?> </h2>
@@ -100,12 +99,12 @@ include_once('../includes/lang.php');
             <div class="col">
                 <h3><?php echo htmlspecialchars($data["PAYMENT_MEANS"]);?>:*</h3>
                 <div class="payment-list">
-                    <button class="payment-button" data-payment-method="paypal">
+                    <button class="payment-button active" data-payment-method="paypal">
                         <h3>Paypal</h3>
                         <img src="../images/icones/Paypal.png" width="80" height="80">
                     </button>
 
-                    <button class="payment-button active" data-payment-method="card">
+                    <button class="payment-button" data-payment-method="card">
                         <h3><?php echo htmlspecialchars($data["BANK_CARD"]);?></h3>
                         <img src="../images/icones/credit-card.png" width="80" height="80">
                     </button>

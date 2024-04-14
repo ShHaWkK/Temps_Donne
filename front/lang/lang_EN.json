@@ -113,5 +113,30 @@
     "TERMS_LEGAL_NOTICES": "Terms and legal notices",
     "DEMANDS_CHECKED": "Demands will be carefully examined by our team, who reserves the right to accept or refuse a request based on the needs of the association and the availability of volunteers.",
     "CONFIRM": "Confirm",
-    "CONDITIONS_PATH": "./User_Conditions/user_conditions_english.txt"
+    "CONDITIONS_PATH": "./User_Conditions/user_conditions_english.txt", 
+
+
+    "LOGIN_TITLE": "Volunteer Login",
+    "LOGIN_SUBTITLE": "Together, let's make a difference",
+    "NO_ACCOUNT": "Don't have a volunteer account?",
+    "ENGAGE": "I Commit",
+    "EMAIL_LABEL": "E-mail:",
+    "PASSWORD_LABEL": "Password:",
+    "LOGIN_BUTTON": "Sign In",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "VOLUNTEER_LOGIN_TITLE": "Volunteer Space",
+    "VOLUNTEER_LOGIN_SUBTITLE": "Your commitment, our strength",
+    "VOLUNTEER_NO_ACCOUNT_PROMPT": "New here?",
+    "VOLUNTEER_REGISTER_BUTTON": "Create Account",
+    "VOLUNTEER_EMAIL_INPUT_LABEL": "E-mail",
+    "VOLUNTEER_PASSWORD_INPUT_LABEL": "Password",
+    "VOLUNTEER_LOGIN_BUTTON_TEXT": "Sign In",
+    "VOLUNTEER_FORGOT_PASSWORD_LINK": "Forgot Password?",
+    "LANGUAGE_CODE": "en",
+
+    "COOKIE_TITLE": "Cookies",
+    "COOKIE_DESCRIPTION": "When you visit our website, we may access some of your information to better guide you and make tasks easier on our site. To learn more:",
+    "COOKIE_POLICY_LINK": "Privacy Policy",
+    "ACCEPT_BUTTON": "Accept",
+    "DECLINE_BUTTON": "Decline" 
 }

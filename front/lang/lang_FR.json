@@ -116,7 +116,27 @@
     "TERMS_LEGAL_NOTICES": "Termes et mentions légales",
     "DEMANDS_CHECKED": "Les demandes seront examinées attentivement par notre équipe, qui se réserve le droit d'accepter ou de refuser une demande en fonction des besoins de l'association et des disponibilités des bénévoles.",
     "CONFIRM": "Valider",
-    "CONDITIONS_PATH": "./User_Conditions/user_conditions_french.txt"
+    "CONDITIONS_PATH": "./User_Conditions/user_conditions_french.txt",
+
+
+    "VOLUNTEER_LOGIN_TITLE": "Connexion Bénévole",
+    "VOLUNTEER_LOGIN_SUBTITLE": "Ensemble, faisons la différence",
+    "VOLUNTEER_NO_ACCOUNT_PROMPT": "Pas encore de compte bénévole ?",
+    "VOLUNTEER_REGISTER_BUTTON": "S'engager comme bénévole",
+    "VOLUNTEER_EMAIL_INPUT_LABEL": "Adresse e-mail ",
+    "VOLUNTEER_PASSWORD_INPUT_LABEL": "Mot de passe ",
+    "VOLUNTEER_LOGIN_BUTTON_TEXT": "Connexion",
+    "VOLUNTEER_FORGOT_PASSWORD_LINK": "Mot de passe oublié ?",
+    "VOLUNTEER_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer", 
+    "LANGUAGE_CODE": "fr", 
+
+    "COOKIE_TITLE": "Cookies",
+    "COOKIE_DESCRIPTION": "Lorsque vous visitez notre site, nous pouvons accéder à certaines de vos informations pour mieux vous aiguiller et faciliter la tâche sur notre site. Pour en savoir plus :",
+    "COOKIE_POLICY_LINK": "Politique de confidentialité",
+    "ACCEPT_BUTTON": "Accepter",
+    "DECLINE_BUTTON": "Refuser"
+
+    
 }
   
 

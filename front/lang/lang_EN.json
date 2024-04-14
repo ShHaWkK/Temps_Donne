@@ -1,4 +1,8 @@
 {
+    "FLAG" : "../images/united-kingdom.png",
+    "FRENCH": "French",
+    "ENGLISH": "English",
+
     "WELCOME": "TOGETHER, LET'S CHANGE LIVES",
     "BECOME_VOLUNTEER": "Become a volunteer today!",
     "JOIN_NOW": "I BECOME A VOLUNTEER",
@@ -34,6 +38,8 @@
     "ACTIVITIES_FOR_ELDERLY_ALT": "Activities for the Elderly",
     "SHUTTLE_SERVICES": "Shuttle Services",
     "SHUTTLE_SERVICES_ALT": "Shuttle Services",
+    "FUNDRAISING_EVENTS": "Récote de fonds",
+    "FUNDRAISING_EVENTS_ALT": "Fundraising events",
 
     "BENEFICIARY_SPACE_TITLE": "BENEFICIARY SPACE",
     "BENEFICIARY_SPACE_SUBTITLE": "Your commitment, our strength",
@@ -44,8 +50,13 @@
     "LOGIN_BUTTON": "Log In",
     "FORGOT_PASSWORD": "Forgot Password?",
 
+
     "I_BECOME_VOLUNTEER": "I become a volunteer !",
     "FORM_INTRO_VOLUNTEER": "Volunteering, like solidarity, can take various forms!\nThis form will help our team of volunteers to offer you missions made for you.",
+
+    "I_MAKE_A_DONATION": "I make a donation",
+    "FORM_INTRO_DONATION": "Change lives with “Au Temps Donné”! Every donation counts to support those in need. Contribute to this mission of solidarity and hope. Your contribution is our strength. Let's act now, for a more just and united world!\n",
+
     "PERSONAL_INFORMATIONS": "Personal informations",
     "GENDER": "Gender",
     "MALE": "Male",
@@ -57,11 +68,13 @@
     "PHONE_NUMBER": "Phone number",
     "NATIONALITY" : "Nationality",
     "LANGUAGES": "Languages",
+    "ADDRESS": "Address",
     "PERSONAL_SITUATION": "Personal situation",
     "STUDENT": "Student",
     "EMPLOYED": "Employed",
     "UNEMPLOYED": "Unemployed",
     "RETIRED": "Retired",
+
     "AVAILABILITY_INTERVENTION_AREA": "Availability and area of intervention",
     "MOBILITY": "Mobility",
     "DRIVER_LICENSE": "Driver license",
@@ -83,6 +96,18 @@
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday",
     "SUNDAY": "Sunday",
+
+    "DONATION_INFORMATIONS": "Donation informations",
+    "AMOUNT": "Payment amount",
+    "PAYMENT_MEANS": "Means of payment",
+    "BANK_CARD": "Bank card",
+    "INSTANT_TRANSFER": "Instant transfer",
+    "CHECK": "Check",
+    "CARD_NUMBER": "Card number",
+    "EXPIRATION_DATE": "Expiration date",
+    "CONTROL_NUMBER": "Control number",
+    "BANK_SELECT": "Please select your bank",
+
     "READ_ACCEPT": "I have read and I consent to respect the terms and legal user notices",
     "WISH_MAIL_NEWS": "I wish to be contacted about the association news by mail",
     "TERMS_LEGAL_NOTICES": "Terms and legal notices",

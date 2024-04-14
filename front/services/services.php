@@ -38,10 +38,10 @@ include_once('../includes/lang.php');
             <img src="../images/icones/read.png" alt="<?php echo htmlspecialchars($data["ACADEMIC_SUPPORT_ALT"]); ?>" width="100" height="100">
         </button>
         <!-- Uncomment or add new service buttons as needed -->
-        <!-- <button class="service-button">
-            <h3><?php // echo htmlspecialchars($data["FUNDRAISING_EVENTS"]); ?></h3>
-            <img src="../images/icones/donate.png" alt="<?php // echo htmlspecialchars($data["FUNDRAISING_EVENTS_ALT"]); ?>" width="100" height="100">
-        </button> -->
+        <button class="service-button">
+            <h3><?php echo htmlspecialchars($data["FUNDRAISING_EVENTS"]); ?></h3>
+            <img src="../images/icones/donate.png" alt="<?php  echo htmlspecialchars($data["FUNDRAISING_EVENTS_ALT"]); ?>" width="100" height="100">
+        </button>
         <button class="service-button">
             <h3><?php echo htmlspecialchars($data["ACTIVITIES_FOR_ELDERLY"]); ?></h3>
             <img src="../images/icones/couple.png" alt="<?php echo htmlspecialchars($data["ACTIVITIES_FOR_ELDERLY_ALT"]); ?>" width="100" height="100">

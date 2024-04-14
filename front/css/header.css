@@ -49,7 +49,7 @@ body,header {
     }
 
     .navigation-menu ul li .nav-item {
-        display: block;
+        /*display: block;*/
         padding: 15px;
         background-color: #00334A;
         color: white;

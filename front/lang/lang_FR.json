@@ -1,5 +1,8 @@
-
 {
+    "FLAG" : "../images/france.png",
+    "FRENCH": "Français",
+    "ENGLISH": "Anglais",
+
     "WELCOME": "ENSEMBLE, CHANGEONS DES VIES",
     "BECOME_VOLUNTEER": "Devenez bénévole dès maintenant !",
     "JOIN_NOW": "JE DEVIENS BÉNÉVOLE",
@@ -38,8 +41,9 @@
     "ACTIVITIES_FOR_ELDERLY": "Activités pour les personnes âgées",
     "ACTIVITIES_FOR_ELDERLY_ALT": "Activités pour les personnes âgées",
     "SHUTTLE_SERVICES": "Navettes pour les rendez-vous éloignés",
-    "SHUTTLE_SERVICES_ALT": "Navettes pour les rendez-vous éloignés", 
-
+    "SHUTTLE_SERVICES_ALT": "Navettes pour les rendez-vous éloignés",
+    "FUNDRAISING_EVENTS": "Récote de fonds",
+    "FUNDRAISING_EVENTS_ALT": "Récote de fonds",
 
     "BENEFICIARY_SPACE_TITLE": "ESPACE BÉNÉFICIAIRE",
     "BENEFICIARY_SPACE_SUBTITLE": "Votre engagement, notre force",
@@ -52,6 +56,10 @@
 
     "I_BECOME_VOLUNTEER": "Je deviens bénévole !",
     "FORM_INTRO_VOLUNTEER": "Le bénévolat, comme la solidarité, peuvent prendre diverses formes ! Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.",
+
+    "I_MAKE_A_DONATION": "Je fais un don",
+    "FORM_INTRO_DONATION": "Changez des vies avec “Au Temps Donné”,! Chaque don compte pour soutenir ceux qui en ont besoin. Contribuez à cette mission de solidarité et d'espoir. Votre contribution est notre force. Agissons maintenant, pour un monde plus juste et solidaire!",
+
     "PERSONAL_INFORMATIONS": "Informations personnelles",
     "GENDER": "Genre",
     "MALE": "Homme",
@@ -63,11 +71,13 @@
     "PHONE_NUMBER": "Numéro de téléphone",
     "NATIONALITY" : "Nationalité",
     "LANGUAGES": "Langues",
+    "ADDRESS": "Adresse",
     "PERSONAL_SITUATION": "Situation personnelle",
     "STUDENT": "Etudiant",
     "EMPLOYED": "Employé",
     "UNEMPLOYED": "Inactif",
     "RETIRED": "Retraité",
+
     "AVAILABILITY_INTERVENTION_AREA": "Disponibilités et domaine d'intervention",
     "MOBILITY": "Mobilité",
     "DRIVER_LICENSE": "Permis B",
@@ -89,6 +99,18 @@
     "FRIDAY": "Vendredi",
     "SATURDAY": "Samedi",
     "SUNDAY": "Dimanche",
+
+    "DONATION_INFORMATIONS": "Informations de donation",
+    "AMOUNT": "Montant",
+    "PAYMENT_MEANS": "Moyen de réglement",
+    "BANK_CARD": "Carte bancaire",
+    "INSTANT_TRANSFER": "Virement instantanné",
+    "CHECK": "Chéque",
+    "CARD_NUMBER": "Numéro de carte",
+    "EXPIRATION_DATE": "Date d'expiration",
+    "CONTROL_NUMBER": "Numéro de contrôle",
+    "BANK_SELECT": "Veuillez sélectionner votre banque",
+
     "READ_ACCEPT": "J'ai lu et j'accepte les termes et conditions légales",
     "WISH_MAIL_NEWS": "Je souhaite recevoir des nouvelles de l'association par mail",
     "TERMS_LEGAL_NOTICES": "Termes et mentions légales",

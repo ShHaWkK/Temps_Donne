@@ -174,10 +174,11 @@
         }
 
         /*Boutons des moyens de paiement*/
-        .payment-list{
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
+        .payment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            grid-auto-rows: auto;
+            grid-gap: 10px;
             justify-content: center;
             width: 100%;
             margin: auto;
@@ -203,6 +204,12 @@
         }
 
         .payment-button:hover{
+            background-color: #23B5BE;
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-button.active {
             background-color: #23B5BE;
             transform: scale(1.05);
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);

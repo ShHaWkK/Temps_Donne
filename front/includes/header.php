@@ -26,7 +26,7 @@
             </ul>
         </nav>
 
-
+        <!-- Menu de navigation hamburger pour les modes mobiles et tablette -->
         <div class="popover-container menu">
             <button class="popup-button">
                 <i class="fa-solid fa-bars"></i><i class="icon icon--md icon--caret-down"></i>
@@ -60,9 +60,6 @@
             </ul>
         </div>
 
-
-
-
         <!-- Search bar -->
         <div class="search-container">
             <div class="search-icon">
@@ -81,18 +78,21 @@
 
         <!-- Menu déroulant pour les langues -->
         <div class="popover-container">
+            <?php
+            $imagePath = htmlspecialchars($data["FLAG"]);
+            ?>
             <button class="popup-button" onclick="toggleLanguageList()">
-                <img src="../images/france.png" width="30" height="30">
+                <img src="<?php echo $imagePath; ?>" width="30" height="30">
             </button>
             <ul class="popover-content" id="languageList">
                 <li>
                     <a href="javascript:void(0);" onclick="changeLanguage('fr')">
-                        <span class="text__general--heading"><?php echo htmlspecialchars($data["FRENCH"] ?? 'Français'); ?></span>
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["FRENCH"]) ?></span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript:void(0);" onclick="changeLanguage('en')">
-                        <span class="text__general--heading"><?php echo htmlspecialchars($data["ENGLISH"] ?? 'English'); ?></span>
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["ENGLISH"] ); ?></span>
                     </a>
                 </li>
             </ul>
@@ -109,3 +109,24 @@
 </header>
 
 <script src="../scripts/darkmode.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Sélectionnez tous les éléments de navigation
+        var navItems = document.querySelectorAll('.navigation-menu .nav-item');
+
+        // Parcourez chaque élément de navigation
+        navItems.forEach(function(navItem) {
+            // Ajoutez un écouteur d'événements clic à chaque élément de navigation
+            navItem.addEventListener('click', function(event) {
+                // Supprimez la classe "active" de tous les éléments de navigation
+                navItems.forEach(function(item) {
+                    item.classList.remove('active');
+                });
+
+                // Ajoutez la classe "active" à l'élément de navigation cliqué
+                navItem.classList.add('active');
+            });
+        });
+    });
+
+</script>

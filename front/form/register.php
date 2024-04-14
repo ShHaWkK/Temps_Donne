@@ -316,7 +316,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             </div>        <!-- end of col -->
         </div><!-- end of line -->
 
-        <h3> Adresse: * </h3>
+        <h3> <?php echo htmlspecialchars($data["ADDRESS"]);?>: * </h3>
         <textarea id="name" name="name" rows="1" cols="1"></textarea>
 
         <label for="situation"> <h3> <?php echo htmlspecialchars($data["PERSONAL_SITUATION"]);?>: *</h3> </label>

@@ -1,5 +1,10 @@
 <?php
-include_once('../includes/lang.php');
+if (file_exists('../includes/lang.php')) {
+    include_once('../includes/lang.php');
+} else {
+}
+$data = $data ?? []; 
+
 ?>
 
 <!DOCTYPE html>

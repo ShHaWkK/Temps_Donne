@@ -11,6 +11,7 @@
         h1,h2{
             font-family: 'Bebas Neue', sans-serif;
             text-transform: uppercase;
+            margin-bottom: 20px;
         }     
 
         h1{
@@ -47,6 +48,12 @@
             margin-bottom: 2rem;
         }
 
+        .section{
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid black;
+        }
+
         .line{
             display: flex;
             flex-direction: row;
@@ -65,6 +72,7 @@
             flex: 1;
             flex-direction: column;
             margin-right: 30px;
+            margin-bottom: 20px;
         }
 
         /* Form inputs */
@@ -248,8 +256,6 @@
             text-decoration: none;
             cursor: pointer;
         }
-
-
 
         /* Responsive */
         @media (max-width: 768px) {

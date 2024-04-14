@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <?php
-include_once('../includes/head.php');
-
+// include_once('../includes/head.php');
 echo "<title>Connexion Bénévole - Au temps donné</title>";
 ?>
+<link rel="stylesheet" href="../css/connexion.css">
 
 <body>
   <div class="container">

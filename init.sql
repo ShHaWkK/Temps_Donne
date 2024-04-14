@@ -1,4 +1,13 @@
 -- Création de la table `Utilisateurs`
+/*
+Explication : 
+    Table Utilisateurs : Stocke les informations des utilisateurs.
+    Table Roles : Contient les rôles possibles des utilisateurs dans le système.
+    Table UtilisateursRoles : Une table de jonction qui relie les utilisateurs à leurs rôles, permettant 
+    une relation many-to-many où un utilisateur peut avoir plusieurs rôles et un rôle peut être attribué à plusieurs utilisateurs.
+*/
+
+
 CREATE TABLE Utilisateurs (
     ID_Utilisateur INT AUTO_INCREMENT PRIMARY KEY,
     Nom VARCHAR(255) NOT NULL,
@@ -334,6 +343,27 @@ INSERT INTO Langues (Code_Langue, Nom_Langue) VALUES
     ('es', 'Espagnol'),
     ('de', 'Allemand');
 
--- On enlève la colonne Statut_Benevole de la table Utilisateurs et on la remplace par une table associative UtilisateursRoles.
-ALTER TABLE Utilisateurs DROP COLUMN Statut_Benevole;
+
+-- Pour voir quels rôles chaque utilisateur a 
+SELECT u.Nom, u.Prenom, r.Nom_Role, ur.Statut
+FROM Utilisateurs u
+JOIN UtilisateursRoles ur ON u.ID_Utilisateur = ur.ID_Utilisateur
+JOIN Roles r ON ur.ID_Role = r.ID_Role;
+
+
+-- GEstion de changement de statut 
+UPDATE UtilisateursRoles
+SET Statut = 'Validé'
+WHERE ID_Utilisateur = 2 AND ID_Role = 2;  
+
+
+
+
+INSERT INTO Utilisateurs (Nom, Prenom, Email, Mot_de_passe, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Statut, Situation, Emploi, Societe, Est_Verifie, Code_Verification, Type_Permis, Date_Derniere_Connexion, Statut_Connexion, Statut_Benevole)
+VALUES ('Dupont', 'Jean', 'jean.dupont@email.com', 'password123', '123 Rue de Paris', '0123456789', '1980-01-01', 'Français', 'Française', CURDATE(), TRUE, 'Célibataire', 'Ingénieur', 'ABC Inc.', TRUE, 'XYZ123', 'B'),
+       ('Martin', 'Alice', 'alice.martin@email.com', 'password123', '124 Rue de Paris', '0123456790', '1990-02-02', 'Français, Anglais', 'Française', CURDATE(), TRUE, 'Mariée', 'Médecin', 'Santé+', TRUE, 'XYZ456', 'B');
+
+INSERT INTO UtilisateursRoles (ID_Utilisateur, ID_Role, Statut)
+VALUES (1, 1, 'Validé'),  
+       (2, 2, 'En attente'); 
 

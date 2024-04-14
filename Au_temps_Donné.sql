@@ -52,11 +52,11 @@ UPDATE UtilisateursRoles
 SET statut = 'Validé'
 WHERE id_utilisateur = 1 AND id_role = 3;
 
-SELECT u.Nom, r.Nom_Role, ur.statut
+SELECT u.Nom, u.Prenom, r.Nom_Role, ur.Statut
 FROM Utilisateurs u
 JOIN UtilisateursRoles ur ON u.ID_Utilisateur = ur.ID_Utilisateur
 JOIN Roles r ON ur.ID_Role = r.ID_Role;
-WHERE u.ID_Utilisateur = 1;
+
 
 -- Table Services
 CREATE TABLE Services (
@@ -409,3 +409,11 @@ CREATE TABLE Inventaire (
     Date_Mise_a_Jour DATE,
     FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
 );
+
+INSERT INTO Utilisateurs (Nom, Prenom, Email, Mot_de_passe, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Statut, Situation, Emploi, Societe, Est_Verifie, Code_Verification, Type_Permis, Date_Derniere_Connexion, Statut_Connexion, Statut_Benevole)
+VALUES ('Dupont', 'Jean', 'jean.dupont@email.com', 'password123', '123 Rue de Paris', '0123456789', '1980-01-01', 'Français', 'Française', CURDATE(), TRUE, 'Célibataire', 'Ingénieur', 'ABC Inc.', TRUE, 'XYZ123', 'B'),
+       ('Martin', 'Alice', 'alice.martin@email.com', 'password123', '124 Rue de Paris', '0123456790', '1990-02-02', 'Français, Anglais', 'Française', CURDATE(), TRUE, 'Mariée', 'Médecin', 'Santé+', TRUE, 'XYZ456', 'B');
+
+INSERT INTO UtilisateursRoles (ID_Utilisateur, ID_Role, Statut)
+VALUES (1, 1, 'Validé'),  
+       (2, 2, 'En attente'); 

@@ -106,7 +106,13 @@
     "VOLUNTEER_LOGIN_BUTTON_TEXT": "Connexion",
     "VOLUNTEER_FORGOT_PASSWORD_LINK": "Mot de passe oublié ?",
     "VOLUNTEER_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer", 
-    "LANGUAGE_CODE": "fr"
+    "LANGUAGE_CODE": "fr", 
+
+    "COOKIE_TITLE": "Cookies",
+    "COOKIE_DESCRIPTION": "Lorsque vous visitez notre site, nous pouvons accéder à certaines de vos informations pour mieux vous aiguiller et faciliter la tâche sur notre site. Pour en savoir plus :",
+    "COOKIE_POLICY_LINK": "Politique de confidentialité",
+    "ACCEPT_BUTTON": "Accepter",
+    "DECLINE_BUTTON": "Refuser"
 
     
 }

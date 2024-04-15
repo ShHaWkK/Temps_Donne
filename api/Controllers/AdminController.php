@@ -16,7 +16,7 @@ class AdminController {
                     if (isset($uri[3])) {
                         $this->getAdmin($uri[3]);
                     } else {
-                        $this->getAllAdmins(); 
+                        $this->getAllAdmins();
                     }
                     break;
                 case 'POST':
@@ -41,10 +41,10 @@ class AdminController {
         }
     }
 
-    
+
     public function __construct() {
         $db = connectDB();
-        $adminRepository = new AdminRepository($db); 
+        $adminRepository = new AdminRepository($db);
         $this->adminService = new AdminService($adminRepository);
     }
 
@@ -70,8 +70,8 @@ class AdminController {
             return;
         }
 
-        $data['role_id'] = $adminRoleId; 
-        $data['role'] = 'Administrateur'; 
+        $data['role_id'] = $adminRoleId;
+        $data['role'] = 'Administrateur';
 
         // Vérifiez que le mot de passe est présent et a au moins 8 caractères
         if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 8) {
@@ -83,8 +83,6 @@ class AdminController {
         $this->adminService->registerAdmin($admin);
         ResponseHelper::sendResponse(['message' => 'Admin created successfully'], 201);
     }
-
-
 
     public function deleteAdmin($id) {
         $this->userService->deleteUser($id, 'Administrateur');

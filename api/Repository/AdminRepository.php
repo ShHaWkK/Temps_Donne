@@ -102,7 +102,7 @@ class AdminRepository {
 
     public function findRoleIdByRoleName($roleName) {
         $sql = "SELECT ID_Role FROM Roles WHERE Nom_Role = :roleName";
-        $statement = $this->bdd->prepare($sql); 
+        $statement = $this->bdd->prepare($sql);
         $statement->bindValue(':roleName', $roleName);
         $statement->execute();
         return $statement->fetchColumn();
@@ -120,19 +120,19 @@ class AdminRepository {
             $stmtUtilisateur->bindValue(':statusVolunteer', $statusVolunteer);
             $stmtUtilisateur->bindValue(':userId', $userId);
             $stmtUtilisateur->execute();
-    
+
             // Mise à jour du statut du rôle dans la table UtilisateursRoles
             $sqlUtilisateurRoles = "UPDATE UtilisateursRoles SET Statut = :statusUserRole WHERE ID_Utilisateur = :userId AND ID_Role = (SELECT ID_Role FROM Roles WHERE Nom_Role = 'Benevole')";
             $stmtUtilisateurRoles = $this->bdd->prepare($sqlUtilisateurRoles);
             $stmtUtilisateurRoles->bindValue(':statusUserRole', $statusUserRole);
             $stmtUtilisateurRoles->bindValue(':userId', $userId);
             $stmtUtilisateurRoles->execute();
-    
+
             $this->bdd->commit();
         } catch (Exception $e) {
             $this->bdd->rollBack();
             throw $e;
         }
     }
-    
+
 }

@@ -47,10 +47,10 @@ function router($uri, $requestMethod) {
             $controller = new LoginController();
             break;
         case 'admins':
-        case 'volunteers':
             $controller = new AdminController();
             break;
         case 'users':
+        case 'volunteers':
             $controller = new UserController();
             break;
         case 'tickets':
@@ -143,6 +143,7 @@ function router($uri, $requestMethod) {
            }
        } */
 
+/*
         switch ($requestMethod) {
 
             case 'GET':
@@ -156,9 +157,9 @@ function router($uri, $requestMethod) {
                 if ($uri[2] === 'login') {
                     $controller->processRequest($requestMethod, $uri);
                 } else if ($uri[2] === 'volunteers') {
-                    $controller->registerVolunteer();
+                    $controller->processRequest($requestMethod, $uri);
                 } else {
-                    $controller->registerAdmin();
+                    $controller->processRequest($requestMethod, $uri);
                 }
                 break;
             case 'PUT':
@@ -188,7 +189,7 @@ function router($uri, $requestMethod) {
             default:
                 sendJsonResponse(['message' => 'Method Not Allowed'], 405);
                 break;
-        }
+        }*/
 
     } catch (Exception $e) {
         sendJsonResponse(['error' => $e->getMessage()], $e->getCode());

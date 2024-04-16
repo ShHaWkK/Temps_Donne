@@ -20,18 +20,19 @@ CREATE TABLE Utilisateurs (
     Langues TEXT,
     Nationalite VARCHAR(255),
     Date_d_inscription DATE,
-    Statut BOOLEAN DEFAULT TRUE,
+    -- Statut BOOLEAN DEFAULT TRUE,
     Situation VARCHAR(255),
     Besoins_specifiques TEXT,
     Photo_Profil TEXT,
     Emploi VARCHAR(255),
     Societe VARCHAR(255),
-    Est_Verifie BOOLEAN DEFAULT FALSE,
+    -- Est_Verifie BOOLEAN DEFAULT FALSE,
     Code_Verification VARCHAR(255),
     Type_Permis VARCHAR(50),
     Date_Derniere_Connexion DATE,
     Statut_Connexion BOOLEAN,
-    Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation'
+    Statut ENUM('validé', 'en attente de validation', 'refusé')
+    -- Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation'
 ) ENGINE=InnoDB;
 
 -- Création de la table `Roles`

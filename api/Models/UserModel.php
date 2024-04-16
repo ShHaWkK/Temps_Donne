@@ -19,11 +19,9 @@ class UserModel {
     public $statut_connexion; // Connecté ou déconnecté
     public $emploi;
     public $societe;
-    public $est_verifie;
     public $code_verification;
     public $type_permis;
-    public $roleName;
-    public $statut_benevole;
+    //public $roleName;
 
     public function __construct($data = []) {
         $this->nom = $data['nom'] ?? null;
@@ -44,11 +42,8 @@ class UserModel {
         $this->statut_connexion = $data['statut_connexion'] ?? null;
         $this->emploi = $data['emploi'] ?? null;
         $this->societe = $data['societe'] ?? null;
-        $this->est_verifie = $data['est_verifie'] ?? false;
         $this->code_verification = $data['code_verification'] ?? null;
         $this->type_permis = $data['type_permis'] ?? null;
-        $this->roleName = $data['role_name'] ?? null;
-        $this->statut_benevole = $data['statut_benevole'] ?? null;
 
         $this->validate($data);
     }

@@ -177,7 +177,7 @@ class PlanningController {
     
     
 }
-
+/*
 // Récupération de la méthode et des segments d'URI
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
@@ -185,4 +185,5 @@ $uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 // Création et traitement de la requête
 $controller = new PlanningController();
 $controller->processRequest($method, $uri);
+*/
 ?>

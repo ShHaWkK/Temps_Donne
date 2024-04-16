@@ -21,8 +21,8 @@ class UserRepository {
         if (empty($user->nom)) {
             throw new Exception("Le champ 'nom' ne peut pas être vide.");
         }
-    
-        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, est_verifie, code_verification, type_permis) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :est_verifie, :code_verification, :type_permis)";
+
+        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, code_verification, type_permis, date_derniere_connexion, statut_connexion) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :code_verification, :type_permis, :date_derniere_connexion, :statut_connexion)";
         $statement = $this->db->prepare($query);
 
         $statement->bindValue(':nom', $user->nom);
@@ -35,19 +35,20 @@ class UserRepository {
         $statement->bindValue(':langues', json_encode($user->langues));
         $statement->bindValue(':nationalite', $user->nationalite);
         $statement->bindValue(':date_d_inscription', $user->date_d_inscription);
-        $statement->bindValue(':statut', $user->statut, PDO::PARAM_BOOL);
+        $statement->bindValue(':statut', $user->statut);
         $statement->bindValue(':situation', $user->situation);
         $statement->bindValue(':besoins_specifiques', $user->besoins_specifiques);
         $statement->bindValue(':photo_profil', $user->photo_profil);
         $statement->bindValue(':emploi', $user->emploi);
         $statement->bindValue(':societe', $user->societe);
-        $statement->bindValue(':est_verifie', $user->est_verifie, PDO::PARAM_BOOL);
         $statement->bindValue(':code_verification', $user->code_verification);
         $statement->bindValue(':type_permis', $user->type_permis);
+        $statement->bindValue(':date_derniere_connexion', $user->date_derniere_connexion);
+        $statement->bindValue(':statut_connexion', $user->statut_connexion);
 
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde de l'utilisateur : " . print_r($user, true));
-        
+
         $success = $statement->execute();
         if (!$success) {
             error_log("Erreur lors de la sauvegarde de l'utilisateur : " . print_r($statement->errorInfo(), true));
@@ -58,8 +59,8 @@ class UserRepository {
             error_log("ID de l'utilisateur inséré : " . $insertedId);
             return $insertedId;
         }
-        
     }
+
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function updateLastLoginDate($userId, $date) {
         $query = "UPDATE Utilisateurs SET date_derniere_connexion = :date WHERE id_utilisateur = :id";
@@ -203,6 +204,7 @@ class UserRepository {
         $statement->execute();
         return $statement->fetchColumn();
     }
+    /*
     public function updateUserValidationStatus($userId, $status) {
         $query = "UPDATE Utilisateurs SET statut_benevole = :status WHERE id_utilisateur = :userId";
         $statement = $this->db->prepare($query);
@@ -210,6 +212,7 @@ class UserRepository {
         $statement->bindValue(':status', $status);
         $statement->execute();
     }
+    */
 
     //--------------------- Récupérer le statut du bénévole ---------------------//
 

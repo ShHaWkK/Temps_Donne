@@ -183,7 +183,7 @@ class UserController {
     }
     
 }
-
+/*
 // Récupération de la méthode et des segments d'URI
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
@@ -191,3 +191,4 @@ $uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 // Création et traitement de la requête
 $controller = new UserController();
 $controller->processRequest($method, $uri);
+*/

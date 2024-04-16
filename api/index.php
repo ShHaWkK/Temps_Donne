@@ -143,7 +143,6 @@ function router($uri, $requestMethod) {
            }
        } */
 
-/*
         switch ($requestMethod) {
 
             case 'GET':
@@ -189,7 +188,7 @@ function router($uri, $requestMethod) {
             default:
                 sendJsonResponse(['message' => 'Method Not Allowed'], 405);
                 break;
-        }*/
+        }
 
     } catch (Exception $e) {
         sendJsonResponse(['error' => $e->getMessage()], $e->getCode());

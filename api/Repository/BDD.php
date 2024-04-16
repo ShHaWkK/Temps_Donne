@@ -11,19 +11,22 @@ function exit_with_message($message) {
 
 // Function to connect to the database
 function connectDB() {
-    $host =  $_ENV['MYSQL_HOST'];
-    $port = $_ENV['MYSQL_PORT'];
-    $dbname =  $_ENV['MYSQL_DATABASE'];
-    $user = $_ENV['MYSQL_USER'];
-    $password = $_ENV['MYSQL_ROOT_PASSWORD'];
+    // Use getenv with default values
+    $host = database;
+    $port = 3306;
+    $dbname = getenv('MYSQL_DATABASE');
+    $user = getenv('MYSQL_USER');
+    $password = getenv('MYSQL_PASSWORD'); // Default should be your actual password
 
     try {
-        $db = new PDO("mysql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password", null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $dsn = "mysql:host=$host;port=$port;dbname=$dbname";
+        $db = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     } catch (PDOException $e) {
-        exit_with_message("ERROR: Connection to the database failed: " . $e->getMessage());
+        exit("ERROR: Connection to the database failed: " . $e->getMessage());
     }
     return $db;
 }
+
 
 // Function to select data from the database
 function selectDB($table, $columns, $condition = -1, $additionalMessage = NULL){

@@ -28,7 +28,8 @@ class PlanningController {
                     }
                     break;
                 case 'POST':
-                    if ($uri[3] === 'planning'){
+                    // Assurez-vous que l'index 3 existe et qu'il contient la chaîne 'planning'
+                    if (isset($uri[3]) && $uri[3] === 'planning'){
                         $this->addPlanning();
                     }
                     break;
@@ -49,8 +50,8 @@ class PlanningController {
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
-
     }
+
 
     public function getPlanning($id) {
         $planning = $this->planningService->getPlanning($id);

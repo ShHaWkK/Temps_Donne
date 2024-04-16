@@ -1,7 +1,7 @@
-# file : docker-compose.yml
 version: '3.8'
 
 services:
+  # Frontend Service
   frontend:
     image: php:8-apache
     ports:
@@ -9,39 +9,43 @@ services:
     volumes:
       - ./front:/var/www/html/
 
-    # API Service
+  # API Service
   api:
     build: .
     ports:
       - "8082:80"
-    env_file:
-      - .env
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=toor
+      - MYSQL_DATABASE=temps
+      - JWT_SECRET_KEY=RPARYXfMrSHxsffextjzQ8PgrMAfUGq/zt36Q+Rac+Ps=
     volumes:
       - ./api:/var/www/html/
 
-
   # Database Service
-  db:
+  database:
     image: mysql:latest
-    #restart: always
-    env_file:
-      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=temps
+      - MYSQL_USER=api
+      - MYSQL_PASSWORD=toor
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+      - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
 
+  # phpMyAdmin Service
   phpmyadmin:
-    image: phpmyadmin
-    restart: always
+    image: phpmyadmin/phpmyadmin
     ports:
-      - 8086:80
-    depends_on:
-      - db
-  php:
-    image: php:7.4-fpm
-    volumes:
-      - ./config/php.ini:/usr/local/etc/php/php.ini
-
+      - "8086:80"
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=temps
+      - MYSQL_USER=api
+      - MYSQL_PASSWORD=toor
 volumes:
   db-data:

@@ -235,5 +235,17 @@ class UserService {
         }
     }
 
+    public function holdUser(UserModel $user)
+    {
+        // Mettre à jour le statut de l'utilisateur
+        $user->statut = "Pending";
+
+        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
+        $this->userRepository->updateUserStatus($user);
+
+        // Retourner l'utilisateur mis à jour
+        return $user;
+    }
+
 
 }

@@ -210,6 +210,25 @@ class UserController {
         }
     }
 
+    //-------------------- Volunteer Reject -------------------//
+    public function holdVolunteer($id)
+    {
+        try {
+            $user = $this->userService->getUserById($id);
+
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+
+            $user = $this->userService->holdUser($user);
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur mis en attente.", "user_id" => $user->id_utilisateur]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
 
     //-------------------- Access Control -------------------//
     public function accessVolunteerSpace($userId) {

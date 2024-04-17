@@ -24,7 +24,7 @@ CREATE TABLE Utilisateurs (
     Est_Verifie BOOLEAN DEFAULT FALSE,
     Code_Verification VARCHAR(255),
     Type_Permis VARCHAR(50),
-    statut ENUM('En attente', 'Accordé', 'Refusé')
+    Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
 ALTER TABLE Utilisateurs

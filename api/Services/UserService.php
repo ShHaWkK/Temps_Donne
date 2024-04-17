@@ -118,7 +118,7 @@ class UserService {
         }
     
         // Assign the role to the user
-        $this->userRepository->assignRoleToUser($userId, $roleId, 'En attente'); // Status 'En attente'
+        $this->userRepository->assignRoleToUser($userId, $roleId, 'Pending'); // Status 'En attente'
     
         return $userId; // Return the user ID or any other success indicator
     }
@@ -169,7 +169,7 @@ class UserService {
     }
 
     // Gestion des rôles
-    public function assignRole($userId, $roleId, $status = 'En attente') {
+    public function assignRole($userId, $roleId, $status = 'Pending') {
         $this->userRepository->assignRoleToUser($userId, $roleId, $status);
     }
 
@@ -203,7 +203,7 @@ class UserService {
     public function validateUser(UserModel $user)
     {
         // Mettre à jour le statut de l'utilisateur
-        $user->statut = "Accordé";
+        $user->statut = "Granted";
 
         // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
         $this->userRepository->updateUserStatus($user);

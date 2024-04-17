@@ -160,6 +160,8 @@ class UserController {
         try {
             $user = new UserModel($data);
             $user->validate($data);
+            var_dump($data);
+            var_dump($user);
             $user->hashPassword();
             $roleId = $this->userService->findRoleIdByRoleName('Benevole');
 

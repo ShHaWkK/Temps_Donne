@@ -244,6 +244,7 @@ class UserRepository {
         }
         //echo("User Repository : getUserById:");
         $userModel=new UserModel($user);
+        var_dump($userModel);
         //var_dump($userModel);
         // Créer une instance de UserModel à partir des données récupérées de la base de données
         return $userModel;
@@ -251,9 +252,9 @@ class UserRepository {
 
     public function updateUserStatus(UserModel $user) {
         // Vérifier que la valeur de 'statut' est valide pour l'ENUM
-        $validStatuses = ['En attente', 'Accordé', 'Refusé'];
+        $validStatuses = ['Pending', 'Granted', 'Denied'];
         if (!in_array($user->statut, $validStatuses)) {
-            throw new Exception("Statut invalide. Les valeurs autorisées sont : 'En attente', 'Accordé', 'Refusé'.");
+            throw new Exception("Statut invalide. Les valeurs autorisées sont : 'Pending', 'Granted', 'Denied'.");
         }
 
         // Préparer la requête SQL pour mettre à jour l'utilisateur

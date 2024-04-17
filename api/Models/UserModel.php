@@ -25,7 +25,7 @@ class UserModel {
     //public $roleName;
 
     public function __construct($data = []) {
-        $this->id_utilisateur = $data['id_utilisateur'] ?? null;
+        $this->id_utilisateur = $data['ID_Utilisateur'] ?? null;
         $this->nom = $data['nom'] ?? null;
         $this->prenom = $data['prenom'] ?? null;
         $this->email = $data['email'] ?? null;
@@ -36,7 +36,7 @@ class UserModel {
         $this->langues = $data['langues'] ?? null;
         $this->nationalite = $data['nationalite'] ?? null;
         $this->date_d_inscription = $data['date_d_inscription'] ?? null;
-        $this->statut = $data['statut'] ?? null;
+        $this->statut = $data['Statut'] ?? null;
         $this->situation = $data['situation'] ?? null;
         $this->besoins_specifiques = $data['besoins_specifiques'] ?? null;
         $this->photo_profil = $data['photo_profil'] ?? null;
@@ -49,6 +49,7 @@ class UserModel {
 
         $this->validate($data);
     }
+
 
     public function validate($data) {
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
@@ -69,6 +70,13 @@ class UserModel {
         $this->code_verification = bin2hex(random_bytes(16));
     }
 
+    public function setStatut($statut) {
+        $validStatuses = ['Pending', 'Granted', 'Denied'];
+        if (!in_array($statut, $validStatuses)) {
+            throw new Exception("Statut invalide. Les valeurs autorisées sont : 'En attente', 'Accordé', 'Refusé'.");
+        }
+        $this->statut = $statut;
+    }
 
 }
 

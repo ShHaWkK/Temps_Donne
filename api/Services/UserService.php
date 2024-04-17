@@ -212,6 +212,18 @@ class UserService {
         return $user;
     }
 
+    public function refuseUser(UserModel $user)
+    {
+        // Mettre à jour le statut de l'utilisateur
+        $user->statut = "Denied";
+
+        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
+        $this->userRepository->updateUserStatus($user);
+
+        // Retourner l'utilisateur mis à jour
+        return $user;
+    }
+
     public function getUserById($id) {
         try {
             // Appeler la méthode correspondante du repository pour récupérer l'utilisateur

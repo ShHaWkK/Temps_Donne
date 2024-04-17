@@ -160,8 +160,6 @@ class UserController {
         try {
             $user = new UserModel($data);
             $user->validate($data);
-            var_dump($data);
-            var_dump($user);
             $user->hashPassword();
             $roleId = $this->userService->findRoleIdByRoleName('Benevole');
 
@@ -178,20 +176,35 @@ class UserController {
     public function approveVolunteer($id)
     {
         try {
-            // Récupérer l'utilisateur par son identifiant
             $user = $this->userService->getUserById($id);
 
-            // Vérifier si l'utilisateur existe
             if (!$user) {
                 ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
                 return;
             }
 
-            // Mettre à jour le statut de l'utilisateur
             $user = $this->userService->validateUser($user);
-            //var_dump($user) ;
 
             ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    //-------------------- Volunteer Reject -------------------//
+    public function rejectVolunteer($id)
+    {
+        try {
+            $user = $this->userService->getUserById($id);
+
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+
+            $user = $this->userService->refuseUser($user);
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur rejeté.", "user_id" => $user->id_utilisateur]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -209,12 +222,3 @@ class UserController {
     }
     
 }
-/*
-// Récupération de la méthode et des segments d'URI
-$method = $_SERVER['REQUEST_METHOD'];
-$uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
-// Création et traitement de la requête
-$controller = new UserController();
-$controller->processRequest($method, $uri);
-*/

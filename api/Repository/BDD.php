@@ -11,12 +11,11 @@ function exit_with_message($message) {
 
 // Function to connect to the database
 function connectDB() {
-    // Use getenv with default values
-    $host = database;
-    $port = 3306;
-    $dbname = getenv('MYSQL_DATABASE');
-    $user = getenv('MYSQL_USER');
-    $password = getenv('MYSQL_PASSWORD'); // Default should be your actual password
+    $host = 'db';
+    $port = '3306';
+    $dbname = 'temps';
+    $user = 'root';
+    $password = 'toor';
 
     try {
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname";

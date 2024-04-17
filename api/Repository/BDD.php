@@ -18,14 +18,12 @@ function connectDB() {
     $password = 'toor';
 
     try {
-        $dsn = "mysql:host=$host;port=$port;dbname=$dbname";
-        $db = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $db = new PDO("mysql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password", null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     } catch (PDOException $e) {
-        exit("ERROR: Connection to the database failed: " . $e->getMessage());
+        exit_with_message("ERROR: Connection to the database failed: " . $e->getMessage());
     }
     return $db;
 }
-
 
 // Function to select data from the database
 function selectDB($table, $columns, $condition = -1, $additionalMessage = NULL){

@@ -2,6 +2,7 @@
 //file : api/Services/UserService.php
 require_once './Repository/UserRepository.php';
 require_once './Models/UserModel.php';
+require_once './Helpers/ResponseHelper.php';
 
 class UserService {
     private $userRepository;
@@ -199,9 +200,28 @@ class UserService {
         return $user !== null;
     }
 
-    
+    public function validateUser(UserModel $user)
+    {
+        // Mettre à jour le statut de l'utilisateur
+        $user->statut = "Accordé";
 
+        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
+        $this->userRepository->updateUserStatus($user);
 
+        // Retourner l'utilisateur mis à jour
+        return $user;
+    }
+
+    public function getUserById($id) {
+        try {
+            // Appeler la méthode correspondante du repository pour récupérer l'utilisateur
+            return $this->userRepository->getUserById($id);
+
+            //echo ($id);
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération de l'utilisateur : " . $e->getMessage());
+        }
+    }
 
 
 }

@@ -231,11 +231,38 @@ class UserRepository {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-    
 
-    
+    public function getUserById($id) {
+        $sql = "SELECT * FROM Utilisateurs WHERE id_utilisateur = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$user) {
+            return null; // Utilisateur non trouvé
+        }
+        //echo("User Repository : getUserById:");
+        $userModel=new UserModel($user);
+        //var_dump($userModel);
+        // Créer une instance de UserModel à partir des données récupérées de la base de données
+        return $userModel;
+    }
+
+    public function updateUserStatus(UserModel $user) {
+        // Vérifier que la valeur de 'statut' est valide pour l'ENUM
+        $validStatuses = ['En attente', 'Accordé', 'Refusé'];
+        if (!in_array($user->statut, $validStatuses)) {
+            throw new Exception("Statut invalide. Les valeurs autorisées sont : 'En attente', 'Accordé', 'Refusé'.");
+        }
+
+        // Préparer la requête SQL pour mettre à jour l'utilisateur
+        $sql = "UPDATE Utilisateurs SET statut = :statut WHERE ID_Utilisateur = :id_utilisateur";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':statut', $user->statut, PDO::PARAM_STR);
+        $stmt->bindParam(':id_utilisateur', $user->id_utilisateur, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 
 
 }

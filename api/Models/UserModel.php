@@ -1,6 +1,7 @@
 <?php
 
 class UserModel {
+    public $id_utilisateur;
     public $nom;
     public $prenom;
     public $email;
@@ -24,6 +25,7 @@ class UserModel {
     //public $roleName;
 
     public function __construct($data = []) {
+        $this->id_utilisateur = $data['id_utilisateur'] ?? null;
         $this->nom = $data['nom'] ?? null;
         $this->prenom = $data['prenom'] ?? null;
         $this->email = $data['email'] ?? null;
@@ -67,7 +69,7 @@ class UserModel {
         $this->code_verification = bin2hex(random_bytes(16));
     }
 
-   
+
 }
 
 ?>

@@ -141,7 +141,7 @@ class UserController {
 
         try {
             $user = new UserModel($data);
-            $user->id_utilisateur = $id; 
+            $user->id_utilisateur = $id;
             $this->userService->updateUserProfile($user);
             ResponseHelper::sendResponse(["success" => "Utilisateur mis à jour avec succès."]);
         } catch (Exception $e) {
@@ -171,6 +171,30 @@ class UserController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+
+    //-------------------- Volunteer Approval -------------------//
+    public function approveVolunteer($id)
+    {
+        try {
+            // Récupérer l'utilisateur par son identifiant
+            $user = $this->userService->getUserById($id);
+
+            // Vérifier si l'utilisateur existe
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+
+            // Mettre à jour le statut de l'utilisateur
+            $user = $this->userService->validateUser($user);
+            //var_dump($user) ;
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
 
     //-------------------- Access Control -------------------//
     public function accessVolunteerSpace($userId) {

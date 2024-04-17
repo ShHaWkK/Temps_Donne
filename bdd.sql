@@ -50,8 +50,6 @@ ALTER TABLE UtilisateursRoles
 ADD statut VARCHAR(255) DEFAULT 'En attente';
 
 
-
-
 -- Table Services
 CREATE TABLE Services (
     ID_Service INT AUTO_INCREMENT PRIMARY KEY,

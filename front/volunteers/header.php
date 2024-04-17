@@ -92,7 +92,7 @@
                 <h2>Nom et Prénom</h2>
         </div>
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>
+            <a href="./panel_volunteer.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>
             <a href="#" class="nav-item"><i class="fa fa-calendar-check"></i>Disponibilités</a>
             <a href="#" class="nav-item"><i class="fa fa-calendar-alt"></i>Planning</a>
             <a href="#" class="nav-item"><i class="fa fa-envelope"></i>Messages</a>
@@ -104,7 +104,7 @@
         </div>
 </aside>
 
-<script src="../../scripts/darkmode.js"></script>
+<script src="../scripts/darkmode.js"></script>
 
 <script>
     const menuButton = document.getElementById('menuButton');

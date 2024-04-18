@@ -1,18 +1,14 @@
-version: '3.9'
-
 services:
-  # Frontend Service
   frontend:
-    image: rg.fr-par.scw.cloud/namespace-temps-donne/frontend:dev
+    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu:dev
     ports:
       - "8083:80"
     volumes:
-      - ./front:/var/www/html  # Montage du répertoire de code source pour le rechargement à chaud
+      - ./front:/var/www/html
     environment:
       - NODE_ENV=development
-    command: npm start  # Commande pour démarrer le service avec rechargement à chaud si pris en charge
+    command: npm start
 
-  # API Service
   api:
     build:
       context: ./api
@@ -20,25 +16,25 @@ services:
     ports:
       - "8082:80"
     volumes:
-      - ./api:/var/www/html  # Montage du répertoire de code source pour le rechargement à chaud
+      - ./api:/var/www/html
     environment:
       - NODE_ENV=development
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=password
       - DB_NAME=temps
-    command: npm run dev  # Commande pour démarrer le service en mode développement avec rechargement à chaud
+    command: npm run dev
 
-  # Database Service
   db:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: temps
     ports:
-      - "3307:3306"  # Utilisation d'un port différent pour éviter les conflits avec d'autres instances
+      - "3307:3306"
     volumes:
       - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
+
 
 volumes:
   db-data:

@@ -9,7 +9,7 @@ class AdminController {
     private $adminService;
 
 
-    public function processRequest($requestMethod,$uri)
+    public function processRequest($requestMethod,$uri,$userController)
     {
         switch ($requestMethod) {
             case 'GET':
@@ -20,19 +20,19 @@ class AdminController {
                 }
                 break;
             case 'POST':
-                $this->processRequest($requestMethod, $uri);
+                //$this->processRequest($requestMethod, $uri,$userController);
                 break;
             case 'PUT':
                 if ($uri[5] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {
                     switch ($uri[4]) {
                         case 'approve':
-                            $this->approveVolunteer($uri[3]);
+                            $this->approveVolunteer($uri[3],$userController);
                             break;
                         case 'hold':
-                            $this->holdVolunteer($uri[3]);
+                            $this->holdVolunteer($uri[3],$userController);
                             break;
                         case 'reject':
-                            $this->rejectVolunteer($uri[3]);
+                            $this->rejectVolunteer($uri[3],$userController);
                             break;
                         default:
                             sendJsonResponse(['message' => 'Action Not Found'], 404);
@@ -132,10 +132,9 @@ class AdminController {
     // }
 
     //-------------------- Volunteer Approval -------------------//
-    public function approveVolunteer($id)
+    public function approveVolunteer($id,$userController)
     {
         try {
-            $userController = new UserController();
             $user = $userController->userService->getUserById($id);
 
             if (!$user) {

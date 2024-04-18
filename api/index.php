@@ -53,14 +53,15 @@ function router($uri, $requestMethod) {
             break;
 
         case 'admins':
-            $controller = new AdminController();
-            $controller->processRequest($requestMethod,$uri);
+            $adminController = new AdminController();
+            $userController = new UserController();
+            $adminController->processRequest($requestMethod,$uri,$userController);
             break;
 
         case 'users':
         case 'beneficiaries':
         case 'volunteers':
-            $controller = new UserController();
+        $controller = new UserController();
             $controller->processRequest($requestMethod,$uri);
         break;
 

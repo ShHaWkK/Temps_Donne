@@ -92,7 +92,7 @@ class AdminService {
         $this->adminRepository->updateVolunteerStatus($userId, 'Approuvé', 'Approuvé');
     }*/
 
-    public function approveVolunteer(UserModel $user)
+    public function validateUser(UserModel $user)
     {
         // Mettre à jour le statut de l'utilisateur
         $user->statut = "Granted";

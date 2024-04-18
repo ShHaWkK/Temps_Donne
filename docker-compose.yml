@@ -1,14 +1,17 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  # Frontend Service
   frontend:
-    image: php:8-apache
+    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu:latest  
     ports:
       - "8083:80"
     volumes:
       - ./front:/var/www/html/
 
+  # API Services
   api:
+    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu:latest
     build: 
       context: .
       dockerfile: Dockerfile  
@@ -17,8 +20,9 @@ services:
     volumes:
       - ./api:/var/www/html/
 
+  # Database Service
   db:
-    image: mysql:latest
+    image: mysql:latest  
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: toor

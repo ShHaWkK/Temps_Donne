@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  # Frontend Service
+  frontend:
+    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu-frontend:prod
+    ports:
+      - "80:80"  
+    restart: always  
+
+  # API Service
+  api:
+    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu-api:prod
+    ports:
+      - "8080:80"  
+    environment:
+      DB_HOST=db
+      DB_USER=prod_user
+      DB_PASSWORD=prod_password
+      DB_NAME=prod_db
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Database Service
+  db:
+    image: mysql:5.7 
+    environment:
+      MYSQL_ROOT_PASSWORD=prod_password
+      MYSQL_DATABASE=prod_db
+    volumes:
+      - prod-db-data:/var/lib/mysql
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  prod-db-data:  

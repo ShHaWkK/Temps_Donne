@@ -1,6 +1,6 @@
 <?php
 // file: api/Controllers/AdminController.php
-
+require_once 'UserController.php';
 require_once './Services/AdminService.php';
 
 
@@ -9,35 +9,46 @@ class AdminController {
     private $adminService;
 
 
-    public function processRequest($method, $uri) {
-        try {
-            switch ($method) {
-                case 'GET':
-                    if (isset($uri[3])) {
-                        $this->getAdmin($uri[3]);
-                    } else {
-                        $this->getAllAdmins();
+    public function processRequest($requestMethod,$uri)
+    {
+        switch ($requestMethod) {
+            case 'GET':
+                if (isset($uri[3])) {
+                    $this->getAdmin($uri[3]);
+                } else {
+                    $this->getAllAdmins();
+                }
+                break;
+            case 'POST':
+                $this->processRequest($requestMethod, $uri);
+                break;
+            case 'PUT':
+                if ($uri[5] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {
+                    switch ($uri[4]) {
+                        case 'approve':
+                            $this->approveVolunteer($uri[3]);
+                            break;
+                        case 'hold':
+                            $this->holdVolunteer($uri[3]);
+                            break;
+                        case 'reject':
+                            $this->rejectVolunteer($uri[3]);
+                            break;
+                        default:
+                            sendJsonResponse(['message' => 'Action Not Found'], 404);
                     }
-                    break;
-                case 'POST':
-                    $this->registerAdmin();
-                    break;
-                case 'PUT':
-                    if (isset($uri[3])) {
-                        $this->updateAdmin($uri[3]);
-                    }
-                    break;
-                case 'DELETE':
-                    if (isset($uri[3])) {
-                        $this->deleteAdmin($uri[3]);
-                    }
-                    break;
-                default:
-                    ResponseHelper::sendResponse(['message' => 'Method Not Allowed'], 405);
-                    break;
-            }
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+                } else if (isset($uri[3])) {
+                    //$controller->updateAdmin($uri[3]);
+                }
+                break;
+            case 'DELETE':
+                if (isset($uri[3])) {
+                    $this->deleteAdmin($uri[3]);
+                }
+                break;
+            default:
+                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+                break;
         }
     }
 
@@ -120,12 +131,24 @@ class AdminController {
     //     }
     // }
 
-    public function approveVolunteer($userId) {
+    //-------------------- Volunteer Approval -------------------//
+    public function approveVolunteer($id)
+    {
         try {
-            $this->adminService->approveVolunteer($userId);
-            ResponseHelper::sendResponse(['message' => 'Bénévole approuvé avec succès.']);
+            $userController = new UserController();
+            $user = $userController->userService->getUserById($id);
+
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+            var_dump($user);
+
+            $user = $this->adminService->validateUser($user);
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
         } catch (Exception $e) {
-            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
 

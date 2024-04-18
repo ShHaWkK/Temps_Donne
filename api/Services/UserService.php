@@ -200,18 +200,6 @@ class UserService {
         return $user !== null;
     }
 
-    public function validateUser(UserModel $user)
-    {
-        // Mettre à jour le statut de l'utilisateur
-        $user->statut = "Granted";
-
-        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
-        $this->userRepository->updateUserStatus($user);
-
-        // Retourner l'utilisateur mis à jour
-        return $user;
-    }
-
     public function refuseUser(UserModel $user)
     {
         // Mettre à jour le statut de l'utilisateur
@@ -225,8 +213,10 @@ class UserService {
     }
 
     public function getUserById($id) {
+        var_dump($id);
         try {
             // Appeler la méthode correspondante du repository pour récupérer l'utilisateur
+            var_dump("UserService",$this->userRepository->getUserById($id));
             return $this->userRepository->getUserById($id);
 
             //echo ($id);

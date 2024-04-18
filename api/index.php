@@ -45,155 +45,92 @@ function router($uri, $requestMethod) {
     switch ($uri[2]) {
         case "login":
             $controller = new LoginController();
+            if ($requestMethod === 'POST') {
+                $controller->login();
+            } else {
+                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+            }
             break;
+
         case 'admins':
             $controller = new AdminController();
+            $controller->processRequest($requestMethod,$uri);
             break;
+
         case 'users':
+        case 'beneficiaries':
         case 'volunteers':
             $controller = new UserController();
-            break;
+            $controller->processRequest($requestMethod,$uri);
+        break;
+
         case 'tickets':
-            $controller = new TicketController();
+            //$controller = new TicketController();
+            // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour les tickets
             break;
         case 'planning':
             $controller = new PlanningController();
+            // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour la planification
             break;
         default:
             sendJsonResponse(['message' => 'Not Found'], 404);
             return;
     }
 
-
-
+    // Gestion des erreurs
     try {
-        // Gestionn de Login
-        if ($uri[2] === 'login') {
-            $loginController = new LoginController();
-            $loginController->login();
-        }
-        // Pour les users => créer juste un user, voir ,supprimer et mettre à jour
-        if ($uri[2] === 'users') {
-            switch ($requestMethod) {
-                case 'GET':
-                    if (isset($uri[3])) {
-                        $controller->getUser($uri[3]);
-                    } else {
-                        $controller->getAllUsers();
-                    }
-                    break;
-                case 'POST':
-                    $controller->createUser();
-                    break;
-                case 'PUT':
-                    if (isset($uri[3])) {
-                        $controller->updateUser($uri[3]);
-                    }
-                    break;
-                case 'DELETE':
-                    if (isset($uri[3])) {
-                        $controller->deleteUser($uri[3]);
-                    }
-                    break;
-            }
-        }
-        // Gestion des requêtes pour 'planning'
-        /*
-        if ($uri[2] === 'planning') {
-           $planningController = new PlanningController();
-           switch ($requestMethod) {
-               case 'GET':
-                   if (isset($uri[3])) {
-                       $planningController->getPlanning($uri[3]);
-                   } else {
-                       $planningController->getAllPlannings();
-                   }
-                   break;
-               case 'POST':
-                   $planningController->addPlanning();
-                   break;
-               case 'PUT':
-                   if (isset($uri[3])) {
-                       $planningController->updatePlanning($uri[3]);
-                   }
-                   break;
-               case 'DELETE':
-                   if (isset($uri[3])) {
-                       $planningController->deletePlanning($uri[3]);
-                   }
-                   break;
-               default:
-                   sendJsonResponse(['message' => 'Method Not Allowed'], 405);
-                   break;
-           }
-       } else {
-           // Gestion des requêtes pour 'tickets'
-           if ($uri[2] === 'tickets') {
-               $ticketController->processRequest($requestMethod, $uri);
-           } else {
-               // Gestion des requêtes pour 'users'
-               if ($uri[2] === 'users') {
-                   $controller->processRequest($requestMethod, $uri);
-               } else {
-                   // Gestion des requêtes pour 'admins'
-                   if ($uri[2] === 'admins') {
-                       $controller->processRequest($requestMethod, $uri);
-                   }
-               }
-           }
-       } */
-
-        switch ($requestMethod) {
-
-            case 'GET':
-                if (isset($uri[3])) {
-                    $controller->getAdmin($uri[3]);
-                } else {
-                    $controller->getAllAdmins();
-                }
-                break;
-            case 'POST':
-                if ($uri[2] === 'login') {
-                    $controller->processRequest($requestMethod, $uri);
-                } else if ($uri[2] === 'volunteers') {
-                    $controller->processRequest($requestMethod, $uri);
-                } else {
-                    $controller->processRequest($requestMethod, $uri);
-                }
-                break;
-            case 'PUT':
-                if ($uri[2] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {
-                    switch ($uri[4]) {
-                        case 'approve':
-                            $controller->approveVolunteer($uri[3]);
-                            break;
-                        case 'hold':
-                            $controller->holdVolunteer($uri[3]);
-                            break;
-                        case 'reject':
-                            $controller->rejectVolunteer($uri[3]);
-                            break;
-                        default:
-                            sendJsonResponse(['message' => 'Action Not Found'], 404);
-                    }
-                } else if (isset($uri[3])) {
-                    $controller->updateAdmin($uri[3]);
-                }
-                break;
-            case 'DELETE':
-                if (isset($uri[3])) {
-                    $controller->deleteAdmin($uri[3]);
-                }
-                break;
-            default:
-                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
-                break;
-        }
-
+        // Traitement spécifique pour d'autres routes si nécessaire
     } catch (Exception $e) {
         sendJsonResponse(['error' => $e->getMessage()], $e->getCode());
     }
 }
+
+
+// Gestion des requêtes pour 'planning'
+/*
+if ($uri[2] === 'planning') {
+   $planningController = new PlanningController();
+   switch ($requestMethod) {
+       case 'GET':
+           if (isset($uri[3])) {
+               $planningController->getPlanning($uri[3]);
+           } else {
+               $planningController->getAllPlannings();
+           }
+           break;
+       case 'POST':
+           $planningController->addPlanning();
+           break;
+       case 'PUT':
+           if (isset($uri[3])) {
+               $planningController->updatePlanning($uri[3]);
+           }
+           break;
+       case 'DELETE':
+           if (isset($uri[3])) {
+               $planningController->deletePlanning($uri[3]);
+           }
+           break;
+       default:
+           sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+           break;
+   }
+} else {
+   // Gestion des requêtes pour 'tickets'
+   if ($uri[2] === 'tickets') {
+       $ticketController->processRequest($requestMethod, $uri);
+   } else {
+       // Gestion des requêtes pour 'users'
+       if ($uri[2] === 'users') {
+           $controller->processRequest($requestMethod, $uri);
+       } else {
+           // Gestion des requêtes pour 'admins'
+           if ($uri[2] === 'admins') {
+               $controller->processRequest($requestMethod, $uri);
+           }
+       }
+   }
+} */
 
 router($uri, $requestMethod);
 

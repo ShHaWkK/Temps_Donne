@@ -7,7 +7,7 @@ require_once './Helpers/ResponseHelper.php';
 require_once './Repository/BDD.php';
 
 class UserController {
-    private $userService;
+    public $userService;
     
 
     public function __construct() {
@@ -52,11 +52,12 @@ class UserController {
         }
     }
     public function getUser($id) {
+        var_dump("userController : getUserId");
         // Vérification du rôle
         if (!$this->checkRole('admin')) {
             throw new Exception("Accès non autorisé.");
         }
-        
+
         // Récupération de l'utilisateur
         $user = $this->userService->getUserById($id);
         if (!$user) {
@@ -65,8 +66,8 @@ class UserController {
             ResponseHelper::sendResponse($user);
         }
     }
-    
-    
+
+
     private function checkRole($requiredRole) {
         session_start();
         if (!isset($_SESSION['user_id'])) {

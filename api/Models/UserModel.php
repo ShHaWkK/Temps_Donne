@@ -26,26 +26,26 @@ class UserModel {
 
     public function __construct($data = []) {
         $this->id_utilisateur = $data['ID_Utilisateur'] ?? null;
-        $this->nom = $data['nom'] ?? null;
-        $this->prenom = $data['prenom'] ?? null;
-        $this->email = $data['email'] ?? null;
-        $this->mot_de_passe = $data['mot_de_passe'] ?? null;
-        $this->adresse = $data['adresse'] ?? null;
-        $this->telephone = $data['telephone'] ?? null;
-        $this->date_de_naissance = $data['date_de_naissance'] ?? null;
-        $this->langues = $data['langues'] ?? null;
-        $this->nationalite = $data['nationalite'] ?? null;
-        $this->date_d_inscription = $data['date_d_inscription'] ?? null;
+        $this->nom = $data['Nom'] ?? null;
+        $this->prenom = $data['Prenom'] ?? null;
+        $this->email = $data['Email'] ?? null;
+        $this->mot_de_passe = $data['Mot_de_passe'] ?? null;
+        $this->adresse = $data['Adresse'] ?? null;
+        $this->telephone = $data['Telephone'] ?? null;
+        $this->date_de_naissance = $data['Date_de_naissance'] ?? null;
+        $this->langues = $data['Langues'] ?? null;
+        $this->nationalite = $data['Nationalite'] ?? null;
+        $this->date_d_inscription = $data['Date_d_inscription'] ?? null;
         $this->statut = $data['Statut'] ?? null;
-        $this->situation = $data['situation'] ?? null;
-        $this->besoins_specifiques = $data['besoins_specifiques'] ?? null;
-        $this->photo_profil = $data['photo_profil'] ?? null;
-        $this->date_derniere_connexion = $data['date_derniere_connexion'] ?? null;
-        $this->statut_connexion = $data['statut_connexion'] ?? null;
-        $this->emploi = $data['emploi'] ?? null;
-        $this->societe = $data['societe'] ?? null;
-        $this->code_verification = $data['code_verification'] ?? null;
-        $this->type_permis = $data['type_permis'] ?? null;
+        $this->situation = $data['Situation'] ?? null;
+        $this->besoins_specifiques = $data['Besoins_specifiques'] ?? null;
+        $this->photo_profil = $data['Photo_Profil'] ?? null;
+        $this->date_derniere_connexion = $data['Date_Derniere_Connexion'] ?? null;
+        $this->statut_connexion = $data['Statut_connexion'] ?? null;
+        $this->emploi = $data['Emploi'] ?? null;
+        $this->societe = $data['Societe'] ?? null;
+        $this->code_verification = $data['Code_Verification'] ?? null;
+        $this->type_permis = $data['Type_Permis'] ?? null;
 
         $this->validate($data);
     }

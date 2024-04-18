@@ -233,6 +233,7 @@ class UserRepository {
     }
 
     public function getUserById($id) {
+        var_dump("UserRepository");
         $sql = "SELECT * FROM Utilisateurs WHERE id_utilisateur = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -242,8 +243,9 @@ class UserRepository {
         if (!$user) {
             return null; // Utilisateur non trouvé
         }
-
+        var_dump($user);
         $userModel=new UserModel($user);
+        var_dump($userModel);
         // Créer une instance de UserModel à partir des données récupérées de la base de données
         return $userModel;
     }

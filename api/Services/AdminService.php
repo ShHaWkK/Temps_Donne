@@ -86,9 +86,22 @@ class AdminService {
 
     // }
 
-    public function approveVolunteer($userId) {
+    /*
+    public function ($userId) {
         // Appeler avec les bons paramètres selon la méthode consolidée dans AdminRepository
         $this->adminRepository->updateVolunteerStatus($userId, 'Approuvé', 'Approuvé');
+    }*/
+
+    public function approveVolunteer(UserModel $user)
+    {
+        // Mettre à jour le statut de l'utilisateur
+        $user->statut = "Granted";
+
+        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
+        $this->adminRepository->updateUserStatus($user);
+
+        // Retourner l'utilisateur mis à jour
+        return $user;
     }
 
     public function holdVolunteer($userId) {

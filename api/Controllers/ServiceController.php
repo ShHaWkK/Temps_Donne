@@ -59,7 +59,6 @@ $this->serviceService = new ServiceService($serviceRepository);
         try {
             $service = new ServiceModel($data);
 
-
             $this->serviceService->createService($service);
 
             ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie. En attente de validation."]);
@@ -68,8 +67,30 @@ $this->serviceService = new ServiceService($serviceRepository);
         }
     }
 
-    private function updateService(mixed $int)
+    private function updateService($id)
     {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+            return;
+        }
+
+        try {
+            $fieldsToUpdate = array_keys($data);
+            $service = $this->serviceService->getServiceById($id);
+
+            // Mettre à jour les champs spécifiques
+            foreach ($fieldsToUpdate as $field) {
+                $service->$field = $data[$field];
+            }
+
+            $this->serviceService->updateService($service, $fieldsToUpdate);
+            ResponseHelper::sendResponse(["success" => "Service mis à jour avec succès."]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
     }
 
     private function deleteService(mixed $int)

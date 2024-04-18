@@ -15,6 +15,20 @@ class ServiceService{
         $serviceId = $this->serviceRepository->save($service);
     }
 
-}
+    public function getServiceById($id) {
+        try {
+            var_dump($this->serviceRepository->getServiceById($id));
 
+            return $this->serviceRepository->getServiceById($id);
+
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération du service : " . $e->getMessage());
+        }
+    }
+
+    public function updateService($service,$fieldsToUpdate)
+    {
+        return $this->serviceRepository->updateService($service,$fieldsToUpdate);
+    }
+}
 ?>

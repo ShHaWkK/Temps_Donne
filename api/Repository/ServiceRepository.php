@@ -7,14 +7,17 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-class ServiceRepository {
+class ServiceRepository
+{
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
-    public function save(ServiceModel $service) {
+    public function save(ServiceModel $service)
+    {
         var_dump($service);
         if (empty($service->type_service)) {
             throw new Exception("Le champ 'type_service' ne peut pas être vide.");
@@ -29,7 +32,7 @@ class ServiceRepository {
         $statement->bindValue(':horaire', $service->horaire, PDO::PARAM_STR);
         $statement->bindValue(':lieu', $service->lieu, PDO::PARAM_STR);
         $statement->bindValue(':id_utilisateur', $service->id_utilisateur, PDO::PARAM_INT);
-        $statement->bindValue(':nfc_tag_data', $service->nfc_Tag_Data, PDO::PARAM_STR); // Modifier ici
+        $statement->bindValue(':nfc_tag_data', $service->nfc_Tag_Data, PDO::PARAM_STR);
         $statement->bindValue(':type_service', $service->type_service, PDO::PARAM_STR);
         $statement->bindValue(':date_debut', $service->date_debut, PDO::PARAM_STR);
         $statement->bindValue(':date_fin', $service->date_fin, PDO::PARAM_STR);
@@ -44,11 +47,56 @@ class ServiceRepository {
         } else {
             // Si l'exécution a réussi, obtenir l'ID inséré
             $insertedId = $this->db->lastInsertId();
-            error_log("ID de l'utilisateur inséré : " . $insertedId);
+            error_log("ID du service inséré : " . $insertedId);
             return $insertedId;
         }
 
     }
+
+    public function getServiceById($id)
+    {
+        $sql = "SELECT * FROM Services WHERE ID_Service = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $service = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $data = array_change_key_case($service, CASE_LOWER);
+
+        if (!$service) {
+            return null;
+        }
+
+        $serviceModel = new serviceModel($service);
+
+        return $serviceModel;
+    }
+
+    public function updateService(serviceModel $service, array $fieldsToUpdate)
+    {
+        var_dump($service);
+        var_dump($fieldsToUpdate);
+        $query = "UPDATE Services SET ";
+
+        $sets = [];
+        $params = [];
+        foreach ($fieldsToUpdate as $field) {
+            $sets[] = "$field = :$field";
+            $params[":$field"] = $service->$field;
+        }
+
+        $query .= implode(", ", $sets);
+        $query .= " WHERE ID_Service = :id_service";
+        $params[":id_service"] = $service->id_service;
+
+        $statement = $this->db->prepare($query);
+        foreach ($params as $key => $value) {
+            $statement->bindValue($key, $value);
+        }
+
+        return $statement->execute();
+    }
+
 }
 
 ?>

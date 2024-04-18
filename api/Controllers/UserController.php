@@ -8,7 +8,6 @@ require_once './Repository/BDD.php';
 
 class UserController {
     public $userService;
-    
 
     public function __construct() {
         $db = connectDB();
@@ -86,18 +85,18 @@ class UserController {
     public function createUser() {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
-    
+
         try {
             $user = new UserModel($data);
             $user->validate($data);
-    
+
             if ($this->userService->emailExists($user->email)) {
                 throw new Exception("Email déjà utilisé.", 400);
             }
-    
+
             $user->hashPassword();
             $roleId = null;
-    
+
             if (isset($data['role_name'])) {
                 $roleId = $this->userService->findRoleIdByRoleName($data['role_name']);
                 if (!$roleId) {
@@ -106,9 +105,9 @@ class UserController {
             } else {
                 throw new Exception("Le rôle est obligatoire.", 400);
             }
-    
+
             $this->userService->registerUser($user, $roleId);
-    
+
             ResponseHelper::sendResponse(["success" => "Le compte a bien été créé."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
@@ -163,73 +162,14 @@ class UserController {
             $user->validate($data);
             $user->hashPassword();
             $roleId = $this->userService->findRoleIdByRoleName('Benevole');
-
             // Vous devez gérer $user->statut_benevole dans UserService
-            $userId = $this->userService->registerVolunteer($user);
+            $this->userService->registerVolunteer($user);
 
             ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie. En attente de validation."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
-
-    //-------------------- Volunteer Approval -------------------//
-    public function approveVolunteer($id)
-    {
-        try {
-            $user = $this->userService->getUserById($id);
-
-            if (!$user) {
-                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
-                return;
-            }
-
-            $user = $this->userService->validateUser($user);
-
-            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    //-------------------- Volunteer Reject -------------------//
-    public function rejectVolunteer($id)
-    {
-        try {
-            $user = $this->userService->getUserById($id);
-
-            if (!$user) {
-                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
-                return;
-            }
-
-            $user = $this->userService->refuseUser($user);
-
-            ResponseHelper::sendResponse(["success" => "Utilisateur rejeté.", "user_id" => $user->id_utilisateur]);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    //-------------------- Volunteer Reject -------------------//
-    public function holdVolunteer($id)
-    {
-        try {
-            $user = $this->userService->getUserById($id);
-
-            if (!$user) {
-                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
-                return;
-            }
-
-            $user = $this->userService->holdUser($user);
-
-            ResponseHelper::sendResponse(["success" => "Utilisateur mis en attente.", "user_id" => $user->id_utilisateur]);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
-    }
-
 
     //-------------------- Access Control -------------------//
     public function accessVolunteerSpace($userId) {

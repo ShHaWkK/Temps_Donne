@@ -57,13 +57,24 @@ CREATE TABLE Services (
     Description TEXT,
     Horaire TIME,
     Lieu VARCHAR(255),
-    ID_Utilisateur INT,
-    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
     NFC_Tag_Data TEXT,
     Type_Service VARCHAR(255),
     Date_Debut DATE,
     Date_Fin DATE
 );
+
+CREATE TABLE ServiceType(
+    ID_Service INT AUTO_INCREMENT PRIMARY KEY,
+    Nom_Type_Service VARCHAR(100)
+);
+
+INSERT INTO ServiceType ( Nom_Type_Service) VALUES
+    ('Distribution alimentaire'),
+    ('Services administratifs'),
+    ('Navettes pour rendez-vous eloignes'),
+    ('Cours d alphabetisation pour adulte'),
+    ('Recolte de fonds'),
+    ('Visite et activites avec personnes agees');
 
 -- Table Formations
 CREATE TABLE Formations (

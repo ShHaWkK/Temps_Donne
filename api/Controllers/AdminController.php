@@ -110,29 +110,26 @@ class AdminController {
         ResponseHelper::sendResponse(['message' => 'Admin updated successfully']);
     }
 
-
-    //--------------- Volunteer ------------------- //
-
-    // public function validateVolunteer($userId) {
-    //     try {
-    //         $this->adminService->validateVolunteer($userId);
-    //         ResponseHelper::sendResponse(['success' => 'Bénévole validé avec succès.']);
-    //     } catch (Exception $e) {
-    //         ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
-    //     }
-    // }
-
-    // public function refuseVolunteer($userId) {
-    //     try {
-    //         $this->adminService->refuseVolunteer($userId);
-    //         ResponseHelper::sendResponse(['success' => 'Bénévole refusé avec succès.']);
-    //     } catch (Exception $e) {
-    //         ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
-    //     }
-    // }
-
-    //-------------------- Volunteer Approval -------------------//
+    //-------------------- Volunteer and Beneficiary Approval -------------------//
     public function approveVolunteer($id,$userController)
+    {
+        try {
+            $user = $userController->userService->getUserById($id);
+            var_dump($user);
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+
+            $user = $this->adminService->validateUser($user);
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function approveBeneficiary($id,$userController)
     {
         try {
             $user = $userController->userService->getUserById($id);
@@ -150,6 +147,7 @@ class AdminController {
         }
     }
 
+    //-------------------- Volunteer and Beneficiary put on hold -------------------//
 
     public function holdVolunteer($id,$userController)
     {

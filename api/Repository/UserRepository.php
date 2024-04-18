@@ -18,6 +18,7 @@ class UserRepository {
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function save(UserModel $user) {
+        var_dump($user);
         if (empty($user->nom)) {
             throw new Exception("Le champ 'nom' ne peut pas être vide.");
         }
@@ -233,17 +234,20 @@ class UserRepository {
     }
 
     public function getUserById($id) {
-        var_dump("UserRepository");
         $sql = "SELECT * FROM Utilisateurs WHERE id_utilisateur = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $data = array_change_key_case($user, CASE_LOWER);
+
         if (!$user) {
             return null; // Utilisateur non trouvé
         }
+        var_dump($user);
         $userModel=new UserModel($user);
+        var_dump($userModel);
         // Créer une instance de UserModel à partir des données récupérées de la base de données
         return $userModel;
     }

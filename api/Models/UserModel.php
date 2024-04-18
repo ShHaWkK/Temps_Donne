@@ -48,6 +48,7 @@ class UserModel {
         $this->type_permis = $data['Type_Permis'] ?? null;
 
         $this->validate($data);
+
     }
 
 

@@ -11,6 +11,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization, auth');
 require_once 'Controllers/AdminController.php';
 require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
+require_once 'Controllers/ServiceController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
@@ -64,6 +65,12 @@ function router($uri, $requestMethod) {
         $controller = new UserController();
             $controller->processRequest($requestMethod,$uri);
         break;
+
+        case 'services':
+            $controller = new ServiceController();
+            $controller->processRequest($requestMethod,$uri);
+            // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour les tickets
+            break;
 
         case 'tickets':
             //$controller = new TicketController();

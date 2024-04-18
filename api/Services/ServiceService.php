@@ -10,6 +10,11 @@ class ServiceService{
         $this->serviceRepository = $serviceRepository;
     }
 
+    public function createService(ServiceModel $service)
+    {
+        $serviceId = $this->serviceRepository->save($service);
+    }
+
 }
 
 ?>

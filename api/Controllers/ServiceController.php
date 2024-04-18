@@ -16,7 +16,8 @@ $serviceRepository = new ServiceRepository($db);
 $this->serviceService = new ServiceService($serviceRepository);
 }
 
-    public function processRequest($method, $uri) {
+    public function processRequest($method, $uri)
+    {
         try {
             switch ($method) {
                 case 'GET':
@@ -53,10 +54,15 @@ $this->serviceService = new ServiceService($serviceRepository);
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
 
+        error_log(print_r($data, true));
+
         try {
             $service = new ServiceModel($data);
 
-            ResponseHelper::sendResponse(["success" => "Le service a bien été créé."]);
+
+            $this->serviceService->createService($service);
+
+            ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie. En attente de validation."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }

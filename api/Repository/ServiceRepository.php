@@ -15,8 +15,9 @@ class ServiceRepository {
     }
 
     public function save(ServiceModel $service) {
+        var_dump($service);
         if (empty($service->type_service)) {
-            throw new Exception("Le champ 'nom' ne peut pas être vide.");
+            throw new Exception("Le champ 'type_service' ne peut pas être vide.");
         }
 
         $query = "INSERT INTO Services (ID_Service, Nom_du_service, Description, Horaire, Lieu, ID_Utilisateur, NFC_Tag_Data, Type_Service, Date_Debut, Date_Fin) VALUES (:id_service,:nom_du_service,:description,:horaire,:lieu,:id_utilisateur,:nfc_tag_data,:type_service,:date_debut,:date_fin)";
@@ -28,11 +29,10 @@ class ServiceRepository {
         $statement->bindValue(':horaire', $service->horaire, PDO::PARAM_STR);
         $statement->bindValue(':lieu', $service->lieu, PDO::PARAM_STR);
         $statement->bindValue(':id_utilisateur', $service->id_utilisateur, PDO::PARAM_INT);
-        $statement->bindValue(':nfc_Tag_Data', $service->nfc_Tag_Data, PDO::PARAM_STR);
+        $statement->bindValue(':nfc_tag_data', $service->nfc_Tag_Data, PDO::PARAM_STR); // Modifier ici
         $statement->bindValue(':type_service', $service->type_service, PDO::PARAM_STR);
         $statement->bindValue(':date_debut', $service->date_debut, PDO::PARAM_STR);
         $statement->bindValue(':date_fin', $service->date_fin, PDO::PARAM_STR);
-
 
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde du service : " . print_r($service, true));
@@ -47,6 +47,7 @@ class ServiceRepository {
             error_log("ID de l'utilisateur inséré : " . $insertedId);
             return $insertedId;
         }
+
     }
 }
 

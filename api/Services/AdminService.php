@@ -94,25 +94,25 @@ class AdminService {
 
     public function validateUser(UserModel $user)
     {
-        // Mettre à jour le statut de l'utilisateur
         $user->statut = "Granted";
-
-        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
         $this->adminRepository->updateUserStatus($user);
-
-        // Retourner l'utilisateur mis à jour
         return $user;
     }
 
-    public function holdVolunteer($userId) {
-        // Appeler avec les bons paramètres selon la méthode consolidée dans AdminRepository
-        $this->adminRepository->updateVolunteerStatus($userId, 'En attente', 'En attente');
+    public function holdUser(UserModel $user)
+    {
+        $user->statut = "Pending";
+        $this->adminRepository->updateUserStatus($user);
+        return $user;
     }
 
-    public function rejectVolunteer($userId) {
-        // Appeler avec les bons paramètres selon la méthode consolidée dans AdminRepository
-        $this->adminRepository->updateVolunteerStatus($userId, 'Rejeté', 'Refusé');
+    public function rejectUser(UserModel $user)
+    {
+        $user->statut = "Denied";
+        $this->adminRepository->updateUserStatus($user);
+        return $user;
     }
+
     public function logout() {
         session_start();
         session_destroy();

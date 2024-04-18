@@ -141,7 +141,6 @@ class AdminController {
                 ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
                 return;
             }
-            var_dump($user);
 
             $user = $this->adminService->validateUser($user);
 
@@ -151,21 +150,40 @@ class AdminController {
         }
     }
 
-    public function holdVolunteer($userId) {
+
+    public function holdVolunteer($id,$userController)
+    {
         try {
-            $this->adminService->holdVolunteer($userId);
-            ResponseHelper::sendResponse(['message' => 'Bénévole placé en attente.']);
+            $user = $userController->userService->getUserById($id);
+
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+
+            $user = $this->adminService->holdUser($user);
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur mis en attente avec succès.", "user_id" => $user->id_utilisateur]);
         } catch (Exception $e) {
-            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
 
-    public function rejectVolunteer($userId) {
+    public function rejectVolunteer($id,$userController)
+    {
         try {
-            $this->adminService->rejectVolunteer($userId);
-            ResponseHelper::sendResponse(['message' => 'Bénévole rejeté avec succès.']);
+            $user = $userController->userService->getUserById($id);
+
+            if (!$user) {
+                ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
+                return;
+            }
+
+            $user = $this->adminService->rejectUser($user);
+
+            ResponseHelper::sendResponse(["success" => "Utilisateur refusé avec succès.", "user_id" => $user->id_utilisateur]);
         } catch (Exception $e) {
-            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
 

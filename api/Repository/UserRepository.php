@@ -243,9 +243,7 @@ class UserRepository {
         if (!$user) {
             return null; // Utilisateur non trouvé
         }
-        var_dump($user);
         $userModel=new UserModel($user);
-        var_dump($userModel);
         // Créer une instance de UserModel à partir des données récupérées de la base de données
         return $userModel;
     }

@@ -185,57 +185,24 @@ class UserService {
         return $this->userRepository->findRoleIdByRoleName($roleName);
     }
 
-    public function validateVolunteer($userId) {
-        $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
-        $this->userRepository->updateUserRole($userId, $roleId,'Approuvé');
-    }
-
-    public function refuseVolunteer($userId) {
-        $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
-        $this->userRepository->updateUserRole($userId, $roleId, 'Refusé');
-    }
-
     public function emailExists($email) {
         $user = $this->userRepository->findByEmail($email);
         return $user !== null;
     }
 
-    public function refuseUser(UserModel $user)
-    {
-        // Mettre à jour le statut de l'utilisateur
-        $user->statut = "Denied";
 
-        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
-        $this->userRepository->updateUserStatus($user);
-
-        // Retourner l'utilisateur mis à jour
-        return $user;
-    }
 
     public function getUserById($id) {
-        var_dump($id);
         try {
             // Appeler la méthode correspondante du repository pour récupérer l'utilisateur
-            var_dump("UserService",$this->userRepository->getUserById($id));
             return $this->userRepository->getUserById($id);
 
-            //echo ($id);
         } catch (Exception $e) {
             throw new Exception("Erreur lors de la récupération de l'utilisateur : " . $e->getMessage());
         }
     }
 
-    public function holdUser(UserModel $user)
-    {
-        // Mettre à jour le statut de l'utilisateur
-        $user->statut = "Pending";
 
-        // Appeler la méthode du repository pour mettre à jour l'utilisateur dans la base de données
-        $this->userRepository->updateUserStatus($user);
-
-        // Retourner l'utilisateur mis à jour
-        return $user;
-    }
 
 
 }

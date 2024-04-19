@@ -1,6 +1,7 @@
 <?php
 //file : api/Repository/UserRepository.php
 require_once './Models/ServiceModel.php';
+require_once './Models/ServiceTypeModel.php';
 require_once './Repository/BDD.php';
 
 ini_set('display_errors', '1');
@@ -61,6 +62,21 @@ class ServiceRepository
         }
 
         return new serviceModel($service);
+    }
+
+    public function getServiceTypeById($id)
+    {
+        $sql = "SELECT * FROM ServiceType WHERE ID_ServiceType = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $serviceType = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$serviceType) {
+            return null;
+        }
+
+        return new serviceTypeModel($serviceType);
     }
 
     public function updateService(serviceModel $service, array $fieldsToUpdate)

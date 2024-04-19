@@ -24,6 +24,15 @@ class ServiceService{
         }
     }
 
+    public function getServiceTypeById($id) {
+        try {
+            return $this->serviceRepository->getServiceTypeById($id);
+
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération du type de service : " . $e->getMessage());
+        }
+    }
+
     public function updateService($service,$fieldsToUpdate)
     {
         return $this->serviceRepository->updateService($service,$fieldsToUpdate);

@@ -25,8 +25,9 @@ $this->serviceService = new ServiceService($serviceRepository);
                         if ($uri[3] == 'type'){
                             if (isset($uri[4])){ //id du type de service
                                 $this->getServiceType($uri[4]);
+                            }else{
+                                $this->getAllServiceTypes();
                             }
-                            $this->getAllServiceTypes();
                         }else{
                             $this->getService($uri[3]);
                         }
@@ -174,6 +175,16 @@ $this->serviceService = new ServiceService($serviceRepository);
 
     private function getServiceType($id)
     {
+        try {
+            $result = $this->serviceService->getServiceTypeById($id);
+            if ($result) {
+                ResponseHelper::sendResponse(['success' => $result]);
+            } else {
+                ResponseHelper::sendNotFound('Service non trouvé.');
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
     }
 
     private function getServicesByType()

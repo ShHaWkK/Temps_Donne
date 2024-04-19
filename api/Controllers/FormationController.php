@@ -33,6 +33,9 @@ class FormationController {
                             case 'reports':
                                 $this->generateReports();
                                 break;
+                                case 'available-formations':
+                                    $this->browseAvailableFormations();
+                                    break;
                             default:
                                 $this->getFormation($uri[3]); // Fetch a specific formation by ID
                                 break;
@@ -42,10 +45,20 @@ class FormationController {
                     }
                     break;
                 case 'POST':
-                    if (!empty($uri[3]) && $uri[3] === 'register') {
-                        $this->registerFormationOfVolunteer();
+                    if (!empty($uri[3])) {
+                        switch ($uri[3]) {
+                            case 'register':
+                                $this->registerFormationOfVolunteer();
+                                break;
+                            case 'feedback':
+                                $this->submitFeedback(); // Endpoint for beneficiaries to submit feedback
+                                break;
+                            default:
+                                $this->createFormation();
+                                break;
+                        }
                     } else {
-                        $this->createFormation();
+                        ResponseHelper::sendResponse("Bad request", 400);
                     }
                     break;
                 case 'PUT':
@@ -71,7 +84,6 @@ class FormationController {
         }
     }
     
-
     //------------------------ Get All Formations ------------------------//s
 
     public function getAllFormations() {
@@ -198,11 +210,42 @@ class FormationController {
         ResponseHelper::sendResponse($formations);
     }
 
-    //------------------------ View Formations of Volunteer ------------------------//s
+    //------------------------ View Formations of Volunteer ------------------------//
 
     public function viewFormationsOfVolunteer($volunteerId) {
         $formations = $this->formationService->getFormationsForVolunteer($volunteerId);
         ResponseHelper::sendResponse($formations);
     }
 
+
+    //-------------------------------------------------------------------------------//
+
+    public function submitFeedback() {
+        $data = json_decode(file_get_contents("php://input"), true);
+        if (!$data) {
+            ResponseHelper::sendResponse("Invalid data", 400);
+            return;
+        }
+        $result = $this->formationService->addFeedback($data);
+        if ($result) {
+            ResponseHelper::sendResponse("Feedback submitted successfully", 201);
+        } else {
+            ResponseHelper::sendResponse("Failed to submit feedback", 400);
+        }
+    }
+
+    //-------------------------------------------------------------------------------//
+
+
+    // public function viewAvailableServices() {
+    //     $services = $this->formationService->listAvailableServices();
+    //     ResponseHelper::sendResponse($services);
+    // }
+
+    public function browseAvailableFormations() {
+    $availableFormations = $this->formationService->getAvailableFormations();
+    ResponseHelper::sendResponse($availableFormations);
+}
+
+    
 }

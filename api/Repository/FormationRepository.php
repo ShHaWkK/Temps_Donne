@@ -104,6 +104,7 @@ class FormationRepository {
         return $stmt->fetchAll();
     }
 
+
     public function markAttendance($userId, $formationId) {
         $stmt = $this->db->prepare("UPDATE Inscriptions_Formations SET Attended = TRUE WHERE ID_Utilisateur = ? AND ID_Formation = ?");
         $stmt->execute([$userId, $formationId]);
@@ -120,6 +121,28 @@ class FormationRepository {
         $statement->execute();
         return $statement->fetchAll();
     }
+
+
+    //-------------------- Formation Feedback --------------------//
+
+    public function insertFeedback($data) {
+        $stmt = $this->db->prepare("INSERT INTO Feedbacks (ID_Utilisateur, Type, ID_Reference, Commentaire, Date_Creation) VALUES (?, ?, ?, ?, ?)");
+        return $stmt->execute([
+            $data['userId'], 
+            'Service', 
+            $data['serviceId'], 
+            $data['comment'], 
+            date('Y-m-d') 
+        ]);
+    }
+    
+    public function getAvailableFormations() {
+        // Assuming there's a Date_Formation column that holds the date of the formation
+        $stmt = $this->db->prepare("SELECT * FROM Formations WHERE Date_Formation >= CURDATE()");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
     
     
 

@@ -56,5 +56,16 @@ class FormationService {
         return $this->repository->getParticipationAndFeedback();
     }
 
+    public function addFeedback($data) {
+        // Validate and sanitize input data
+        return $this->repository->insertFeedback($data);
+    }
+    
+    public function getAvailableFormations() {
+        return $this->repository->getAvailableFormations();
+    }
+
+    
+
 
 }

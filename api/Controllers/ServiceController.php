@@ -23,8 +23,12 @@ $this->serviceService = new ServiceService($serviceRepository);
                 case 'GET':
                     if (isset($uri[3])) {
                         if ($uri[3] == 'type'){
-                            if (isset($uri[4])){ //id du type de service
-                                $this->getServiceType($uri[4]);
+                            if (isset($uri[4])){//id du type de service
+                                if ($uri[4] == 'servicesByType') {
+                                    $this->getServicesByType($uri[5]);
+                                }else{
+                                    $this->getServiceType($uri[4]);
+                                }
                             }else{
                                 $this->getAllServiceTypes();
                             }
@@ -173,10 +177,10 @@ $this->serviceService = new ServiceService($serviceRepository);
         }
     }
 
-    private function getServiceType($id)
+    private function getServiceType($id_type)
     {
         try {
-            $result = $this->serviceService->getServiceTypeById($id);
+            $result = $this->serviceService->getServiceTypeById($id_type);
             if ($result) {
                 ResponseHelper::sendResponse(['success' => $result]);
             } else {
@@ -187,9 +191,19 @@ $this->serviceService = new ServiceService($serviceRepository);
         }
     }
 
-    private function getServicesByType()
+    private function getServicesByType($id_type)
     {
-
+        try{
+            $serviceType = $this->serviceService->getServiceTypeById($id_type);
+            if ($serviceType) {
+                $result = $this->serviceService->getServicesByType($id_type);
+                ResponseHelper::sendResponse(['success' => $result]);
+            } else {
+                ResponseHelper::sendNotFound('Aucun type de service enregistré.');
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
     }
 
 }

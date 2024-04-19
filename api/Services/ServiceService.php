@@ -61,5 +61,14 @@ class ServiceService{
             throw new Exception("Erreur lors de la récupération du type service : " . $e->getMessage());
         }
     }
+
+    public function getServicesByType($id_type)
+    {
+        try {
+            return $this->serviceRepository->getServicesByType($id_type);
+        }catch (\mysql_xdevapi\Exception$e){
+            throw new Exception("Erreur lors de la récupération du type service : " . $e->getMessage());
+        }
+    }
 }
 ?>

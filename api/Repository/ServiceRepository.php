@@ -135,6 +135,19 @@ class ServiceRepository
         }
     }
 
+    public function getServicesByType($id_type)
+    {
+        try {
+            $query = "SELECT * FROM Services WHERE ID_ServiceType = :id";
+            $statement = $this->db->prepare($query);
+            $statement->bindParam(':id', $id_type, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération du type de service : " . $e->getMessage());
+        }
+    }
+
 }
 
 ?>

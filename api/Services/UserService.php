@@ -53,8 +53,6 @@ class UserService {
         return $user;
     }
 
-    
-
     public function getAllUsers() {
         return $this->userRepository->findAll();
     }

@@ -30,15 +30,5 @@ services:
       - db-data:/var/lib/mysql
       - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
 
-  # phpMyAdmin Service
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - "8086:80"
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: toor
-
 volumes:
   db-data:

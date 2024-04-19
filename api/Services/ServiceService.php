@@ -12,7 +12,7 @@ class ServiceService{
 
     public function createService(ServiceModel $service)
     {
-        $serviceId = $this->serviceRepository->save($service);
+        $serviceId = $this->serviceRepository->createService($service);
     }
 
     public function getServiceById($id) {
@@ -32,6 +32,25 @@ class ServiceService{
     public function deleteService($id)
     {
         return $this->serviceRepository->deleteService($id);
+    }
+
+    public function getAllServices()
+    {
+        try {
+            return $this->serviceRepository->getAllServices();
+
+        }catch (\mysql_xdevapi\Exception$e){
+            throw new Exception("Erreur lors de la récupération des services : " . $e->getMessage());
+        }
+    }
+
+    public function getAllServiceTypes()
+    {
+        try {
+            return $this->serviceRepository->getAllServiceTypes();
+        }catch (\mysql_xdevapi\Exception$e){
+            throw new Exception("Erreur lors de la récupération du type service : " . $e->getMessage());
+        }
     }
 }
 ?>

@@ -50,21 +50,9 @@ ALTER TABLE UtilisateursRoles
     ADD statut VARCHAR(255) DEFAULT 'En attente';
 
 
--- Table Services
-CREATE TABLE Services (
-                          ID_Service INT AUTO_INCREMENT PRIMARY KEY,
-                          Nom_du_service VARCHAR(255),
-                          Description TEXT,
-                          Horaire TIME,
-                          Lieu VARCHAR(255),
-                          NFC_Tag_Data TEXT,
-                          Type_Service VARCHAR(255),
-                          Date_Debut DATE,
-                          Date_Fin DATE
-);
-
+-- Tables Services
 CREATE TABLE ServiceType(
-                            ID_Service INT AUTO_INCREMENT PRIMARY KEY,
+                            ID_ServiceType INT AUTO_INCREMENT PRIMARY KEY,
                             Nom_Type_Service VARCHAR(100)
 );
 
@@ -75,6 +63,19 @@ INSERT INTO ServiceType ( Nom_Type_Service) VALUES
                                                 ('Cours d alphabetisation pour adulte'),
                                                 ('Recolte de fonds'),
                                                 ('Visite et activites avec personnes agees');
+
+CREATE TABLE Services (
+                          ID_Service INT AUTO_INCREMENT PRIMARY KEY,
+                          Nom_du_service VARCHAR(255),
+                          Description TEXT,
+                          Horaire TIME,
+                          Lieu VARCHAR(255),
+                          NFC_Tag_Data TEXT,
+                          Date_Debut DATE,
+                          Date_Fin DATE,
+                          ID_ServiceType INT,
+                          FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType)
+);
 
 -- Table Formations
 CREATE TABLE Formations (

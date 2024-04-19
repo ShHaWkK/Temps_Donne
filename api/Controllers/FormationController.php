@@ -148,10 +148,14 @@ class FormationController {
     }
 
 
+    //------------------------ Browse Formations ------------------------//
+
     public function browseFormations() {
         $formations = $this->formationService->listAllFormations();
         ResponseHelper::sendResponse($formations);
     }
+
+    //------------------------ View Formations of Volunteer ------------------------//s
 
     public function viewFormationsOfVolunteer($volunteerId) {
         $formations = $this->formationService->getFormationsForVolunteer($volunteerId);

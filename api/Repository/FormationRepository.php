@@ -8,7 +8,8 @@ class FormationRepository {
     public function __construct($db) {
         $this->db = $db;
     }
-    // Retrieve all formations a specific volunteer has registered for
+
+    //-------------------- Formation Volunteering --------------------//
     public function getFormationsForVolunteer($userId) {
         $query = "SELECT f.*, i.Date_Inscription 
                   FROM Formations f
@@ -24,7 +25,8 @@ class FormationRepository {
         return $formations;
     }
 
-    // Retrieve all available formations
+    //-------------------- Formation CRUD --------------------//
+
     public function getAllFormations() {
         $query = "SELECT * FROM Formations";
         $statement = $this->db->prepare($query);
@@ -58,8 +60,11 @@ class FormationRepository {
         return $stmt->execute([$id]);
     }
 
-     // Method to check if the user is already registered for the formation
-     public function isUserRegisteredForFormation($userId, $formationId) {
+
+
+//-------------------- Formation Volunteering --------------------//
+
+    public function isUserRegisteredForFormation($userId, $formationId) {
         $query = "SELECT COUNT(*) FROM Inscriptions_Formations WHERE ID_Utilisateur = :user_id AND ID_Formation = :formation_id";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':user_id', $userId);
@@ -69,9 +74,8 @@ class FormationRepository {
     }
 
     public function registerVolunteerForFormation($userId, $formationId) {
-        // Check for existing registration
         if ($this->isUserRegisteredForFormation($userId, $formationId)) {
-            return false; // The user is already registered
+            return false; 
         }
 
         $query = "INSERT INTO Inscriptions_Formations (ID_Utilisateur, ID_Formation, Date_Inscription) VALUES (:user_id, :formation_id, CURDATE())";
@@ -81,11 +85,10 @@ class FormationRepository {
         return $statement->execute();
     }
 
-    // Method to unregister a volunteer from a formation
+    
     public function unregisterVolunteerFromFormation($userId, $formationId) {
-        // Check for existing registration
         if (!$this->isUserRegisteredForFormation($userId, $formationId)) {
-            return false; // The user is not registered
+            return false; 
         }
 
         $query = "DELETE FROM Inscriptions_Formations WHERE ID_Utilisateur = :user_id AND ID_Formation = :formation_id";

@@ -20,12 +20,22 @@ class FormationController {
             switch ($method) {
                 case 'GET':
                     if (!empty($uri[3])) {
-                        if ($uri[3] === 'browse') {
-                            $this->browseFormations();
-                        } elseif ($uri[3] === 'my-formations' && !empty($uri[4])) {
-                            $this->viewFormationsOfVolunteer($uri[4]);
-                        } else {
-                            $this->getFormation($uri[3]);
+                        switch ($uri[3]) {
+                            case 'browse':
+                                $this->browseFormations();
+                                break;
+                            case 'my-formations':
+                                $this->viewFormationsOfVolunteer($uri[4]); // Assuming $uri[4] is the volunteer ID
+                                break;
+                            case 'registrations':
+                                $this->getRegistrationsForFormation($uri[4]); // Assuming $uri[4] is the formation ID
+                                break;
+                            case 'reports':
+                                $this->generateReports();
+                                break;
+                            default:
+                                $this->getFormation($uri[3]); // Fetch a specific formation by ID
+                                break;
                         }
                     } else {
                         $this->getAllFormations();
@@ -39,7 +49,9 @@ class FormationController {
                     }
                     break;
                 case 'PUT':
-                    if (!empty($uri[3])) {
+                    if (!empty($uri[3]) && $uri[3] === 'validate-attendance') {
+                        $this->validateAttendance($uri[4], $uri[5]); // Assuming $uri[4] is the user ID, $uri[5] is the formation ID
+                    } else if (!empty($uri[3])) {
                         $this->updateFormation($uri[3]);
                     }
                     break;
@@ -58,6 +70,7 @@ class FormationController {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], 500);
         }
     }
+    
 
     //------------------------ Get All Formations ------------------------//s
 
@@ -89,6 +102,10 @@ class FormationController {
 
     public function createFormation() {
         $data = json_decode(file_get_contents("php://input"), true);
+        if (!$data) {
+            ResponseHelper::sendResponse("Invalid data", 400);
+            return;
+        }
         $result = $this->formationService->addFormation($data);
         if ($result) {
             ResponseHelper::sendResponse("Formation created successfully", 201);
@@ -96,6 +113,7 @@ class FormationController {
             ResponseHelper::sendResponse("Failed to create formation", 400);
         }
     }
+    
 
     //------------------------ Update Formation ------------------------//s
 
@@ -120,6 +138,31 @@ class FormationController {
         }
     }
 
+    //------------------------ Administer Formation ------------------------// 
+
+
+
+    public function getRegistrationsForFormation($formationId) {
+        $registrations = $this->formationService->getRegistrationsForFormation($formationId);
+        ResponseHelper::sendResponse($registrations);
+    }
+
+    public function validateAttendance($userId, $formationId) {
+        $result = $this->formationService->validateAttendance($userId, $formationId);
+        if ($result) {
+            ResponseHelper::sendResponse("Attendance validated successfully");
+        } else {
+            ResponseHelper::sendNotFound("Failed to validate attendance");
+        }
+    }
+
+    public function generateReports() {
+        $reports = $this->formationService->generateReports();
+        ResponseHelper::sendResponse($reports);
+    }
+    
+    
+    
 
     //------------------------ Volunteer Registration ------------------------//
 

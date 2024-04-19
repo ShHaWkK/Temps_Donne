@@ -97,4 +97,33 @@ class FormationRepository {
         $statement->bindValue(':formation_id', $formationId);
         return $statement->execute();
     }
+
+    public function getRegistrationsForFormation($formationId) {
+        $stmt = $this->db->prepare("SELECT * FROM Inscriptions_Formations WHERE ID_Formation = ?");
+        $stmt->execute([$formationId]);
+        return $stmt->fetchAll();
+    }
+
+    public function markAttendance($userId, $formationId) {
+        $stmt = $this->db->prepare("UPDATE Inscriptions_Formations SET Attended = TRUE WHERE ID_Utilisateur = ? AND ID_Formation = ?");
+        $stmt->execute([$userId, $formationId]);
+        return $stmt->rowCount() > 0;
+    }
+
+    public function getParticipationAndFeedback() {
+        $query = "SELECT f.ID_Formation, f.Titre, COUNT(i.ID_Utilisateur) AS Participants, COUNT(fb.ID_Feedback) AS FeedbackCount 
+                  FROM Formations f 
+                  JOIN Inscriptions_Formations i ON f.ID_Formation = i.ID_Formation 
+                  LEFT JOIN Feedbacks fb ON f.ID_Formation = fb.ID_Reference AND fb.Type = 'Formation' 
+                  GROUP BY f.ID_Formation";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+    
+    
+
+
+
+
 }

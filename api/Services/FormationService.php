@@ -8,9 +8,15 @@ class FormationService {
         $this->repository = $repository;
     }
 
+    public function getFormationsForVolunteer($userId) {
+        return $this->repository->getFormationsForVolunteer($userId);
+    }
+
+    // Service method to get all available formations
     public function listAllFormations() {
         return $this->repository->getAllFormations();
     }
+
 
     public function getFormationDetails($id) {
         return $this->repository->getFormationById($id);
@@ -26,5 +32,13 @@ class FormationService {
 
     public function deleteFormation($id) {
         return $this->repository->deleteFormation($id);
+    }
+
+    public function registerVolunteerForFormation($userId, $formationId) {
+        return $this->repository->registerVolunteerForFormation($userId, $formationId);
+    }
+
+    public function unregisterVolunteerFromFormation($userId, $formationId) {
+        return $this->repository->unregisterVolunteerFromFormation($userId, $formationId);
     }
 }

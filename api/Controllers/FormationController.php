@@ -19,23 +19,35 @@ class FormationController {
         try {
             switch ($method) {
                 case 'GET':
-                    if (!empty($uri[2])) {
-                        $this->getFormation($uri[2]); 
+                    if (!empty($uri[3])) {
+                        if ($uri[3] === 'browse') {
+                            $this->browseFormations();
+                        } elseif ($uri[3] === 'my-formations' && !empty($uri[4])) {
+                            $this->viewFormationsOfVolunteer($uri[4]);
+                        } else {
+                            $this->getFormation($uri[3]);
+                        }
                     } else {
                         $this->getAllFormations();
                     }
                     break;
                 case 'POST':
-                    $this->createFormation();
+                    if (!empty($uri[3]) && $uri[3] === 'register') {
+                        $this->registerFormationOfVolunteer();
+                    } else {
+                        $this->createFormation();
+                    }
                     break;
                 case 'PUT':
-                    if (!empty($uri[2])) {
-                        $this->updateFormation($uri[2]);
+                    if (!empty($uri[3])) {
+                        $this->updateFormation($uri[3]);
                     }
                     break;
                 case 'DELETE':
-                    if (!empty($uri[2])) {
-                        $this->deleteFormation($uri[2]);
+                    if (!empty($uri[3]) && $uri[3] === 'unregister') {
+                        $this->unregisterFormationOfVolunteer();
+                    } else if (!empty($uri[3])) {
+                        $this->deleteFormation($uri[3]);
                     }
                     break;
                 default:
@@ -47,6 +59,8 @@ class FormationController {
         }
     }
 
+    //------------------------ Get All Formations ------------------------//s
+
     public function getAllFormations() {
         $formations = $this->formationService->listAllFormations();
         var_dump();
@@ -57,6 +71,8 @@ class FormationController {
             ResponseHelper::sendResponse($formations);
         }
     }
+
+    //------------------------ Get Formation ------------------------//
     
 
     public function getFormation($id) {
@@ -68,6 +84,9 @@ class FormationController {
         }
     }
 
+
+    //------------------------ Create Formation ------------------------//
+
     public function createFormation() {
         $data = json_decode(file_get_contents("php://input"), true);
         $result = $this->formationService->addFormation($data);
@@ -77,6 +96,8 @@ class FormationController {
             ResponseHelper::sendResponse("Failed to create formation", 400);
         }
     }
+
+    //------------------------ Update Formation ------------------------//s
 
     public function updateFormation($id) {
         $data = json_decode(file_get_contents("php://input"), true);
@@ -88,6 +109,8 @@ class FormationController {
         }
     }
 
+    //------------------------ Delete Formation ------------------------//
+
     public function deleteFormation($id) {
         $result = $this->formationService->deleteFormation($id);
         if ($result) {
@@ -96,4 +119,43 @@ class FormationController {
             ResponseHelper::sendNotFound("Formation not found");
         }
     }
+
+
+    //------------------------ Volunteer Registration ------------------------//
+
+    public function registerFormationOfVolunteer() {
+        $data = json_decode(file_get_contents("php://input"), true);
+        // Assuming $data contains 'volunteerId' and 'formationId'
+        $result = $this->formationService->registerVolunteerForFormation($data['volunteerId'], $data['formationId']);
+        if ($result) {
+            ResponseHelper::sendResponse("Volunteer registered successfully", 201);
+        } else {
+            ResponseHelper::sendResponse("Failed to register volunteer", 400);
+        }
+    }
+
+    //------------------------ Volunteer Unregistration ------------------------//
+
+    public function unregisterFormationOfVolunteer() {
+        $data = json_decode(file_get_contents("php://input"), true);
+        // Assuming $data contains 'volunteerId' and 'formationId'
+        $result = $this->formationService->unregisterVolunteerFromFormation($data['volunteerId'], $data['formationId']);
+        if ($result) {
+            ResponseHelper::sendResponse("Volunteer unregistered successfully");
+        } else {
+            ResponseHelper::sendNotFound("Failed to unregister volunteer or volunteer not found");
+        }
+    }
+
+
+    public function browseFormations() {
+        $formations = $this->formationService->listAllFormations();
+        ResponseHelper::sendResponse($formations);
+    }
+
+    public function viewFormationsOfVolunteer($volunteerId) {
+        $formations = $this->formationService->getFormationsForVolunteer($volunteerId);
+        ResponseHelper::sendResponse($formations);
+    }
+
 }

@@ -61,7 +61,7 @@ $this->serviceService = new ServiceService($serviceRepository);
 
             $this->serviceService->createService($service);
 
-            ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie. En attente de validation."]);
+            ResponseHelper::sendResponse(["success" => "Service ajouté avec succès."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -93,8 +93,18 @@ $this->serviceService = new ServiceService($serviceRepository);
         }
     }
 
-    private function deleteService(mixed $int)
+    private function deleteService($id)
     {
+        try {
+            $result = $this->serviceService->deleteService($id);
+            if ($result) {
+                ResponseHelper::sendResponse(['success' => 'Service supprimé avec succès.']);
+            } else {
+                ResponseHelper::sendNotFound('Service non trouvé.');
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
     }
 
     private function getService(mixed $int)
@@ -103,6 +113,15 @@ $this->serviceService = new ServiceService($serviceRepository);
 
     private function getAllServices()
     {
+    }
+
+    private function getAllServiceTypes()
+    {
+
+    }
+    private function getServicesByType()
+    {
+
     }
 
 }

@@ -16,9 +16,8 @@ class ServiceRepository
         $this->db = $db;
     }
 
-    public function save(ServiceModel $service)
+    public function save($service)
     {
-        var_dump($service);
         if (empty($service->type_service)) {
             throw new Exception("Le champ 'type_service' ne peut pas être vide.");
         }
@@ -74,8 +73,6 @@ class ServiceRepository
 
     public function updateService(serviceModel $service, array $fieldsToUpdate)
     {
-        var_dump($service);
-        var_dump($fieldsToUpdate);
         $query = "UPDATE Services SET ";
 
         $sets = [];
@@ -95,6 +92,19 @@ class ServiceRepository
         }
 
         return $statement->execute();
+    }
+
+    public function deleteService($id)
+    {
+        try {
+            $sql = "DELETE FROM Services WHERE ID_Service = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la suppression du service : " . $e->getMessage());
+        }
     }
 
 }

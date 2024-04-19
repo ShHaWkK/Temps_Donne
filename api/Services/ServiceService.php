@@ -17,8 +17,6 @@ class ServiceService{
 
     public function getServiceById($id) {
         try {
-            var_dump($this->serviceRepository->getServiceById($id));
-
             return $this->serviceRepository->getServiceById($id);
 
         } catch (Exception $e) {
@@ -29,6 +27,11 @@ class ServiceService{
     public function updateService($service,$fieldsToUpdate)
     {
         return $this->serviceRepository->updateService($service,$fieldsToUpdate);
+    }
+
+    public function deleteService($id)
+    {
+        return $this->serviceRepository->deleteService($id);
     }
 }
 ?>

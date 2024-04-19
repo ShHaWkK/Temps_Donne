@@ -53,8 +53,6 @@ class UserService {
         return $user;
     }
 
-    
-
     public function getAllUsers() {
         return $this->userRepository->findAll();
     }
@@ -195,7 +193,6 @@ class UserService {
     public function getUserById($id) {
         try {
             // Appeler la méthode correspondante du repository pour récupérer l'utilisateur
-            var_dump($this->userRepository->getUserById($id));
             return $this->userRepository->getUserById($id);
 
         } catch (Exception $e) {

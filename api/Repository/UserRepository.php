@@ -86,24 +86,25 @@ class UserRepository {
 
 
 // ----------------- Récupération des informations de l'utilisateur -----------------//
-    public function updateUserProfile(UserModel $user) {
-        $query = "UPDATE Utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis WHERE id_utilisateur = :id";
+    public function updateService(serviceModel $service, array $fieldsToUpdate)
+    {
+        $query = "UPDATE Services SET ";
+
+        $sets = [];
+        $params = [];
+        foreach ($fieldsToUpdate as $field) {
+            $sets[] = "$field = :$field";
+            $params[":$field"] = $service->$field;
+        }
+
+        $query .= implode(", ", $sets);
+        $query .= " WHERE ID_Service = :id_service";
+        $params[":id_service"] = $service->id_service;
 
         $statement = $this->db->prepare($query);
-
-
-        $statement->bindValue(':id', $user->id_utilisateur);
-        $statement->bindValue(':nom', $user->nom);
-        $statement->bindValue(':prenom', $user->prenom);
-        $statement->bindValue(':adresse', $user->adresse);
-        $statement->bindValue(':telephone', $user->telephone);
-        $statement->bindValue(':langues', json_encode($user->langues));
-        $statement->bindValue(':nationalite', $user->nationalite);
-        $statement->bindValue(':situation', $user->situation);
-        $statement->bindValue(':besoins_specifiques', $user->besoins_specifiques);
-        $statement->bindValue(':emploi', $user->emploi);
-        $statement->bindValue(':societe', $user->societe);
-        $statement->bindValue(':type_permis', $user->type_permis);
+        foreach ($params as $key => $value) {
+            $statement->bindValue($key, $value);
+        }
 
         return $statement->execute();
     }
@@ -245,10 +246,7 @@ class UserRepository {
         if (!$user) {
             return null; // Utilisateur non trouvé
         }
-        var_dump($user);
         $userModel=new UserModel($user);
-        var_dump($userModel);
-        // Créer une instance de UserModel à partir des données récupérées de la base de données
         return $userModel;
     }
 

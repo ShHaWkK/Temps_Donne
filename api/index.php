@@ -74,7 +74,6 @@ function router($uri, $requestMethod) {
         case 'services':
             $controller = new ServiceController();
             $controller->processRequest($requestMethod,$uri);
-            // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour les tickets
             break;
 
         case 'tickets':

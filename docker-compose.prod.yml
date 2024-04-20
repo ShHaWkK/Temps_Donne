@@ -1,41 +1,42 @@
 version: '3.9'
 
 services:
-  # Frontend Service
   frontend:
-    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu-frontend:prod
+    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu:dev
     ports:
-      - "80:80"  
-    restart: always  
-
-  # API Service
-  api:
-    image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu-api:prod
-    ports:
-      - "8080:80"  
-    environment:
-      DB_HOST=db
-      DB_USER=prod_user
-      DB_PASSWORD=prod_password
-      DB_NAME=prod_db
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  # Database Service
-  db:
-    image: mysql:5.7 
-    environment:
-      MYSQL_ROOT_PASSWORD=prod_password
-      MYSQL_DATABASE=prod_db
+      - "8083:80"
     volumes:
-      - prod-db-data:/var/lib/mysql
-    restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
+      - ./front:/var/www/html
+    environment:
+      - NODE_ENV=development
+    command: npm start
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8082:80"
+    volumes:
+      - ./api:/var/www/html
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=temps
+    command: npm run dev
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: temps
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
+
 
 volumes:
-  prod-db-data:  
+  db-data:

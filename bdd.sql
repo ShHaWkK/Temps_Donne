@@ -100,6 +100,8 @@ CREATE TABLE Inscriptions_Formations (
                                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
                                          FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation)
 );
+ALTER TABLE Inscriptions_Formations
+ADD COLUMN Attended BOOLEAN NOT NULL DEFAULT FALSE;
 
 -- Table ChatMessages
 CREATE TABLE ChatMessages (

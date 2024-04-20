@@ -1,5 +1,7 @@
 <?php
 // file: api/index.php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 //-------------------- CORS --------------------//
 // Autorise les requêtes depuis localhost
@@ -12,6 +14,7 @@ require_once 'Controllers/AdminController.php';
 require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
 require_once 'Controllers/ServiceController.php';
+require_once 'Controllers/FormationController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
@@ -22,9 +25,9 @@ $uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 function sendJsonResponse($data, $statusCode = 200) {
+    header('Content-Type: application/json');
     http_response_code($statusCode);
     echo json_encode($data);
-    exit();
 }
 
 // Vérifier si la méthode de la requête est OPTIONS
@@ -37,10 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 function router($uri, $requestMethod) {
     $controller = null;
+
     if (!isset($uri[2])) {
-        sendJsonResponse(['message' => 'Not Found'], 404);
+        sendJsonResponse(['message' => 'Welcome to the API!'], 200);
         return;
     }
+
 
     //---------------------- ROUTES ----------------------//
     switch ($uri[2]) {
@@ -79,6 +84,10 @@ function router($uri, $requestMethod) {
             $controller = new PlanningController();
             // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour la planification
             break;
+            case 'formations':
+                $controller = new FormationController();
+                $controller->processRequest($requestMethod, $uri);
+                break;
         default:
             sendJsonResponse(['message' => 'Not Found'], 404);
             return;

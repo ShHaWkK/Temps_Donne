@@ -160,8 +160,8 @@ class UserController {
         try {
             $user = new UserModel($data);
             $user->validate($data);
-            $user->hashPassword();
-            $roleId = $this->userService->findRoleIdByRoleName('Benevole');
+            //$user->hashPassword();
+            //$roleId = $this->userService->findRoleIdByRoleName('Benevole');
             // Vous devez gérer $user->statut_benevole dans UserService
             $this->userService->registerVolunteer($user);
 

@@ -38,20 +38,32 @@ class UserService {
     //     return $user;
     // }
 
-    public function authenticate($email, $password, $role) {
+    public function authentificate($email, $password, $role)
+    {
         $user = $this->userRepository->findByEmail($email);
+
         if (!$user) {
             throw new AuthenticationException("Utilisateur non trouvé");
         }
+        var_dump($password);
+        var_dump($user->mot_de_passe);
         if (!password_verify($password, $user->mot_de_passe)) {
             throw new AuthenticationException("Mot de passe incorrect");
         }
+
+        /*
         $roles = $this->userRepository->getUserRoles($user->id_utilisateur);
         if (!in_array($role, $roles)) {
             throw new RoleException("Rôle non autorisé");
+        }*/
+
+        if($role != $user->role){
+            throw new RoleException("Le role ne correspond pas");
         }
+
         return $user;
     }
+
 
     public function getAllUsers() {
         return $this->userRepository->findAll();
@@ -81,14 +93,17 @@ class UserService {
         $userId = $this->userRepository->save($user);
     
         // Trouver l'ID du rôle
+        /*
         $roleId = $this->userRepository->findRoleIdByRoleName($roleName);
         if (!$roleId) {
             throw new Exception("Rôle non trouvé.");
-        }
+        }*/
     
         // Assignation du rôle à l'utilisateur
-        $this->userRepository->assignRoleToUser($userId, $roleId, 'Actif');
-    
+        $user->role=$roleName;
+        //$this->userRepository->assignRoleToUser($userId, $roleId, 'Actif');
+        $user->statut='pending';
+
         return $userId;
     }
     
@@ -110,14 +125,18 @@ class UserService {
         $userId = $this->userRepository->save($user);
     
         // Find the role ID for 'Benevole'
-        $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
+        /*
+         $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
         if (!$roleId) {
             throw new Exception("Rôle 'Benevole' non trouvé.");
         }
+        */
     
         // Assign the role to the user
-        $this->userRepository->assignRoleToUser($userId, $roleId, 'Pending'); // Status 'En attente'
-    
+        //$this->userRepository->assignRoleToUser($userId, $roleId, 'Pending'); // Status 'En attente'
+        $user->role = 'Benevole';
+        $user->statut ='pending';
+
         return $userId; // Return the user ID or any other success indicator
     }
     

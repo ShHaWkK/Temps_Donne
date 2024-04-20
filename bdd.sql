@@ -3,11 +3,11 @@
 -- Table Utilisateurs
 CREATE TABLE Utilisateurs (
                               ID_Utilisateur INT AUTO_INCREMENT PRIMARY KEY,
-                              Nom VARCHAR(255),
-                              Prenom VARCHAR(255),
-                              Email VARCHAR(255) UNIQUE,
-                              Mot_de_passe VARCHAR(255),
-                              Role VARCHAR(255), -- 'Benevole', 'Beneficiaire', 'Administrateur'
+                              Nom VARCHAR(255) NOT NULL,
+                              Prenom VARCHAR(255) NOT NULL,
+                              Email VARCHAR(255) UNIQUE NOT NULL,
+                              Mot_de_passe VARCHAR(500),
+                              Role ENUM('Benevole', 'Beneficiaire', 'Administrateur') NOT NULL , -- 'Benevole', 'Beneficiaire', 'Administrateur'
                               Adresse TEXT,
                               Telephone VARCHAR(20),
                               Date_de_naissance DATE,
@@ -21,12 +21,14 @@ CREATE TABLE Utilisateurs (
                               Statut_Connexion BOOLEAN,
                               Emploi VARCHAR(255),
                               Societe VARCHAR(255),
-                              Est_Verifie BOOLEAN DEFAULT FALSE,
+                              -- Est_Verifie BOOLEAN DEFAULT FALSE,
                               Code_Verification VARCHAR(255),
                               Type_Permis VARCHAR(50),
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
+-- On retire le role dans les classes étangères
+/*
 ALTER TABLE Utilisateurs
     ADD Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation';
 
@@ -48,7 +50,7 @@ CREATE TABLE UtilisateursRoles (
 );
 ALTER TABLE UtilisateursRoles
     ADD statut VARCHAR(255) DEFAULT 'En attente';
-
+*/
 
 -- Tables Services
 CREATE TABLE ServiceType(

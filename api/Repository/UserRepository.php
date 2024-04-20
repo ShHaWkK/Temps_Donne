@@ -18,7 +18,6 @@ class UserRepository {
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------//
     public function save(UserModel $user) {
-        var_dump($user);
         if (empty($user->nom)) {
             throw new Exception("Le champ 'nom' ne peut pas être vide.");
         }
@@ -167,6 +166,7 @@ class UserRepository {
     }
 
     //----------------- Assigner un rôle à un utilisateur -----------------//
+    /*
     public function assignRoleToUser($userId, $roleId, $status = 'Actif') {
         $query = "INSERT INTO UtilisateursRoles (ID_Utilisateur, ID_Role, Statut) VALUES (:userId, :roleId, :status)";
         $statement = $this->db->prepare($query);
@@ -178,6 +178,7 @@ class UserRepository {
             throw new Exception("Error assigning role to user.");
         }
     }
+    */
     //----------------- Récupérer les rôles d'un utilisateur -----------------//
     public function getUserRoles($userId) {
         $query = "SELECT r.Nom_Role FROM UtilisateursRoles ur JOIN Roles r ON ur.ID_Role = r.ID_Role WHERE ur.ID_Utilisateur = :userId";
@@ -188,6 +189,7 @@ class UserRepository {
     }
 
     //----------------- Mettre à jour le statut d'un rôle d'un utilisateur -----------------//
+    /*
     public function updateUserRole($userId, $roleId, $newStatus) {
         $query = "UPDATE UtilisateursRoles SET statut = :newStatus WHERE ID_Utilisateur = :userId AND ID_Role = :roleId";
         $statement = $this->db->prepare($query);
@@ -196,7 +198,7 @@ class UserRepository {
         $statement->bindValue(':roleId', $roleId);
         $statement->execute();
     }
-
+*/
     //------------------- findRoleidByRoleName -------------------//
 
     public function findRoleIdByRoleName($roleName) {
@@ -235,11 +237,15 @@ class UserRepository {
     }
 
     public function getUserById($id) {
-        $sql = "SELECT * FROM Utilisateurs WHERE id_utilisateur = :id";
+        $sql = "SELECT * FROM Utilisateurs WHERE Utilisateurs.ID_Utilisateur = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(!$user){
+            throw new \mysql_xdevapi\Exception("L'id ne correspond à aucun utilisateur");
+        }
 
         $data = array_change_key_case($user, CASE_LOWER);
 

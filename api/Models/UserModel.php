@@ -22,7 +22,7 @@ class UserModel {
     public $societe;
     public $code_verification;
     public $type_permis;
-    //public $roleName;
+    public $role;
 
     public function __construct($data = []) {
         $this->id_utilisateur = $data['ID_Utilisateur'] ?? null;
@@ -30,6 +30,7 @@ class UserModel {
         $this->prenom = $data['Prenom'] ?? null;
         $this->email = $data['Email'] ?? null;
         $this->mot_de_passe = $data['Mot_de_passe'] ?? null;
+        $this->role = $data['Role'] ?? null;
         $this->adresse = $data['Adresse'] ?? null;
         $this->telephone = $data['Telephone'] ?? null;
         $this->date_de_naissance = $data['Date_de_naissance'] ?? null;

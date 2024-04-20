@@ -20,7 +20,7 @@ class LoginController {
             $credentials = json_decode($json, true);
             $this->validateCredentials($credentials);
 
-            $user = $this->userService->authenticate($credentials['email'], $credentials['password'], $credentials['role']);
+            $user = $this->userService->authentificate($credentials['email'], $credentials['password'], $credentials['role']);
             $token = $this->generateToken($user);
 
             ResponseHelper::sendResponse(['message' => 'Authentication successful', 'token' => $token]);
@@ -44,14 +44,14 @@ class LoginController {
         $expirationTime = $issuedAt + 3600; // token expires in 1 hour
 
         $payload = [
-            'userid' => $user['id'], 
+            'userid' => $user['id'],
             'email' => $user['email'],
             'iat' => $issuedAt,
             'exp' => $expirationTime
         ];
-    
+
         $jwtSecretKey = getenv('JWT_SECRET_KEY'); // make sure you have defined this in your .env file
-    
+
         return JWT::encode($payload, $jwtSecretKey, 'HS256');
     }
 }

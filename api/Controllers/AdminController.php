@@ -115,7 +115,6 @@ class AdminController {
     {
         try {
             $user = $userController->userService->getUserById($id);
-            var_dump($user);
             if (!$user) {
                 ResponseHelper::sendResponse(["error" => "Utilisateur non trouvé."], 404);
                 return;
@@ -123,7 +122,7 @@ class AdminController {
 
             $user = $this->adminService->validateUser($user);
 
-            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
+            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "statut" => $user->statut]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -141,7 +140,7 @@ class AdminController {
 
             $user = $this->adminService->validateUser($user);
 
-            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "user_id" => $user->id_utilisateur]);
+            ResponseHelper::sendResponse(["success" => "Utilisateur validé avec succès.", "statut" => $user->statut]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -161,7 +160,7 @@ class AdminController {
 
             $user = $this->adminService->holdUser($user);
 
-            ResponseHelper::sendResponse(["success" => "Utilisateur mis en attente avec succès.", "user_id" => $user->id_utilisateur]);
+            ResponseHelper::sendResponse(["success" => "Utilisateur mis en attente avec succès.", "statut" => $user->statut]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -179,7 +178,7 @@ class AdminController {
 
             $user = $this->adminService->rejectUser($user);
 
-            ResponseHelper::sendResponse(["success" => "Utilisateur refusé avec succès.", "user_id" => $user->id_utilisateur]);
+            ResponseHelper::sendResponse(["success" => "Utilisateur refusé avec succès.", "statut" => $user->statut]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }

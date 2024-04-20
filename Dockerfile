@@ -23,3 +23,7 @@ COPY --from=build /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 
 # Copier les fichiers nécessaires de l'application du répertoire de build vers le répertoire de serveur web
 COPY ./api /var/www/html/
+
+# Exposer le port 80 pour l'accès HTTP
+EXPOSE 80
+CMD ["apache2-foreground"]

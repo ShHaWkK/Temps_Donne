@@ -1,0 +1,40 @@
+# Utiliser une image de base qui contient PHP et Apache
+FROM php:8-apache
+
+# Installer les dépendances nécessaires pour installer Node.js
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    software-properties-common
+
+# Ajouter le repo Node.js et installer Node.js (LTS Version)
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+# Vérifier les versions de Node et NPM
+RUN node -v && npm -v
+
+# Installer les extensions PHP nécessaires
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
+
+# Activer Xdebug pour le développement (facultatif)
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug
+
+# Définir le répertoire de travail pour l'application
+WORKDIR /var/www/html
+
+# Copier les fichiers du projet dans l'image
+# Assurez-vous que votre structure de fichiers est correcte
+COPY . .
+
+# Installer les dépendances NPM pour les projets Node.js
+RUN if [ -f package.json ]; then npm install; fi
+
+# Exposer le port utilisé par votre serveur web
+EXPOSE 80
+
+# Commande pour démarrer Apache en arrière-plan
+CMD ["apache2-foreground"]

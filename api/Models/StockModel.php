@@ -6,47 +6,34 @@ class StockModel {
     public $id_stock;
     public $type_article;
     public $quantite;
-    public $date_peremption;
+    public $date_de_peremption;
+    public $urgence;
+    public $qr_code;
     public $emplacement;
 
     public function __construct($data) {
         $this->id_stock = $data['id_stock'] ?? null;
         $this->type_article = $data['type_article'];
         $this->quantite = $data['quantite'];
-        $this->date_peremption = $data['date_peremption'];
-        $this->emplacement = $data['emplacement'];
-
-        $this->validate();
+        $this->date_de_peremption = $data['date_de_peremption'];
+        $this->urgence = $data['urgence'] ?? false;
+        $this->emplacement = $data['emplacement'] ?? null;
     }
 
-    private function validate() {
-        // Ajoutez ici les règles de validation pour les stocks
-        if (empty($this->type_article) || empty($this->quantite) || empty($this->date_peremption) || empty($this->emplacement)) {
+    public function validate() {
+        if (empty($this->type_article) || empty($this->quantite) || empty($this->date_de_peremption)) {
             throw new Exception("Missing required fields", 400);
         }
         if (!is_numeric($this->quantite) || $this->quantite <= 0) {
             throw new Exception("Quantity must be a positive number", 400);
         }
-        if (strtotime($this->date_peremption) === false) {
+        if (strtotime($this->date_de_peremption) === false) {
             throw new Exception("Invalid date format. Date must be in the format 'YYYY-MM-DD'", 400);
         }
-
-        // Vérifiez que la date de péremption est supérieure à la date actuelle
-        $currentDate = date('Y-m-d');
-        if ($this->date_peremption < $currentDate) {
+        if ($this->date_de_peremption < date('Y-m-d')) {
             throw new Exception("Expiration date must be greater than the current date", 400);
         }
-
-        // Vérifiez que l'emplacement est un texte
-        if (!is_string($this->emplacement)) {
-            throw new Exception("Location must be a string", 400);
-        }
-
-        // Vérifiez que l'emplacement est un texte
-        if (!is_string($this->type_article)) {
-            throw new Exception("Type of article must be a string", 400);
-        }
-
     }
 }
+
 ?>

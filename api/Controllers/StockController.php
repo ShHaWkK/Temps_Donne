@@ -18,6 +18,8 @@ class StockController {
 
 //---------------------------   ---------------------------//
     public function processRequest($method, $uri) {
+        var_dump($method);
+        var_dump($uri);
         try {
             switch ($method) {
                 case 'GET':
@@ -51,14 +53,16 @@ class StockController {
 
 //---------------------------   ---------------------------//
 
-    private function getStock($id) {
-        $stock = $this->stockService->getStockById($id);
-        if (!$stock) {
-            ResponseHelper::sendNotFound("Stock not found.");
-        } else {
-            ResponseHelper::sendResponse($stock);
-        }
+private function getStock($id) {
+    $stock = $this->stockService->getStockById($id);
+    var_dump($stock); // Inspecter l'objet stock
+    if (!$stock) {
+        ResponseHelper::sendNotFound("Stock not found.");
+    } else {
+        ResponseHelper::sendResponse($stock);
     }
+}
+
 
 //---------------------------   ---------------------------//
 
@@ -68,19 +72,19 @@ class StockController {
     }
 
 //---------------------------   ---------------------------//
-
-    private function addStock() {
-        $json = file_get_contents("php://input");
-        $data = json_decode($json, true);
-
-        try {
-            $stock = new StockModel($data);
-            $this->stockService->addStock($stock);
-            ResponseHelper::sendResponse(["success" => "Stock added successfully."], 201);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
+public function addStock() {
+    $data = json_decode(file_get_contents('php://input'), true);
+    var_dump($data); // Voir les données reçues
+    try {
+        $stock = new StockModel($data);
+        $stock->validate();
+        $id = $this->stockService->addStock($stock);
+        ResponseHelper::sendResponse(['message' => 'Stock added successfully', 'id' => $id], 201);
+    } catch (Exception $e) {
+        ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
     }
+}
+
 
 //---------------------------   ---------------------------//
 
@@ -108,11 +112,4 @@ class StockController {
     }
 }
 
-// Récupération de la méthode et des segments d'URI
-$method = $_SERVER['REQUEST_METHOD'];
-$uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
-// Création et traitement de la requête
-$controller = new StockController();
-$controller->processRequest($method, $uri);
 ?>

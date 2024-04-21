@@ -15,9 +15,12 @@ require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
 require_once 'Controllers/ServiceController.php';
 require_once 'Controllers/FormationController.php';
+require_once 'Controllers/StockController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
+require_once 'vendor/autoload.php';
+
 
 error_reporting(E_ERROR | E_PARSE);
 
@@ -63,7 +66,10 @@ function router($uri, $requestMethod) {
             $userController = new UserController();
             $adminController->processRequest($requestMethod,$uri,$userController);
             break;
-
+        case 'stocks':
+            $stockController = new StockController();
+            $stockController->processRequest($requestMethod, $uri);
+            break;
         case 'users':
         case 'beneficiaries':
         case 'volunteers':

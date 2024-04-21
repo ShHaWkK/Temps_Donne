@@ -1,7 +1,10 @@
 <?php
 
-require_once 'StockRepository.php';
-require_once 'Models/StockModel.php';
+require_once './Repository/StockRepository.php';
+require_once './Models/StockModel.php';
+
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 
 class StockService {
     private $repository;
@@ -18,15 +21,15 @@ class StockService {
         return $this->repository->findById($id);
     }
 
-    public function addStock($data) {
-        try {
-            $stock = new StockModel($data);
-            return $this->repository->save($stock);
-        } catch (Exception $e) {
+    // public function addStock($data) {
+    //     try {
+    //         $stock = new StockModel($data);
+    //         return $this->repository->save($stock);
+    //     } catch (Exception $e) {
             
-            throw $e;
-        }
-    }
+    //         throw $e;
+    //     }
+    // }
 
     public function updateStock($id, $data) {
         try {
@@ -47,5 +50,34 @@ class StockService {
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+
+    //-------------------------- QR code --------------------------//
+
+    private function generateQrCode(StockModel $stock) {
+        $qrCode = new QrCode(json_encode([
+            'id_stock' => $stock->id_stock,
+            'type_article' => $stock->type_article,
+            'quantite' => $stock->quantite,
+            'date_peremption' => $stock->date_peremption
+        ]));
+
+        $writer = new PngWriter();
+        $qrCodePath = __DIR__ . '/../qr_codes/' . $stock->id_stock . '.png';
+        $writer->write($qrCode)->saveToFile($qrCodePath);
+        
+        // Sauvegarder le chemin du QR Code dans le modèle
+        $stock->qr_code = $qrCodePath;
+        
+        // Mettre à jour le stock avec le chemin du QR code
+        $this->repository->updateQrCodePath($stock->id_stock, $qrCodePath);
+    }
+
+    public function addStock(StockModel $stock) {
+        $stockId = $this->repository->save($stock);
+        $stock->id_stock = $stockId;
+        $this->generateQrCode($stock);
+        return $stockId;
     }
 }

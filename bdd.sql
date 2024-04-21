@@ -1,10 +1,12 @@
 -- File : bdd.sql
 
 -- Table Utilisateurs
+-- J'ai ajouté le genre
 CREATE TABLE Utilisateurs (
                               ID_Utilisateur INT AUTO_INCREMENT PRIMARY KEY,
                               Nom VARCHAR(255) NOT NULL,
                               Prenom VARCHAR(255) NOT NULL,
+                              Genre ENUM('Homme', 'Femme', 'Autre') NOT NULL ,
                               Email VARCHAR(255) UNIQUE NOT NULL,
                               Mot_de_passe VARCHAR(500),
                               Role ENUM('Benevole', 'Beneficiaire', 'Administrateur') NOT NULL , -- 'Benevole', 'Beneficiaire', 'Administrateur'

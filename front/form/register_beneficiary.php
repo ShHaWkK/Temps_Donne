@@ -75,6 +75,12 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             </div>
 
             <div class="col">
+                <label for="mot_de_passe"><h3> <?php echo htmlspecialchars($data["PASSWORD_LABEL"]);?>: * </h3> </label>
+                <select id="mot_de_passe" name="mot_de_passe" required>
+                </select>
+            </div>
+
+            <div class="col">
                 <label for="langues">
                     <h3><?php echo htmlspecialchars($data["LANGUAGES"]);?>: *</h3>
                 </label>

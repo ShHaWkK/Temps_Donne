@@ -72,6 +72,11 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             </div>
 
             <div class="col">
+                <label for="mot_de_passe"> <h3> <?php echo htmlspecialchars($data["PASSWORD_LABEL"]);?>: *</h3></label>
+                <input type="text" id="mot_de_passe" name="mot_de_passe" required>
+            </div>
+
+            <div class="col">
                 <label for="langues">
                     <h3><?php echo htmlspecialchars($data["LANGUAGES"]);?>: *</h3>
                 </label>
@@ -82,7 +87,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 
             <div class="col">
                 <h3> <?php echo htmlspecialchars($data["ADDRESS"]);?>: * </h3>
-                <textarea id="name" name="name" rows="1" cols="1"></textarea>
+                <textarea id="adresse" name="adresse" rows="1" cols="1"></textarea>
             </div>
 
             <div class="line">
@@ -224,62 +229,94 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 </div> <!-- end of form-container -->
 
 <script>
-    function sendDataToAPI() {
-        var genre = document.getElementById('genre').value;
-        var nom = document.getElementById('nom').value;
-        var prenom = document.getElementById('prenom').value;
-        var date_naissance = document.getElementById('date_naissance').value;
-        var email = document.getElementById('email').value;
-        var telephone = document.getElementById('telephone').value;
+        function sendDataToAPI() {
+            // Récupérer les valeurs des champs du formulaire
+            var genre = document.querySelector('input[name="genre"]:checked').value;
+            var nom = document.getElementById('nom').value;
+            var prenom = document.getElementById('prenom').value;
+            var date_naissance = document.getElementById('date_naissance').value;
+            var email = document.getElementById('email').value;
+            var telephone = document.getElementById('telephone').value;
+            var adresse = document.getElementById('adresse').value;
+            var mot_de_passe = document.getElementById('mot_de_passe').value;
+            var situation = document.getElementById('situation').value;
 
-        // Récupérer les cases cochées pour les permis
-        var permisArray = [];
-        var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
-        permisCheckboxes.forEach(function(checkbox) {
-            permisArray.push(checkbox.value);
-        });
-
-        var data = {
-            genre: genre,
-            nom: nom,
-            prenom: prenom,
-            date_naissance: date_naissance,
-            email: email,
-            telephone: telephone,
-            type_permis: permisArray
-        };
-
-        // Convertir l'objet JSON en chaîne JSON
-        var jsonData = JSON.stringify(data);
-
-        var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
-
-        var options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: jsonData
-        };
-
-        // Envoyer les données à l'API via une requête HTTP POST
-        fetch(apiUrl, options)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur lors de l\'envoi des données à l\'API.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Traiter la réponse de l'API ici, si nécessaire
-                console.log('Réponse de l\'API :', data);
-                alert('Données envoyées avec succès à l\'API.');
-            })
-            .catch(error => {
-                console.error('Erreur lors de l\'envoi des données à l\'API :', error);
-                alert('Erreur lors de l\'envoi des données à l\'API.');
+            // Récupérer les cases cochées pour les permis
+            var permisArray = [];
+            var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
+            permisCheckboxes.forEach(function(checkbox) {
+                permisArray.push(checkbox.value);
             });
-    }
+
+            // Créer un objet JSON avec les données du formulaire
+            var data = {
+                "Nom": nom,
+                "Prenom": prenom,
+                "Email": email,
+                "Mot_de_passe": mot_de_passe,
+                "Adresse": adresse,
+                "Telephone": telephone,
+                "Date_de_naissance": date_naissance,
+                "Statut": "Pending",
+                "Situation": situation,
+                "Role": "Benevole"
+                /*
+                "Langues": ["Français", "Anglais"],
+                "Nationalite": "Française",
+                "Besoins_specifiques": "",
+                "Photo_Profil": "",
+                "Emploi": "",
+                "Societe": "",
+                "Date_d_inscription": getTodayDate(),
+                "Type_Permis": permisArray,
+                */
+            };
+
+            // Convertir l'objet JSON en chaîne JSON
+            var jsonData = JSON.stringify(data);
+
+            // Définir l'URL de l'API
+            var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
+
+            // Options de la requête HTTP
+            var options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            };
+
+            // Envoyer les données à l'API via une requête HTTP POST
+            fetch(apiUrl, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de l\'envoi des données à l\'API.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Traiter la réponse de l'API ici, si nécessaire
+                    console.log('Réponse de l\'API :', data);
+                    alert(JSON.stringify(data)); // Afficher la réponse de l'API en tant qu'alerte
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi des données à l\'API :', error);
+                    alert('Erreur lors de l\'envoi des données à l\'API.');
+                });
+
+        }
+
+// Fonction pour obtenir la date actuelle au format YYYY-MM-DD
+        function getTodayDate() {
+            var today = new Date();
+            var day = String(today.getDate()).padStart(2, '0');
+            var month = String(today.getMonth() + 1).padStart(2, '0');
+            var year = today.getFullYear();
+
+            return year + '-' + month + '-' + day;
+        }
+
 </script>
 <script src="../scripts/nationalities.js"></script>
 <script src="../scripts/terms_and_conditions.js"></script>

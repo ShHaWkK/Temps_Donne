@@ -17,7 +17,7 @@ include_once('../includes/lang.php');
             <p class="login-subtitle"><?php echo htmlspecialchars($data["VOLUNTEER_LOGIN_SUBTITLE"]); ?></p>
             <div class="register">
                 <span><?php echo htmlspecialchars($data["VOLUNTEER_NO_ACCOUNT_PROMPT"]); ?></span>
-                <button class="register-button"><?php echo htmlspecialchars($data["VOLUNTEER_REGISTER_BUTTON"]); ?></button>
+                <a href="../form/register.php" class="register-button"><?php echo htmlspecialchars($data["VOLUNTEER_REGISTER_BUTTON"]); ?></a>
             </div>
         </div>
         <div class="right-side">

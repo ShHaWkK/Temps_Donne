@@ -271,5 +271,14 @@ class UserRepository {
         $stmt->execute();
     }
 
+    public function getAllUsersByRole($role)
+    {
+        $sql = "SELECT * FROM Utilisateurs WHERE Role = :role";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+        $user = $stmt->execute(PDO::FETCH_ASSOC);
+        var_dump($user);
+    }
+
 
 }

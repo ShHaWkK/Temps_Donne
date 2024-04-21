@@ -17,7 +17,7 @@ include_once('../includes/head.php');
       <p class="login-subtitle"><?php echo htmlspecialchars($data["BENEFICIARY_SPACE_SUBTITLE"]); ?></p>
       <div class="register">
         <span><?php echo htmlspecialchars($data["NEW_HERE"]); ?></span>
-        <button class="register-button"><?php echo htmlspecialchars($data["CREATE_ACCOUNT"]); ?></button>
+          <a href="../form/register_beneficiary.php" class="register-button"><?php echo htmlspecialchars($data["CREATE_ACCOUNT"]); ?></a>
       </div>
     </div>
     <div class="right-side">

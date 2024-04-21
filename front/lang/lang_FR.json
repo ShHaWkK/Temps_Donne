@@ -57,6 +57,9 @@
     "I_BECOME_VOLUNTEER": "Je deviens bénévole !",
     "FORM_INTRO_VOLUNTEER": "Le bénévolat, comme la solidarité, peuvent prendre diverses formes ! Ce formulaire aidera notre équipe de bénévoles à vous proposer des missions faites pour vous.",
 
+    "I_BECOME_BENEFICIARY": "Je deviens bénéficiaire !",
+    "FORM_INTRO_BENEFICIARY": "Chez \"Au temps donné\", nous sommes convaincus de la diversité des expressions de solidarité.\n        En remplissant ce formulaire, vous nous permettez de cerner vos besoins spécifiques,\n        ce qui nous aidera à vous proposer des missions adaptées à vos capacités et aspirations.",
+
     "I_MAKE_A_DONATION": "Je fais un don",
     "FORM_INTRO_DONATION": "Changez des vies avec “Au Temps Donné”,! Chaque don compte pour soutenir ceux qui en ont besoin. Contribuez à cette mission de solidarité et d'espoir. Votre contribution est notre force. Agissons maintenant, pour un monde plus juste et solidaire!",
 
@@ -71,7 +74,8 @@
     "PHONE_NUMBER": "Numéro de téléphone",
     "NATIONALITY" : "Nationalité",
     "LANGUAGES": "Langues",
-    "LANGUAGES_EXPLAINATION": "Sélectionnez toutes les langues que vous pouvez parler couramment. Cela nous aidera à vous attribuer des missions plus pertinentes (particulièrement pour les cours d'alphabétisation pour adulte et pour enfant",
+    "LANGUAGES_EXPLAINATION": "Sélectionnez toutes les langues que vous pouvez parler couramment. Cela nous aidera à vous attribuer des missions plus pertinentes (particulièrement pour les cours d'alphabétisation pour adulte et pour enfant)",
+    "LANGUAGES_EXPLAINATION_BENEFICIARY": "Sélectionnez toutes les langues que vous pouvez parler couramment. Cela nous aidera à vous attribuer les bénévoles plus adaptés à vos besoins",
     "ADDRESS": "Adresse",
     "PERSONAL_SITUATION": "Situation personnelle",
     "STUDENT": "Etudiant",
@@ -101,6 +105,9 @@
     "SATURDAY": "Samedi",
     "SUNDAY": "Dimanche",
 
+    "NEEDS AND EXPECTATIONS": "Besoins et attentes",
+    "EXPECTED_SERVICES": "Services attendus:",
+
     "DONATION_INFORMATIONS": "Informations de donation",
     "AMOUNT": "Montant",
     "PAYMENT_MEANS": "Moyen de réglement",
@@ -118,7 +125,6 @@
     "DEMANDS_CHECKED": "Les demandes seront examinées attentivement par notre équipe, qui se réserve le droit d'accepter ou de refuser une demande en fonction des besoins de l'association et des disponibilités des bénévoles.",
     "CONFIRM": "Valider",
     "CONDITIONS_PATH": "./User_Conditions/user_conditions_french.txt",
-
 
     "VOLUNTEER_LOGIN_TITLE": "Connexion Bénévole",
     "VOLUNTEER_LOGIN_SUBTITLE": "Ensemble, faisons la différence",

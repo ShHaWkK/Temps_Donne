@@ -7,6 +7,7 @@ require_once './Services/AdminService.php';
 class AdminController {
     //private $userService;
     private $adminService;
+    private $userService;
 
 
     public function processRequest($requestMethod,$uri,$userController)
@@ -20,7 +21,7 @@ class AdminController {
                 }
                 break;
             case 'POST':
-                //$this->processRequest($requestMethod, $uri,$userController);
+
                 break;
             case 'PUT':
                 if ($uri[5] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {

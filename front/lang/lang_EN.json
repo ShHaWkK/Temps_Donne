@@ -54,6 +54,9 @@
     "I_BECOME_VOLUNTEER": "I become a volunteer !",
     "FORM_INTRO_VOLUNTEER": "Volunteering, like solidarity, can take various forms!\nThis form will help our team of volunteers to offer you missions made for you.",
 
+    "I_BECOME_BENEFICIARY": "I become a beneficiary !",
+    "FORM_INTRO_BENEFICIARY": "At “Au temps donne”, we are convinced of the diversity of expressions of solidarity.\n          By completing this form, you allow us to identify your specific needs,\n          which will help us to offer you missions adapted to your abilities and aspirations.",
+
     "I_MAKE_A_DONATION": "I make a donation",
     "FORM_INTRO_DONATION": "Change lives with “Au Temps Donné”! Every donation counts to support those in need. Contribute to this mission of solidarity and hope. Your contribution is our strength. Let's act now, for a more just and united world!\n",
 
@@ -69,6 +72,7 @@
     "NATIONALITY" : "Nationality",
     "LANGUAGES": "Languages",
     "LANGUAGES_EXPLAINATION": "Select all the languages you can speak fluently. This will help us assign you more relevant assignments (especially for adult and child literacy classes)",
+    "LANGUAGES_EXPLAINATION_BENEFICIARY": "Select all languages you can speak fluently. This will help us assign you volunteers best suited to your needs.",
     "ADDRESS": "Address",
     "PERSONAL_SITUATION": "Personal situation",
     "STUDENT": "Student",
@@ -97,6 +101,9 @@
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday",
     "SUNDAY": "Sunday",
+
+    "NEEDS AND EXPECTATIONS": "Needs and expectations",
+    "EXPECTED_SERVICES": "Expected services:",
 
     "DONATION_INFORMATIONS": "Donation informations",
     "AMOUNT": "Payment amount",

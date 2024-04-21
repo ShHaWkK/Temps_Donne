@@ -20,11 +20,8 @@ class UserController {
             switch ($method) {
                 case 'GET':
                     if (isset($uri[3])) {
-                        $this->getUser($uri[3]);
-                    } else {
-                        $this->getAllUsers();
+
                     }
-                    break;
                 case 'POST':
                     if ($uri[2] === 'register') {
                         $this->createUser();
@@ -65,7 +62,6 @@ class UserController {
             ResponseHelper::sendResponse($user);
         }
     }
-
 
     private function checkRole($requiredRole) {
         session_start();
@@ -180,5 +176,10 @@ class UserController {
         ResponseHelper::sendResponse(["message" => "Accès autorisé. Bienvenue dans votre espace bénévole."]);
         
     }
-    
+
+    public function getAllUsersTypeRole($role,$status)
+    {
+
+    }
+
 }

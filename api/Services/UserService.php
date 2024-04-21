@@ -139,10 +139,6 @@ class UserService {
 
         return $userId; // Return the user ID or any other success indicator
     }
-    
-
-    
-    
 
     public function deleteUser($userId) {
         return $this->userRepository->deleteUser($userId);
@@ -170,8 +166,6 @@ class UserService {
             'role' => $user->role
         ];
     }
-    
-
 
     public function checkVolunteerStatus($userId) {
         // Vérifier le statut du bénévole
@@ -207,8 +201,6 @@ class UserService {
         return $user !== null;
     }
 
-
-
     public function getUserById($id) {
         try {
             // Appeler la méthode correspondante du repository pour récupérer l'utilisateur
@@ -219,7 +211,10 @@ class UserService {
         }
     }
 
-
+    public function getAllUsersByRole($role)
+    {
+        return $this->userRepository->getAllUsersByRole($role);
+    }
 
 
 }

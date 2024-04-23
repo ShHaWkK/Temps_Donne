@@ -11,14 +11,17 @@ class LoginRepository {
     }
 
     public function findByCredentials($email, $password) {
-        $query = "SELECT * FROM Utilisateurs WHERE Email = :email";
+        $query = "SELECT * FROM Utilisateurs WHERE Email = :email AND Mot_de_passe = :password";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':email', $email);
+        $statement->bindValue(':password', $password);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        var_dump($user);
     
         if ($user && password_verify($password, $user['Mot_de_passe'])) {
-            return $user; 
+            return $user;
         }
         return null; 
     }

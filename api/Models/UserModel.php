@@ -30,7 +30,6 @@ class UserModel {
         $this->prenom = $data['Prenom'] ?? null;
         $this->email = $data['Email'] ?? null;
         $this->mot_de_passe = $data['Mot_de_passe'] ?? null;
-        $this->role = $data['Role'] ?? null;
         $this->adresse = $data['Adresse'] ?? null;
         $this->telephone = $data['Telephone'] ?? null;
         $this->date_de_naissance = $data['Date_de_naissance'] ?? null;
@@ -47,6 +46,7 @@ class UserModel {
         $this->societe = $data['Societe'] ?? null;
         $this->code_verification = $data['Code_Verification'] ?? null;
         $this->type_permis = $data['Type_Permis'] ?? null;
+        $this->role = $data['Role'] ?? null;
 
         $this->validate($data);
 

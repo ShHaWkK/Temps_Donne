@@ -76,7 +76,7 @@ class UserService {
         return $this->userRepository->createUserWithRole($userData, $roleName);
     }
 
-    public function registerUser(UserModel $user, $roleName) {
+    public function registerUser(UserModel $user) {
         // Vérifier si l'utilisateur existe déjà
         $existingUser = $this->userRepository->findByEmail($user->email);
         if ($existingUser) {
@@ -100,7 +100,7 @@ class UserService {
         }*/
     
         // Assignation du rôle à l'utilisateur
-        $user->role=$roleName;
+        //$user->role=$roleName;
         //$this->userRepository->assignRoleToUser($userId, $roleId, 'Actif');
         $user->statut='pending';
 

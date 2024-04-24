@@ -34,10 +34,8 @@ class UserController {
                         $this->getAllUsers();
                     }
                 case 'POST':
-                    if ($uri[2] === 'register') {
+                    if ($uri[3] === 'register') {
                         $this->createUser();
-                    } elseif ($uri[2] === 'volunteers') {
-                        $this->registerVolunteer();
                     }
                     break;
                 case 'PUT':
@@ -98,23 +96,14 @@ class UserController {
             $user = new UserModel($data);
             $user->validate($data);
 
-            if ($this->userService->emailExists($user->email)) {
-                throw new Exception("Email déjà utilisé.", 400);
-            }
-
             $user->hashPassword();
             $roleId = null;
 
-            if (isset($data['role_name'])) {
-                $roleId = $this->userService->findRoleIdByRoleName($data['role_name']);
-                if (!$roleId) {
-                    throw new Exception("Rôle non trouvé.");
-                }
-            } else {
+            if (! isset($data['Role'])) {
                 throw new Exception("Le rôle est obligatoire.", 400);
             }
 
-            $this->userService->registerUser($user, $roleId);
+            $this->userService->registerUser($user);
 
             ResponseHelper::sendResponse(["success" => "Le compte a bien été créé."]);
         } catch (Exception $e) {

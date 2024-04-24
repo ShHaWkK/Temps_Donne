@@ -22,7 +22,7 @@ class UserRepository {
             throw new Exception("Le champ 'nom' ne peut pas être vide.");
         }
 
-        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, code_verification, type_permis, date_derniere_connexion, statut_connexion) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :code_verification, :type_permis, :date_derniere_connexion, :statut_connexion)";
+        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, code_verification, type_permis, date_derniere_connexion, statut_connexion, role) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :code_verification, :type_permis, :date_derniere_connexion, :statut_connexion, :role)";
         $statement = $this->db->prepare($query);
 
         $statement->bindValue(':nom', $user->nom);
@@ -45,6 +45,7 @@ class UserRepository {
         $statement->bindValue(':type_permis', $user->type_permis);
         $statement->bindValue(':date_derniere_connexion', $user->date_derniere_connexion);
         $statement->bindValue(':statut_connexion', $user->statut_connexion);
+        $statement->bindValue(':role', $user->role);
 
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde de l'utilisateur : " . print_r($user, true));

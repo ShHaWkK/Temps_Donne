@@ -33,6 +33,25 @@ function sendJsonResponse($data, $statusCode = 200) {
     echo json_encode($data);
 }
 
+
+/*
+ * Arrêter le code pour envoyer un message à l'utilisateur
+ */
+function exit_with_message($message = "Internal Server Error", $code = 500) {
+    http_response_code($code);
+    echo '{"message": "' . $message . '"}';
+    exit();
+}
+
+/*
+ * Arrête le code et envoie les données
+ */
+function exit_with_content($content = null, $code = 200) {
+    http_response_code($code);
+    echo json_encode($content);
+    exit();
+}
+
 // Vérifier si la méthode de la requête est OPTIONS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("HTTP/1.1 200 OK");
@@ -45,8 +64,7 @@ function router($uri, $requestMethod) {
     $controller = null;
 
     if (!isset($uri[2])) {
-        sendJsonResponse(['message' => 'Welcome to the API!'], 200);
-        return;
+        exit_with_message("Welcome to the API!");
     }
 
 
@@ -57,7 +75,7 @@ function router($uri, $requestMethod) {
             if ($requestMethod === 'POST') {
                 $controller->login();
             } else {
-                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+                exit_with_message('Method Not Allowed', 405);
             }
             break;
 
@@ -95,7 +113,7 @@ function router($uri, $requestMethod) {
                 $controller->processRequest($requestMethod, $uri);
                 break;
         default:
-            sendJsonResponse(['message' => 'Not Found'], 404);
+            exit_with_message('Not Found', 404);
             return;
     }
 
@@ -103,7 +121,7 @@ function router($uri, $requestMethod) {
     try {
         // Traitement spécifique pour d'autres routes si nécessaire
     } catch (Exception $e) {
-        sendJsonResponse(['error' => $e->getMessage()], $e->getCode());
+        exit_with_message($e->getMessage(), 500);
     }
 }
 

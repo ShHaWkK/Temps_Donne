@@ -22,6 +22,9 @@ class UserRepository {
             throw new Exception("Le champ 'nom' ne peut pas être vide.");
         }
 
+        // Génération apikey
+        $user->apikey = hash("sha256", $user->nom.$user->prenom.$user->email.$user->mot_de_passe);
+
         $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, code_verification, type_permis, date_derniere_connexion, statut_connexion, role) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :code_verification, :type_permis, :date_derniere_connexion, :statut_connexion, :role)";
         $statement = $this->db->prepare($query);
 
@@ -46,6 +49,7 @@ class UserRepository {
         $statement->bindValue(':date_derniere_connexion', $user->date_derniere_connexion);
         $statement->bindValue(':statut_connexion', $user->statut_connexion);
         $statement->bindValue(':role', $user->role);
+        $statement->bindValue(':apikey', $user->apikey);
 
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde de l'utilisateur : " . print_r($user, true));
@@ -110,7 +114,7 @@ class UserRepository {
     // ----------------- Réinitialisation du mot de passe -----------------//
 
     public function resetPassword($userId, $newPassword) {
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $hashedPassword = hash("sha256", $newPassword);
         $query = "UPDATE Utilisateurs SET mot_de_passe = :newPassword WHERE id_utilisateur = :id";
 
         $statement = $this->db->prepare($query);

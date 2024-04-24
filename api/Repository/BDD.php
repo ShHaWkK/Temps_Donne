@@ -2,12 +2,6 @@
 //file : api/Repository/BDD.php
 require_once './Services/globalFunctions.php';
 
-// Function to handle exiting with a message
-function exit_with_message($message) {
-    echo json_encode(['error' => $message]);
-    exit;
-}
-
 
 // Function to connect to the database
 function connectDB() {
@@ -41,13 +35,39 @@ function selectDB($table, $columns, $condition = -1, $additionalMessage = NULL){
 }
 
 // Function to check input data before performing database operations
-function checkData($table, $columnArray, $columnData, $condition){
-    // Basic check, should be expanded based on actual needs
-    if ($table === -10 || $columnArray === -10 || $columnData === -10 || $condition === -10) {
-        exit_with_message('Please provide all required parameters.');
-    }
-    // Additional checks can be added here as per your validation rules
+function checkData($table = -10, $columnArray = -10, $columnData = -10, $condition = -10){
+    $bool = false;
 
+    $sentence = "Please specifie ";
+    $addSentence = "";
+    if (empty($table)){
+        $bool = true;
+        $sentence .= "the table, ";
+    }
+    if (empty($columnArray)){
+        $bool = true;
+        $sentence .= "the colums, ";
+    }
+    if (empty($columnData)){
+        $bool = true;
+        $sentence .= "the data, ";
+    }
+
+    if (empty($condition))
+    {
+        $bool = true;
+        $sentence .= "the condition, ";
+        $addSentence .= " To apply no condition, plz give -1.";
+    }
+
+    if ($bool == true){
+        $sentence .= "(to execute the function, each args has to be not null).". $addSentence;
+        exit_with_message($sentence);
+    }
+
+    if (!checkMsg($condition, "=") && $condition != -1 && $condition != -10){
+        exit_with_message('Plz enter a valid condition like : columnName=data'. $addSentence);
+    }
 }
 
 function insertDB($table, $columnArray, $columnData, $returningData = null){

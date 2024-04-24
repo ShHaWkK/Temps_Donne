@@ -40,7 +40,7 @@ class AdminModel {
     // Méthode pour hacher le mot de passe
     public function hashPassword() {
         if (!empty($this->mot_de_passe)) {
-            $this->mot_de_passe = password_hash($this->mot_de_passe, PASSWORD_DEFAULT);
+            $this->mot_de_passe = hash("sha256", $this->mot_de_passe);
         } else {
             throw new Exception("Password cannot be empty", 400);
         }

@@ -49,7 +49,7 @@ class AdminService {
             throw new Exception("Admin not found", 404);
         }
         if (!empty($admin->mot_de_passe)) {
-            $admin->mot_de_passe = password_hash($admin->mot_de_passe, PASSWORD_DEFAULT);
+            $admin->mot_de_passe = hash("sha256", $admin->mot_de_passe);
         }
         $admin->role = 'Administrateur';
         $this->adminRepository->updateAdmin($admin);

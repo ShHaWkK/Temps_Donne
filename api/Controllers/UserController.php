@@ -97,7 +97,6 @@ class UserController {
             $user->validate($data);
 
             $user->hashPassword();
-            $roleId = null;
 
             if (! isset($data['Role'])) {
                 throw new Exception("Le rôle est obligatoire.", 400);
@@ -105,9 +104,9 @@ class UserController {
 
             $this->userService->registerUser($user);
 
-            ResponseHelper::sendResponse(["success" => "Le compte a bien été créé."]);
+            exit_with_message("Le compte a bien été créé.");
         } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+            exit_with_message($e->getMessage());
         }
     }
 

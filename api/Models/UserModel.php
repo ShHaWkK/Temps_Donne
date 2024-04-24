@@ -24,6 +24,8 @@ class UserModel {
     public $type_permis;
     public $role;
 
+    public $apikey;
+
     public function __construct($data = []) {
         $this->id_utilisateur = $data['ID_Utilisateur'] ?? null;
         $this->nom = $data['Nom'] ?? null;
@@ -47,6 +49,7 @@ class UserModel {
         $this->code_verification = $data['Code_Verification'] ?? null;
         $this->type_permis = $data['Type_Permis'] ?? null;
         $this->role = $data['Role'] ?? null;
+        $this->apikey = $data['apikey'] ?? null;
 
         $this->validate($data);
 
@@ -64,7 +67,7 @@ class UserModel {
 
     public function hashPassword() {
         if (!empty($this->mot_de_passe)) {
-            $this->mot_de_passe = password_hash($this->mot_de_passe, PASSWORD_DEFAULT);
+            $this->mot_de_passe = hash("sha256", $this->mot_de_passe);
         }
     }
 

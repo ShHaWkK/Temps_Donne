@@ -35,7 +35,7 @@ class AdminController {
                             $this->rejectUser($uri[3],$userController);
                             break;
                         default:
-                            sendJsonResponse(['message' => 'Action Not Found'], 404);
+                            exit_with_message('Action Not Found', 404);
                     }
                 } else if (isset($uri[3])) {
                     //$controller->updateAdmin($uri[3]);
@@ -47,7 +47,7 @@ class AdminController {
                 }
                 break;
             default:
-                sendJsonResponse(['message' => 'Method Not Allowed'], 405);
+                exit_with_message('Method Not Allowed', 405);
                 break;
         }
     }

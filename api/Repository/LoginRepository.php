@@ -1,7 +1,5 @@
 <?php
 // File : api/Repository/LoginRepository.php
-
-
 class LoginRepository {
 
     public function __construct() {
@@ -14,14 +12,10 @@ class LoginRepository {
         $user = selectDB("Utilisateurs", "*", "Email='".$email."' AND Mot_de_passe='".$hashed."'")[0];
 
         if($user){
-
-            $userTruc = new UserModel($user);
-            exit_with_content($userTruc);
+            return $user; // Retourner les données de l'utilisateur
         }
 
-        exit_with_message("Pas d'utilisateur correspondant dans la BDD");
+        return null; // Aucun utilisateur trouvé
     }
 }
-
-
 ?>

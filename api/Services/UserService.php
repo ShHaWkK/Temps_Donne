@@ -50,7 +50,7 @@ class UserService {
         // Assignation du rôle à l'utilisateur
         //$user->role=$roleName;
         //$this->userRepository->assignRoleToUser($userId, $roleId, 'Actif');
-        $user->statut='pending';
+        $user->statut='Pending';
 
         return $userId;
     }

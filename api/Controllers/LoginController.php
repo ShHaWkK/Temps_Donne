@@ -14,9 +14,9 @@ class LoginController {
             $credentials = json_decode($json, true);
 
             $loginService = new LoginService();
-            $loginService->authenticate($credentials['email'], $credentials["password"]);
+            $loginService->authenticate($credentials['email'], $credentials["password"], $credentials["role"]);
             //$user = $this->userService->authentificate($credentials['email'], $credentials['password']);
-
+            exit_with_message("Authentification réussie");
         } catch (RoleException $e) {
             exit_with_message($e->errorMessage(), 403);
         }

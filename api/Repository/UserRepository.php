@@ -224,11 +224,9 @@ class UserRepository {
             }
 
             // Utiliser array_change_key_case pour convertir les clés en minuscules
-            $data = array_change_key_case($user, CASE_LOWER);
-
+            //$data = array_change_key_case($user, CASE_LOWER);
             // Créer un objet UserModel à partir des données récupérées
-            $userModel = new UserModel($data);
-
+            $userModel = new UserModel($user);
             return $userModel;
         } catch (PDOException $e) {
             // Gérer les erreurs PDO

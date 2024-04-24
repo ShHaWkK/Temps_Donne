@@ -8,17 +8,30 @@ class LoginService {
     public function __construct() {
     }
 
-    public function authenticate($email, $password) {
-
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            exit_with_message("Mauvais format d'email");
+    public function authenticate($email, $password, $role) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("Format d'email invalide.");
         }
 
+        // Valider le rôle
+        if (!in_array($role, ['Benevole', 'Beneficiaire', 'Administrateur'])) {
+            throw new InvalidArgumentException("Rôle invalide.");
+        }
 
         $loginRepository = new LoginRepository();
-        $loginRepository->findByCredentials($email, $password);
 
+        $userData = $loginRepository->findByCredentials($email, $password);
+        if (!$userData) {
+            throw new AuthenticationException("L'authentification a échoué. Informations d'identification incorrectes.");
+        }
+        // Vérifier le rôle de l'utilisateur
+        if ($userData['Role'] !== $role) {
+            throw new RoleException("L'utilisateur n'a pas le rôle requis pour cette opération.");
+        }
+
+        return $userData;
     }
+
 
     private function getRedirectUrlForRoles($roles) {
         foreach ($roles as $role) {

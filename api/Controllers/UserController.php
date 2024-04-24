@@ -94,8 +94,6 @@ class UserController {
             $user = new UserModel($data);
             $user->validate($data);
 
-            $user->hashPassword();
-
             if (! isset($data['Role'])) {
                 throw new Exception("Le rôle est obligatoire.", 400);
             }
@@ -157,7 +155,6 @@ class UserController {
         try {
             $fieldsToUpdate = array_keys($data);
             $user = $this->userService->getuserById($id);
-
             // Mettre à jour les champs spécifiques
             foreach ($fieldsToUpdate as $field) {
                 $user->$field = $data[$field];

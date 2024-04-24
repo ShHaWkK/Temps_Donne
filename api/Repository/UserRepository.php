@@ -244,7 +244,7 @@ class UserRepository {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if(!$user){
-            throw new \mysql_xdevapi\Exception("L'id ne correspond à aucun utilisateur");
+            throw new Exception("L'id ne correspond à aucun utilisateur");
         }
 
         $data = array_change_key_case($user, CASE_LOWER);
@@ -277,8 +277,15 @@ class UserRepository {
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':role', $role, PDO::PARAM_STR);
         $user = $stmt->execute(PDO::FETCH_ASSOC);
-        var_dump($user);
     }
 
+    public function getAllUsersByRoleAndStatus($role,$statut)
+    {
+        $sql = "SELECT * FROM Utilisateurs WHERE Role = :role AND Statut= :statut";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+        $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
+        $user = $stmt->execute(PDO::FETCH_ASSOC);
+    }
 
 }

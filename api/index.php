@@ -19,7 +19,7 @@ require_once 'Controllers/StockController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
-require_once 'vendor/autoload.php';
+//require_once 'vendor/autoload.php';
 
 
 error_reporting(E_ERROR | E_PARSE);

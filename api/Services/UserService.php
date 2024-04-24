@@ -203,7 +203,6 @@ class UserService {
 
     public function getUserById($id) {
         try {
-            // Appeler la méthode correspondante du repository pour récupérer l'utilisateur
             return $this->userRepository->getUserById($id);
 
         } catch (Exception $e) {
@@ -214,6 +213,15 @@ class UserService {
     public function getAllUsersByRole($role)
     {
         return $this->userRepository->getAllUsersByRole($role);
+    }
+
+    public function getAllUsersByRoleAndStatus($role,$statut){
+        try {
+            return $this->userRepository->getAllUsersByRoleAndStatus($role,$statut);
+
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération des utilisateurs : " . $e->getMessage());
+        }
     }
 
 

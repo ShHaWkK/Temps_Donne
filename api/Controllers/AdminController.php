@@ -9,7 +9,6 @@ class AdminController {
     private $adminService;
     private $userService;
 
-
     public function processRequest($requestMethod,$uri,$userController)
     {
         switch ($requestMethod) {
@@ -24,16 +23,16 @@ class AdminController {
 
                 break;
             case 'PUT':
-                if ($uri[5] === 'volunteers' && isset($uri[3]) && isset($uri[4])) {
+                if (isset($uri[3]) && isset($uri[4])) {
                     switch ($uri[4]) {
                         case 'approve':
-                            $this->approveVolunteer($uri[3],$userController);
+                            $this->approveUser($uri[3],$userController);
                             break;
                         case 'hold':
-                            $this->holdVolunteer($uri[3],$userController);
+                            $this->holdUser($uri[3],$userController);
                             break;
                         case 'reject':
-                            $this->rejectVolunteer($uri[3],$userController);
+                            $this->rejectUser($uri[3],$userController);
                             break;
                         default:
                             sendJsonResponse(['message' => 'Action Not Found'], 404);
@@ -112,7 +111,7 @@ class AdminController {
     }
 
     //-------------------- Volunteer and Beneficiary Approval -------------------//
-    public function approveVolunteer($id,$userController)
+    public function approveUser($id,$userController)
     {
         try {
             $user = $userController->userService->getUserById($id);
@@ -149,7 +148,7 @@ class AdminController {
 
     //-------------------- Volunteer and Beneficiary put on hold -------------------//
 
-    public function holdVolunteer($id,$userController)
+    public function holdUser($id,$userController)
     {
         try {
             $user = $userController->userService->getUserById($id);
@@ -167,7 +166,7 @@ class AdminController {
         }
     }
 
-    public function rejectVolunteer($id,$userController)
+    public function rejectUser($id,$userController)
     {
         try {
             $user = $userController->userService->getUserById($id);

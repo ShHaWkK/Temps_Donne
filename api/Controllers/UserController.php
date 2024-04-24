@@ -20,7 +20,18 @@ class UserController {
             switch ($method) {
                 case 'GET':
                     if (isset($uri[3])) {
-
+                        switch ($uri[3]){
+                            case'approved':
+                            case'pending':
+                            case'rejected':
+                                $this->getAllUsersByRoleAndStatus($uri[2],$uri[3]);
+                                break;
+                            default:
+                                $this->getUser($uri[3]);
+                                break;
+                        }
+                    }else{
+                        $this->getAllUsers();
                     }
                 case 'POST':
                     if ($uri[2] === 'register') {
@@ -48,12 +59,12 @@ class UserController {
         }
     }
     public function getUser($id) {
-        var_dump("userController : getUserId");
         // Vérification du rôle
+        /*
         if (!$this->checkRole('admin')) {
             throw new Exception("Accès non autorisé.");
         }
-
+        */
         // Récupération de l'utilisateur
         $user = $this->userService->getUserById($id);
         if (!$user) {
@@ -65,6 +76,7 @@ class UserController {
 
     private function checkRole($requiredRole) {
         session_start();
+
         if (!isset($_SESSION['user_id'])) {
             return false;
         }
@@ -109,7 +121,7 @@ class UserController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
-    
+
 
     //-------------------- Delete User -------------------//
     public function deleteUser($id) {
@@ -174,12 +186,19 @@ class UserController {
         }
         // Logique pour accéder à l'espace privé du bénévole
         ResponseHelper::sendResponse(["message" => "Accès autorisé. Bienvenue dans votre espace bénévole."]);
-        
+
     }
 
-    public function getAllUsersTypeRole($role,$status)
+    public function getAllUsersByRoleAndStatus($role,$statut)
     {
-
+        switch ($role){
+            case 'volunteers':
+                $this->userService->getAllUsersByRoleAndStatus('Benevole',$statut);
+                break;
+            case 'beneficiaries':
+                $this->userService->getAllUsersByRoleAndStatus('Beneficiaire',$statut);
+                break;
+        }
     }
 
 }

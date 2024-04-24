@@ -127,6 +127,7 @@ class UserController {
     }
 
     //-------------------- Update User -------------------//
+    /*
     public function updateUser($id) {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
@@ -141,6 +142,32 @@ class UserController {
             $user->id_utilisateur = $id;
             $this->userService->updateUserProfile($user);
             ResponseHelper::sendResponse(["success" => "Utilisateur mis à jour avec succès."]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }*/
+
+    private function updateuser($id)
+    {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+            return;
+        }
+
+        try {
+            $fieldsToUpdate = array_keys($data);
+            $user = $this->userService->getuserById($id);
+
+            // Mettre à jour les champs spécifiques
+            foreach ($fieldsToUpdate as $field) {
+                $user->$field = $data[$field];
+            }
+
+            $this->userService->updateUser($user, $fieldsToUpdate);
+            ResponseHelper::sendResponse(["Service mis à jour avec succès." => $user]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }

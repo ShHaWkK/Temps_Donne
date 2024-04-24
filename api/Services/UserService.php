@@ -224,5 +224,10 @@ class UserService {
         }
     }
 
+    public function updateUser(?UserModel $user, array $fieldsToUpdate)
+    {
+        return $this->userRepository->updateUser($user,$fieldsToUpdate);
+    }
+
 
 }

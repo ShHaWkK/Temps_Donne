@@ -83,23 +83,21 @@ class UserRepository {
         return $user ? new UserModel($user) : null;
     }
 
-
-
-// ----------------- Récupération des informations de l'utilisateur -----------------//
-    public function updateService(serviceModel $service, array $fieldsToUpdate)
+    //----------------- Update => Mise à jour des informations de l'utilisateur -----------------//
+    public function updateUser(userModel $user, array $fieldsToUpdate)
     {
-        $query = "UPDATE Services SET ";
+        $query = "UPDATE Utilisateurs SET ";
 
         $sets = [];
         $params = [];
         foreach ($fieldsToUpdate as $field) {
             $sets[] = "$field = :$field";
-            $params[":$field"] = $service->$field;
+            $params[":$field"] = $user->$field;
         }
 
         $query .= implode(", ", $sets);
-        $query .= " WHERE ID_Service = :id_service";
-        $params[":id_service"] = $service->id_service;
+        $query .= " WHERE ID_Utilisateur = :id_utilisateur";
+        $params[":id_utilisateur"] = $user->id_utilisateur;
 
         $statement = $this->db->prepare($query);
         foreach ($params as $key => $value) {
@@ -138,31 +136,6 @@ class UserRepository {
         $query = "DELETE FROM Utilisateurs WHERE id_utilisateur = :id";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':id', $id);
-        return $statement->execute();
-    }
-
-    //----------------- Update => Mise à jour des informations de l'utilisateur -----------------//
-
-    public function updateUser(UserModel $user) {
-        $query = "UPDATE Utilisateurs SET nom = :nom, prenom = :prenom, adresse = :adresse, telephone = :telephone, langues = :langues, nationalite = :nationalite, situation = :situation, besoins_specifiques = :besoins_specifiques, emploi = :emploi, societe = :societe, type_permis = :type_permis, photo_profil = :photo_profil WHERE id_utilisateur = :id";
-
-        $statement = $this->db->prepare($query);
-
-        // Lier les valeurs
-        $statement->bindValue(':id', $user->id_utilisateur);
-        $statement->bindValue(':nom', $user->nom);
-        $statement->bindValue(':prenom', $user->prenom);
-        $statement->bindValue(':adresse', $user->adresse);
-        $statement->bindValue(':telephone', $user->telephone);
-        $statement->bindValue(':langues', json_encode($user->langues));
-        $statement->bindValue(':nationalite', $user->nationalite);
-        $statement->bindValue(':situation', $user->situation);
-        $statement->bindValue(':besoins_specifiques', $user->besoins_specifiques);
-        $statement->bindValue(':emploi', $user->emploi);
-        $statement->bindValue(':societe', $user->societe);
-        $statement->bindValue(':type_permis', $user->type_permis);
-        $statement->bindValue(':photo_profil', $user->photo_profil);
-
         return $statement->execute();
     }
 
@@ -209,15 +182,6 @@ class UserRepository {
         $statement->execute();
         return $statement->fetchColumn();
     }
-    /*
-    public function updateUserValidationStatus($userId, $status) {
-        $query = "UPDATE Utilisateurs SET statut_benevole = :status WHERE id_utilisateur = :userId";
-        $statement = $this->db->prepare($query);
-        $statement->bindValue(':userId', $userId);
-        $statement->bindValue(':status', $status);
-        $statement->execute();
-    }
-    */
 
     //--------------------- Récupérer le statut du bénévole ---------------------//
 
@@ -255,21 +219,6 @@ class UserRepository {
         }
         $userModel=new UserModel($user);
         return $userModel;
-    }
-
-    public function updateUserStatus(UserModel $user) {
-        // Vérifier que la valeur de 'statut' est valide pour l'ENUM
-        $validStatuses = ['Pending', 'Granted', 'Denied'];
-        if (!in_array($user->statut, $validStatuses)) {
-            throw new Exception("Statut invalide. Les valeurs autorisées sont : 'Pending', 'Granted', 'Denied'.");
-        }
-
-        // Préparer la requête SQL pour mettre à jour l'utilisateur
-        $sql = "UPDATE Utilisateurs SET statut = :statut WHERE ID_Utilisateur = :id_utilisateur";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':statut', $user->statut, PDO::PARAM_STR);
-        $stmt->bindParam(':id_utilisateur', $user->id_utilisateur, PDO::PARAM_INT);
-        $stmt->execute();
     }
 
     public function getAllUsersByRole($role)

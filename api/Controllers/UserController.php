@@ -21,10 +21,13 @@ class UserController {
                 case 'GET':
                     if (isset($uri[3])) {
                         switch ($uri[3]){
-                            case'approved':
-                            case'pending':
-                            case'rejected':
+                            case'Granted':
+                            case'Pending':
+                            case'Denied':
                                 $this->getAllUsersByRoleAndStatus($uri[2],$uri[3]);
+                                break;
+                            case 'All':
+                                $this->getAllUsersByRole($uri[2]);
                                 break;
                             default:
                                 $this->getUser($uri[3]);
@@ -81,11 +84,6 @@ class UserController {
 
         $user = $this->userService->getUserById($_SESSION['user_id']);
         return $user->role_effectif === $requiredRole;
-    }
-
-    public function getAllUsers() {
-        $users = $this->userService->getAllUsers();
-        ResponseHelper::sendResponse($users);
     }
 
     public function createUser() {
@@ -146,7 +144,7 @@ class UserController {
         }
     }*/
 
-    private function updateuser($id)
+    private function updateUser($id)
     {
         $json = file_get_contents("php://input");
         $data = json_decode($json, true);
@@ -166,29 +164,7 @@ class UserController {
             }
 
             $this->userService->updateUser($user, $fieldsToUpdate);
-            ResponseHelper::sendResponse(["Service mis à jour avec succès." => $user]);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    //-------------------- Volunteer Registration -------------------//
-
-    public function registerVolunteer() {
-        $json = file_get_contents("php://input");
-        $data = json_decode($json, true);
-
-        error_log(print_r($data, true));
-
-        try {
-            $user = new UserModel($data);
-            $user->validate($data);
-            //$user->hashPassword();
-            //$roleId = $this->userService->findRoleIdByRoleName('Benevole');
-            // Vous devez gérer $user->statut_benevole dans UserService
-            $this->userService->registerVolunteer($user);
-
-            ResponseHelper::sendResponse(["success" => "Inscription du bénévole réussie. En attente de validation."]);
+            ResponseHelper::sendResponse(["Utilisateur mis à jour avec succès." => $user]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -204,15 +180,48 @@ class UserController {
 
     }
 
+    //-------------------- Récupérer les utilisateurs -------------------//
+
+    public function getAllUsers() {
+        try {
+            $users = $this->userService->getAllUsers();
+            ResponseHelper::sendResponse($users);
+        }catch (Exception $e){
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    private function getAllUsersByRole($role)
+    {
+        try {
+            switch ($role){
+                case 'volunteers':
+                    $users = $this->userService->getAllUsersByRole('Benevole');
+                    break;
+                case 'beneficiaries':
+                    $users =$this->userService->getAllUsersByRole('Beneficiaire');
+                    break;
+            }
+            ResponseHelper::sendResponse(["Utilisateurs demandés" =>$users]);
+        }catch (Exception $e){
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
     public function getAllUsersByRoleAndStatus($role,$statut)
     {
-        switch ($role){
-            case 'volunteers':
-                $this->userService->getAllUsersByRoleAndStatus('Benevole',$statut);
-                break;
-            case 'beneficiaries':
-                $this->userService->getAllUsersByRoleAndStatus('Beneficiaire',$statut);
-                break;
+        try {
+            switch ($role){
+                case 'volunteers':
+                    $users = $this->userService->getAllUsersByRoleAndStatus('Benevole',$statut);
+                    break;
+                case 'beneficiaries':
+                    $users =$this->userService->getAllUsersByRoleAndStatus('Beneficiaire',$statut);
+                    break;
+            }
+            ResponseHelper::sendResponse(["Utilisateurs demandés" =>$users]);
+        }catch (Exception $e){
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
 

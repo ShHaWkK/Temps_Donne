@@ -25,11 +25,15 @@ class UserRepository {
         // Génération apikey
         $user->apikey = hash("sha256", $user->nom.$user->prenom.$user->email.$user->mot_de_passe);
 
-        $query = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, adresse, telephone, date_de_naissance, langues, nationalite, date_d_inscription, statut, situation, besoins_specifiques, photo_profil, emploi, societe, code_verification, type_permis, date_derniere_connexion, statut_connexion, role) VALUES (:nom, :prenom, :email, :mot_de_passe, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :statut, :situation, :besoins_specifiques, :photo_profil, :emploi, :societe, :code_verification, :type_permis, :date_derniere_connexion, :statut_connexion, :role)";
+        $query = "INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Situation, Besoins_specifiques, Photo_Profil, Date_Derniere_Connexion, Statut_Connexion, Emploi, Societe, Code_Verification, Type_Permis, Statut) 
+          VALUES (:nom, :prenom, :genre, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :situation, :besoins_specifiques, :photo_profil, :date_derniere_connexion, :statut_connexion, :emploi, :societe, :code_verification, :type_permis, :statut)";
+
+
         $statement = $this->db->prepare($query);
 
         $statement->bindValue(':nom', $user->nom);
         $statement->bindValue(':prenom', $user->prenom);
+        $statement->bindValue(':genre', $user->genre);
         $statement->bindValue(':email', $user->email);
         $statement->bindValue(':mot_de_passe', $user->mot_de_passe);
         $statement->bindValue(':adresse', $user->adresse);
@@ -49,12 +53,12 @@ class UserRepository {
         $statement->bindValue(':date_derniere_connexion', $user->date_derniere_connexion);
         $statement->bindValue(':statut_connexion', $user->statut_connexion);
         $statement->bindValue(':role', $user->role);
-        $statement->bindValue(':apikey', $user->apikey);
-
+        //$statement->bindValue(':apikey', $user->apikey);
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde de l'utilisateur : " . print_r($user, true));
 
         $success = $statement->execute();
+
         if (!$success) {
             error_log("Erreur lors de la sauvegarde de l'utilisateur : " . print_r($statement->errorInfo(), true));
             throw new Exception("Erreur lors de la sauvegarde de l'utilisateur.");
@@ -158,13 +162,14 @@ class UserRepository {
     }
     */
     //----------------- Récupérer les rôles d'un utilisateur -----------------//
+    /*
     public function getUserRoles($userId) {
         $query = "SELECT r.Nom_Role FROM UtilisateursRoles ur JOIN Roles r ON ur.ID_Role = r.ID_Role WHERE ur.ID_Utilisateur = :userId";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':userId', $userId);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }*/
 
     //----------------- Mettre à jour le statut d'un rôle d'un utilisateur -----------------//
     /*
@@ -206,31 +211,43 @@ class UserRepository {
     }
 
     public function getUserById($id) {
-        $sql = "SELECT * FROM Utilisateurs WHERE Utilisateurs.ID_Utilisateur = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $sql = "SELECT * FROM Utilisateurs WHERE ID_Utilisateur = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
 
-        if(!$user){
-            throw new Exception("L'id ne correspond à aucun utilisateur");
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$user) {
+                throw new Exception("Aucun utilisateur trouvé pour l'ID spécifié.");
+            }
+
+            // Utiliser array_change_key_case pour convertir les clés en minuscules
+            $data = array_change_key_case($user, CASE_LOWER);
+
+            // Créer un objet UserModel à partir des données récupérées
+            $userModel = new UserModel($data);
+
+            return $userModel;
+        } catch (PDOException $e) {
+            // Gérer les erreurs PDO
+            throw new Exception("Erreur PDO lors de la récupération de l'utilisateur : " . $e->getMessage());
+        } catch (Exception $e) {
+            // Gérer d'autres types d'erreurs
+            throw $e;
         }
-
-        $data = array_change_key_case($user, CASE_LOWER);
-
-        if (!$user) {
-            return null; // Utilisateur non trouvé
-        }
-        $userModel=new UserModel($user);
-        return $userModel;
     }
+
 
     public function getAllUsersByRole($role)
     {
         $sql = "SELECT * FROM Utilisateurs WHERE Role = :role";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':role', $role, PDO::PARAM_STR);
-        $user = $stmt->execute(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
     }
 
     public function getAllUsersByRoleAndStatus($role,$statut)
@@ -239,7 +256,9 @@ class UserRepository {
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':role', $role, PDO::PARAM_STR);
         $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
-        $user = $stmt->execute(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
     }
 
 }

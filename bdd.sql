@@ -23,7 +23,6 @@ CREATE TABLE Utilisateurs (
                               Statut_Connexion BOOLEAN,
                               Emploi VARCHAR(255),
                               Societe VARCHAR(255),
-                              -- Est_Verifie BOOLEAN DEFAULT FALSE,
                               Code_Verification VARCHAR(255),
                               Type_Permis VARCHAR(50),
                               Statut ENUM('Pending', 'Granted', 'Denied')

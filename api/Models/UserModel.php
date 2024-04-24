@@ -4,6 +4,7 @@ class UserModel {
     public $id_utilisateur;
     public $nom;
     public $prenom;
+    public $genre;
     public $email;
     public $mot_de_passe;
     public $adresse;
@@ -23,13 +24,13 @@ class UserModel {
     public $code_verification;
     public $type_permis;
     public $role;
-
     public $apikey;
 
     public function __construct($data = []) {
         $this->id_utilisateur = $data['ID_Utilisateur'] ?? null;
         $this->nom = $data['Nom'] ?? null;
         $this->prenom = $data['Prenom'] ?? null;
+        $this->genre =$data['Genre'] ?? null;
         $this->email = $data['Email'] ?? null;
         $this->mot_de_passe = $data['Mot_de_passe'] ?? null;
         $this->adresse = $data['Adresse'] ?? null;

@@ -7,7 +7,8 @@ require_once './Helpers/ResponseHelper.php';
 class UserService {
     private $userRepository;
 
-    public function __construct() {
+    public function __construct(UserRepository $userRepository) {
+        $this->userRepository = $userRepository;
     }
 
 
@@ -24,73 +25,34 @@ class UserService {
         return $this->userRepository->findByEmail($email);
     }
 
-    // Useless
-/*    public function createUserWithRole($userData, $roleName) {
-        return $this->userRepository->createUserWithRole($userData, $roleName);
-    }*/
-
     public function registerUser(UserModel $user) {
         // Vérifier si l'utilisateur existe déjà
         $existingUser = $this->userRepository->findByEmail($user->email);
         if ($existingUser) {
             throw new Exception("Un compte avec cet email existe déjà.");
         }
-    
+
         // Hachage du mot de passe et autres préparations
         $user->hashPassword();
         $user->generateVerificationCode();
         $user->date_d_inscription = date('Y-m-d');
         $user->statut = true;
-    
+
         // Enregistrement de l'utilisateur
         $userId = $this->userRepository->save($user);
-    
         // Trouver l'ID du rôle
         /*
         $roleId = $this->userRepository->findRoleIdByRoleName($roleName);
         if (!$roleId) {
             throw new Exception("Rôle non trouvé.");
         }*/
-    
+
         // Assignation du rôle à l'utilisateur
         //$user->role=$roleName;
         //$this->userRepository->assignRoleToUser($userId, $roleId, 'Actif');
         $user->statut='pending';
 
         return $userId;
-    }
-    
-
-    public function registerVolunteer(UserModel $user) {
-        // Check if the email already exists
-        $existingUser = $this->userRepository->findByEmail($user->email);
-        if ($existingUser) {
-            throw new Exception("Un compte avec cet email existe déjà.");
-        }
-    
-        // Hash the password and generate a verification code
-        $user->hashPassword();
-        $user->generateVerificationCode();
-        $user->date_d_inscription = date('Y-m-d');
-        $user->statut = true;  // Active by default
-    
-        // Save the user and get the ID
-        $userId = $this->userRepository->save($user);
-    
-        // Find the role ID for 'Benevole'
-        /*
-         $roleId = $this->userRepository->findRoleIdByRoleName('Benevole');
-        if (!$roleId) {
-            throw new Exception("Rôle 'Benevole' non trouvé.");
-        }
-        */
-    
-        // Assign the role to the user
-        //$this->userRepository->assignRoleToUser($userId, $roleId, 'Pending'); // Status 'En attente'
-        $user->role = 'Benevole';
-        $user->statut ='pending';
-
-        return $userId; // Return the user ID or any other success indicator
     }
 
     public function deleteUser($userId) {

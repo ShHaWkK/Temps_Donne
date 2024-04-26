@@ -20,7 +20,7 @@
             <ul class="header-menu">
                 <li><a href="../index.php" class="nav-item active"><i class="fa fa-home"></i> <?php echo htmlspecialchars($data["HOME"]); ?></a></li>
                 <li><a href="../services/services.php" class="nav-item"><i class="fa-solid fa-users"></i> <?php echo htmlspecialchars($data["SERVICES"]); ?></a></li>
-                <li><a href="../form/donations.php" class="nav-item"><i class="fa-solid fa-hand-holding-dollar"></i> <?php echo htmlspecialchars($data["MAKE_DONATION"]); ?></a></li>
+                <li><a href="../form/Donations.php" class="nav-item"><i class="fa-solid fa-hand-holding-dollar"></i> <?php echo htmlspecialchars($data["MAKE_DONATION"]); ?></a></li>
                 <li><a href="../inscription_conn/connexion_beneficiaire.php" class="nav-item"><i class="fa-solid fa-handshake"></i> <?php echo htmlspecialchars($data["BENEFICIARY_SPACE"]); ?></a></li>
                 <li><a href="../inscription_conn/connexion_benevole.php" class="nav-item"> <i class='fa-solid fa-hand-holding-heart'></i> <?php echo htmlspecialchars($data["VOLUNTEER_SPACE"]); ?></a></li>
             </ul>
@@ -33,7 +33,7 @@
             </button>
             <ul class="popover-content" id="serviceList">
                 <li>
-                    <a href="index.php" class="nav-item active">
+                    <a href="../index.php" class="nav-item active">
                         <i class="fa fa-home"></i> <?php echo htmlspecialchars($data["HOME"]); ?>
                     </a>
                 </li>
@@ -43,17 +43,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../form/dons.php" class="nav-item-space">
+                    <a href="../form/Donations.php" class="nav-item-space">
                         <i class="fa-solid fa-hand-holding-dollar"></i> <?php echo htmlspecialchars($data["MAKE_DONATION"]); ?>
                     </a>
                 </li>
                 <li>
-                    <a href="espace_beneficiaire.php" class="nav-item-space">
+                    <a href="../inscription_conn/connexion_beneficiaire.php" class="nav-item-space">
                         <i class="fa-solid fa-handshake"></i> <?php echo htmlspecialchars($data["BENEFICIARY_SPACE"]); ?>
                     </a>
                 </li>
                 <li>
-                    <a href="espace_benevole.php" class="nav-item-space">
+                    <a href="../inscription_conn/connexion_benevole.php" class="nav-item-space">
                         <i class="fa-solid fa-hand-holding-heart"></i> <?php echo htmlspecialchars($data["VOLUNTEER_SPACE"]); ?>
                     </a>
                 </li>

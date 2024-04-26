@@ -73,7 +73,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 
             <div class="col">
                 <label for="mot_de_passe"> <h3> <?php echo htmlspecialchars($data["PASSWORD_LABEL"]);?>: *</h3></label>
-                <input type="text" id="mot_de_passe" name="mot_de_passe" required>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" required>
             </div>
 
             <div class="col">
@@ -94,10 +94,10 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                 <div class="col">
                     <label for="situation"> <h3> <?php echo htmlspecialchars($data["PERSONAL_SITUATION"]);?>: *</h3> </label>
                     <select id="situation" name="situation" required>
-                        <option value="etudiant"><?php echo htmlspecialchars($data["STUDENT"]);?></option>
-                        <option value="employe"><?php echo htmlspecialchars($data["EMPLOYED"]);?></option>
-                        <option value="chomeur"><?php echo htmlspecialchars($data["UNEMPLOYED"]);?></option>
-                        <option value="retraite"><?php echo htmlspecialchars($data["RETIRED"]);?></option>
+                        <option value="Etudiant"><?php echo htmlspecialchars($data["STUDENT"]);?></option>
+                        <option value="Employe"><?php echo htmlspecialchars($data["EMPLOYED"]);?></option>
+                        <option value="Chomeur"><?php echo htmlspecialchars($data["UNEMPLOYED"]);?></option>
+                        <option value="Retraite"><?php echo htmlspecialchars($data["RETIRED"]);?></option>
                         <!-- Ajoutez d'autres options de situation personnelle ici -->
                     </select>
                 </div>
@@ -133,16 +133,16 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             <div class="col">
                 <h3><?php echo htmlspecialchars($data["SUPPORTING_DOCUMENTS"]);?>: *</h3>
                 <form action="upload.php" method="post" enctype="multipart/form-data" required>
-                    <label for="pdfFile"><?php echo htmlspecialchars($data["SEND_LICENSE"]);?> : <br></label>
-                    <input type="file" id="pdfFile" name="pdfFile" accept=".pdf">
+                    <label for="permis_file"><?php echo htmlspecialchars($data["SEND_LICENSE"]);?> : <br></label>
+                    <input type="file" id="permis_file" name="permis" accept=".pdf">
                 </form>
             </div>
 
             <div class="col">
                 <h3><?php echo htmlspecialchars($data["EXPERIENCE"]);?>: </h3>
                 <form action="upload.php" method="post" enctype="multipart/form-data" required>
-                    <label for="pdfFile"> <?php echo htmlspecialchars($data["SEND_RESUME"]);?> : <br></label>
-                    <input type="file" id="pdfFile" name="pdfFile" accept=".pdf">
+                    <label for="CV"> <?php echo htmlspecialchars($data["SEND_RESUME"]);?> : <br></label>
+                    <input type="file" id="CV" name="CV" accept=".pdf">
                 </form>
             </div>
 
@@ -228,100 +228,12 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
     </div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
 
-<script>
-        function sendDataToAPI() {
-            // Récupérer les valeurs des champs du formulaire
-            var genre = document.querySelector('input[name="genre"]:checked').value;
-            var nom = document.getElementById('nom').value;
-            var prenom = document.getElementById('prenom').value;
-            var date_naissance = document.getElementById('date_naissance').value;
-            var email = document.getElementById('email').value;
-            var telephone = document.getElementById('telephone').value;
-            var adresse = document.getElementById('adresse').value;
-            var mot_de_passe = document.getElementById('mot_de_passe').value;
-            var situation = document.getElementById('situation').value;
-
-            // Récupérer les cases cochées pour les permis
-            var permisArray = [];
-            var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
-            permisCheckboxes.forEach(function(checkbox) {
-                permisArray.push(checkbox.value);
-            });
-
-            // Créer un objet JSON avec les données du formulaire
-            var data = {
-                "Nom": nom,
-                "Prenom": prenom,
-                "Email": email,
-                "Mot_de_passe": mot_de_passe,
-                "Adresse": adresse,
-                "Telephone": telephone,
-                "Date_de_naissance": date_naissance,
-                "Statut": "Pending",
-                "Situation": situation,
-                "Role": "Benevole"
-                /*
-                "Langues": ["Français", "Anglais"],
-                "Nationalite": "Française",
-                "Besoins_specifiques": "",
-                "Photo_Profil": "",
-                "Emploi": "",
-                "Societe": "",
-                "Date_d_inscription": getTodayDate(),
-                "Type_Permis": permisArray,
-                */
-            };
-
-            // Convertir l'objet JSON en chaîne JSON
-            var jsonData = JSON.stringify(data);
-
-            // Définir l'URL de l'API
-            var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
-
-            // Options de la requête HTTP
-            var options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            };
-
-            // Envoyer les données à l'API via une requête HTTP POST
-            fetch(apiUrl, options)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erreur lors de l\'envoi des données à l\'API.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Traiter la réponse de l'API ici, si nécessaire
-                    console.log('Réponse de l\'API :', data);
-                    alert(JSON.stringify(data)); // Afficher la réponse de l'API en tant qu'alerte
-                })
-                .catch(error => {
-                    console.error('Erreur lors de l\'envoi des données à l\'API :', error);
-                    alert('Erreur lors de l\'envoi des données à l\'API.');
-                });
-
-        }
-
-// Fonction pour obtenir la date actuelle au format YYYY-MM-DD
-        function getTodayDate() {
-            var today = new Date();
-            var day = String(today.getDate()).padStart(2, '0');
-            var month = String(today.getMonth() + 1).padStart(2, '0');
-            var year = today.getFullYear();
-
-            return year + '-' + month + '-' + day;
-        }
-
-</script>
 <script src="../scripts/nationalities.js"></script>
 <script src="../scripts/terms_and_conditions.js"></script>
 <script src="../scripts/validate_required_fields.js"></script>
 <script src="../scripts/languages.js"></script>
+<script src="../scripts/api_integration/register_volunteer.js"></script>
+
 </body>
 
 <?php

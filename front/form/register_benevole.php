@@ -176,6 +176,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             var errors = [];
             var nom = document.getElementById('nom').value;
             var prenom = document.getElementById('prenom').value;
+            var genre = document.getElementById('genre').value;
             var email = document.getElementById('email').value;
             var telephone = document.getElementById('telephone').value;
             var nationalite = document.getElementById('nationalite').value;

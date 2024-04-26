@@ -87,13 +87,7 @@ class UserController {
     }
 
     public function createUser() {
-        //$json = file_get_contents("php://input");
-        //$data = json_decode($json, true);
         $data = json_decode($_POST['json_data'], true);
-        var_dump($data['Nom']);
-        var_dump($_FILES['permis_file']['tmp_name']);
-        var_dump($_FILES['cv_file']['tmp_name']);
-        $this->saveUploadedFiles($data);
         try {
             $user = new UserModel($data);
             $user->validate($data);
@@ -103,27 +97,30 @@ class UserController {
             }
 
             $this->userService->registerUser($user);
+            $this->saveUploadedFiles($data);
 
-            exit_with_message("Le compte a bien été créé.");
+            http_response_code(200);
+            echo json_encode(array("message" => "Le compte a bien été créé."));
         } catch (Exception $e) {
-            exit_with_message($e->getMessage());
+            http_response_code($e->getCode());
+            echo json_encode(array("message" => $e->getMessage()));
         }
     }
 
     public function saveUploadedFiles($data)
     {
+        $response = array();
+
         if (!empty($_FILES)) {
             $permis_file = $_FILES['permis_file'];
             $cv_file = $_FILES['cv_file'];
             $target_dir_permis = "./uploads/" . $data["Email"] . "/Permis/";
             $target_dir_CV = "./uploads/" . $data["Email"] . "/CV/";
 
-            var_dump("file exist",file_exists($target_dir_permis));
             if (!file_exists($target_dir_permis)) {
                 mkdir($target_dir_permis, 0777, true);
             }
 
-            var_dump("file exist",file_exists($target_dir_CV));
             if (!file_exists($target_dir_CV)) {
                 mkdir($target_dir_CV, 0777, true);
             }
@@ -131,35 +128,25 @@ class UserController {
             $permis_file_path = $target_dir_permis . "Permis_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . ".pdf";
             $cv_file_path = $target_dir_CV . "CV_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . ".pdf";
 
-            // Vérifier si le fichier existe déjà
-            $counter = 1;
-            while (file_exists($permis_file_path)) {
-                // Si le fichier existe, ajouter un numéro d'incrément au nom de fichier et vérifier à nouveau
-                $permis_file_name = "Permis_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . "_" . $counter . ".pdf";
-                $permis_file_path = $target_dir_CV . $permis_file_name;
-                $counter++;
-            }
-
-            // Attempt to move the files
-            var_dump($permis_file['tmp_name']);
             $permis_file_moved = move_uploaded_file($permis_file['tmp_name'], $permis_file_path);
             $cv_file_moved = move_uploaded_file($cv_file['tmp_name'], $cv_file_path);
 
-            // Check if both files were successfully moved
-            if ($permis_file_moved && $cv_file_moved) {
-                echo "Les fichiers ont bien été enregistrés.";
+            if ($permis_file_moved) {
+                $response['permis_file'] = "Le justificatif du permis a bien été enregistré.";
             } else {
-                $permis_file_error = error_get_last();
-                $cv_file_error = error_get_last();
-                var_dump(error_get_last());
-                echo "Une erreur s'est produite lors de l'enregistrement des fichiers sur le serveur.";
-                // Optionally, you can log $permis_file_error and $cv_file_error to a file for debugging.
+                $response['permis_file'] = "Une erreur s'est produite lors de l'enregistrement du permis.";
+            }
+            if ($cv_file_moved) {
+                $response['cv_file'] = "Le CV a bien été enregistré.";
+            } else {
+                $response['cv_file'] = "Une erreur s'est produite lors de l'enregistrement du CV.";
             }
         } else {
-            echo "Aucun fichier n'a été téléchargé.";
+            $response['error'] = "Aucun fichier n'a été téléchargé.";
         }
-    }
 
+        echo json_encode($response);
+    }
 
     //-------------------- Delete User -------------------//
     public function deleteUser($id) {

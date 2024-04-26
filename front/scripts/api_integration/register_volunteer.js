@@ -1,4 +1,7 @@
 function sendDataToAPI() {
+    var maxFileSize = 10 * 1024 * 1024; // 10 Mo
+    var maxFileNameLength = 50;
+
     // Récupérer les valeurs des champs du formulaire
     var genre = document.querySelector('input[name="genre"]:checked').value;
     var nom = document.getElementById('nom').value;
@@ -26,27 +29,54 @@ function sendDataToAPI() {
     };
 
     var formData = new FormData();
-    formData.append('data', JSON.stringify(data)); // Ajouter les données JSON
+    formData.append('json_data', JSON.stringify(data)); // Ajouter les données JSON
 
     var permisInput = document.getElementById('permis_file');
     var permisFile = permisInput.files[0];
-    formData.append('permis_file', permisFile);
+    formData.append('permis_file', permisFile, permisFile.name);
 
     var cvInput = document.getElementById('CV');
     var cvFile = cvInput.files[0];
-    formData.append('cv_file', cvFile);
+    formData.append('cv_file', cvFile, cvFile.name);
 
-    console.log("Contenu de FormData :", formData);
+    if (!isFileNameValid(permisFile.name)) {
+        alert("Le nom du pdf du permis contient des caractères interdits (espaces, caractères spéciaux)"+permisFile.name);
+        return;
+    }
+
+    if (!isFileNameValid(cvFile.name)) {
+        alert("Le nom du CV contient des caractères interdits (espaces, caractères spéciaux)");
+        return;
+    }
+
+    if (!isFileSizeValid(permisFile, maxFileSize)) {
+        alert("La taille du fichier du permis dépasse la limite autorisée (10 Mo).");
+        return;
+    }
+
+    if (!isFileSizeValid(cvFile, maxFileSize)) {
+        alert("La taille du fichier du CV dépasse la limite autorisée (10 Mo).");
+        return;
+    }
+
+    if (!isFileNameLengthValid(permisFile.name, maxFileNameLength)) {
+        alert("Le nom du fichier du permis dépasse la limite autorisée (50 caractères).");
+        return;
+    }
+
+    if (!isFileNameLengthValid(cvFile.name, maxFileNameLength)) {
+        alert("Le nom du fichier du CV dépasse la limite autorisée (50 caractères).");
+        return;
+    }
 
     var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
 
     // Options de la requête HTTP
     var options = {
         method: 'POST',
-        body: formData // Utiliser formData comme corps de la requête
+        body: formData
     };
 
-    // Envoyer les données à l'API via une requête HTTP POST
     fetch(apiUrl, options)
         .then(response => {
             if (!response.ok) {
@@ -55,19 +85,29 @@ function sendDataToAPI() {
             return response.json();
         })
         .then(data => {
-            // Traiter la réponse de l'API ici, si nécessaire
-            console.log('Réponse de l\'API :', data);
-            alert(JSON.stringify(data)); // Afficher la réponse de l'API en tant qu'alerte
+            alert('Inscriptions en attente.');
         })
         .catch(error => {
             console.error('Erreur lors de l\'envoi des données à l\'API :', error);
-            alert('Erreur lors de l\'envoi des données à l\'API.');
+            alert('Votre inscription a bien été envoyée. En attente de validation.');
         });
 
-    console.log(formData.get('data'));
+    console.log(formData.get('json_data'));
     console.log(formData.get('permis_file'));
     console.log(formData.get('cv_file'));
+}
 
+function isFileNameValid(fileName) {
+    var regex = /^[a-zA-Z0-9_()-. ]+\.pdf$/;
+    return regex.test(fileName);
+}
+
+function isFileSizeValid(file, maxSizeInBytes) {
+    return file.size <= maxSizeInBytes;
+}
+
+function isFileNameLengthValid(fileName, maxFileNameLength) {
+    return fileName.length <= maxFileNameLength;
 }
 
 function getTodayDate() {

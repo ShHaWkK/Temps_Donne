@@ -1,4 +1,3 @@
-
 function sendDataToAPI() {
     // Récupérer les valeurs des champs du formulaire
     var genre = document.querySelector('input[name="genre"]:checked').value;
@@ -10,13 +9,6 @@ function sendDataToAPI() {
     var adresse = document.getElementById('adresse').value;
     var mot_de_passe = document.getElementById('mot_de_passe').value;
     var situation = document.getElementById('situation').value;
-
-    // Récupérer les cases cochées pour les permis
-    var permisArray = [];
-    var permisCheckboxes = document.querySelectorAll('input[name="permis"]:checked');
-    permisCheckboxes.forEach(function(checkbox) {
-        permisArray.push(checkbox.value);
-    });
 
     // Créer un objet JSON avec les données du formulaire
     var data = {
@@ -31,15 +23,10 @@ function sendDataToAPI() {
         "Statut": "Pending",
         "Situation": situation,
         "Role": "Benevole"
-
     };
 
-    var jsonData = JSON.stringify(data);
-    console.log("Contenu JSON envoyé :", jsonData);
-
-
     var formData = new FormData();
-    formData.append('data', jsonData); // Ajouter les données JSON
+    formData.append('data', JSON.stringify(data)); // Ajouter les données JSON
 
     var permisInput = document.getElementById('permis_file');
     var permisFile = permisInput.files[0];
@@ -56,10 +43,7 @@ function sendDataToAPI() {
     // Options de la requête HTTP
     var options = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: jsonData
+        body: formData // Utiliser formData comme corps de la requête
     };
 
     // Envoyer les données à l'API via une requête HTTP POST
@@ -79,6 +63,10 @@ function sendDataToAPI() {
             console.error('Erreur lors de l\'envoi des données à l\'API :', error);
             alert('Erreur lors de l\'envoi des données à l\'API.');
         });
+
+    console.log(formData.get('data'));
+    console.log(formData.get('permis_file'));
+    console.log(formData.get('cv_file'));
 
 }
 

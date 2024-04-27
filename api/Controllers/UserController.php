@@ -100,10 +100,12 @@ class UserController {
             $this->saveUploadedFiles($data);
 
             http_response_code(200);
-            echo json_encode(array("message" => "Le compte a bien été créé."));
+            ResponseHelper::sendResponse(['success' => 'Utilisateur ajouté avec succès.']);
         } catch (Exception $e) {
+            /*
             http_response_code($e->getCode());
-            echo json_encode(array("message" => $e->getMessage()));
+            echo json_encode(array("message" => $e->getMessage()));*/
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
     }
 

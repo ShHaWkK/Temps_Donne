@@ -43,6 +43,5 @@ function validateFormAndSendData() {
 document.getElementById('validationButton').addEventListener('click', function(event) {
     // Empêcher le comportement par défaut du bouton
     event.preventDefault();
-
     validateFormAndSendData();
 });

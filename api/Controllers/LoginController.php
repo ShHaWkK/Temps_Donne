@@ -16,9 +16,15 @@ class LoginController {
             $loginService = new LoginService();
             $loginService->authenticate($credentials['email'], $credentials["password"], $credentials["role"]);
             //$user = $this->userService->authentificate($credentials['email'], $credentials['password']);
-            exit_with_message("Authentification réussie");
+            http_response_code(200);
+            //echo json_encode(array("message" => "Authentification réussie."));
+            ResponseHelper::sendResponse(['message' => 'Authentification réussie.']);
         } catch (RoleException $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+            /*
+            echo json_encode(array("message" => "Authentification non réussie."));
             exit_with_message($e->errorMessage(), 403);
+            */
         }
     }
 }

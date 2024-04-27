@@ -91,10 +91,6 @@ function sendDataToAPI() {
             console.error('Erreur lors de l\'envoi des données à l\'API :', error);
             alert('Votre inscription a bien été envoyée. En attente de validation.');
         });
-
-    console.log(formData.get('json_data'));
-    console.log(formData.get('permis_file'));
-    console.log(formData.get('cv_file'));
 }
 
 function isFileNameValid(fileName) {

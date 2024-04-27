@@ -418,3 +418,15 @@ CREATE TABLE Inventaire (
                             Date_Mise_a_Jour DATE,
                             FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
 );
+
+-- Ajout d'une table session
+CREATE TABLE Session (
+                         ID_Session INT AUTO_INCREMENT PRIMARY KEY,
+                         ID_Utilisateur INT NOT NULL,
+                         Session_Token VARCHAR(64) NOT NULL,
+                         Creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         Expiration TIMESTAMP,
+                         INDEX idx_session_token (Session_Token),
+                         INDEX idx_user_id (ID_Utilisateur),
+                         FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
+);

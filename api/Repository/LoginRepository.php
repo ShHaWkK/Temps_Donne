@@ -2,7 +2,10 @@
 // File : api/Repository/LoginRepository.php
 class LoginRepository {
 
-    public function __construct() {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
     }
 
     public function findByCredentials($email, $password) {
@@ -12,10 +15,41 @@ class LoginRepository {
         $user = selectDB("Utilisateurs", "*", "Email='".$email."' AND Mot_de_passe='".$hashed."'")[0];
 
         if($user){
-            return $user; // Retourner les données de l'utilisateur
+            return $user;
         }
 
         return null; // Aucun utilisateur trouvé
+    }
+
+    public function getUserIdBySessionToken($session_token)
+    {
+        $query="SELECT ID_Utilisateur FROM Session WHERE Session_Token = :session_token";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':session_token',$session_token);
+
+        $user_id= $stmt->execute();
+        return $user_id;
+    }
+
+    public function storeSessionToken($id_utilisateur, $session_token)
+    {
+        $query="INSERT INTO Session(ID_Utilisateur,Session_Token)
+        VALUES (:id_utilisateur, :session_token)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_utilisateur', $id_utilisateur);
+        $stmt->bindValue(':session_token',$session_token);
+
+        $success = $stmt->execute();
+        if (!$success) {
+            error_log("Erreur lors de la sauvegarde du token de connexion : " . print_r($stmt->errorInfo(), true));
+            throw new Exception("Erreur lors de la sauvegarde du token de connexion.");
+
+        } else {
+            // Si l'exécution a réussi, obtenir l'ID inséré
+            $insertedId = $this->db->lastInsertId();
+            error_log("ID du token inséré : " . $insertedId);
+            return $insertedId;
+        }
     }
 }
 ?>

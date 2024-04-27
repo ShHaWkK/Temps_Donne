@@ -5,20 +5,22 @@ require_once './Repository/UserRepository.php';
 require_once './Repository/LoginRepository.php';
 
 class LoginService {
-    public function __construct() {
+    private $db;
+    public function __construct($db) {
+        $this->db=$db;
     }
 
     public function authenticate($email, $password, $role) {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Format d'email invalide.");
+            throw new InvalidArgumentException("Format d'email invalide:$email");
         }
 
         // Valider le rôle
         if (!in_array($role, ['Benevole', 'Beneficiaire', 'Administrateur'])) {
-            throw new InvalidArgumentException("Rôle invalide.");
+            throw new InvalidArgumentException("Rôle invalide : $role");
         }
 
-        $loginRepository = new LoginRepository();
+        $loginRepository = new LoginRepository($this->db);
 
         $userData = $loginRepository->findByCredentials($email, $password);
         if (!$userData) {

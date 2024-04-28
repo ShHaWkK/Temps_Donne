@@ -24,7 +24,7 @@ def check_user(email, password):
             cursor.execute("SELECT * FROM Utilisateurs WHERE Email=%s AND Mot_de_passe=%s", (email, password))
             user = cursor.fetchone()
             if user:
-                user['roles'] = fetch_roles_by_user(user['ID_Utilisateur'])  # Assurez-vous d'utiliser le nom correct de la colonne pour l'ID.
+                user['role'] = fetch_roles_by_user(user['ID_Utilisateur'])  # Assurez-vous d'utiliser le nom correct de la colonne pour l'ID.
                 return user
         finally:
             conn.close()
@@ -51,7 +51,7 @@ def add_ticket(ticket):
         try:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO tickets (title, description, status, creator_id) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO Tickets (title, description, status, creator_id) VALUES (%s, %s, %s, %s)",
                 (ticket.title, ticket.description, ticket.status, ticket.creator_id)
             )
             conn.commit()
@@ -63,7 +63,7 @@ def update_ticket(ticket_id, status):
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute("UPDATE tickets SET status = %s WHERE id = %s", (status, ticket_id))
+            cursor.execute("UPDATE Tickets SET status = %s WHERE id = %s", (status, ticket_id))
             conn.commit()
         finally:
             conn.close()
@@ -99,14 +99,14 @@ def fetch_roles_by_user(user_id):
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         query = """
-            SELECT r.Nom_Role as name
-            FROM Roles r
-            INNER JOIN UtilisateursRoles ur ON r.ID_Role = ur.ID_Role
-            WHERE ur.ID_Utilisateur = %s
+            SELECT u.Role as name
+            FROM Utilisateur u
+            WHERE u.ID_Utilisateur = %s
         """
+
         cursor.execute(query, (user_id,))
-        roles = cursor.fetchall()
-        return roles
+        role = cursor.fetchall()
+        return role
     except Error as e:
         print(f"Error fetching roles for user {user_id}: {e}")
         return []
@@ -120,19 +120,20 @@ def fetch_roles_by_user(user_id):
 
 def fetch_tickets_by_user(user_id):
     conn = get_connection()
-    tickets = []
     if conn:
         try:
-            cursor = conn.cursor(dictionary=True)  # Utiliser dictionary=True pour faciliter l'accès aux colonnes par nom
+            cursor = conn.cursor(dictionary=True)
             query = "SELECT * FROM tickets WHERE creator_id = %s"
             cursor.execute(query, (user_id,))
             tickets = cursor.fetchall()
+            return tickets
         except Error as e:
             print("Error fetching tickets for user:", e)
+            return []
         finally:
             if conn:
                 conn.close()
-    return tickets
+    return []
 
 
 def delete_ticket_from_db(ticket_id):

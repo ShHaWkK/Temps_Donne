@@ -2,13 +2,14 @@ import tkinter as tk
 from tkinter import messagebox, ttk, scrolledtext
 from database import (fetch_tickets, add_ticket, update_ticket, check_user,
                       fetch_messages, delete_ticket_from_db, send_message_to_db,
-                      fetch_tickets_by_user)
+                      fetch_tickets_by_user, fetch_roles_by_user)
+
 from models import Ticket
 
 class AppUI(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Ticket Management System")
+        self.title("Ticket System")
         self.geometry("800x600")
         self.current_user = None  # Store the current user details
         self.setup_login()
@@ -32,7 +33,11 @@ class AppUI(tk.Tk):
         password = self.password_entry.get()
         user = check_user(email, password)
         if user:
-            self.current_user = user
+            self.current_user = {
+                'ID_Utilisateur': user['ID_Utilisateur'],
+                'Email': user['Email'],
+                'roles': fetch_roles_by_user(user['ID_Utilisateur'])
+            }
             self.setup_user_ui()
         else:
             messagebox.showerror("Échec de la connexion", "Email ou mot de passe invalide")
@@ -82,7 +87,8 @@ class AppUI(tk.Tk):
 
     def load_user_tickets(self):
         self.user_ticket_list.delete(*self.user_ticket_list.get_children())
-        for ticket in fetch_tickets_by_user(self.current_user.id):
+        for ticket in fetch_tickets_by_user(self.current_user['ID_Utilisateur']):
+
             self.user_ticket_list.insert("", tk.END, values=(ticket.id, ticket.title, ticket.status))
 
     def setup_admin_ui(self):

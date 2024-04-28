@@ -1,12 +1,16 @@
 <?php
 require_once './Repository/CircuitRepository.php';
 require_once './Models/CircuitModel.php';
+require_once 'AStarService.php';
 
 class CircuitService {
     private $circuitRepository;
+    private $aStarService;
 
     public function __construct(CircuitRepository $circuitRepository) {
         $this->circuitRepository = $circuitRepository;
+        $graph = $this->loadGraphData(); // This function needs to be defined to load your graph data
+        $this->aStarService = new AStarService($graph);
     }
 
     public function getAllCircuits() {
@@ -57,6 +61,10 @@ class CircuitService {
 
     public function findByChauffeur($chauffeurId) {
         return $this->circuitRepository->findByChauffeur($chauffeurId);
+    }
+
+    public function planRoute($startPoint, $endPoint) {
+        return $this->aStarService->findShortestPath($startPoint, $endPoint);
     }
 }
 

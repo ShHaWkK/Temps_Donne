@@ -14,47 +14,69 @@ class CircuitController {
         $this->circuitService = new CircuitService($circuitRepository);
     }
 
-    public function processRequest($method, $uri) {
-        try {
-            switch ($method) {
-                case 'GET':
-                    if (isset($uri[3])) {
-                        switch ($uri[2]) {
-                            case 'date':
-                                $this->findByDate($uri[3]);
-                                break;
-                            case 'chauffeur':
-                                $this->findByChauffeur($uri[3]);
-                                break;
-                            default:
-                                $this->getCircuit($uri[3]);
-                                break;
-                        }
-                    } else {
-                        $this->getAllCircuits();
+  // CircuitController.php
+
+public function processRequest($method, $uri) {
+    try {
+        switch ($method) {
+            case 'GET':
+                // GET requests
+                if (isset($uri[3])) {
+                    switch ($uri[2]) {
+                        case 'date':
+                            $this->findByDate($uri[3]);
+                            break;
+                        case 'chauffeur':
+                            $this->findByChauffeur($uri[3]);
+                            break;
+                        case 'planRoute':
+                            // Ensure that the necessary parameters are present
+                            if (isset($_GET['start']) && isset($_GET['end'])) {
+                                $this->planRoute($_GET['start'], $_GET['end']);
+                            } else {
+                                ResponseHelper::sendNotFound("Start or end point missing.");
+                            }
+                            break;
+                        default:
+                            $this->getCircuit($uri[3]);
+                            break;
                     }
-                    break;
-                case 'POST':
-                    $this->createCircuit();
-                    break;
-                case 'PUT':
-                    if (isset($uri[3])) {
-                        $this->updateCircuit($uri[3]);
-                    }
-                    break;
-                case 'DELETE':
-                    if (isset($uri[3])) {
-                        $this->deleteCircuit($uri[3]);
-                    }
-                    break;
-                default:
-                    ResponseHelper::sendNotFound();
-                    break;
-            }
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+                } else {
+                    $this->getAllCircuits();
+                }
+                break;
+            case 'POST':
+                // POST requests
+                $data = json_decode(file_get_contents('php://input'), true);
+                if (isset($uri[2]) && $uri[2] == 'planRoute') {
+                    $this->planRoute($data); // Assuming $data has the necessary 'start' and 'end' points
+                } else {
+                    $this->createCircuit($data);
+                }
+                break;
+            case 'PUT':
+                // PUT requests
+                if (isset($uri[3])) {
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $this->updateCircuit($uri[3], $data);
+                }
+                break;
+            case 'DELETE':
+                // DELETE requests
+                if (isset($uri[3])) {
+                    $this->deleteCircuit($uri[3]);
+                }
+                break;
+            default:
+                // Method not supported
+                ResponseHelper::sendNotFound("Method not supported.");
+                break;
         }
-    }    
+    } catch (Exception $e) {
+        ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+    }
+}
+
 
     //--------------------------- Récupérer un circuit ---------------------------//
     private function getCircuit($id) {
@@ -118,12 +140,25 @@ class CircuitController {
         }
     }
 
+    //--------------------------- Plan de Route ---------------------------//
+
+    public function planRoute($requestData) {
+        try {
+            $startPoint = $requestData['start'];
+            $endPoint = $requestData['goal'];
+            $optimizedRoute = $this->circuitService->planRoute($startPoint, $endPoint);
+            ResponseHelper::sendResponse(['route' => $optimizedRoute]);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
+    }
+
 }
 
-// Récupération de la méthode et des segments d'URI
-$method = $_SERVER['REQUEST_METHOD'];
-$uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+// // Récupération de la méthode et des segments d'URI
+// $method = $_SERVER['REQUEST_METHOD'];
+// $uri = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-// Création et traitement de la requête
-$controller = new CircuitController();
-$controller->processRequest($method, $uri);
+// // Création et traitement de la requête
+// $controller = new CircuitController();
+// $controller->processRequest($method, $uri);

@@ -16,6 +16,7 @@ require_once 'Controllers/LoginController.php';
 require_once 'Controllers/ServiceController.php';
 require_once 'Controllers/FormationController.php';
 require_once 'Controllers/StockController.php';
+require_once 'Controllers/CircuitController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
@@ -108,10 +109,14 @@ function router($uri, $requestMethod) {
             $controller = new PlanningController();
             // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour la planification
             break;
-            case 'formations':
-                $controller = new FormationController();
-                $controller->processRequest($requestMethod, $uri);
-                break;
+        case 'formations':
+            $controller = new FormationController();
+            $controller->processRequest($requestMethod, $uri);
+            break;
+        case 'circuits':
+            $controller = new CircuitController();
+            $controller->processRequest($requestMethod, $uri);
+            break;
         default:
             exit_with_message('Not Found', 404);
             return;

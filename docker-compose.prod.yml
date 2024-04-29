@@ -1,19 +1,17 @@
 version: '3.9'
 
 services:
-  # Frontend Service
   frontend:
     build:
       context: . 
       dockerfile: Dockerfile.prod
     image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu:prod
     ports:
-      - "80:80"  
+      - "83:80"
     volumes:
       - ./front:/var/www/html/
     restart: unless-stopped
 
-  # API Service
   api:
     build:
       context: ./api
@@ -28,7 +26,6 @@ services:
       - DB_NAME=temps
     restart: unless-stopped
 
-  # Database Service
   db:
     image: mysql:latest
     environment:

@@ -1,40 +1,35 @@
-# Utiliser une image de base qui contient PHP et Apache
+# Utilisation d'une image PHP avec Apache
 FROM php:8-apache
 
-# Installer les dépendances nécessaires pour installer Node.js
-RUN apt-get update && apt-get install -y \
-    curl \
-    gnupg \
-    software-properties-common
-
-# Ajouter le repo Node.js et installer Node.js (LTS Version)
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs
-
-# Vérifier les versions de Node et NPM
-RUN node -v && npm -v
-
-# Installer les extensions PHP nécessaires
+# Installer les extensions nécessaires et autres dépendances
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pgsql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*  
 
 # Activer Xdebug pour le développement (facultatif)
 RUN pecl install xdebug && \
-    docker-php-ext-enable xdebug
+docker-php-ext-enable xdebug
 
-# Définir le répertoire de travail pour l'application
-WORKDIR /var/www/html
+# Désactiver les modules inutiles et optimiser Apache
+RUN a2dismod status \
+    && a2enmod headers \
+    && a2enmod rewrite
 
-# Copier les fichiers du projet dans l'image
-# Assurez-vous que votre structure de fichiers est correcte
-COPY . .
+# Sécuriser les headers HTTP
+RUN echo 'Header always unset X-Powered-By' >> /etc/apache2/conf-enabled/security.conf \
+    && echo 'Header always set X-Content-Type-Options "nosniff"' >> /etc/apache2/conf-enabled/security.conf \
+    && echo 'Header always set X-XSS-Protection "1; mode=block"' >> /etc/apache2/conf-enabled/security.conf \
+    && echo 'Header always set X-Frame-Options "SAMEORIGIN"' >> /etc/apache2/conf-enabled/security.conf
 
-# Installer les dépendances NPM pour les projets Node.js
-RUN if [ -f package.json ]; then npm install; fi
+# Copier les fichiers de l'application dans le conteneur
+COPY ./api /var/www/html/
 
-# Exposer le port utilisé par votre serveur web
+# Exposer le port 80 pour le trafic HTTP
 EXPOSE 80
 
-# Commande pour démarrer Apache en arrière-plan
+# Commande pour démarrer Apache en mode foreground
 CMD ["apache2-foreground"]

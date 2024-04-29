@@ -1,6 +1,7 @@
 version: '3.9'
 
 services:
+  # Frontend Service
   frontend:
     image: rg.fr-par.scw.cloud/namespace-temps-donne/ubuntu:dev
     ports:
@@ -9,8 +10,8 @@ services:
       - ./front:/var/www/html
     environment:
       - NODE_ENV=development
-    command: npm start  # Assure le rechargement à chaud
 
+  # API Service
   api:
     build:
       context: .
@@ -23,18 +24,19 @@ services:
       - NODE_ENV=development
       - DB_HOST=db
       - DB_USER=root
-      - DB_PASSWORD=password
+      - DB_PASSWORD=toor
       - DB_NAME=temps
-    command: npm run dev  # Rechargement à chaud pour le développement
 
+  # Database Service
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: toor
       MYSQL_DATABASE: temps
     ports:
       - "3307:3306"
     volumes:
+      - db-data:/var/lib/mysql
       - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
 
 volumes:

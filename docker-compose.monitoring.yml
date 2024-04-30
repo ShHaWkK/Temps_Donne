@@ -12,9 +12,14 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-     - ./prometheus:/etc/prometheus
+      - ./prometheus:/etc/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    depends_on:
+      - cadvisor
+    labels:
+      org.label-schema.group: "monitoring"
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor
@@ -25,6 +30,8 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
       - "18080:8080"
+    labels:
+      org.label-schema.group: "monitoring"
 
   grafana:
     image: grafana/grafana

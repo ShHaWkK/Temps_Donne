@@ -24,6 +24,7 @@ header {
     align-items: center;
     background-color: #82CFD8;
     color: #00334A;
+    margin-bottom: 3ex;
 }
 
 #mainHeader {
@@ -117,7 +118,7 @@ header {
 .navigation-menu ul li .nav-item-space.active,
 .navigation-menu ul li .nav-item-space:hover,
 .popup-button:hover{
-    background-color: #002233; 
+    background-color: #002233;
     cursor: pointer;
 }
 

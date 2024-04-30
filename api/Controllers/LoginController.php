@@ -5,9 +5,6 @@ require_once './Repository/UserRepository.php';
 require_once './Exceptions/AuthenticationException.php';
 require_once './Exceptions/RoleException.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 class LoginController {
     private $userService;
     private $loginService;
@@ -27,24 +24,20 @@ class LoginController {
             $json = file_get_contents("php://input");
             $credentials = json_decode($json, true);
 
-            // Authenticate user
             $user = $this->loginService->authenticate($credentials['email'], $credentials["password"], $credentials["role"]);
 
-            // If no session token found or session token is invalid/expired, generate a new one
             if (!$userId) {
                 $session_token = $this->generateSessionToken();
-                // Store the session token in the PHP session
+
                 $_SESSION['session_token'] = $session_token;
 
-                // Store the session token in the repository
                 $this->storeSessionToken($user['ID_Utilisateur'], $session_token);
 
                 $_SESSION['session_token'] = $session_token;
 
-                // Set the session token as a cookie
                 $cookie_success = setcookie('session_token', $session_token, time() + 86400, '/');
                 if (!$cookie_success) {
-                    echo("Failed to set session token cookie.");
+                    //echo("Failed to set session token cookie.");
                 }
             }
 
@@ -52,13 +45,15 @@ class LoginController {
             $response = [
                 'status' => 'success',
                 'message' => 'Authentication successful.',
-                'user' => $user,
-                'session_token' => $session_token ?? $_SESSION['session_token'] // Use existing token if available
+                //'user' => $user,
+                //'session_token' => $session_token ?? $_SESSION['session_token'] // Use existing token if available
             ];
 
             // Send response
             http_response_code(200);
             ResponseHelper::sendResponse($response);
+            header('Location: .php');
+            exit();
         } catch (RoleException $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         } catch (AuthenticationException $e) {

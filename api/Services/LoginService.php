@@ -12,7 +12,7 @@ class LoginService {
 
     public function authenticate($email, $password, $role) {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Format d'email invalide:$email");
+            throw new InvalidArgumentException("Format d'email invalide : " . $email);
         }
 
         // Valider le rôle

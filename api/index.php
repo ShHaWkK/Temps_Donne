@@ -93,7 +93,7 @@ function router($uri, $requestMethod) {
         case 'volunteers':
             $controller = new UserController();
             $controller->processRequest($requestMethod,$uri);
-        break;
+            break;
 
         case 'services':
             $controller = new ServiceController();
@@ -108,10 +108,10 @@ function router($uri, $requestMethod) {
             $controller = new PlanningController();
             // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour la planification
             break;
-            case 'formations':
-                $controller = new FormationController();
-                $controller->processRequest($requestMethod, $uri);
-                break;
+        case 'formations':
+            $controller = new FormationController();
+            $controller->processRequest($requestMethod, $uri);
+            break;
         default:
             exit_with_message('Not Found', 404);
             return;

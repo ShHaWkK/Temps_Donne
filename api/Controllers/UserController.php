@@ -1,5 +1,4 @@
 <?php
-
 require_once './Services/UserService.php';
 require_once './Models/UserModel.php';
 require_once './exceptions.php';
@@ -100,7 +99,12 @@ class UserController {
             $this->saveUploadedFiles($data);
 
             http_response_code(200);
-            ResponseHelper::sendResponse(['success' => 'Utilisateur ajouté avec succès.']);
+            $response = [
+                'status' => 'success',
+                'message' => 'User added successfully.',
+            ];
+            ResponseHelper::sendResponse($response);
+
         } catch (Exception $e) {
             /*
             http_response_code($e->getCode());
@@ -111,43 +115,41 @@ class UserController {
 
     public function saveUploadedFiles($data)
     {
-        $response = array();
-
-        if (!empty($_FILES)) {
-            $permis_file = $_FILES['permis_file'];
-            $cv_file = $_FILES['cv_file'];
-            $target_dir_permis = "./uploads/" . $data["Email"] . "/Permis/";
-            $target_dir_CV = "./uploads/" . $data["Email"] . "/CV/";
-
-            if (!file_exists($target_dir_permis)) {
-                mkdir($target_dir_permis, 0777, true);
-            }
-
-            if (!file_exists($target_dir_CV)) {
-                mkdir($target_dir_CV, 0777, true);
-            }
-
-            $permis_file_path = $target_dir_permis . "Permis_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . ".pdf";
-            $cv_file_path = $target_dir_CV . "CV_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . ".pdf";
-
-            $permis_file_moved = move_uploaded_file($permis_file['tmp_name'], $permis_file_path);
-            $cv_file_moved = move_uploaded_file($cv_file['tmp_name'], $cv_file_path);
-
-            if ($permis_file_moved) {
-                $response['permis_file'] = "Le justificatif du permis a bien été enregistré.";
-            } else {
-                $response['permis_file'] = "Une erreur s'est produite lors de l'enregistrement du permis.";
-            }
-            if ($cv_file_moved) {
-                $response['cv_file'] = "Le CV a bien été enregistré.";
-            } else {
-                $response['cv_file'] = "Une erreur s'est produite lors de l'enregistrement du CV.";
-            }
-        } else {
-            $response['error'] = "Aucun fichier n'a été téléchargé.";
+        if (empty($_FILES)) {
+            throw new Exception("Aucun fichier n'a été téléchargé.");
         }
 
-        echo json_encode($response);
+        $permis_file = $_FILES['permis_file'];
+        $cv_file = $_FILES['cv_file'];
+        $target_dir_permis = "./uploads/" . $data["Email"] . "/Permis/";
+        $target_dir_CV = "./uploads/" . $data["Email"] . "/CV/";
+
+        if (!file_exists($target_dir_permis)) {
+            mkdir($target_dir_permis, 0777, true);
+        }
+
+        if (!file_exists($target_dir_CV)) {
+            mkdir($target_dir_CV, 0777, true);
+        }
+
+        $permis_file_path = $target_dir_permis . "Permis_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . ".pdf";
+        $cv_file_path = $target_dir_CV . "CV_" . $data['Nom'] . "_" . $data['Prenom'] . "_" . date("Y-m-d_H-i-s") . ".pdf";
+
+        $permis_file_moved = move_uploaded_file($permis_file['tmp_name'], $permis_file_path);
+        $cv_file_moved = move_uploaded_file($cv_file['tmp_name'], $cv_file_path);
+
+        if (!$permis_file_moved) {
+            throw new Exception("Une erreur s'est produite lors de l'enregistrement du permis.");
+        }
+
+        if (!$cv_file_moved) {
+            throw new Exception("Une erreur s'est produite lors de l'enregistrement du CV.");
+        }
+
+        return [
+            'permis_file' => "Le justificatif du permis a bien été enregistré.",
+            'cv_file' => "Le CV a bien été enregistré."
+        ];
     }
 
     //-------------------- Delete User -------------------//

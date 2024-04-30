@@ -1,0 +1,57 @@
+ /* Styles CSS pour le tableau */
+ table {
+     width: 70%;
+     border-collapse: collapse;
+     margin: auto;
+ }
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    width: 100px;
+}
+
+th {
+    background-color: #f2f2f2;
+
+}
+
+tbody{
+    border: none;
+}
+
+.activity {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color:chocolate ;
+}
+
+.direction-button{
+    background-color: #00334A;
+    color: white;
+    cursor: pointer;
+    width: 15%;
+    padding: 15px;
+    border-radius: 20px;
+}
+ .direction-button:hover{
+     background-color: #002233;
+     cursor: pointer;
+ }
+
+ .information-tab{
+     border: none   ;
+ }
+
+ .now-button{
+     background-color: #00334A;
+     color: white;
+     cursor: pointer;
+     padding-left: 15px;
+     padding-right: 15px;
+     padding-top: 5px;
+     padding-bottom: 5px;
+     border-radius: 20px;
+ }

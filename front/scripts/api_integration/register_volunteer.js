@@ -77,19 +77,27 @@ function sendDataToAPI() {
         body: formData
     };
 
+    console.log(options);
     fetch(apiUrl, options)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Erreur lors de l\'envoi des données à l\'API.');
+                return response.text().then(errorMessage => {
+                    throw new Error(errorMessage || 'Erreur inattendue.');
+                });
             }
-            return response.json();
+            return response.json(); // Analyser la réponse JSON
         })
         .then(data => {
-            alert('Inscriptions en attente.');
+            // Afficher la réponse JSON dans une alerte
+            alert(JSON.stringify(data));
+            if (data && data.status && data.status.startsWith("success")) {
+                // Redirection vers la page souhaitée
+                window.location.href = "../../index.php";
+            }
         })
         .catch(error => {
-            console.error('Erreur lors de l\'envoi des données à l\'API :', error);
-            alert('Votre inscription a bien été envoyée. En attente de validation.');
+            console.error('Erreur lors de la réponse de l\'API :', error.message);
+            alert('Erreur lors de la réponse de l\'API :', error.message);
         });
 }
 

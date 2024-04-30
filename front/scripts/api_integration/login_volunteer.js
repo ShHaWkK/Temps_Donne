@@ -3,17 +3,20 @@ function loginVolunteer(){
     var password = document.getElementById('password').value;
 
     var data = {
-        "Email": email,
-        "Mot_de_passe": password,
-        "Role": "Benevole"
-    }
+        "email": email,
+        "password": password,
+        "role": "Benevole"
+    };
 
     var apiUrl = 'http://localhost:8082/index.php/login';
 
-    // Options de la requête HTTP
+
     var options = {
         method: 'POST',
-        body: data
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     };
 
     fetch(apiUrl, options)
@@ -27,10 +30,14 @@ function loginVolunteer(){
         })
         .then(data => {
             // Afficher la réponse JSON dans une alerte
-            alert('Réponse de l\'API : ' + JSON.stringify(data));
+            alert(JSON.stringify(data));
+            if (data && data.status && data.status.startsWith("success")) {
+                // Redirection vers la page souhaitée
+                window.location.href = "../../volunteers/header.php";
+            }
         })
         .catch(error => {
-            console.error('Erreur lors de la réponse de l\'API :', error);
+            console.error('Erreur lors de la réponse de l\'API :', error.message);
             alert('Erreur lors de la réponse de l\'API :', error.message);
         });
 

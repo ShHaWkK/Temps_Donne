@@ -1,10 +1,57 @@
 let currentWeek = new Date();
 
+// Exemple d'utilisation :
+const events = [
+    {
+        "ID_Planning": 1,
+        "ID_Utilisateur": 1,
+        "Date": "2024-05-01",
+        "Description": "Maraude",
+        "activity": "Maraude",
+        "startTime": "08:30",
+        "endTime": "09:45"
+    },
+    {
+        "ID_Planning": 2,
+        "ID_Utilisateur": 1,
+        "Date": "2024-05-02",
+        "Description": "Visite",
+        "activity": "Visite",
+        "startTime": "14:00",
+        "endTime": "16:00"
+    },
+    {
+        "ID_Planning": 3,
+        "ID_Utilisateur": 1,
+        "Date": "2024-05-10",
+        "Description": "Cours",
+        "activity": "Cours",
+        "startTime": "12:00",
+        "endTime": "16:00"
+    }
+];
+
 function formatDate(date) {
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     return date.toLocaleDateString('fr-FR', options).replace(/\b\w{1}/g, function(letter) {
         return letter.toUpperCase();
     });
+}
+
+function formatWeek(currentWeek) {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const dayOfWeek = currentWeek.getDay(); // Jour de la semaine (0 - dimanche, 1 - lundi, ..., 6 - samedi)
+    const diff = currentWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Nombre de jours à soustraire pour obtenir le lundi
+    const mondayOfWeek = new Date(currentWeek.setDate(diff));
+
+    const formattedDayOfWeek = days[mondayOfWeek.getDay()];
+    const formattedMonth = months[mondayOfWeek.getMonth()];
+    const formattedDayOfMonth = mondayOfWeek.getDate();
+    const formattedYear = mondayOfWeek.getFullYear();
+
+    return `${formattedDayOfWeek} ${formattedMonth} ${formattedDayOfMonth} ${formattedYear}`;
 }
 
 function displayWeekTable() {
@@ -28,19 +75,53 @@ function displayWeekTable() {
     for (let i = 0; i < 7; i++) {
         const cell = headerRow.insertCell();
         cell.textContent = days[i] + " " + formatDate(new Date(startDate));
-        startDate.setDate(startDate.getDate() + 1); // Next day
+        startDate.setDate(startDate.getDate() + 1);
     }
 
-    // Creating rows for each hour
-    for (let hour = 6; hour < 23; hour++) {
+    // Création des lignes pour chaque heure
+    for (let hour = 0; hour < 23; hour++) {
         const row = table.insertRow();
         row.insertCell().textContent = hour + ":00 - " + (hour + 1) + ":00";
 
-        // Creating cells for each day of the week
+        // Création des cellules
         for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
             row.insertCell();
         }
     }
+
+    displayEvents(events);
+}
+
+function displayEvents(events) {
+    const table = document.getElementById("planningTable");
+
+    events.forEach(event => {
+        const startTime = parseInt(event.startTime.split(":")[0]);
+        const endTime = parseInt(event.endTime.split(":")[0]);
+
+        const startDate = new Date(event.Date);
+        const eventDayIndex = startDate.getDay();
+        const eventColumnIndex = (eventDayIndex === 0) ? 7 : eventDayIndex; // Si c'est dimanche, on met 7 pour obtenir la dernière colonne
+
+        const startRow = startTime + 1;
+        const endRow = endTime + 1;
+
+        let formattedCurrentWeek = formatWeek(currentWeek);
+        // Filling the cells for the event
+        for (let row = startRow; row <= endRow; row++) {
+            const cell = table.rows[row].cells[eventColumnIndex];
+            const formattedEventWeek = formatWeek(startDate); // Formatage de la semaine de l'événement
+            if (formattedCurrentWeek === formattedEventWeek) {
+                if (row === startRow) {
+                    cell.textContent = event.activity;
+                    cell.rowSpan = endRow - startRow + 1;
+                    cell.classList.add("planning-event");
+                } else {
+                    cell.style.display = "none";
+                }
+            }
+        }
+    });
 }
 
 function displayNextWeek() {

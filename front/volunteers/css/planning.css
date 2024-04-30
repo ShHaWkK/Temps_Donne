@@ -55,3 +55,20 @@ tbody{
      padding-bottom: 5px;
      border-radius: 20px;
  }
+
+ .planning-event{
+     color: black;
+     padding: 15px;
+     background-color: #82CFD8;
+     border-radius: 50px;
+     transition: background-color 0.3s;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+ }
+
+ .planning-event:hover{
+     background-color: #23B5BE;
+     transform: scale(1.05);
+     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+ }

@@ -45,7 +45,7 @@ class CircuitRepository {
             $circuit->collectionTime,
             $circuit->driverId,
             json_encode($circuit->partnerMerchants),
-            $circuit->id // Assuming you're passing the ID as the last element for the WHERE clause.
+            $circuit->id 
         ];
         $condition = "id = ?";
         return updateDB('circuits', $columnArray, $columnData, $condition);

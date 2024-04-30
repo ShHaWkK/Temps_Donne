@@ -137,7 +137,6 @@ class FormationRepository {
     }
     
     public function getAvailableFormations() {
-        // Assuming there's a Date_Formation column that holds the date of the formation
         $stmt = $this->db->prepare("SELECT * FROM Formations WHERE Date_Formation >= CURDATE()");
         $stmt->execute();
         return $stmt->fetchAll();

@@ -24,6 +24,8 @@ services:
       - DB_USER=root
       - DB_PASSWORD=toor
       - DB_NAME=temps
+    volumes:
+      - ./api:/var/www/html
     restart: unless-stopped
 
   db:

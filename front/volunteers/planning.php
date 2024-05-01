@@ -8,6 +8,7 @@ echo "<title>Espace bénévole - Planning</title>";
 
 <head>
     <link rel="stylesheet" href="./css/planning.css">
+    <script src="../scripts/checkSession.js"></script>
 </head>
 
 <script src="./js/planning.js"> </script>
@@ -44,7 +45,6 @@ echo "<title>Espace bénévole - Planning</title>";
         <p><strong>Heure de fin:</strong> <span id="eventEndTime"></span></p>
     </div>
 </div>
-
 
 <script src="./js/eventDetails.js"></script>
 

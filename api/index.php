@@ -5,9 +5,11 @@ error_reporting(E_ALL);
 
 //-------------------- CORS --------------------//
 // Autorise les requêtes depuis localhost
-header("Access-Control-Allow-Origin: *");
+//header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS,PATCH');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, auth');
+header("Access-Control-Allow-Origin: http://localhost:8083");
+header('Access-Control-Allow-Credentials: true');
 
 //-------------------- ROUTER --------------------//
 require_once 'Controllers/AdminController.php';

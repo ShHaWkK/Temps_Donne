@@ -13,7 +13,7 @@ document.getElementById('planningTable').addEventListener('click', function(even
     if (event.target.id === 'planningEvent') {
         // Récupérer les données de l'événement à partir de l'attribut "data-event-index" de la cellule
         const eventIndex = event.target.dataset.eventIndex;
-        console.log("eventIndex",eventIndex);
+        // console.log("eventIndex",eventIndex);
         const eventData = events[eventIndex];
 
         // Afficher les détails de l'événement dans la fenêtre modale

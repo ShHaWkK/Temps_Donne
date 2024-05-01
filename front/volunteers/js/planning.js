@@ -1,3 +1,5 @@
+document.write('<script src="../../scripts/getCookie.js"></script>');
+
 let currentWeek = new Date();
 let events;
 
@@ -26,12 +28,17 @@ function formatWeek(currentWeek) {
 
 async function getUserPlanning() {
     try {
-        const response = await fetch('http://localhost:8082/index.php/planning/1/user');
+        console.log(getCookie('session_token'));
+        console.log('user_id',getCookie('user_id'));
+        const userId = getCookie('user_id');
+        const url = 'http://localhost:8082/index.php/planning/' + userId + '/user';
+        console.log(url);
+        const response = await fetch(url);
         if (!response.ok) {
-            throw new Error('Erreur réseau');
+            alert('Erreur réseau');
         }
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         return data;
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);

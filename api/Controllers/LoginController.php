@@ -24,9 +24,9 @@ class LoginController {
             $json = file_get_contents("php://input");
             $credentials = json_decode($json, true);
 
-            $user = $this->loginService->authenticate($credentials['email'], $credentials["password"], $credentials["role"]);
-
             if (!$userId) {
+                $user = $this->loginService->authenticate($credentials['email'], $credentials["password"], $credentials["role"]);
+
                 $session_token = $this->generateSessionToken();
 
                 $_SESSION['session_token'] = $session_token;
@@ -45,8 +45,8 @@ class LoginController {
             $response = [
                 'status' => 'success',
                 'message' => 'Authentication successful.',
-                //'user' => $user,
-                //'session_token' => $session_token ?? $_SESSION['session_token'] // Use existing token if available
+                'user_id' => $user['ID_Utilisateur'],
+                'session_token' => $session_token ?? $_SESSION['session_token'] // Use existing token if available
             ];
 
             // Send response

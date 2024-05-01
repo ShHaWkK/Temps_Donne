@@ -15,7 +15,7 @@ closeBtn.onclick = function() {
 
 // Lorsque l'utilisateur clique en dehors de la fenêtre modale, elle se ferme
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = 'none'; // Masquer la fenêtre modale
     }
 }

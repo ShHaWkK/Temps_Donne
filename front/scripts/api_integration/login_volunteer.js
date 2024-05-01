@@ -10,7 +10,6 @@ function loginVolunteer(){
 
     var apiUrl = 'http://localhost:8082/index.php/login';
 
-
     var options = {
         method: 'POST',
         headers: {
@@ -33,7 +32,7 @@ function loginVolunteer(){
             alert(JSON.stringify(data));
             if (data && data.status && data.status.startsWith("success")) {
                 // Redirection vers la page souhaitée
-                window.location.href = "../../volunteers/header.php";
+                window.location.href = "../../volunteers/planning.php";
             }
         })
         .catch(error => {

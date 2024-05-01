@@ -1,35 +1,5 @@
 let currentWeek = new Date();
-
-// Exemple d'utilisation :
-const events = [
-    {
-        "ID_Planning": 1,
-        "ID_Utilisateur": 1,
-        "Date": "2024-05-01",
-        "Description": "Maraude",
-        "activity": "Maraude",
-        "startTime": "08:30",
-        "endTime": "09:45"
-    },
-    {
-        "ID_Planning": 2,
-        "ID_Utilisateur": 1,
-        "Date": "2024-05-02",
-        "Description": "Visite",
-        "activity": "Visite",
-        "startTime": "14:00",
-        "endTime": "16:00"
-    },
-    {
-        "ID_Planning": 3,
-        "ID_Utilisateur": 1,
-        "Date": "2024-05-10",
-        "Description": "Cours",
-        "activity": "Cours",
-        "startTime": "12:00",
-        "endTime": "16:00"
-    }
-];
+let events;
 
 function formatDate(date) {
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
@@ -54,6 +24,21 @@ function formatWeek(currentWeek) {
     return `${formattedDayOfWeek} ${formattedMonth} ${formattedDayOfMonth} ${formattedYear}`;
 }
 
+async function getUserPlanning() {
+    try {
+        const response = await fetch('http://localhost:8082/index.php/planning/1/user');
+        if (!response.ok) {
+            throw new Error('Erreur réseau');
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        return [];
+    }
+}
+
 function displayWeekTable() {
     // Displaying information
     const startDate = new Date(currentWeek);
@@ -63,7 +48,7 @@ function displayWeekTable() {
     document.getElementById("currentWeek").textContent = formatDate(startDate) + " - " + formatDate(endDate);
 
     // Displaying the planning calendar
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     const table = document.getElementById("planningTable");
 
     // Remove existing rows from the table
@@ -89,13 +74,17 @@ function displayWeekTable() {
         }
     }
 
-    displayEvents(events);
+    (async () => {
+        events = await getUserPlanning();
+        console.log(events);
+        displayEvents(events);
+    })();
 }
 
 function displayEvents(events) {
     const table = document.getElementById("planningTable");
 
-    events.forEach(event => {
+    events.forEach((event, index) => {
         const startTime = parseInt(event.startTime.split(":")[0]);
         const endTime = parseInt(event.endTime.split(":")[0]);
 
@@ -116,6 +105,8 @@ function displayEvents(events) {
                     cell.textContent = event.activity;
                     cell.rowSpan = endRow - startRow + 1;
                     cell.classList.add("planning-event");
+                    cell.id="planningEvent";
+                    cell.dataset.eventIndex = index; // Ajouter l'attribut "data-event-index"
                 } else {
                     cell.style.display = "none";
                 }

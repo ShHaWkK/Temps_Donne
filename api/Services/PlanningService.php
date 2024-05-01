@@ -50,6 +50,11 @@ class PlanningService {
         return $this->planningRepository->getById($planningId);
     }
 
+    public function getUserPlanning($user_id)
+    {
+        return $this->planningRepository->getPlanningByUserId($user_id);
+    }
+
     public function getAllPlannings() {
         return $this->planningRepository->findAll();
     }
@@ -100,7 +105,5 @@ class PlanningService {
         }
         return true; // Le bénévole a toutes les compétences requises
     }
-    
-    
 }
 ?>

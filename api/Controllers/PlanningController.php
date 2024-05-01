@@ -22,16 +22,20 @@ class PlanningController {
             switch ($method) {
                 case 'GET':
                     if (isset($uri[3])) {
-                        $this->getPlanning($uri[3]);
+                        switch ($uri[4]){
+                            case 'activity':
+                                $this->getPlanning($uri[3]);
+                                break;
+                            case 'user':
+                                $this->getUserPlanning($uri[3]);
+                        }
+
                     } else {
                         $this->getAllPlannings();
                     }
                     break;
                 case 'POST':
-                    // Assurez-vous que l'index 3 existe et qu'il contient la chaîne 'planning'
-                    if (isset($uri[3]) && $uri[3] === 'planning'){
                         $this->addPlanning();
-                    }
                     break;
                 case 'PUT':
                     if (isset($uri[3])) {
@@ -62,11 +66,20 @@ class PlanningController {
         }
     }
 
+    private function getUserPlanning($user_id)
+    {
+        $planning = $this->planningService->getUserPlanning($user_id);
+        if (!$planning) {
+            ResponseHelper::sendNotFound("Planning not found.");
+        } else {
+            ResponseHelper::sendResponse($planning);
+        }
+    }
+
     public function getAllPlannings() { 
         $plannings = $this->planningService->getAllPlannings();
         ResponseHelper::sendResponse($plannings);
     }
-    
 
     //-------------------- Add Planning -------------------//
 
@@ -94,7 +107,7 @@ class PlanningController {
         $data = json_decode($json, true);
 
         try {
-            // Mettre à jour le planning existant
+            //Mettre à jour le planning existant
             $this->planningService->updatePlanning($id, $data);
             ResponseHelper::sendResponse(["success" => "Planning updated successfully."]);
         } catch (Exception $e) {
@@ -175,9 +188,6 @@ class PlanningController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
-    
-    
-    
 }
 /*
 // Récupération de la méthode et des segments d'URI

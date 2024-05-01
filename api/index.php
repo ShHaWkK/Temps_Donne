@@ -107,7 +107,7 @@ function router($uri, $requestMethod) {
             break;
         case 'planning':
             $controller = new PlanningController();
-            // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour la planification
+            $controller->processRequest($requestMethod,$uri);
             break;
         case 'formations':
             $controller = new FormationController();

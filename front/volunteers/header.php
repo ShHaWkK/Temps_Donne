@@ -104,8 +104,6 @@
         </div>
 </aside>
 
-<script src="../scripts/darkmode.js"></script>
-
 <script>
     const menuButton = document.getElementById('menuButton');
     const sidebar = document.querySelector('.sidebar');
@@ -114,6 +112,7 @@
     menuButton.addEventListener('click', function() {
         sidebar.classList.toggle('sidebar-visible');
         mainHeader.classList.toggle('sidebar-visible');
-        menuButton.classList.toggle('sidebar-visible'); // Ajoutez cette ligne pour ajouter la classe à l'icône du menu
+        menuButton.classList.toggle('sidebar-visible');
     });
 </script>
+<script src="../scripts/darkmode.js"></script>

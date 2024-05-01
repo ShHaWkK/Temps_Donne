@@ -32,5 +32,21 @@ echo "<title>Espace bénévole - Planning</title>";
     <table id="planningTable">
     </table>
 </center>
+
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Contenu de l'événement -->
+        <p><strong>Evénement :</strong> <span id="eventName"></span></p>
+        <p><strong>Description:</strong> <span id="eventDescription"></span></p>
+        <p><strong>Date:</strong> <span id="eventDate"></span></p>
+        <p><strong>Heure de début:</strong> <span id="eventStartTime"></span></p>
+        <p><strong>Heure de fin:</strong> <span id="eventEndTime"></span></p>
+    </div>
+</div>
+
+
+<script src="./js/eventDetails.js"></script>
+
 </body>
 </html>

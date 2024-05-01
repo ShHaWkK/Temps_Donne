@@ -10,34 +10,6 @@ services:
       - portainer_data:/data
 
   prometheus:
-      image: prom/prometheus
-      volumes:
-        - ./prometheus:/etc/prometheus
-        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      ports:
-        - "9090:9090"
-      depends_on:
-        - cadvisor
-      labels:
-        org.label-schema.group: "monitoring"
-
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:roversion: '3.9'
-
-services:
-  portainer:
-    image: portainer/portainer-ce
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-
-  prometheus:
     image: prom/prometheus
     volumes:
       - ./prometheus:/etc/prometheus
@@ -84,44 +56,6 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points'
       - '^/(sys|proc|dev|host|etc)($$|/)'
-    labels:
-      org.label-schema.group: "monitoring"
-
-volumes:
-  portainer_data:
-  grafana_data:
-
-    - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - "18080:8080"
-    labels:
-      org.label-schema.group: "monitoring"
-
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=password
-      - GF_USERS_ALLOW_SIGN_UP=false
-
-  node-exporter:
-    image: prom/node-exporter
-    ports:
-      - "9100:9100"
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points'
-      - '^/(sys|proc|dev|host|etc)($$|/)'
-    labels:
-      org.label-schema.group: "monitoring"
 
 volumes:
   portainer_data:

@@ -29,12 +29,12 @@ services:
 
   # Database Service
   db:
-    image: mysql:5.7
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: toor
       MYSQL_DATABASE: temps
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
       - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql

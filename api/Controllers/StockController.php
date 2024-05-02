@@ -109,6 +109,9 @@ class StockController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+
+    //---------------------------   ---------------------------//
+
 }
 
 ?>

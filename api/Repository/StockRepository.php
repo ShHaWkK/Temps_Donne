@@ -1,7 +1,5 @@
 <?php
 
-// Path: api/Repository/StockRepository.php
-
 require_once 'BDD.php'; 
 
 class StockRepository {
@@ -38,17 +36,23 @@ class StockRepository {
 
     public function save(StockModel $stock) {
         $sql = $stock->id_stock ? 
-            "UPDATE Stocks SET type_article = :type_article, quantite = :quantite, date_de_peremption = :date_de_peremption, urgence = :urgence, Emplacement = :emplacement, Date_de_reception = :date_de_reception, ID_Don = :id_don WHERE ID_Stock = :id_stock" :
-            "INSERT INTO Stocks (type_article, quantite, date_de_peremption, urgence, Emplacement, Date_de_reception, ID_Don) VALUES (:type_article, :quantite, :date_de_peremption, :urgence, :emplacement, :date_de_reception, :id_don)";
+            "UPDATE Stocks SET type_article = :type_article, quantite = :quantite, poids_total = :poids_total, poids_individuel = :poids_individuel, volume_total = :volume_total, volume_individuel = :volume_individuel, date_de_peremption = :date_de_peremption, emplacement = :emplacement, urgence = :urgence, date_de_reception = :date_de_reception, statut = :statut, ID_Don = :id_don, QR_Code = :qr_code WHERE ID_Stock = :id_stock" :
+            "INSERT INTO Stocks (type_article, quantite, poids_total, poids_individuel, volume_total, volume_individuel, date_de_peremption, emplacement, urgence, date_de_reception, statut, ID_Don, QR_Code) VALUES (:type_article, :quantite, :poids_total, :poids_individuel, :volume_total, :volume_individuel, :date_de_peremption, :emplacement, :urgence, :date_de_reception, :statut, :id_don, :qr_code)";
         
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':type_article', $stock->type_article);
         $stmt->bindValue(':quantite', $stock->quantite);
+        $stmt->bindValue(':poids_total', $stock->poids_total);
+        $stmt->bindValue(':poids_individuel', $stock->poids_individuel);
+        $stmt->bindValue(':volume_total', $stock->volume_total);
+        $stmt->bindValue(':volume_individuel', $stock->volume_individuel);
         $stmt->bindValue(':date_de_peremption', $stock->date_de_peremption);
+        $stmt->bindValue(':emplacement', $stock->emplacement);
         $stmt->bindValue(':urgence', $stock->urgence, PDO::PARAM_BOOL);
-        $stmt->bindValue(':emplacement', $stock->emplacement); // Ajout du binding pour le champ emplacement
-        $stmt->bindValue(':date_de_reception', $stock->date_de_reception); // Ajout du binding pour le champ date_de_reception
+        $stmt->bindValue(':date_de_reception', $stock->date_de_reception);
+        $stmt->bindValue(':statut', $stock->statut);
         $stmt->bindValue(':id_don', $stock->id_don);
+        $stmt->bindValue(':qr_code', $stock->qr_code);
         if ($stock->id_stock) {
             $stmt->bindValue(':id_stock', $stock->id_stock, PDO::PARAM_INT);
         }

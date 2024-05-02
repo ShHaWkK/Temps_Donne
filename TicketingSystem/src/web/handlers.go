@@ -1,64 +1,55 @@
 package web
 
 import (
-	"TicketingSystem/src/const"
+	"TicketingSystem/src/BDD"
+	"TicketingSystem/src/log"
 	"TicketingSystem/src/manager"
+	"html/template"
 	"net/http"
-	"strconv"
 )
 
-func EnableHandlers() {
-	// Serve static files like CSS and JS
-	staticDir := http.Dir("html/src")
-	staticHandler := http.FileServer(staticDir)
-	http.Handle("/static/", http.StripPrefix("/static/", staticHandler))
+var templates *template.Template
 
-	// Set up route handlers
-	http.HandleFunc(_const.RouteIndex, IndexHandler)
-	http.HandleFunc(_const.RouteListTickets, RetrieveTicketsHandler)
-
-	// Logging the setup
-	manager.Log.Infos("Handlers enabled, starting server on port " + _const.PORT)
-
-	// Start the HTTP server
-	if err := http.ListenAndServe(":"+_const.PORT, nil); err != nil {
-		manager.Log.Error("Failed to start server: ", err)
-		return
+func init() {
+	var err error
+	templates, err = template.ParseGlob("html/templates/*.html")
+	if err != nil {
+		log.NewLogHelper().Error.Fatal("Error parsing templates: ", err)
 	}
-	manager.Log.Infos("Server stopped on port " + _const.PORT)
+}
+
+func SetupRoutes() {
+	http.HandleFunc("/", IndexHandler)
+	http.HandleFunc("/list", ListTicketsHandler)
+	log.NewLogHelper().Info.Println("Starting server on port 8085")
+	http.ListenAndServe(":8085", nil)
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Redirect(w, r, _const.RouteIndex, http.StatusSeeOther)
-		return
-	}
-	manager.Templates.ExecuteTemplate(w, "menu.html", nil)
+	RenderTemplate(w, "index", nil)
 }
 
-func RetrieveTicketsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Redirect(w, r, _const.RouteIndex, http.StatusSeeOther)
-		return
-	}
-
-	idTicketStr := r.URL.Query().Get("idTicket")
-	if idTicketStr == "" {
-		tickets := manager.RetrieveTickets(nil)
-		manager.Templates.ExecuteTemplate(w, "listTickets.html", map[string]interface{}{
-			"tickets": tickets,
-		})
-		return
-	}
-
-	idTicket, err := strconv.Atoi(idTicketStr)
+func ListTicketsHandler(w http.ResponseWriter, r *http.Request) {
+	db, err := BDD.OpenDB()
 	if err != nil {
-		http.Error(w, "Ticket ID must be an integer", http.StatusBadRequest)
+		log.NewLogHelper().Error.Println("Database connection error: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+	defer db.Close()
 
-	ticket := manager.RetrieveTickets(&idTicket)
-	manager.Templates.ExecuteTemplate(w, "oneTicket.html", map[string]interface{}{
-		"ticket": ticket,
-	})
+	tickets, err := manager.RetrieveAllTickets(db)
+	if err != nil {
+		log.NewLogHelper().Error.Println("Failed to retrieve tickets: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	RenderTemplate(w, "listTickets", tickets)
+}
+
+func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
+	if err := templates.ExecuteTemplate(w, tmpl+".html", data); err != nil {
+		log.NewLogHelper().Error.Println("Template execution error: ", err)
+		http.Error(w, "Error rendering page", http.StatusInternalServerError)
+	}
 }

@@ -117,51 +117,51 @@ func getMessages(db *sql.DB, idUtilisateur int) ([]Message, error) {
 }
 
 func main() {
-	// Connexion à la base de données
-	db, err := sql.Open("mysql", "username:password@tcp(localhost:3306)/package_manager")
-	if err != nil {
-		fmt.Println("Erreur de connexion à la base de données :", err)
-		return
-	}
-	defer db.Close()
+	// // Connexion à la base de données
+	// db, err := sql.Open("mysql", "username:password@tcp(localhost:3306)/package_manager")
+	// if err != nil {
+	// 	fmt.Println("Erreur de connexion à la base de données :", err)
+	// 	return
+	// }
+	// defer db.Close()
 
-	// Création d'un ticket
-	ticketID, err := createTicket(db, "Nouveau ticket", "Description du ticket", 1)
-	if err != nil {
-		fmt.Println("Erreur lors de la création du ticket :", err)
-		return
-	}
-	fmt.Println("Ticket créé avec l'ID :", ticketID)
+	// // Création d'un ticket
+	// ticketID, err := createTicket(db, "Nouveau ticket", "Description du ticket", 1)
+	// if err != nil {
+	// 	fmt.Println("Erreur lors de la création du ticket :", err)
+	// 	return
+	// }
+	// fmt.Println("Ticket créé avec l'ID :", ticketID)
 
-	// Récupération d'un ticket
-	ticket, err := getTicket(db, ticketID)
-	if err != nil {
-		fmt.Println("Erreur lors de la récupération du ticket :", err)
-		return
-	}
-	fmt.Println("Ticket :", ticket)
+	// // Récupération d'un ticket
+	// ticket, err := getTicket(db, ticketID)
+	// if err != nil {
+	// 	fmt.Println("Erreur lors de la récupération du ticket :", err)
+	// 	return
+	// }
+	// fmt.Println("Ticket :", ticket)
 
-	// Mise à jour d'un ticket
-	err = updateTicket(db, ticketID, "Ticket mis à jour", "Nouvelle description", "En cours", "Haut", 2, 1)
-	if err != nil {
-		fmt.Println("Erreur lors de la mise à jour du ticket :", err)
-		return
-	}
-	fmt.Println("Ticket mis à jour")
+	// // Mise à jour d'un ticket
+	// err = updateTicket(db, ticketID, "Ticket mis à jour", "Nouvelle description", "En cours", "Haut", 2, 1)
+	// if err != nil {
+	// 	fmt.Println("Erreur lors de la mise à jour du ticket :", err)
+	// 	return
+	// }
+	// fmt.Println("Ticket mis à jour")
 
-	// Ajout d'un message
-	messageID, err := addMessage(db, 1, 2, "Bonjour, voici un nouveau message")
-	if err != nil {
-		fmt.Println("Erreur lors de l'ajout du message :", err)
-		return
-	}
-	fmt.Println("Message ajouté avec l'ID :", messageID)
+	// // Ajout d'un message
+	// messageID, err := addMessage(db, 1, 2, "Bonjour, voici un nouveau message")
+	// if err != nil {
+	// 	fmt.Println("Erreur lors de l'ajout du message :", err)
+	// 	return
+	// }
+	// fmt.Println("Message ajouté avec l'ID :", messageID)
 
-	// Récupération des messages
-	messages, err := getMessages(db, 1)
-	if err != nil {
-		fmt.Println("Erreur lors de la récupération des messages :", err)
-		return
-	}
-	fmt.Println("Messages :", messages)
+	// // Récupération des messages
+	// messages, err := getMessages(db, 1)
+	// if err != nil {
+	// 	fmt.Println("Erreur lors de la récupération des messages :", err)
+	// 	return
+	// }
+	// fmt.Println("Messages :", messages)
 }

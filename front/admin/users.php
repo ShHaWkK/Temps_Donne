@@ -11,8 +11,6 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
     <script src="./js/checkSessionAdmin.js"></script>
 </head>
 
-<script src="js/users.js"></script>
-
 <body>
 
 <h2 style="text-align: center;">Gestion des utilisateurs</h2>
@@ -31,5 +29,11 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
     <table id="usersTable">
     </table>
 </div>
+
+<script src="./js/filterByRole.js"></script>
+<script src="./js/users.js" defer></script>
+<script src="./js/approveUser.js"></script>
+
+
 </body>
 </html>

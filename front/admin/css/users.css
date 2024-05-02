@@ -1,13 +1,13 @@
 .main-container-users {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .main-container-users form {
-    margin-left: auto; /* Déplace le formulaire vers la droite */
-    margin-right: 20px; /* Espacement entre le tableau et le formulaire */
+    margin-left: 20px;
+    margin-right: auto;
 }
 
 iframe {
@@ -40,6 +40,9 @@ table th {
     padding: 8px;
     text-align: center;
     color: black;
+    max-width: 70px;
+    min-width: 30px;
+    overflow-x: hidden;
 }
 
 thead,
@@ -72,7 +75,7 @@ tbody tr {
     color: gray;
     line-height: 1.2;
 }
-
+/*
 @media screen and (max-width: 992px) {
     table,
     table > *,
@@ -113,11 +116,13 @@ tbody tr {
     tbody tr {
         font-size: 14px;
     }
-}
+}*/
 
+/*
 @media (max-width: 576px) {
     .container-table100 {
         padding-left: 15px;
         padding-right: 15px;
     }
 }
+*/

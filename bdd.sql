@@ -153,13 +153,27 @@ CREATE TABLE Stocks (
                         ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
                         Type_article VARCHAR(255),
                         Quantite INT,
+    #Ajout du poids individuel et total (kg)
+                        Poids_Total FLOAT,
+                        Poids_Individuel FLOAT,
+    #Ajout du volume indivuel et total (m2)
+                        Volume_Total FLOAT,
+                        Volume_Individuel FLOAT,
                         Date_de_peremption DATE,
                         Emplacement VARCHAR(255),
                         Urgence BOOLEAN,
                         Date_de_reception DATE,
+                        Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
                         ID_Don INT,
                         QR_Code TEXT,
                         FOREIGN KEY (ID_Don) REFERENCES Dons(ID_Don)
+);
+
+-- Table Entrepot
+CREATE TABLE Entrepot(
+                         ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
+                         Adresse VARCHAR(255),
+                         Capacite_Stockage FLOAT
 );
 
 -- Table Evenements
@@ -273,7 +287,6 @@ CREATE TABLE Historique_Activites (
 );
 
 -- Table UtilisationMateriels
-
 CREATE TABLE UtilisationMateriels (
                                       ID_Utilisation INT AUTO_INCREMENT PRIMARY KEY,
                                       ID_Materiel INT,
@@ -284,7 +297,6 @@ CREATE TABLE UtilisationMateriels (
 );
 
 -- Table Ressources
-
 CREATE TABLE Ressources (
                             ID_Ressource INT AUTO_INCREMENT PRIMARY KEY,
                             Type_Ressource VARCHAR(255), -- 'Salle', 'Equipement', etc.
@@ -295,7 +307,6 @@ CREATE TABLE Ressources (
 );
 
 -- Table AffectationRessources
-
 CREATE TABLE AffectationRessources (
                                        ID_Affectation INT AUTO_INCREMENT PRIMARY KEY,
                                        ID_Ressource INT,
@@ -306,7 +317,6 @@ CREATE TABLE AffectationRessources (
 );
 
 -- Table UtilisateursLangues
-
 CREATE TABLE UtilisateursLangues (
                                      ID_Utilisateur INT,
                                      ID_Langue INT,
@@ -316,7 +326,6 @@ CREATE TABLE UtilisateursLangues (
 );
 
 -- Table Captchas
-
 CREATE TABLE Captchas (
                           ID_Captcha INT AUTO_INCREMENT PRIMARY KEY,
                           Image_Path VARCHAR(255) NOT NULL,
@@ -343,7 +352,6 @@ ALTER TABLE Planning ADD COLUMN endTime TIME;
 
 
 -- Table tentatives_connexion
-
 CREATE TABLE tentatives_connexion (
                                       id INT AUTO_INCREMENT PRIMARY KEY,
                                       ip_adresse VARCHAR(50),
@@ -352,7 +360,6 @@ CREATE TABLE tentatives_connexion (
 );
 
 -- Table AffectationsServices
-
 CREATE TABLE AffectationsServices (
                                       ID_Affectation INT AUTO_INCREMENT PRIMARY KEY,
                                       ID_Service INT,
@@ -364,7 +371,6 @@ CREATE TABLE AffectationsServices (
 );
 
 -- Création de la table Competences
-
 CREATE TABLE Competences (
                              ID_Competence INT AUTO_INCREMENT PRIMARY KEY,
                              Nom_Competence VARCHAR(255),
@@ -372,7 +378,6 @@ CREATE TABLE Competences (
 );
 
 -- Table associative UtilisateursCompetences
-
 CREATE TABLE UtilisateursCompetences (
                                          ID_Utilisateur INT,
                                          ID_Competence INT,

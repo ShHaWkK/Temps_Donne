@@ -1,29 +1,24 @@
 let users = [];
 
-async function getAllUsers() {
-    const apiUrl = 'http://localhost:8082/index.php/users';
-
-    const options = {
-        method: 'GET'
-    };
-    try {
-        const response = await fetch(apiUrl, options);
-        if (!response.ok) {
-            alert('Erreur réseau');
-        }
-        users = await response.json();
-        console.log(users);
-        displayUsers(users);
-    } catch (error) {
-        console.error('Erreur lors de la récupération des données:', error);
-        return [];
-    }
+// Module pour la récupération des utilisateurs
+function getAllUsers() {
+    return fetch('http://localhost:8082/index.php/users')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
 }
 
 function displayUsers(users) {
     const usersTable = document.getElementById('usersTable');
 
-    usersTable.innerHTML = ''; // Clear previous content
+    usersTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
     const tableHeader = ["ID_Utilisateur", "Nom", "Prénom", "Genre", "Date de naissance", "Email",
@@ -37,16 +32,11 @@ function displayUsers(users) {
         th.textContent = tableHeader[i];
         rowHeader.appendChild(th);
     }
-    /*
-    for (let i = 0; i < tableHeader.length; i++) {
-        const cell = rowHeader.insertCell();
-        cell.textContent = tableHeader[i];
-    }
-*/
+
     users.forEach(user => {
         const row = usersTable.insertRow();
         row.innerHTML = `
-                        <td>${user.ID_Utilisateur}</td>
+                        <td class="user-id">${user.ID_Utilisateur}</td>
                         <td>${user.Nom}</td>
                         <td>${user.Prenom}</td>
                         <td>${user.Genre}</td>
@@ -58,28 +48,25 @@ function displayUsers(users) {
                         <td>${user.Role}</td>
                         <td>${user.Statut}</td>
                         <td>${user.Type_Permis}</td>
-                        <td><a href='#'>Valider</a></td>
+                        <td><a href='#' class="approve-link">Valider</a></td>
                     `;
     });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const selectElement = document.getElementById("roleFilter");
 
-    selectElement.addEventListener("change", function() {
-        filterByRole(selectElement.value);
-    });
-});
-
-function filterByRole(role) {
-    if (role === 'all') {
-        displayUsers(users);
-    } else {
-        const filteredUsers = users.filter(user => user.Role === role);
-        displayUsers(filteredUsers);
-    }
-}
-
+// Initialisation
 window.onload = function() {
-    getAllUsers();
-}
+    getAllUsers()
+        .then(users => {
+            displayUsers(users);
+            addApproveEventListeners();
+            addFilterByRoleEvent(users);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+        });
+};
+
+// window.onload = function() {
+    // getAllUsers();
+// }

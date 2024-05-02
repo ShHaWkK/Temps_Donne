@@ -28,6 +28,7 @@ class LoginRepository {
         $stmt->bindValue(':session_token',$session_token);
 
         $user_id= $stmt->execute();
+
         return $user_id;
     }
 

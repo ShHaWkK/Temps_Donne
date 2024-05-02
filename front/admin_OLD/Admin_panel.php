@@ -1,40 +1,3 @@
-<?php
-session_start();
-require_once 'BDD/Connection.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-// Vérification de la session admin
-if (!isset($_SESSION['admin'])) {
-    header('Location: Admin_login.php');
-    exit();
-}
-
-
-// Déconnexion de l'administrateur
-if (isset($_POST['logout'])) {
-    unset($_SESSION['admin']);
-    header('Location: Admin_login.php');
-    exit();
-}
-
-
-// Requête SQL pour récupérer les utilisateurs et leurs rôles
-$sql = "SELECT Utilisateurs.*, Roles.Nom_Role FROM Utilisateurs 
-        LEFT JOIN UtilisateursRoles ON Utilisateurs.ID_Utilisateur = UtilisateursRoles.ID_Utilisateur 
-        LEFT JOIN Roles ON UtilisateursRoles.ID_Role = Roles.ID_Role";
-$stmt = $conn->query($sql);
-$users = $stmt->fetchAll();
-
-
-if (isset($_SESSION['admin']) && is_array($_SESSION['admin'])) {
-    $adminNom = $_SESSION['admin']['Nom'] ?? 'Nom inconnu';
-    $adminPrenom = $_SESSION['admin']['Prenom'] ?? 'Prénom inconnu';
-} else {
-    header('Location: Admin_login.php');
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -187,16 +150,13 @@ button:hover {
     color: var(--error-color);
     margin: 1rem 0;
 }
-
-
-
 </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="profile">
             <div class="profile-icon"></div>
-            <?php echo "<p class='admin-name'>$adminNom $adminPrenom</p>"; ?>
+            <?php echo "<p class='admin_OLD-name'>$adminNom $adminPrenom</p>"; ?>
     </div>
         <nav class="menu">
             <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>

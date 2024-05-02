@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['admin_OLD'])) {
     header('Location: Admin_login.php');
     exit();
 }

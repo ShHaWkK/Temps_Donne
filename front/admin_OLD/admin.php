@@ -18,5 +18,5 @@ $stmt->execute([
     'mot_de_passe' => $mot_de_passe_hash,
 ]);
 
-echo "Nouvel admin ajouté avec succès !";
+echo "Nouvel admin_OLD ajouté avec succès !";
 ?>

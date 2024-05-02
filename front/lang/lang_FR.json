@@ -134,16 +134,22 @@
     "VOLUNTEER_PASSWORD_INPUT_LABEL": "Mot de passe ",
     "VOLUNTEER_LOGIN_BUTTON_TEXT": "Connexion",
     "VOLUNTEER_FORGOT_PASSWORD_LINK": "Mot de passe oublié ?",
-    "VOLUNTEER_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer", 
-    "LANGUAGE_CODE": "fr", 
+    "VOLUNTEER_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer",
+    "LANGUAGE_CODE": "fr",
 
     "COOKIE_TITLE": "Cookies",
     "COOKIE_DESCRIPTION": "Lorsque vous visitez notre site, nous pouvons accéder à certaines de vos informations pour mieux vous aiguiller et faciliter la tâche sur notre site. Pour en savoir plus :",
     "COOKIE_POLICY_LINK": "Politique de confidentialité",
     "ACCEPT_BUTTON": "Accepter",
-    "DECLINE_BUTTON": "Refuser"
+    "DECLINE_BUTTON": "Refuser",
 
-    
+    "ADMIN_LOGIN_TITLE": "Connexion Admin",
+    "ADMIN_LOGIN_SUBTITLE": "Ensemble, faisons la différence",
+    "ADMIN_EMAIL_INPUT_LABEL": "Adresse e-mail ",
+    "ADMIN_PASSWORD_INPUT_LABEL": "Mot de passe ",
+    "ADMIN_LOGIN_BUTTON_TEXT": "Connexion",
+    "ADMIN_FORGOT_PASSWORD_LINK": "Mot de passe oublié ?",
+    "ADMIN_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer"
 }
   
 

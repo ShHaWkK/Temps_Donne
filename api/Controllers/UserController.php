@@ -61,7 +61,7 @@ class UserController {
     public function getUser($id) {
         // Vérification du rôle
         /*
-        if (!$this->checkRole('admin')) {
+        if (!$this->checkRole('admin_OLD')) {
             throw new Exception("Accès non autorisé.");
         }
         */
@@ -96,7 +96,11 @@ class UserController {
             }
 
             $this->userService->registerUser($user);
-            $this->saveUploadedFiles($data);
+            if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null) {
+                $this->saveUploadedFiles($data);
+            }else{
+                throw new Exception("L'Utilisateur a été enregistré mais les fichiers justificatifs n'ont pas été envoyés");
+            }
 
             http_response_code(200);
             $response = [

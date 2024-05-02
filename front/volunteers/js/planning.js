@@ -28,11 +28,8 @@ function formatWeek(currentWeek) {
 
 async function getUserPlanning() {
     try {
-        console.log(getCookie('session_token'));
-        console.log('user_id',getCookie('user_id'));
         const userId = getCookie('user_id');
         const url = 'http://localhost:8082/index.php/planning/' + userId + '/user';
-        console.log(url);
         const response = await fetch(url);
         if (!response.ok) {
             alert('Erreur réseau');

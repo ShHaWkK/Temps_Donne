@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
             // vérification du mot de passe
             if (password_verify($password, $row['Mot_de_passe'])) {
                 // Assignation des valeurs de session ici
-                $_SESSION['admin'] = array(
+                $_SESSION['admin_OLD'] = array(
                     'ID_Administrateur' => $row['ID_Administrateur'],
                     'Nom' => $row['Nom'],
                     'Prenom' => $row['Prenom'],
@@ -38,7 +38,6 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-
 ?>
 
 <body>

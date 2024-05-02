@@ -1,12 +1,12 @@
 document.write('<script src="../../scripts/getCookie.js"></script>');
-function loginVolunteer(){
+function loginAdmin(){
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
     var data = {
         "email": email,
         "password": password,
-        "role": "Benevole"
+        "role": "Administrateur"
     };
 
     var apiUrl = 'http://localhost:8082/index.php/login';
@@ -48,7 +48,7 @@ function loginVolunteer(){
                 // Vérifier si les cookies ont été attribués correctement
                 if (getCookie('session_token') === sessionToken && parseInt(getCookie('user_id'), 10) === userId) {
                     // Redirection vers la page souhaitée
-                    window.location.href = "../../volunteers/planning.php";
+                    window.location.href = "./users.php";
                 } else {
                     console.error("Les cookies n'ont pas été créés ou existent déjà.");
                 }
@@ -58,7 +58,7 @@ function loginVolunteer(){
         .catch(error => {
             console.error('Erreur lors de la réponse de l\'API :', error.message);
             alert('Erreur lors de la réponse de l\'API :', error.message);
-            window.location.href = "../../inscription_conn/connexion_benevole.php";
+            window.location.href = "./login.php";
         });
 }
 
@@ -66,5 +66,5 @@ document.getElementById('validationButton').addEventListener('click', function(e
     // Empêcher le comportement par défaut du bouton
     event.preventDefault();
 
-    loginVolunteer();
+    loginAdmin();
 });

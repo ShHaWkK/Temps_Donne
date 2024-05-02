@@ -31,6 +31,11 @@ class LoginService {
             throw new RoleException("L'utilisateur n'a pas le rôle requis pour cette opération.");
         }
 
+        // Vérifier le rôle de l'utilisateur
+        if ($userData['Statut'] !== 'Granted') {
+            throw new StatusException("L'utilisateur n'a pas été validé.");
+        }
+
         return $userData;
     }
 
@@ -38,7 +43,7 @@ class LoginService {
     private function getRedirectUrlForRoles($roles) {
         foreach ($roles as $role) {
             if ($role === 'Administrateur') {
-                return '/espace-admin';
+                return '/espace-admin_OLD';
             } elseif ($role === 'Benevole') {
                 return '/espace-benevole';
             } elseif ($role === 'Beneficiaire') {

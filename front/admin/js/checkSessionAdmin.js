@@ -1,6 +1,6 @@
-const apiUrl = 'http://localhost:8082/index.php/login';
+var apiUrl = 'http://localhost:8082/index.php/login';
 
-const options = {
+var options = {
     method: 'POST',
     credentials: 'include'
 };
@@ -9,7 +9,7 @@ fetch(apiUrl,options)
         if (!response.ok) {
             return response.text().then(errorMessage => {
                 throw new Error(errorMessage || 'Erreur inattendue.');
-                window.location.href = "../inscription_conn/connexion_benevole.php";
+                window.location.href = "../login.php";
             });
         }
         return response.json(); // Analyser la réponse JSON
@@ -24,5 +24,5 @@ fetch(apiUrl,options)
     .catch(error => {
         //console.error('Erreur lors de la réponse de l\'API :', error.message);
         alert('Erreur lors de la réponse de l\'API :', error.message);
-        window.location.href = "../inscription_conn/connexion_benevole.php";
+        window.location.href = "../login.php";
     })

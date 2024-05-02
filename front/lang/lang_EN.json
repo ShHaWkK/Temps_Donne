@@ -146,5 +146,13 @@
     "COOKIE_DESCRIPTION": "When you visit our website, we may access some of your information to better guide you and make tasks easier on our site. To learn more:",
     "COOKIE_POLICY_LINK": "Privacy Policy",
     "ACCEPT_BUTTON": "Accept",
-    "DECLINE_BUTTON": "Decline" 
+    "DECLINE_BUTTON": "Decline",
+
+    "ADMIN_LOGIN_TITLE": "Admin Login",
+    "ADMIN_LOGIN_SUBTITLE": "Together, let's make a difference",
+    "ADMIN_EMAIL_INPUT_LABEL": "E-mail ",
+    "ADMIN_PASSWORD_INPUT_LABEL": "Password: ",
+    "ADMIN_LOGIN_BUTTON_TEXT": "Log in",
+    "ADMIN_FORGOT_PASSWORD_LINK": "Forgot password ?",
+    "ADMIN_LOGIN_FORM_TITLE": "Log in to continue"
 }

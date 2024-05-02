@@ -4,6 +4,7 @@ require_once './Helpers/ResponseHelper.php';
 require_once './Repository/UserRepository.php';
 require_once './Exceptions/AuthenticationException.php';
 require_once './Exceptions/RoleException.php';
+require_once './Exceptions/StatusException.php';
 
 class LoginController {
     private $userService;

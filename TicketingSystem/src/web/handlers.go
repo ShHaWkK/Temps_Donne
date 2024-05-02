@@ -4,6 +4,12 @@ import (
 	"TicketingSystem/src/BDD"
 	"TicketingSystem/src/log"
 	"TicketingSystem/src/manager"
+	"TicketingSystem/src/models"
+	"TicketingSystem/src/security"
+	"database/sql"
+
+	"github.com/gorilla/sessions"
+
 	"net/http"
 	"strconv"
 )
@@ -18,6 +24,68 @@ func SetupRoutes() {
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	RenderTemplate(w, "index", nil)
 }
+
+// Store for session data
+var store = sessions.NewCookieStore([]byte("niSJbPBq/HDWlivEJGaUHvVa9ccljczilsVqmTj65R0="))
+
+func GetUserByEmail(db *sql.DB, email string) (*models.Utilisateur, error) {
+	var user models.Utilisateur
+	err := db.QueryRow("SELECT ID, Email, Mot_de_passe, Role FROM Utilisateurs WHERE Email = ?", email).Scan(&user.ID, &user.Email, &user.Mot_de_passe, &user.Role)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func LoginHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "Invalid form data", http.StatusBadRequest)
+		return
+	}
+
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+
+	user, err := GetUserByEmail(db, email)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+
+	if !security.CheckPasswordHash(password, user.Mot_de_passe) {
+		http.Error(w, "Invalid password", http.StatusUnauthorized)
+		return
+	}
+
+	// Création de la session
+	session, err := store.Get(r, "session-name")
+	if err != nil {
+		http.Error(w, "Session error", http.StatusInternalServerError)
+		return
+	}
+	session.Values["authenticated"] = true
+	session.Values["user_id"] = user.ID
+	session.Values["role"] = user.Role
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, "Failed to save session", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger en fonction du rôle
+	redirectPath := "/user"
+	if user.Role == "Administrateur" {
+		redirectPath = "/admin"
+	}
+	http.Redirect(w, r, redirectPath, http.StatusSeeOther)
+}
+
 
 func ticketsHandler(w http.ResponseWriter, r *http.Request) {
 	db, err := BDD.OpenDB()

@@ -4,15 +4,13 @@ import (
 	"TicketingSystem/src/BDD"
 	"TicketingSystem/src/log"
 	"TicketingSystem/src/manager"
-	"html/template"
 	"net/http"
 )
 
-var templates *template.Template
+const serverPort = "8085"
 
 func init() {
-	var err error
-	templates, err = template.ParseGlob("html/templates/*.html")
+	err := LoadTemplates("html/templates")
 	if err != nil {
 		log.NewLogHelper().Error.Fatal("Error parsing templates: ", err)
 	}
@@ -21,8 +19,12 @@ func init() {
 func SetupRoutes() {
 	http.HandleFunc("/", IndexHandler)
 	http.HandleFunc("/list", ListTicketsHandler)
-	log.NewLogHelper().Info.Println("Starting server on port 8085")
-	http.ListenAndServe(":8085", nil)
+}
+
+// StartServer starts the HTTP server on the defined port
+func StartServer() error {
+	log.NewLogHelper().Info.Println("Starting server on port " + serverPort)
+	return http.ListenAndServe(":"+serverPort, nil)
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
@@ -45,11 +47,4 @@ func ListTicketsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	RenderTemplate(w, "listTickets", tickets)
-}
-
-func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	if err := templates.ExecuteTemplate(w, tmpl+".html", data); err != nil {
-		log.NewLogHelper().Error.Println("Template execution error: ", err)
-		http.Error(w, "Error rendering page", http.StatusInternalServerError)
-	}
 }

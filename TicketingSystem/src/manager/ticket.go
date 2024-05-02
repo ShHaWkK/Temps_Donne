@@ -1,13 +1,10 @@
 package manager
 
 import (
-	. "TicketingSystem/src/const"
 	. "TicketingSystem/src/models"
 	"database/sql"
-	"fmt"
-	"time"
-
 	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
 // Fonctions de gestion des tickets
@@ -116,52 +113,20 @@ func getMessages(db *sql.DB, idUtilisateur int) ([]Message, error) {
 	return messages, nil
 }
 
-func main() {
-	// // Connexion à la base de données
-	// db, err := sql.Open("mysql", "username:password@tcp(localhost:3306)/package_manager")
-	// if err != nil {
-	// 	fmt.Println("Erreur de connexion à la base de données :", err)
-	// 	return
-	// }
-	// defer db.Close()
+func RetrieveAllTickets(db *sql.DB) ([]Ticket, error) {
+	var tickets []Ticket
+	rows, err := db.Query("SELECT * FROM Tickets")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-	// // Création d'un ticket
-	// ticketID, err := createTicket(db, "Nouveau ticket", "Description du ticket", 1)
-	// if err != nil {
-	// 	fmt.Println("Erreur lors de la création du ticket :", err)
-	// 	return
-	// }
-	// fmt.Println("Ticket créé avec l'ID :", ticketID)
-
-	// // Récupération d'un ticket
-	// ticket, err := getTicket(db, ticketID)
-	// if err != nil {
-	// 	fmt.Println("Erreur lors de la récupération du ticket :", err)
-	// 	return
-	// }
-	// fmt.Println("Ticket :", ticket)
-
-	// // Mise à jour d'un ticket
-	// err = updateTicket(db, ticketID, "Ticket mis à jour", "Nouvelle description", "En cours", "Haut", 2, 1)
-	// if err != nil {
-	// 	fmt.Println("Erreur lors de la mise à jour du ticket :", err)
-	// 	return
-	// }
-	// fmt.Println("Ticket mis à jour")
-
-	// // Ajout d'un message
-	// messageID, err := addMessage(db, 1, 2, "Bonjour, voici un nouveau message")
-	// if err != nil {
-	// 	fmt.Println("Erreur lors de l'ajout du message :", err)
-	// 	return
-	// }
-	// fmt.Println("Message ajouté avec l'ID :", messageID)
-
-	// // Récupération des messages
-	// messages, err := getMessages(db, 1)
-	// if err != nil {
-	// 	fmt.Println("Erreur lors de la récupération des messages :", err)
-	// 	return
-	// }
-	// fmt.Println("Messages :", messages)
+	for rows.Next() {
+		var t Ticket
+		if err := rows.Scan(&t.ID, &t.Titre, &t.Description, &t.DateCreation, &t.Statut, &t.Priorite, &t.IDUtilisateur, &t.IDAssignee, &t.DateModification, &t.IDModificateur); err != nil {
+			return nil, err
+		}
+		tickets = append(tickets, t)
+	}
+	return tickets, nil
 }

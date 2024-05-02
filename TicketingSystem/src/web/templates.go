@@ -24,7 +24,6 @@ func LoadTemplates(templatesDir string) error {
 
 // RenderTemplate est utilisé pour rendre un template spécifique avec des données
 func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	// Exécute le template correspondant au nom passé en paramètre avec les données fournies
 	err := Templates.ExecuteTemplate(w, tmpl+".html", data)
 	if err != nil {
 		http.Error(w, "Service unavailable", http.StatusInternalServerError)

@@ -1,4 +1,4 @@
-package _const
+package constante
 
 import (
 	"TicketingSystem/src/log"

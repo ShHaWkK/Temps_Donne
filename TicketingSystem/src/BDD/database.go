@@ -1,7 +1,6 @@
 package BDD
 
 import (
-	. "TicketingSystem/src/models"
 	"database/sql"
 	"fmt"
 

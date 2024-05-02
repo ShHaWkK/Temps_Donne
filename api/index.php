@@ -22,6 +22,8 @@ require_once 'Controllers/CircuitController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
+require_once  __DIR__ . '/vendor/autoload.php';
+
 //require_once 'vendor/autoload.php';
 
 

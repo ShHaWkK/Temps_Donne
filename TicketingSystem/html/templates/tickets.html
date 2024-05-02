@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Tickets</title>
+</head>
+<body>
+    <h1>All Tickets</h1>
+    {{if .}}
+    <ul>
+        {{range .}}
+        <li>{{.Titre}} - {{.Description}}</li>
+        {{end}}
+    </ul>
+    {{else}}
+    <p>No tickets available.</p>
+    {{end}}
+    <a href="/">Back to Home</a>
+</body>
+</html>

@@ -9,24 +9,27 @@ import (
 )
 
 func main() {
-	logHelper := log.NewLogHelper()
-	logHelper.Info.Println("Starting Ticketing System application...")
+	logger := log.NewLogHelper()
+	logger.Info.Println("Starting Ticketing System...")
 
-	// Configuration of the server routes
+	err := web.LoadTemplates("html/templates")
+	if err != nil {
+		logger.Error.Fatalf("Failed to load templates: %v", err)
+	}
+
 	web.SetupRoutes()
 
 	go func() {
-		if err := web.StartServer(); err != nil {
-			logHelper.Error.Fatalf("Failed to start server: %v", err)
+		logger.Info.Println("Server starting on port 8085...")
+		if err := web.StartServer("8085"); err != nil {
+			logger.Error.Fatalf("Server failed to start: %v", err)
 		}
 	}()
 
-	setupGracefulShutdown(logHelper)
-}
+	// Waiting for interrupt signal to gracefully shut down the server
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
 
-func setupGracefulShutdown(logHelper *log.LogHelper) {
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
-	sig := <-sigChan
-	logHelper.Info.Printf("Received %s signal, shutting down server...", sig)
+	logger.Info.Println("Shutting down server...")
 }

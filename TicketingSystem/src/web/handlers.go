@@ -7,44 +7,63 @@ import (
 	"net/http"
 )
 
-const serverPort = "8085"
-
-func init() {
-	err := LoadTemplates("html/templates")
-	if err != nil {
-		log.NewLogHelper().Error.Fatal("Error parsing templates: ", err)
-	}
-}
-
 func SetupRoutes() {
-	http.HandleFunc("/", IndexHandler)
-	http.HandleFunc("/list", ListTicketsHandler)
+	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/tickets", ticketsHandler)
+	http.HandleFunc("/tickets/add", addTicketHandler)
+	// Define more routes as needed
 }
 
-// StartServer starts the HTTP server on the defined port
-func StartServer() error {
-	log.NewLogHelper().Info.Println("Starting server on port " + serverPort)
-	return http.ListenAndServe(":"+serverPort, nil)
-}
-
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+func homeHandler(w http.ResponseWriter, r *http.Request) {
 	RenderTemplate(w, "index", nil)
 }
 
-func ListTicketsHandler(w http.ResponseWriter, r *http.Request) {
+func ticketsHandler(w http.ResponseWriter, r *http.Request) {
 	db, err := BDD.OpenDB()
 	if err != nil {
-		log.NewLogHelper().Error.Println("Database connection error: ", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.NewLogHelper().Error.Println("Failed to connect to database:", err)
+		http.Error(w, "Internal Server Error", 500)
 		return
 	}
 	defer db.Close()
 
-	tickets, err := manager.RetrieveAllTickets(db)
+	tickets, err := manager.GetAllTickets(db)
 	if err != nil {
-		log.NewLogHelper().Error.Println("Failed to retrieve tickets: ", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.NewLogHelper().Error.Println("Failed to retrieve tickets:", err)
+		http.Error(w, "Internal Server Error", 500)
 		return
 	}
-	RenderTemplate(w, "listTickets", tickets)
+	RenderTemplate(w, "tickets", tickets)
 }
+
+func addTicketHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		RenderTemplate(w, "add_ticket", nil)
+	} else if r.Method == http.MethodPost {
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, "Failed to parse form", http.StatusBadRequest)
+			return
+		}
+		titre := r.FormValue("titre")
+		description := r.FormValue("description")
+		db, err := BDD.OpenDB()
+		if err != nil {
+			log.NewLogHelper().Error.Println("Failed to connect to database:", err)
+			http.Error(w, "Internal Server Error", 500)
+			return
+		}
+		defer db.Close()
+		_, err = manager.CreateTicket(db, titre, description, 1) // Assume user ID 1 for now
+		if err != nil {
+			log.NewLogHelper().Error.Println("Failed to create ticket:", err)
+			http.Error(w, "Internal Server Error", 500)
+			return
+		}
+		http.Redirect(w, r, "/tickets", http.StatusSeeOther)
+	} else {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+// Implement other handlers similarly

@@ -5,6 +5,7 @@ import (
 	"TicketingSystem/src/log"
 	"TicketingSystem/src/manager"
 	"net/http"
+	"strconv"
 )
 
 func SetupRoutes() {
@@ -64,6 +65,63 @@ func addTicketHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
+}
+
+// View a specific ticket
+func viewTicketHandler(w http.ResponseWriter, r *http.Request) {
+	idStr := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid Ticket ID", http.StatusBadRequest)
+		return
+	}
+	db, err := BDD.OpenDB()
+	if err != nil {
+		log.NewLogHelper().Error.Println("Failed to connect to database:", err)
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	defer db.Close()
+	ticket, err := manager.GetTicket(db, id)
+	if err != nil {
+		log.NewLogHelper().Error.Println("Failed to retrieve ticket:", err)
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	RenderTemplate(w, "view_ticket", ticket)
+}
+
+// Edit a specific ticket
+func editTicketHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		// Similar to viewTicketHandler, but load edit_ticket.html
+	} else if r.Method == "POST" {
+		// Process form data and update the ticket in the database
+	}
+}
+
+// Delete a specific ticket
+func deleteTicketHandler(w http.ResponseWriter, r *http.Request) {
+	idStr := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid Ticket ID", http.StatusBadRequest)
+		return
+	}
+	db, err := BDD.OpenDB()
+	if err != nil {
+		log.NewLogHelper().Error.Println("Failed to connect to database:", err)
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	defer db.Close()
+	err = manager.DeleteTicket(db, id)
+	if err != nil {
+		log.NewLogHelper().Error.Println("Failed to delete ticket:", err)
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	http.Redirect(w, r, "/tickets", http.StatusSeeOther)
 }
 
 // Implement other handlers similarly

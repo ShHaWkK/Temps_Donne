@@ -21,16 +21,6 @@ class StockService {
         return $this->repository->findById($id);
     }
 
-    // public function addStock($data) {
-    //     try {
-    //         $stock = new StockModel($data);
-    //         return $this->repository->save($stock);
-    //     } catch (Exception $e) {
-            
-    //         throw $e;
-    //     }
-    // }
-
     public function updateStock($id, $data) {
         try {
             $existingStock = $this->repository->findById($id);
@@ -52,6 +42,12 @@ class StockService {
         }
     }
 
+    public function addStock(StockModel $stock) {
+        $stockId = $this->repository->save($stock);
+        $stock->id_stock = $stockId;
+        $this->generateQrCode($stock);
+        return $stockId;
+    }
 
     //-------------------------- QR code --------------------------//
 
@@ -59,10 +55,11 @@ class StockService {
         $qrCode = new QrCode(json_encode([
             'id_stock' => $stock->id_stock,
             'type_article' => $stock->type_article,
+            'emplacement' => $stock->emplacement, 
             'quantite' => $stock->quantite,
-            'date_peremption' => $stock->date_peremption
-        ]));
-
+            'date_de_peremption' => $stock->date_de_peremption,
+        ], JSON_UNESCAPED_UNICODE));
+    
         $writer = new PngWriter();
         $qrCodePath = __DIR__ . '/../qr_codes/' . $stock->id_stock . '.png';
         $writer->write($qrCode)->saveToFile($qrCodePath);
@@ -73,11 +70,7 @@ class StockService {
         // Mettre à jour le stock avec le chemin du QR code
         $this->repository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
-
-    public function addStock(StockModel $stock) {
-        $stockId = $this->repository->save($stock);
-        $stock->id_stock = $stockId;
-        $this->generateQrCode($stock);
-        return $stockId;
-    }
+    
 }
+
+?>

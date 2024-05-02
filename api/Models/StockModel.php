@@ -10,6 +10,7 @@ class StockModel {
     public $urgence;
     public $qr_code;
     public $emplacement;
+    public $date_de_reception;
 
     public function __construct($data) {
         $this->id_stock = $data['id_stock'] ?? null;
@@ -17,7 +18,8 @@ class StockModel {
         $this->quantite = $data['quantite'];
         $this->date_de_peremption = $data['date_de_peremption'];
         $this->urgence = $data['urgence'] ?? false;
-        $this->emplacement = $data['emplacement'] ?? null;
+        $this->emplacement = $data['emplacement'];
+        $this->date_de_reception = $data['date_de_reception'];
     }
 
     public function validate() {
@@ -33,6 +35,15 @@ class StockModel {
         if ($this->date_de_peremption < date('Y-m-d')) {
             throw new Exception("Expiration date must be greater than the current date", 400);
         }
+
+        if (!empty($this->urgence) && !is_bool($this->urgence)) {
+            throw new Exception("Urgence must be a boolean value", 400);
+        }
+
+        if (!empty($this->emplacement) && !is_string($this->emplacement)) {
+            throw new Exception("Emplacement must be a string", 400);
+        }
+        
     }
 }
 

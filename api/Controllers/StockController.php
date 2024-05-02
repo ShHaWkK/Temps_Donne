@@ -16,7 +16,7 @@ class StockController {
         $this->stockService = new StockService($stockRepository);
     }
 
-//---------------------------   ---------------------------//
+    //---------------------------   ---------------------------//
     public function processRequest($method, $uri) {
         var_dump($method);
         var_dump($uri);
@@ -51,42 +51,41 @@ class StockController {
         }
     }
 
-//---------------------------   ---------------------------//
+    //---------------------------   ---------------------------//
 
-private function getStock($id) {
-    $stock = $this->stockService->getStockById($id);
-    var_dump($stock); // Inspecter l'objet stock
-    if (!$stock) {
-        ResponseHelper::sendNotFound("Stock not found.");
-    } else {
-        ResponseHelper::sendResponse($stock);
+    private function getStock($id) {
+        $stock = $this->stockService->getStockById($id);
+        var_dump($stock); // Inspecter l'objet stock
+        if (!$stock) {
+            ResponseHelper::sendNotFound("Stock not found.");
+        } else {
+            ResponseHelper::sendResponse($stock);
+        }
     }
-}
 
-
-//---------------------------   ---------------------------//
+    //---------------------------   ---------------------------//
 
     private function getAllStocks() {
         $stocks = $this->stockService->getAllStocks();
         ResponseHelper::sendResponse($stocks);
     }
 
-//---------------------------   ---------------------------//
-public function addStock() {
-    $data = json_decode(file_get_contents('php://input'), true);
-    var_dump($data); // Voir les données reçues
-    try {
-        $stock = new StockModel($data);
-        $stock->validate();
-        $id = $this->stockService->addStock($stock);
-        ResponseHelper::sendResponse(['message' => 'Stock added successfully', 'id' => $id], 201);
-    } catch (Exception $e) {
-        ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+    //---------------------------   ---------------------------//
+
+    public function addStock() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        var_dump($data); // Voir les données reçues
+        try {
+            $stock = new StockModel($data);
+            $stock->validate();
+            $id = $this->stockService->addStock($stock);
+            ResponseHelper::sendResponse(['message' => 'Stock added successfully', 'id' => $id], 201);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
+        }
     }
-}
 
-
-//---------------------------   ---------------------------//
+    //---------------------------   ---------------------------//
 
     private function updateStock($id) {
         $json = file_get_contents("php://input");
@@ -100,7 +99,7 @@ public function addStock() {
         }
     }
 
-//---------------------------   ---------------------------//
+    //---------------------------   ---------------------------//
 
     private function deleteStock($id) {
         try {

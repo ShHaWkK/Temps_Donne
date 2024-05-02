@@ -43,6 +43,12 @@ func UpdateTicket(db *sql.DB, id int, titre, description, statut, priorite strin
 	return err
 }
 
+func DeleteTicket(db *sql.DB, id int) error {
+	query := "DELETE FROM Tickets WHERE ID = ?"
+	_, err := db.Exec(query, id)
+	return err
+}
+
 // AddMessage creates a new chat message in the database
 func AddMessage(db *sql.DB, idExpediteur, idDestinataire int, texte string) (int, error) {
 	query := `INSERT INTO ChatMessages (ID_Expediteur_Utilisateur, ID_Destinataire_Utilisateur, Message, Timestamp) VALUES (?, ?, ?, ?)`

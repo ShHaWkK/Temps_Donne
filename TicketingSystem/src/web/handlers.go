@@ -102,12 +102,18 @@ func editTicketHandler(w http.ResponseWriter, r *http.Request) {
 
 // Delete a specific ticket
 func deleteTicketHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	idStr := r.URL.Query().Get("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		http.Error(w, "Invalid Ticket ID", http.StatusBadRequest)
 		return
 	}
+
 	db, err := BDD.OpenDB()
 	if err != nil {
 		log.NewLogHelper().Error.Println("Failed to connect to database:", err)
@@ -115,12 +121,14 @@ func deleteTicketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer db.Close()
+
 	err = manager.DeleteTicket(db, id)
 	if err != nil {
 		log.NewLogHelper().Error.Println("Failed to delete ticket:", err)
 		http.Error(w, "Internal Server Error", 500)
 		return
 	}
+
 	http.Redirect(w, r, "/tickets", http.StatusSeeOther)
 }
 

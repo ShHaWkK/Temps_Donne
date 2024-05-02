@@ -55,10 +55,11 @@ class StockService {
         $qrCode = new QrCode(json_encode([
             'id_stock' => $stock->id_stock,
             'type_article' => $stock->type_article,
+            'emplacement' => $stock->emplacement, 
             'quantite' => $stock->quantite,
-            'date_peremption' => $stock->date_peremption
-        ]));
-
+            'date_de_peremption' => $stock->date_de_peremption,
+        ], JSON_UNESCAPED_UNICODE));
+    
         $writer = new PngWriter();
         $qrCodePath = __DIR__ . '/../qr_codes/' . $stock->id_stock . '.png';
         $writer->write($qrCode)->saveToFile($qrCodePath);
@@ -69,6 +70,7 @@ class StockService {
         // Mettre à jour le stock avec le chemin du QR code
         $this->repository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
+    
 }
 
 ?>

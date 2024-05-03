@@ -150,9 +150,13 @@ CREATE TABLE Dons (
 
 
 CREATE TABLE Stocks_Entrepot (
-                        ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
-
+                                 ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
+                                 ID_Entrepot INT,
+                                 ID_Stock INT,
+                                 FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
+                                 FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
 );
+
 
 -- Table Entrepot
 CREATE TABLE Entrepots (
@@ -184,9 +188,10 @@ CREATE TABLE Stocks (
                         Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
                         QR_Code TEXT,
                         Date_de_peremption DATE,
-                        FOREIGN KEY (ID_Entrepots) REFERENCES Entrepot(ID_Entrepot),
+                        FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),  -- Correction ici pour correspondre au nom correct de la clé primaire.
                         FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
 );
+
 
 CREATE TABLE Camions (
                          ID_Camion INT AUTO_INCREMENT PRIMARY KEY,

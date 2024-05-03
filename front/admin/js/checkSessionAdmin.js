@@ -1,9 +1,18 @@
 function checkSession() {
     var apiUrl = 'http://localhost:8082/index.php/login';
 
+
+    var data = {
+        "role": "Administrateur"
+    };
+
     var options = {
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     };
 
     // Retourner la promesse créée par fetch()

@@ -259,4 +259,12 @@ class UserRepository {
         return $users;
     }
 
+    public function checkRole($id,$role)
+    {
+        $sql="SELECT Role FROM Utilisateurs WHERE ID_Utilisateur = :id";
+        $stmt= $this->db->prepare($sql);
+        $stmt->bindParam(':id',$id, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
 }

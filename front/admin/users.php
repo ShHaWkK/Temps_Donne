@@ -57,6 +57,7 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 <script src="./js/filterByRole.js"></script>
 <script src="./js/users.js" defer></script>
 <script src="./js/approveUser.js"></script>
+<script src="./js/rejectUser.js"></script>
 
 </body>
 </html>

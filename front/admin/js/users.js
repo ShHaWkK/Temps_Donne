@@ -74,6 +74,9 @@ window.onload = function() {
             addApproveEventListeners();
         })
         .then(() => {
+            addRejectEventListeners();
+        })
+        .then(() => {
             addAddUserEvent();
         })
         .catch(error => {

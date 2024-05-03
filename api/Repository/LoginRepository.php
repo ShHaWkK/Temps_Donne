@@ -8,29 +8,31 @@ class LoginRepository {
         $this->db = $db;
     }
 
-    public function findByCredentials($email, $password) {
-
+    public function findByCredentials($email, $password)
+    {
         $hashed = hash("sha256", $password);
-
         $user = selectDB("Utilisateurs", "*", "Email='".$email."' AND Mot_de_passe='".$hashed."'")[0];
-
         if($user){
             return $user;
         }
-
         return null; // Aucun utilisateur trouvé
     }
 
     public function getUserIdBySessionToken($session_token)
     {
-        $query="SELECT ID_Utilisateur FROM Session WHERE Session_Token = :session_token";
+        $query = "SELECT ID_Utilisateur FROM Session WHERE Session_Token = :session_token";
         $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':session_token',$session_token);
+        $stmt->bindValue(':session_token', $session_token);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $user_id= $stmt->execute();
-
-        return $user_id;
+        if ($result) {
+            return $result['ID_Utilisateur'];
+        } else {
+            return null;
+        }
     }
+
 
     public function storeSessionToken($id_utilisateur, $session_token)
     {

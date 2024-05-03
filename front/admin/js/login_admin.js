@@ -30,7 +30,7 @@ function loginAdmin(){
         })
         .then(data => {
             // Afficher la réponse JSON dans une alerte
-            alert(JSON.stringify(data));
+            alert("Connection succeeded");
             if (data && data.status && data.status.startsWith("success")) {
                 // Récupérer le token de session
                 var sessionToken = data.session_token;
@@ -58,7 +58,7 @@ function loginAdmin(){
         .catch(error => {
             console.error('Erreur lors de la réponse de l\'API :', error.message);
             alert('Erreur lors de la réponse de l\'API :', error.message);
-            window.location.href = "./login.php";
+            //window.location.href = "./login.php";
         });
 }
 

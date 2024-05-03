@@ -438,8 +438,15 @@ CREATE TABLE Session (
                          ID_Utilisateur INT NOT NULL,
                          Session_Token VARCHAR(64) NOT NULL,
                          Creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         Expiration TIMESTAMP,
+                         Expiration TIMESTAMP DEFAULT CURRENT_TIMESTAMP + INTERVAL 24 HOUR,
                          INDEX idx_session_token (Session_Token),
                          INDEX idx_user_id (ID_Utilisateur),
                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
+
+
+-- Ajout d'un événement pour suprimer automatiquement les sessions expirées
+CREATE EVENT deleteExpiredSessions
+    ON SCHEDULE EVERY 1 HOUR
+    DO
+    DELETE FROM Session WHERE Expiration <= NOW();

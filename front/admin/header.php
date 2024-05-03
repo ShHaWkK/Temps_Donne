@@ -24,7 +24,6 @@
             </div>
         </div>
 
-
         <!-- Boutons de navigation -->
         <nav class="navigation-menu">
             <ul class="header-menu">
@@ -43,38 +42,27 @@
             </ul>
         </nav>
 
-        <div class="popover-container menu">
-            <ul class="popover-content" id="serviceList">
+        <!-- Menu déroulant pour les langues -->
+        <div class="popover-container">
+            <?php
+            $imagePath = htmlspecialchars($data["FLAG"]);
+            ?>
+            <button class="popup-button" onclick="toggleLanguageList()">
+                <img src="<?php echo $imagePath; ?>" width="30" height="30">
+            </button>
+            <ul class="popover-content" id="languageList">
                 <li>
-                    <a href="index.php" class="nav-item active">
-                        <i class="fa fa-home"></i> Accueil
+                    <a href="javascript:void(0);" onclick="changeLanguage('fr')">
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["FRENCH"]) ?></span>
                     </a>
                 </li>
                 <li>
-                    <a href="services.php" class="nav-item">
-                        <i class="fa-solid fa-users"></i> Services
-                    </a>
-                </li>
-                <li>
-                    <a href="dons.php" class="nav-item-space">
-                        <i class="fa-solid fa-hand-holding-dollar"></i> Faire un don
-                    </a>
-                </li>
-                <li>
-                    <a href="espace_beneficiaire.php" class="nav-item-space">
-                        <i class="fa-solid fa-handshake"></i> Espace bénéficiaire
-                    </a>
-                </li>
-                <li>
-                    <a href="espace_benevole.php" class="nav-item-space">
-                        <i class="fa-solid fa-hand-holding-heart"></i> Espace bénévole
+                    <a href="javascript:void(0);" onclick="changeLanguage('en')">
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["ENGLISH"] ); ?></span>
                     </a>
                 </li>
             </ul>
         </div>
-
-        <!-- Menu déroulant pour les langues -->
-
 
         <!-- Bouton de mode sombre -->
         <div class="dark-mode-toggle">

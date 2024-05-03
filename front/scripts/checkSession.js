@@ -1,9 +1,18 @@
 const apiUrl = 'http://localhost:8082/index.php/login';
 
-const options = {
-    method: 'POST',
-    credentials: 'include'
+var data = {
+    "role": "Benevole"
 };
+
+var options = {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+};
+
 fetch(apiUrl,options)
     .then(response => {
         if (!response.ok) {

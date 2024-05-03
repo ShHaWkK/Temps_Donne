@@ -7,39 +7,31 @@ require_once './Exceptions/RoleException.php';
 require_once './Exceptions/StatusException.php';
 
 class LoginController {
-    private $userService;
     private $loginService;
     private $loginRepository;
     private $db;
+    private $userRepository;
     public function __construct() {
         $this->db = connectDB();
         $this->loginService=new LoginService($this->db);
         $this->loginRepository=new LoginRepository($this->db);
+        $this->userRepository=new userRepository($this->db);
     }
 
     public function login() {
         try {
-            // Check if a session is already open, continue if not
-            $userId = $this->checkSession();
-
             $json = file_get_contents("php://input");
             $credentials = json_decode($json, true);
+
+            $userId = $this->checkSession($credentials['role']);
 
             if (!$userId) {
                 $user = $this->loginService->authenticate($credentials['email'], $credentials["password"], $credentials["role"]);
 
                 $session_token = $this->generateSessionToken();
-
-                $_SESSION['session_token'] = $session_token;
+                //$_SESSION['session_token'] = $session_token;
 
                 $this->storeSessionToken($user['ID_Utilisateur'], $session_token);
-
-                $_SESSION['session_token'] = $session_token;
-
-                $cookie_success = setcookie('session_token', $session_token, time() + 86400, '/');
-                if (!$cookie_success) {
-                    //echo("Failed to set session token cookie.");
-                }
             }
 
             // Construct successful response
@@ -72,7 +64,10 @@ class LoginController {
     }
 
 
-    public function checkSession() {
+    /**
+     * @throws Exception
+     */
+    public function checkSession($role) {
         if (!isset($_COOKIE['session_token'])) {
             // No session token found in the request, return null
             return null;
@@ -86,6 +81,10 @@ class LoginController {
         if (!$userId) {
             // Session token not found in the database or expired, return null
             return null;
+        }else{
+            $user = $this->userRepository->getUserById($userId);
+            //On vérifie de le role de l'utilisateur renvoyé
+            $this->loginService->checkUserRoleAndStatus($user, $role);
         }
 
         // Session token is valid, return the user ID

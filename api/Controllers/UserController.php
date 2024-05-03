@@ -74,6 +74,7 @@ class UserController {
         }
     }
 
+    /*
     private function checkRole($requiredRole) {
         session_start();
 
@@ -83,7 +84,7 @@ class UserController {
 
         $user = $this->userService->getUserById($_SESSION['user_id']);
         return $user->role_effectif === $requiredRole;
-    }
+    }*/
 
     public function createUser() {
         $data = json_decode($_POST['json_data'], true);

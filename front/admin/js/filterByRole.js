@@ -12,15 +12,14 @@ function filterByRole(role) {
     if (role === 'all') {
         console.log("All Users",allUsers)
         displayUsers(allUsers);
-        addApproveEventListeners();
-        addFilterByRoleEvent(allUsers);
     } else {
         displayedUsers =allUsers.filter(user => user.Role === role);
         console.log("Displayed Users",displayedUsers)
         displayUsers(displayedUsers);
-        addApproveEventListeners();
-        addFilterByRoleEvent();
     }
+    addApproveEventListeners();
+    addRejectEventListeners();
+    addFilterByRoleEvent();
 }
 
 function addFilterByStatusEvent(){
@@ -36,13 +35,12 @@ function filterByStatus(status) {
     if (status === 'all') {
         console.log("All Users",allUsers)
         displayUsers(displayedUsers);
-        addApproveEventListeners();
-        addFilterByRoleEvent();
     } else {
         let statuedUsers = displayedUsers.filter(user => user.Statut === status);
         console.log("Displayed Users", displayedUsers)
         displayUsers(statuedUsers);
-        addApproveEventListeners();
-        addFilterByRoleEvent();
     }
+    addApproveEventListeners();
+    addRejectEventListeners();
+    addFilterByRoleEvent();
 }

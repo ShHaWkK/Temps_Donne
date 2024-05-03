@@ -39,6 +39,19 @@ class LoginService {
         return $userData;
     }
 
+    public function checkUserRoleAndStatus($user,$role)
+    {
+        if ($user->role !== $role) {
+            throw new RoleException("L'utilisateur n'a pas le rôle requis pour cette opération.");
+        }
+
+        // Vérifier le rôle de l'utilisateur
+        if ($user->statut !== 'Granted') {
+            throw new StatusException("L'utilisateur n'a pas été validé.");
+        }
+
+    }
+
 
     private function getRedirectUrlForRoles($roles) {
         foreach ($roles as $role) {

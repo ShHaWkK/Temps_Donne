@@ -3,6 +3,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    width: 70%;
 }
 
 .main-container-users form {

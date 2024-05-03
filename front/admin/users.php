@@ -3,6 +3,7 @@ session_start();
 include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
+include_once('addUserModalWindow.php');
 echo "<title>Espace Administrateur - Utilisateurs</title>";
 ?>
 
@@ -15,25 +16,47 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 
 <h2 style="text-align: center;">Gestion des utilisateurs</h2>
 
-<div class="main-container-users">
-    <form action="#" method="post">
-        <label for="roleFilter">Filtrer par rôle :</label>
-        <select id="roleFilter">
-            <option value="all">Tous</option>
-            <option value="Benevole">Bénévoles</option>
-            <option value="Beneficiaire">Bénéficiaires</option>
-            <option value="Administrateur">Administrateurs</option>
-        </select>
-    </form>
+<center>
+    <div class="main-container-users">
+        <div class="line">
 
-    <table id="usersTable">
-    </table>
-</div>
+            <button class="popup-button  menu" id="openModalButton"> Ajouter un utilisateur</button>
+
+            <script>
+                document.getElementById('openModalButton').addEventListener('click', function() {
+                    window.parent.postMessage('openModal', '*');
+                });
+            </script>
+
+            <form action="#" method="post">
+                <label for="roleFilter">Filtrer par rôle :</label>
+                <select id="roleFilter">
+                    <option value="all">Tous</option>
+                    <option value="Benevole">Bénévoles</option>
+                    <option value="Beneficiaire">Bénéficiaires</option>
+                    <option value="Administrateur">Administrateurs</option>
+                </select>
+            </form>
+
+            <form action="#" method="post">
+                <label for="statusFilter">Filtrer par statut :</label>
+                <select id="statusFilter">
+                    <option value="all">Tous</option>
+                    <option value="Pending">En attente</option>
+                    <option value="Granted">Validés</option>
+                    <option value="Denied">Refusés</option>
+                </select>
+            </form>
+        </div>
+
+        <table id="usersTable">
+        </table>
+    </div>
+</center>
 
 <script src="./js/filterByRole.js"></script>
 <script src="./js/users.js" defer></script>
 <script src="./js/approveUser.js"></script>
-
 
 </body>
 </html>

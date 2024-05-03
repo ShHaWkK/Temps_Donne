@@ -1,4 +1,5 @@
-let users = [];
+let allUsers = [];
+let displayedUsers =[];
 
 // Module pour la récupération des utilisateurs
 function getAllUsers() {
@@ -22,7 +23,7 @@ function displayUsers(users) {
 
     // On ajoute l'en-tête du tableau
     const tableHeader = ["ID_Utilisateur", "Nom", "Prénom", "Genre", "Date de naissance", "Email",
-        "Telephone","Nationalité","Emploi","Role","Statut","Type_Permis","Action"];
+        "Telephone","Role","Statut","Action"];
 
     const rowHeader = usersTable.insertRow();
     rowHeader.classList.add("head");
@@ -43,30 +44,39 @@ function displayUsers(users) {
                         <td>${user.Date_de_naissance}</td>
                         <td>${user.Email}</td>
                         <td>${user.Telephone}</td>
-                        <td>${user.Nationalite}</td>
-                        <td>${user.Emploi}</td>
                         <td>${user.Role}</td>
                         <td>${user.Statut}</td>
-                        <td>${user.Type_Permis}</td>
-                        <td><a href='#' class="approve-link">Valider</a></td>
+                        <td><a href='#' class="approve-link">Valider</a>
+                        <a href='#' class="reject-link">Rejeter</a></td>
                     `;
     });
 }
 
-
 // Initialisation
 window.onload = function() {
-    getAllUsers()
+    checkSession()
+        .then(() => {
+            return getAllUsers();
+        })
         .then(users => {
-            displayUsers(users);
+            allUsers = users;
+            displayedUsers=users;
+            console.log(allUsers);
+            displayUsers(allUsers);
+        })
+        .then(() => {
+            addFilterByRoleEvent();
+        })
+        .then(() => {
+            addFilterByStatusEvent();
+        })
+        .then(() => {
             addApproveEventListeners();
-            addFilterByRoleEvent(users);
+        })
+        .then(() => {
+            addAddUserEvent();
         })
         .catch(error => {
-            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            console.error("Une erreur s'est produite :", error);
         });
-};
-
-// window.onload = function() {
-    // getAllUsers();
-// }
+}

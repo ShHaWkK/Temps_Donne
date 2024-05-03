@@ -169,11 +169,17 @@ CREATE TABLE Stocks (
                         FOREIGN KEY (ID_Don) REFERENCES Dons(ID_Don)
 );
 
+CREATE TABLE Stocks_Entrepot (
+                        ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
+
+);
+
 -- Table Entrepot
 CREATE TABLE Entrepot(
                          ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
                          Adresse VARCHAR(255),
-                         Capacite_Stockage FLOAT
+                         Capacite_Stockage_Totale FLOAT,
+                         Capacite_Utilisee FLOAT
 );
 
 -- Table Evenements

@@ -1,9 +1,8 @@
 function addApproveEventListeners() {
     document.querySelectorAll('.approve-link').forEach(link => {
         link.addEventListener('click', async (event) => {
-            event.preventDefault(); // Empêcher le comportement par défaut du lien
+            event.preventDefault();
 
-            // Récupérer l'ID utilisateur dans la même ligne
             const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
             console.log('userID', userId);
 
@@ -33,7 +32,7 @@ async function approveUser(user_id) {
         const data = await response.json();
         console.log('Réponse de l\'API :', data);
         alert(JSON.stringify(data));
-        getAllUsers(users);
+        displayUsers(displayedUsers);
     } catch (error) {
         console.error('Error :', error);
         alert('Error : ',error);

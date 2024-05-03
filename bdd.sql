@@ -181,6 +181,8 @@ CREATE TABLE Entrepot(
                          Capacite_Stockage_Totale FLOAT,
                          Capacite_Utilisee FLOAT
 );
+ALTER TABLE Entrepot
+    ADD COLUMN  nom VARCHAR(50);
 
 -- Table Evenements
 CREATE TABLE Evenements (

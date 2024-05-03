@@ -19,6 +19,7 @@ require_once 'Controllers/ServiceController.php';
 require_once 'Controllers/FormationController.php';
 require_once 'Controllers/StockController.php';
 require_once 'Controllers/CircuitController.php';
+require_once 'Controllers/EntrepotController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
@@ -119,6 +120,10 @@ function router($uri, $requestMethod) {
             break;
         case 'circuits':
             $controller = new CircuitController();
+            $controller->processRequest($requestMethod, $uri);
+            break;
+        case 'entrepots':
+            $controller = new EntrepotController();
             $controller->processRequest($requestMethod, $uri);
             break;
         default:

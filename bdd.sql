@@ -148,26 +148,6 @@ CREATE TABLE Dons (
                       FOREIGN KEY (ID_Source) REFERENCES SourcesDons(ID_Source)
 );
 
--- Table Stocks
-CREATE TABLE Stocks (
-                        ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
-                        Type_article VARCHAR(255),
-                        Quantite INT,
-    #Ajout du poids individuel et total (kg)
-                        Poids_Total FLOAT,
-                        Poids_Individuel FLOAT,
-    #Ajout du volume indivuel et total (m2)
-                        Volume_Total FLOAT,
-                        Volume_Individuel FLOAT,
-                        Date_de_peremption DATE,
-                        Emplacement VARCHAR(255),
-                        Urgence BOOLEAN,
-                        Date_de_reception DATE,
-                        Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
-                        ID_Don INT,
-                        QR_Code TEXT,
-                        FOREIGN KEY (ID_Don) REFERENCES Dons(ID_Don)
-);
 
 CREATE TABLE Stocks_Entrepot (
                         ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
@@ -175,14 +155,56 @@ CREATE TABLE Stocks_Entrepot (
 );
 
 -- Table Entrepot
-CREATE TABLE Entrepot(
-                         ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                         Adresse VARCHAR(255),
-                         Capacite_Stockage_Totale FLOAT,
-                         Capacite_Utilisee FLOAT
+CREATE TABLE Entrepots (
+                           ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
+                           Nom VARCHAR(255) NOT NULL,
+                           Adresse VARCHAR(255) NOT NULL,
+                           Volume_Total DECIMAL(10, 2) NOT NULL,
+                           Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
 );
-ALTER TABLE Entrepot
-    ADD COLUMN  nom VARCHAR(50);
+
+
+CREATE TABLE Produits (
+                          ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
+                          Nom_Produit VARCHAR(100) NOT NULL,
+                          Description TEXT,
+                          Prix FLOAT NOT NULL,
+                          Volume FLOAT,
+                          Poids FLOAT
+);
+
+CREATE TABLE Stocks (
+                        ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
+                        ID_Entrepots INT,
+                        ID_Produit INT,
+                        Quantite INT,
+                        Poids_Total FLOAT,
+                        Volume_Total FLOAT,
+                        Date_de_reception DATE,
+                        Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
+                        QR_Code TEXT,
+                        Date_de_peremption DATE,
+                        FOREIGN KEY (ID_Entrepots) REFERENCES Entrepot(ID_Entrepot),
+                        FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
+);
+
+CREATE TABLE Camions (
+                         ID_Camion INT AUTO_INCREMENT PRIMARY KEY,
+                         Immatriculation VARCHAR(255) NOT NULL UNIQUE,
+                         Modele VARCHAR(255),
+                         ID_Entrepot INT,
+                         Type ENUM('Porteur', 'Semi-remorque', 'Tracteur'),
+                         Statut ENUM('En service', 'En panne', 'En maintenance'),
+                         Capacite_Max DECIMAL(10, 2),
+                         FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot) ON DELETE SET NULL
+);
+
+CREATE TABLE Commercants (
+                             ID_Commercant INT AUTO_INCREMENT PRIMARY KEY,
+                             Nom VARCHAR(255) NOT NULL,
+                             Adresse VARCHAR(255) NOT NULL,
+                             Contrat TEXT
+)
 
 -- Table Evenements
 CREATE TABLE Evenements (

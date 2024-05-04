@@ -479,10 +479,13 @@ DELIMITER //
 CREATE TRIGGER set_expiration AFTER INSERT ON Session
     FOR EACH ROW
 BEGIN
+    DECLARE expiration_date TIMESTAMP;
+    SET expiration_date = NOW() + INTERVAL 24 HOUR;
     UPDATE Session
-    SET Expiration = NOW() + INTERVAL 24 HOUR
+    SET Expiration = expiration_date
     WHERE ID_Session = NEW.ID_Session;
 END;
+
 //
 
 DELIMITER ;

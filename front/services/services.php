@@ -13,7 +13,7 @@ include_once('../includes/lang.php');
 
 <body>
 
-    
+
 <div class="main-container shade">
     <h1><?php echo htmlspecialchars($data["OUR_SERVICES"]); ?></h1>
     <div class="service-list">

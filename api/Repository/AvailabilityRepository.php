@@ -16,7 +16,7 @@ class AvailabilityRepository
         $query = "INSERT INTO Disponibilites (ID_Utilisateur, DEMI_JOURNEES, LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE) 
                   VALUES (:id_utilisateur, :demi_journees, :lundi, :mardi, :mercredi, :jeudi, :vendredi, :samedi, :dimanche)";
         $statement = $this->db->prepare($query);
-        
+
         $statement->bindValue(':id_utilisateur', $availability->id_utilisateur, PDO::PARAM_INT);
         $statement->bindValue(':demi_journees', $availability->demi_journees, PDO::PARAM_INT);
         $statement->bindValue(':lundi', $availability->lundi, PDO::PARAM_BOOL);
@@ -65,6 +65,5 @@ class AvailabilityRepository
 
         return new AvailabilityModel($availability);
     }
-
 }
 ?>

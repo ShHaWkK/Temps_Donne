@@ -211,6 +211,22 @@ CREATE TABLE Commercants (
                              Contrat TEXT
 )
 
+CREATE TABLE Trajets (
+                         ID_Trajet INT AUTO_INCREMENT PRIMARY KEY,
+                         Nom VARCHAR(255) NOT NULL,
+                         Description TEXT,
+                         ID_Camion INT,
+                         ID_Entrepot INT,
+                         Horaires_Debut DATETIME,
+                         Horaires_Fin DATETIME,
+                         Type ENUM('Maraude', 'Livraison', 'Collecte') NOT NULL,
+                         Plan TEXT,
+                         Statut ENUM('Planifié', 'En Cours', 'Completé', 'Annulé') NOT NULL DEFAULT 'Planifié',
+                         FOREIGN KEY (ID_Camion) REFERENCES Camions(ID_Camion) ON DELETE SET NULL,
+                         FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot) ON DELETE SET NULL
+);
+
+
 -- Table Evenements
 CREATE TABLE Evenements (
                             ID_Evenement INT AUTO_INCREMENT PRIMARY KEY,

@@ -17,6 +17,8 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 RUN docker-php-ext-install pdo pdo_mysql
 
 # Installation des extensions PHP pour PostgreSQL
-RUN apt-get install -y libpq-dev \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql
+RUN apt-get update --fix-missing && \
+    apt-get install -y libpq-dev libpq5 libssl-dev libssl3 openssl && \
+    docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
+    docker-php-ext-install pdo pdo_pgsql pgsql
+

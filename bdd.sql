@@ -1,7 +1,4 @@
--- File : bdd.sql
 
--- Table Utilisateurs
--- J'ai ajouté le genre
 CREATE TABLE Utilisateurs (
                               ID_Utilisateur INT AUTO_INCREMENT PRIMARY KEY,
                               Nom VARCHAR(255) NOT NULL,
@@ -28,30 +25,6 @@ CREATE TABLE Utilisateurs (
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
--- On retire le role dans les classes étangères
-/*
-ALTER TABLE Utilisateurs
-    ADD Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation';
-
--- Table Roles
-CREATE TABLE Roles (
-                       ID_Role INT AUTO_INCREMENT PRIMARY KEY,
-                       Nom_Role VARCHAR(255)
-);
-INSERT INTO Roles (Nom_Role) VALUES ('Benevole'), ('Beneficiaire'), ('Administrateur');
-
-
--- Table UtilisateursRoles
-CREATE TABLE UtilisateursRoles (
-                                   ID_Utilisateur INT,
-                                   ID_Role INT,
-                                   FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-                                   FOREIGN KEY (ID_Role) REFERENCES Roles(ID_Role),
-                                   PRIMARY KEY (ID_Utilisateur, ID_Role)
-);
-ALTER TABLE UtilisateursRoles
-    ADD statut VARCHAR(255) DEFAULT 'En attente';
-*/
 
 -- Tables Services
 CREATE TABLE ServiceType(
@@ -149,48 +122,48 @@ CREATE TABLE Dons (
 );
 
 
-CREATE TABLE Stocks_Entrepot (
-                                 ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                                 ID_Entrepot INT,
-                                 ID_Stock INT,
-                                 FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
-                                 FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
-);
 
 
--- Table Entrepot
-CREATE TABLE Entrepots (
-                           ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                           Nom VARCHAR(255) NOT NULL,
-                           Adresse VARCHAR(255) NOT NULL,
-                           Volume_Total DECIMAL(10, 2) NOT NULL,
-                           Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
-);
+CREATE TABLE IF NOT EXISTS Produits (
+                                        ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
+                                        Nom_Produit VARCHAR(100) NOT NULL,
+    Description TEXT,
+    Prix FLOAT NOT NULL,
+    Volume FLOAT,
+    Poids FLOAT
+    );
 
+CREATE TABLE IF NOT EXISTS Entrepots (
+                                         ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
+                                         Nom VARCHAR(255) NOT NULL,
+    Adresse VARCHAR(255) NOT NULL,
+    Volume_Total DECIMAL(10, 2) NOT NULL,
+    Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+    );
 
-CREATE TABLE Produits (
-                          ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
-                          Nom_Produit VARCHAR(100) NOT NULL,
-                          Description TEXT,
-                          Prix FLOAT NOT NULL,
-                          Volume FLOAT,
-                          Poids FLOAT
-);
+CREATE TABLE IF NOT EXISTS Stocks (
+                                      ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
+                                      ID_Entrepots INT,
+                                      ID_Produit INT,
+                                      Quantite INT,
+                                      Poids_Total FLOAT,
+                                      Volume_Total FLOAT,
+                                      Date_de_reception DATE,
+                                      Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
+    QR_Code TEXT,
+    Date_de_peremption DATE,
+    FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),
+    FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
+    );
 
-CREATE TABLE Stocks (
-                        ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
-                        ID_Entrepots INT,
-                        ID_Produit INT,
-                        Quantite INT,
-                        Poids_Total FLOAT,
-                        Volume_Total FLOAT,
-                        Date_de_reception DATE,
-                        Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
-                        QR_Code TEXT,
-                        Date_de_peremption DATE,
-                        FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),  -- Correction ici pour correspondre au nom correct de la clé primaire.
-                        FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
-);
+CREATE TABLE IF NOT EXISTS Stocks_Entrepot (
+                                               ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
+                                               ID_Entrepot INT,
+                                               ID_Stock INT,
+                                               FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
+    FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
+    );
+
 
 
 CREATE TABLE Camions (
@@ -493,7 +466,7 @@ CREATE TABLE Session (
                          ID_Utilisateur INT NOT NULL,
                          Session_Token VARCHAR(64) NOT NULL,
                          Creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         Expiration TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         Expiration TIMESTAMP,
                          INDEX idx_session_token (Session_Token),
                          INDEX idx_user_id (ID_Utilisateur),
                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE

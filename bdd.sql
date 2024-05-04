@@ -476,20 +476,16 @@ CREATE TABLE Session (
 
 DELIMITER //
 
-CREATE TRIGGER set_expiration AFTER INSERT ON Session
+CREATE TRIGGER set_expiration BEFORE INSERT ON Session
     FOR EACH ROW
 BEGIN
     DECLARE expiration_date TIMESTAMP;
     SET expiration_date = NOW() + INTERVAL 24 HOUR;
-    UPDATE Session
-    SET Expiration = expiration_date
-    WHERE ID_Session = NEW.ID_Session;
+    SET NEW.Expiration = expiration_date;
 END;
-
 //
 
 DELIMITER ;
-
 
 -- Ajout d'un événement pour suprimer automatiquement les sessions expirées
 CREATE EVENT deleteExpiredSessions

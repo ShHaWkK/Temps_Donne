@@ -4,14 +4,18 @@ require_once './Models/UserModel.php';
 require_once './exceptions.php';
 require_once './Helpers/ResponseHelper.php';
 require_once './Repository/BDD.php';
+require_once './Services/AvailabilityService.php';
 
 class UserController {
     public $userService;
+    public $availabilityService;
 
     public function __construct() {
         $db = connectDB();
         $userRepository = new UserRepository($db);
         $this->userService = new UserService($userRepository);
+        $availabilityRepository = new AvailabilityRepository($db);
+        $this->availabilityService = new AvailabilityService($availabilityRepository);
     }
 
     public function processRequest($method, $uri) {
@@ -74,29 +78,14 @@ class UserController {
         }
     }
 
-    /*
-    private function checkRole($requiredRole) {
-        session_start();
-
-        if (!isset($_SESSION['user_id'])) {
-            return false;
-        }
-
-        $user = $this->userService->getUserById($_SESSION['user_id']);
-        return $user->role_effectif === $requiredRole;
-    }*/
-
     public function createUser() {
         $data = json_decode($_POST['json_data'], true);
         try {
             $user = new UserModel($data);
             $user->validate($data);
 
-            if (! isset($data['Role'])) {
-                throw new Exception("Le rôle est obligatoire.", 400);
-            }
-
             $this->userService->registerUser($user);
+
             if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null) {
                 $this->saveUploadedFiles($data);
             }else{
@@ -172,26 +161,6 @@ class UserController {
     }
 
     //-------------------- Update User -------------------//
-    /*
-    public function updateUser($id) {
-        $json = file_get_contents("php://input");
-        $data = json_decode($json, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
-            return;
-        }
-
-        try {
-            $user = new UserModel($data);
-            $user->id_utilisateur = $id;
-            $this->userService->updateUserProfile($user);
-            ResponseHelper::sendResponse(["success" => "Utilisateur mis à jour avec succès."]);
-        } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
-        }
-    }*/
-
     private function updateUser($id)
     {
         $json = file_get_contents("php://input");
@@ -271,5 +240,37 @@ class UserController {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
     }
+
+    /*
+private function checkRole($requiredRole) {
+    session_start();
+
+    if (!isset($_SESSION['user_id'])) {
+        return false;
+    }
+
+    $user = $this->userService->getUserById($_SESSION['user_id']);
+    return $user->role_effectif === $requiredRole;
+}*/
+
+    /*
+public function updateUser($id) {
+    $json = file_get_contents("php://input");
+    $data = json_decode($json, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        ResponseHelper::sendResponse(["error" => "Invalid JSON: " . json_last_error_msg()], 400);
+        return;
+    }
+
+    try {
+        $user = new UserModel($data);
+        $user->id_utilisateur = $id;
+        $this->userService->updateUserProfile($user);
+        ResponseHelper::sendResponse(["success" => "Utilisateur mis à jour avec succès."]);
+    } catch (Exception $e) {
+        ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+    }
+}*/
 
 }

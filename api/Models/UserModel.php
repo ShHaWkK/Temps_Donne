@@ -61,9 +61,14 @@ class UserModel {
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Adresse email invalide.");
         }
-        // if (empty($data['mot_de_passe']) || strlen($data['mot_de_passe']) < 7) {
-        //     throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 7 caractères.");
-        // }
+
+        if (! isset($data['Role'])) {
+            throw new Exception("Le rôle est obligatoire.", 400);
+        }
+
+        if (empty($data['Mot_de_passe']) || strlen($data['Mot_de_passe']) < 7) {
+             throw new Exception("Le mot de passe est obligatoire et doit contenir au moins 7 caractères.");
+        }
     }
 
     public function hashPassword() {

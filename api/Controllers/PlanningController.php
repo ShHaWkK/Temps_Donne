@@ -35,7 +35,7 @@ class PlanningController {
                     }
                     break;
                 case 'POST':
-                        $this->addPlanning();
+                    $this->addPlanning();
                     break;
                 case 'PUT':
                     if (isset($uri[3])) {

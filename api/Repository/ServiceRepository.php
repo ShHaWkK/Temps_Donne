@@ -147,7 +147,6 @@ class ServiceRepository
             throw new \Exception("Erreur lors de la récupération du type de service : " . $e->getMessage());
         }
     }
-
 }
 
 ?>

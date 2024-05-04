@@ -386,13 +386,7 @@ ALTER TABLE Planning ADD COLUMN startTime TIME;
 ALTER TABLE Planning ADD COLUMN endTime TIME;
 
 
--- Table tentatives_connexion
-CREATE TABLE tentatives_connexion (
-                                      id INT AUTO_INCREMENT PRIMARY KEY,
-                                      ip_adresse VARCHAR(50),
-                                      tentative_count INT DEFAULT 0,
-                                      last_attempt TIMESTAMP
-);
+
 
 -- Table AffectationsServices
 CREATE TABLE AffectationsServices (

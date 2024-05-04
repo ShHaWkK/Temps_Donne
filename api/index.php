@@ -20,6 +20,7 @@ require_once 'Controllers/FormationController.php';
 require_once 'Controllers/StockController.php';
 require_once 'Controllers/CircuitController.php';
 require_once 'Controllers/EntrepotController.php';
+require_once 'Controllers/ProduitController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Helpers/ResponseHelper.php';
@@ -93,6 +94,10 @@ function router($uri, $requestMethod) {
         case 'stocks':
             $stockController = new StockController();
             $stockController->processRequest($requestMethod, $uri);
+            break;
+        case 'produits':
+            $produitController =  new ProduitController();
+            $produitController->processRequest($requestMethod, $uri);
             break;
         case 'users':
         case 'beneficiaries':

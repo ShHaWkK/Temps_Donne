@@ -91,5 +91,9 @@ class CamionRepository {
         $stmt->execute(['idEntrepot' => $idEntrepot, 'capacite' => $capaciteNecessaire]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function trouverCamionsDisponibles($idEntrepot) {
+        // pour obtenir des camions disponibles dans cet entrepôt
+    }
 }
 ?>

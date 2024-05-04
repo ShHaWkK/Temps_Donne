@@ -131,6 +131,7 @@ function router($uri, $requestMethod) {
             $controller = new EntrepotController();
             $controller->processRequest($requestMethod, $uri);
             break;
+
         default:
             exit_with_message('Not Found', 404);
             return;

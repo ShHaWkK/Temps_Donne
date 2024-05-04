@@ -1,6 +1,7 @@
 <?php
 
 require_once './Repository/StockRepository.php';
+require_once './Repository/ProduitRepository.php';
 require_once './Repository/EntrepotRepository.php'; // Assurez-vous d'inclure le bon fichier pour EntrepotRepository
 require_once './Models/StockModel.php';
 
@@ -10,16 +11,17 @@ use Endroid\QrCode\Writer\PngWriter;
 class StockService {
     private $stockRepository;
     private $entrepotRepository;
+    private $produitRepository;
 
-    public function __construct(StockRepository $stockRepository, EntrepotRepository $entrepotRepository) {
+    public function __construct(StockRepository $stockRepository, EntrepotRepository $entrepotRepository, ProduitRepository $produitRepository) {
         $this->stockRepository = $stockRepository;
         $this->entrepotRepository = $entrepotRepository;
+        $this->produitRepository = $produitRepository;
     }
-
     public function addStock($stockData) {
         // Trouver l'entrepôt concerné pour vérifier le volume disponible.
         $entrepot = $this->entrepotRepository->findById($stockData['id_entrepot']);
-        $produit = $this->stockRepository->findProductById($stockData['id_produit']);
+        $produit = $this->produitRepository->findById($stockData['id_produit']);
 
         // Calculer le volume requis pour le nouveau stock.
         $volumeRequired = $stockData['quantite'] * $produit['volume'];
@@ -44,6 +46,8 @@ class StockService {
         // Retourner l'ID du stock nouvellement ajouté.
         return $stockId;
     }
+
+
 
     public function updateStock($id, $data) {
         $existingStock = $this->getStockById($id);

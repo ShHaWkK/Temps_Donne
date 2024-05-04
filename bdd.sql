@@ -80,6 +80,23 @@ CREATE TABLE Services (
                           FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType)
 );
 
+-- Table Planning
+
+CREATE TABLE Planning (
+                          ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
+                          ID_Utilisateur INT NOT NULL,
+                          Date DATE,
+                          Description TEXT,
+                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION,
+                          activity VARCHAR(255) NOT NULL,
+                          startTime TIME,
+                          endTime TIME
+) ENGINE=InnoDB;
+/*
+ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
+ALTER TABLE Planning ADD COLUMN startTime TIME;
+ALTER TABLE Planning ADD COLUMN endTime TIME;
+*/
 -- Table Formations
 CREATE TABLE Formations (
                             ID_Formation INT AUTO_INCREMENT PRIMARY KEY,
@@ -148,31 +165,12 @@ CREATE TABLE Dons (
                       FOREIGN KEY (ID_Source) REFERENCES SourcesDons(ID_Source)
 );
 
-
-CREATE TABLE Stocks_Entrepot (
-                                 ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                                 ID_Entrepot INT,
-                                 ID_Stock INT,
-                                 FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
-                                 FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
-);
-
-
--- Table Entrepot
-CREATE TABLE Entrepots (
-                           ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                           Nom VARCHAR(255) NOT NULL,
-                           Adresse VARCHAR(255) NOT NULL,
-                           Volume_Total DECIMAL(10, 2) NOT NULL,
-                           Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
-);
-
-
+-- Table Stocks
 CREATE TABLE Produits (
                           ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
                           Nom_Produit VARCHAR(100) NOT NULL,
                           Description TEXT,
-                          Prix FLOAT NOT NULL,
+                          Prix DECIMAL(10, 2) NOT NULL,
                           Volume FLOAT,
                           Poids FLOAT
 );
@@ -181,14 +179,16 @@ CREATE TABLE Stocks (
                         ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
                         ID_Entrepots INT,
                         ID_Produit INT,
+                        Type_article VARCHAR(255),
                         Quantite INT,
                         Poids_Total FLOAT,
-                        Volume_Total FLOAT,
+    #Ajout du volume indivuel et total (m2)
+                        Volume FLOAT,
                         Date_de_reception DATE,
                         Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
                         QR_Code TEXT,
                         Date_de_peremption DATE,
-                        FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),  -- Correction ici pour correspondre au nom correct de la clé primaire.
+                        FOREIGN KEY (ID_Entrepots) REFERENCES Entrepot(ID_Entrepot),
                         FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
 );
 
@@ -387,21 +387,14 @@ CREATE TABLE Captchas (
                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
 
--- Table Planning
 
-CREATE TABLE Planning (
-                          ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
-                          ID_Utilisateur INT NOT NULL,
-                          Date DATE,
-                          Description TEXT,
-                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION
-) ENGINE=InnoDB;
-
-ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
-ALTER TABLE Planning ADD COLUMN startTime TIME;
-ALTER TABLE Planning ADD COLUMN endTime TIME;
-
-
+-- Table tentatives_connexion
+CREATE TABLE tentatives_connexion (
+                                      id INT AUTO_INCREMENT PRIMARY KEY,
+                                      ip_adresse VARCHAR(50),
+                                      tentative_count INT DEFAULT 0,
+                                      last_attempt TIMESTAMP
+);
 
 
 -- Table AffectationsServices

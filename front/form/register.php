@@ -76,7 +76,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                 <input type="password" id="mot_de_passe" name="mot_de_passe" required>
             </div>
 
-<!--
+            <!--
             <div class="col">
                 <label for="langues">
                     <h3><?php echo htmlspecialchars($data["LANGUAGES"]);?>: *</h3>
@@ -150,11 +150,38 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             <div class="col">
                 <h3><?php echo htmlspecialchars($data["AVAILABILITY"]);?>: </h3>
                 <div class="line">
-                    <label class="radio-label"> <?php echo htmlspecialchars($data["REGULAR_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="reguliere" required> </label>
-                    <label class="radio-label"> <?php echo htmlspecialchars($data["PUNCTUAL_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="ponctuelle" required> </label>
+                    <label class="radio-label"> <?php echo htmlspecialchars($data["REGULAR_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="reguliere" required onclick="showAvailability()"> </label>
+                    <label class="radio-label"> <?php echo htmlspecialchars($data["PUNCTUAL_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="ponctuelle" required onclick="hideAvailability()"> </label>
                 </div>
             </div>
 
+            <script>
+                function showAvailability() {
+                    console.log("On est dans show");
+                    var regularAvailabilityRadio = document.querySelector('input[name="disponibilite"][value="reguliere"]');
+                    if (regularAvailabilityRadio.checked) {
+                        document.querySelector('.col-availability').style.display = 'block';
+                        document.querySelector('.col-week').style.display = 'block';
+                        console.log("On est dans la boucle show");
+                    }
+                }
+
+                function hideAvailability() {
+                    console.log("On est dans hide");
+                    var regularAvailabilityRadio = document.querySelector('input[name="disponibilite"][value="reguliere"]');
+                    if (!regularAvailabilityRadio.checked) {
+                        document.querySelector('.col-availability').style.display = 'none';
+                        document.querySelector('.col-week').style.display = 'none';
+                        console.log("On est dans la boucle hide");
+                    }
+                }
+
+                // Assure-toi que les éléments ne soient pas affichés au chargement de la page
+                window.onload = function() {
+                    hideAvailability();
+                };
+            </script>
+            
             <div class="col-availability">
                 <div class="line">
                     <h4><?php echo htmlspecialchars($data["I_CAN_DEVOTE"]);?> : </h4>
@@ -187,9 +214,23 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                     <label><input type="checkbox" id="samedi" name="jour" value="samedi"> <?php echo htmlspecialchars($data["SATURDAY"]);?></label><br>
                     <label><input type="checkbox" id="dimanche" name="jour" value="dimanche"> <?php echo htmlspecialchars($data["SUNDAY"]);?></label><br>
                 </div>
-            </div>
 
         </div>
+        </div>
+
+        <div class="section">
+            <h2><?php echo htmlspecialchars($data["SKILLS"]);?></h2>
+
+            <div class="col-week">
+                <label><input type="checkbox" id="travail_social" name="competence" value="travail_social"> <?php echo htmlspecialchars($data["SOCIAL_WORK"]);?></label><br>
+                <label><input type="checkbox" id="gestion_projet" name="competence" value="gestion_projet"> <?php echo htmlspecialchars($data["PROJECT_MANAGEMENT"]);?></label><br>
+                <label><input type="checkbox" id="marketing_communication" name="competence" value="marketing_communication"> <?php echo htmlspecialchars($data["MARKETING_AND_COMMUNICATION"]);?></label><br>
+                <label><input type="checkbox" id="capacite_ecoute_empathie" name="competence" value="capacite_ecoute_empathie"> <?php echo htmlspecialchars($data["ABILITY_TO_LISTEN_AND_EMPATHIZE"]);?></label><br>
+                <label><input type="checkbox" id="gestion_financiere" name="competence" value="gestion_financiere"> <?php echo htmlspecialchars($data["FINANCIAL_MANAGEMENT"]);?></label><br>
+            </div>
+        </div>
+        </div>
+
 
         <div class="section">
             <h2> <?php echo htmlspecialchars($data["TERMS_LEGAL_NOTICES"]);?> </h2>

@@ -141,6 +141,7 @@
     "VOLUNTEER_LOGIN_BUTTON_TEXT": "Sign In",
     "VOLUNTEER_FORGOT_PASSWORD_LINK": "Forgot Password?",
     "LANGUAGE_CODE": "en",
+    "SKILLS": "Skills",
 
     "COOKIE_TITLE": "Cookies",
     "COOKIE_DESCRIPTION": "When you visit our website, we may access some of your information to better guide you and make tasks easier on our site. To learn more:",
@@ -154,5 +155,11 @@
     "ADMIN_PASSWORD_INPUT_LABEL": "Password: ",
     "ADMIN_LOGIN_BUTTON_TEXT": "Log in",
     "ADMIN_FORGOT_PASSWORD_LINK": "Forgot password ?",
-    "ADMIN_LOGIN_FORM_TITLE": "Log in to continue"
+    "ADMIN_LOGIN_FORM_TITLE": "Log in to continue",
+
+    "SOCIAL_WORK": "Social work",
+    "PROJECT_MANAGEMENT": "Project management",
+    "MARKETING_AND_COMMUNICATION": "Marketing and communication",
+    "ABILITY_TO_LISTEN_AND_EMPATHIZE": "Ability to listen and empathize",
+    "FINANCIAL_MANAGEMENT":"Financial management"
 }

@@ -53,10 +53,6 @@ include_once('../includes/lang.php');
                 <input type="email" id="email" name="email" required>
             </div>
 
-            <!-- TODO vérifier si l'adresse mail existe-->
-            <?php
-            ?>
-
             <div class="col">
                 <label for="telephone"><h3> <?php echo htmlspecialchars($data["PHONE_NUMBER"]);?>: * </h3></label>
                 <input type="tel" id="telephone" name="telephone" required>

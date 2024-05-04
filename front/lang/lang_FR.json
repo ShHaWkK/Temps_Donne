@@ -136,6 +136,7 @@
     "VOLUNTEER_FORGOT_PASSWORD_LINK": "Mot de passe oublié ?",
     "VOLUNTEER_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer",
     "LANGUAGE_CODE": "fr",
+    "SKILLS": "Compétences",
 
     "COOKIE_TITLE": "Cookies",
     "COOKIE_DESCRIPTION": "Lorsque vous visitez notre site, nous pouvons accéder à certaines de vos informations pour mieux vous aiguiller et faciliter la tâche sur notre site. Pour en savoir plus :",
@@ -149,7 +150,13 @@
     "ADMIN_PASSWORD_INPUT_LABEL": "Mot de passe ",
     "ADMIN_LOGIN_BUTTON_TEXT": "Connexion",
     "ADMIN_FORGOT_PASSWORD_LINK": "Mot de passe oublié ?",
-    "ADMIN_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer"
+    "ADMIN_LOGIN_FORM_TITLE": "Identifiez-vous pour continuer",
+
+    "SOCIAL_WORK": "Travail social",
+    "PROJECT_MANAGEMENT": "Gestion de Projet",
+    "MARKETING_AND_COMMUNICATION": "Marketing et communication",
+    "ABILITY_TO_LISTEN_AND_EMPATHIZE": "Capacité d'écoute et d'empathie",
+    "FINANCIAL_MANAGEMENT":"Gestion financière"
 }
   
 

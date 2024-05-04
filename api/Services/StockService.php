@@ -20,34 +20,41 @@ class StockService {
     }
     public function addStock($stockData) {
         try {
-            $entrepot = $this->entrepotRepository->findById($stockData['id_entrepot']);
-            $produit = $this->produitRepository->findById($stockData['id_produit']);
+            // Vérifiez que stockData est bien un objet de type StockModel
+            if (!$stockData instanceof StockModel) {
+                throw new Exception("Les données de stock ne sont pas du type StockModel attendu.");
+            }
+
+            $entrepot = $this->entrepotRepository->findById($stockData->id_entrepot);
+            $produit = $this->produitRepository->findById($stockData->id_produit);
 
             if (!$entrepot || !$produit) {
                 throw new Exception("Entrepôt ou produit introuvable.");
             }
 
-            $volumeRequired = $stockData['quantite'] * $produit['volume'];
+            // Utilisation correcte des propriétés de l'objet
+            $volumeRequired = $stockData->quantite * $produit['volume'];
             if (($entrepot['volume_total'] - $entrepot['volume_utilise']) < $volumeRequired) {
                 throw new Exception("Volume insuffisant dans l'entrepôt.");
             }
 
-            $stock = new StockModel($stockData);
-            $stock->validate();
-            $stockId = $this->stockRepository->save($stock);
+            // La méthode validate et save attend un objet StockModel, donc aucun changement n'est nécessaire ici
+            $stockData->validate();
+            $stockId = $this->stockRepository->save($stockData);
 
             $this->entrepotRepository->updateVolume($entrepot['id'], $entrepot['volume_utilise'] + $volumeRequired);
-            $this->generateQrCode($stock);
+            $this->generateQrCode($stockData);
 
             return $stockId;
         } catch (PDOException $e) {
-            error_log($e->getMessage());
-            throw new Exception("Erreur de base de données lors de l'ajout du stock.");
+            error_log("Erreur de base de données lors de l'ajout du stock: " . $e->getMessage());
+            throw new Exception("Erreur de base de données lors de l'ajout du stock: " . $e->getMessage());
         } catch (Exception $e) {
             error_log($e->getMessage());
-            throw $e;
+            throw $e ;
         }
     }
+
 
 
 

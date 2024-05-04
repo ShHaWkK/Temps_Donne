@@ -15,11 +15,14 @@ class ProduitRepository {
     }
 
     public function findById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM Produits WHERE ID_Produit = :id");
+        $sql = "SELECT * FROM Produits WHERE ID_Produit = :id";
+        $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+
 
     public function save(ProduitModel $produit) {
         if ($produit->id_produit) {

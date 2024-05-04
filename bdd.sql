@@ -1,7 +1,4 @@
--- File : bdd.sql
 
--- Table Utilisateurs
--- J'ai ajouté le genre
 CREATE TABLE Utilisateurs (
                               ID_Utilisateur INT AUTO_INCREMENT PRIMARY KEY,
                               Nom VARCHAR(255) NOT NULL,
@@ -28,30 +25,6 @@ CREATE TABLE Utilisateurs (
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
--- On retire le role dans les classes étangères
-/*
-ALTER TABLE Utilisateurs
-    ADD Statut_Benevole VARCHAR(255) DEFAULT 'En attente de validation';
-
--- Table Roles
-CREATE TABLE Roles (
-                       ID_Role INT AUTO_INCREMENT PRIMARY KEY,
-                       Nom_Role VARCHAR(255)
-);
-INSERT INTO Roles (Nom_Role) VALUES ('Benevole'), ('Beneficiaire'), ('Administrateur');
-
-
--- Table UtilisateursRoles
-CREATE TABLE UtilisateursRoles (
-                                   ID_Utilisateur INT,
-                                   ID_Role INT,
-                                   FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-                                   FOREIGN KEY (ID_Role) REFERENCES Roles(ID_Role),
-                                   PRIMARY KEY (ID_Utilisateur, ID_Role)
-);
-ALTER TABLE UtilisateursRoles
-    ADD statut VARCHAR(255) DEFAULT 'En attente';
-*/
 
 -- Tables Services
 CREATE TABLE ServiceType(

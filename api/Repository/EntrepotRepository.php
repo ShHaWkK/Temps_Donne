@@ -1,11 +1,10 @@
 <?php
 require_once 'BDD.php';
-
 class EntrepotRepository {
     private $db;
 
     public function __construct() {
-        $this->db = connectDB();
+        $this->db = connectDB();  // Assurez-vous que cette méthode initialise correctement une instance de PDO
     }
 
     public function save($entrepot) {
@@ -37,11 +36,18 @@ class EntrepotRepository {
     }
 
     public function updateVolume($id, $newVolumeUtilise) {
-        $sql = "UPDATE Entrepots SET Volume_Utilise = :volume_utilise WHERE ID_Entrepot = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':volume_utilise', $newVolumeUtilise, PDO::PARAM_INT);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
+        try {
+            $this->db->beginTransaction();
+            $sql = "UPDATE Entrepots SET volume_utilise = :volume_utilise WHERE ID_Entrepot = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':volume_utilise', $newVolumeUtilise, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->db->commit();
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id) {
@@ -49,4 +55,5 @@ class EntrepotRepository {
         $stmt->execute([$id]);
     }
 }
+
 ?>

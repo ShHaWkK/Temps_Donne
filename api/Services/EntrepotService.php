@@ -10,8 +10,10 @@ class EntrepotService {
     }
 
     public function createEntrepot(EntrepotModel $entrepot) {
+        // Supposons que vous voulez aussi gérer la logique de validation ici ou ailleurs approprié
         return $this->entrepotRepository->save($entrepot);
     }
+
 
     public function getAllEntrepots() {
         return $this->entrepotRepository->findAll();
@@ -29,6 +31,11 @@ class EntrepotService {
     public function deleteEntrepot($id) {
         $this->entrepotRepository->delete($id);
     }
+
+    public function updateVolume($id, $newVolumeUtilise) {
+        $this->entrepotRepository->updateVolume($id, $newVolumeUtilise);
+    }
 }
+
 
 ?>

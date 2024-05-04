@@ -95,13 +95,26 @@ class StockService {
         ];
         $qrCode = new QrCode(json_encode($data));
         $writer = new PngWriter();
-        $qrCodePath = __DIR__ . '/../qr_codes/' . $stock->id_stock . '.png';
-        $writer->write($qrCode)->saveToFile($qrCodePath);
-        $stock->qr_code = $qrCodePath;
 
-        // Mettre à jour le chemin du code QR dans la base de données.
+        $qrCodeDirectory = __DIR__ . '/../qr_codes/';
+        if (!file_exists($qrCodeDirectory)) {
+            mkdir($qrCodeDirectory, 0777, true);
+        }
+
+        $qrCodePath = $qrCodeDirectory . $stock->id_stock . '.png';
+        $writer->write($qrCode)->saveToFile($qrCodePath);
+
+        if (file_exists($qrCodePath)) {
+            error_log("QR Code successfully saved to: " . $qrCodePath);
+        } else {
+            error_log("Failed to save QR Code to: " . $qrCodePath);
+        }
+
+        $stock->qr_code = $qrCodePath;
         $this->stockRepository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
+
+
 
     public function updateQrCodePath($stockId, $qrCodePath) {
         $this->stockRepository->updateQrCodePath($stockId, $qrCodePath);

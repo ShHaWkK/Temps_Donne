@@ -1,4 +1,6 @@
 <?php
+require_once 'BDD.php';
+
 class EntrepotRepository {
     private $db;
 
@@ -7,9 +9,9 @@ class EntrepotRepository {
     }
 
     public function save($entrepot) {
-        $stmt = $this->db->prepare("INSERT INTO Entrepots (nom, adresse, taille, nb_etageres, nb_etageres_max, nb_etageres_remplie, place_restante, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $this->db->prepare("INSERT INTO Entrepots (Nom, Adresse, Volume_Total, Volume_Utilise) VALUES (?, ?, ?, ?)");
         $stmt->execute([
-            $entrepot->nom, $entrepot->adresse, $entrepot->taille, $entrepot->nb_etageres, $entrepot->nb_etageres_max, $entrepot->nb_etageres_remplie, $entrepot->place_restante, $entrepot->latitude, $entrepot->longitude
+            $entrepot->nom, $entrepot->adresse, $entrepot->volumeTotal, $entrepot->volumeUtilise
         ]);
         return $this->db->lastInsertId();
     }
@@ -20,21 +22,23 @@ class EntrepotRepository {
     }
 
     public function findById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM Entrepots WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM Entrepots WHERE ID_Entrepot = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function update($entrepot) {
-        $stmt = $this->db->prepare("UPDATE Entrepots SET nom = ?, adresse = ?, taille = ?, nb_etageres = ?, nb_etageres_max = ?, nb_etageres_remplie = ?, place_restante = ?, latitude = ?, longitude = ? WHERE id = ?");
+        $stmt = $this->db->prepare("UPDATE Entrepots SET Nom = ?, Adresse = ?, Volume_Total = ?, Volume_Utilise = ? WHERE ID_Entrepot = ?");
         $stmt->execute([
-            $entrepot->nom, $entrepot->adresse, $entrepot->taille, $entrepot->nb_etageres, $entrepot->nb_etageres_max, $entrepot->nb_etageres_remplie, $entrepot->place_restante, $entrepot->latitude, $entrepot->longitude, $entrepot->id
+            $entrepot->nom, $entrepot->adresse, $entrepot->volumeTotal, $entrepot->volumeUtilise, $entrepot->id
         ]);
     }
 
     public function delete($id) {
-        $stmt = $this->db->prepare("DELETE FROM Entrepots WHERE id = ?");
+        $stmt = $this->db->prepare("DELETE FROM Entrepots WHERE ID_Entrepot = ?");
         $stmt->execute([$id]);
     }
 }
+
+
 ?>

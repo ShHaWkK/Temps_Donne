@@ -5,12 +5,11 @@ require_once 'Models/EntrepotModel.php';
 class EntrepotService {
     private $entrepotRepository;
 
-    public function __construct($entrepotRepository) {
+    public function __construct(EntrepotRepository $entrepotRepository) {
         $this->entrepotRepository = $entrepotRepository;
     }
 
-    public function createEntrepot($data) {
-        $entrepot = new EntrepotModel($data);
+    public function createEntrepot(EntrepotModel $entrepot) {
         return $this->entrepotRepository->save($entrepot);
     }
 
@@ -31,4 +30,5 @@ class EntrepotService {
         $this->entrepotRepository->delete($id);
     }
 }
+
 ?>

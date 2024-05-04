@@ -11,8 +11,7 @@ class AvailabilityService {
 
     public function createAvailability(AvailabilityModel $availability) {
         try {
-            $availabilityId = $this->availabilityRepository->createAvailability($availability);
-            return $availabilityId;
+            return $this->availabilityRepository->createAvailability($availability);
         } catch (Exception $e) {
             throw new Exception("Error while creating availability: " . $e->getMessage());
         }

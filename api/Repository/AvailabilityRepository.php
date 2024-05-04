@@ -14,26 +14,25 @@ class AvailabilityRepository
     public function createAvailability($availability)
     {
         $query = "INSERT INTO Disponibilites (ID_Utilisateur, DEMI_JOURNEES, LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE) 
-                  VALUES (:id_user, :half_days, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday)";
+                  VALUES (:id_utilisateur, :demi_journees, :lundi, :mardi, :mercredi, :jeudi, :vendredi, :samedi, :dimanche)";
         $statement = $this->db->prepare($query);
-
-        $statement->bindValue(':id_user', $availability->id_user, PDO::PARAM_INT);
-        $statement->bindValue(':half_days', $availability->half_days, PDO::PARAM_INT);
-        $statement->bindValue(':monday', $availability->monday, PDO::PARAM_BOOL);
-        $statement->bindValue(':tuesday', $availability->tuesday, PDO::PARAM_BOOL);
-        $statement->bindValue(':wednesday', $availability->wednesday, PDO::PARAM_BOOL);
-        $statement->bindValue(':thursday', $availability->thursday, PDO::PARAM_BOOL);
-        $statement->bindValue(':friday', $availability->friday, PDO::PARAM_BOOL);
-        $statement->bindValue(':saturday', $availability->saturday, PDO::PARAM_BOOL);
-        $statement->bindValue(':sunday', $availability->sunday, PDO::PARAM_BOOL);
+        
+        $statement->bindValue(':id_utilisateur', $availability->id_utilisateur, PDO::PARAM_INT);
+        $statement->bindValue(':demi_journees', $availability->demi_journees, PDO::PARAM_INT);
+        $statement->bindValue(':lundi', $availability->lundi, PDO::PARAM_BOOL);
+        $statement->bindValue(':mardi', $availability->mardi, PDO::PARAM_BOOL);
+        $statement->bindValue(':mercredi', $availability->mercredi, PDO::PARAM_BOOL);
+        $statement->bindValue(':jeudi', $availability->jeudi, PDO::PARAM_BOOL);
+        $statement->bindValue(':vendredi', $availability->vendredi, PDO::PARAM_BOOL);
+        $statement->bindValue(':samedi', $availability->samedi, PDO::PARAM_BOOL);
+        $statement->bindValue(':dimanche', $availability->dimanche, PDO::PARAM_BOOL);
 
         $success = $statement->execute();
         if (!$success) {
             throw new Exception("Error while saving availability.");
         } else {
             // If execution was successful, get the inserted ID
-            $insertedId = $this->db->lastInsertId();
-            return $insertedId;
+            return $this->db->lastInsertId();
         }
     }
 

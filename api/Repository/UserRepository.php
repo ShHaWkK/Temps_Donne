@@ -82,7 +82,7 @@ class UserRepository {
 
 //----------------- Il sert à vérifier si l'email existe déjà dans la base de données -----------------//
     public function findByEmail($email) {
-        $query = "SELECT * FROM Utilisateurs WHERE email = :email LIMIT 1";
+        $query = "SELECT * FROM Utilisateurs WHERE Email = :email LIMIT 1";
         $statement = $this->db->prepare($query);
         $statement->bindValue(':email', $email);
         $statement->execute();

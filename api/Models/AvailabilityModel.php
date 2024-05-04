@@ -11,9 +11,9 @@ class AvailabilityModel {
     public $samedi;
     public $dimanche;
 
-    public function __construct($data) {
+    public function __construct($data,$id_utilisateur) {
         $this->id = $data['ID_Disponibilite'] ?? null;
-        $this->id_utilisateur = $data['ID_Utilisateur'] ?? null;
+        $this->id_utilisateur = $id_utilisateur ?? null;
         $this->demi_journees = $data['DEMI_JOURNEES'] ?? 0;
         $this->lundi = $data['LUNDI'] ?? false;
         $this->mardi = $data['MARDI'] ?? false;

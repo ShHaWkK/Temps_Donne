@@ -83,8 +83,12 @@ class UserController {
         try {
             $user = new UserModel($data);
             $user->validate($data);
-
             $this->userService->registerUser($user);
+
+
+            $insertedUser = $this->userService->findByEmail($data['Email']);
+            $availability = new AvailabilityModel($data,$insertedUser->id_utilisateur);
+            $this->availabilityService->createAvailability($availability);
 
             if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null) {
                 $this->saveUploadedFiles($data);

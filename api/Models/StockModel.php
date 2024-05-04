@@ -29,8 +29,30 @@ class StockModel {
         if (empty($this->id_produit) || $this->quantite <= 0 || empty($this->date_de_peremption)) {
             throw new Exception("Missing required fields or invalid data", 400);
         }
+        // Validation supplémentaire pour les niveaux de stock
+    }
+
+    // Générer un code QR pour chaque stock
+    public function generateQrCode() {
+        $data = [
+            'id_stock' => $this->id_stock,
+            'quantite' => $this->quantite,
+            'date_de_peremption' => $this->date_de_peremption
+        ];
+        $qrCode = new QrCode(json_encode($data));
+        $writer = new PngWriter();
+        $this->qr_code = '/path/to/qr/code/' . $this->id_stock . '.png';
+        $writer->write($qrCode)->saveToFile($this->qr_code);
+    }
+
+    // Alertes pour le niveau de stock
+    public function checkStockLevels() {
+        if ($this->quantite < 10) {  // Niveau seuil pour exemple
+            // Envoyer une alerte
+        }
     }
 }
+
 
 
 ?>

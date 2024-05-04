@@ -66,6 +66,13 @@ class StockRepository {
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Nouvelle méthode pour mettre à jour le chemin QR Code dans la base de données
+    public function updateQrCodePath($id, $path) {
+        $stmt = $this->db->prepare("UPDATE Stocks SET qr_code = :path WHERE id_stock = :id");
+        $stmt->execute([':path' => $path, ':id' => $id]);
+    }
+
 }
 
 

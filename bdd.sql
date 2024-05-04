@@ -357,6 +357,22 @@ CREATE TABLE Ressources (
                             FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
 
+
+-- Table Disponibilites
+CREATE TABLE Disponibilites(
+                            ID_Disponibilite INT AUTO_INCREMENT PRIMARY KEY,
+                            ID_Utilisateur INT,
+                            DEMI_JOURNEES INT,
+                            LUNDI BOOLEAN,
+                            MARDI BOOLEAN,
+                            MERCREDI BOOLEAN,
+                            JEUDI BOOLEAN,
+                            VENDREDI BOOLEAN,
+                            SAMEDI BOOLEAN,
+                            DIMANCHE BOOLEAN,
+                            FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+);
+
 -- Table AffectationRessources
 CREATE TABLE AffectationRessources (
                                        ID_Affectation INT AUTO_INCREMENT PRIMARY KEY,

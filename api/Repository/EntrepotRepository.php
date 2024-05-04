@@ -1,59 +1,40 @@
 <?php
-
-require_once './Repository/BDD.php';
-
 class EntrepotRepository {
-
     private $db;
 
-    public function __construct() {
-        $this->db = connectDB(); 
-    }
-
-    public function getDbConnection() {
-        return $this->db;
-    }
-
-    public function findAll() {
-        return selectDB('entrepot', '*');
-    }
-
-    public function findById($id) {
-        $condition = "ID_Entrepot = ?";
-        $values = [$id];
-        $results = selectDB('entrepot', '*', $condition, $values);
-        return $results ? $results[0] : null;
+    public function __construct($db) {
+        $this->db = $db;
     }
 
     public function save($entrepot) {
-        // Correction ici : utiliser les propriétés de l'objet $entrepot
-        $columnArray = ['Adresse', 'Capacite_Stockage', 'nom'];
-        $columnData = [
-            $entrepot->adresse,
-            $entrepot->capaciteStockage,
-            $entrepot->nom
-        ];
-        return insertDB('entrepot', $columnArray, $columnData);
+        $stmt = $this->db->prepare("INSERT INTO Entrepots (nom, adresse, taille, nb_etageres, nb_etageres_max, nb_etageres_remplie, place_restante, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $entrepot->nom, $entrepot->adresse, $entrepot->taille, $entrepot->nb_etageres, $entrepot->nb_etageres_max, $entrepot->nb_etageres_remplie, $entrepot->place_restante, $entrepot->latitude, $entrepot->longitude
+        ]);
+        return $this->db->lastInsertId();
     }
-    
+
+    public function findAll() {
+        $stmt = $this->db->query("SELECT * FROM Entrepots");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function findById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM Entrepots WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function update($entrepot) {
-        $columnArray = ['Adresse', 'Capacite_Stockage'];
-        $columnData = [
-            $entrepot->nom,
-            $entrepot->adresse,
-            $entrepot->capaciteStockage,
-            $entrepot->id 
-        ];
-        $condition = "ID_Entrepot = ?";
-        return updateDB('entrepot', $columnArray, $columnData, $condition);
+        $stmt = $this->db->prepare("UPDATE Entrepots SET nom = ?, adresse = ?, taille = ?, nb_etageres = ?, nb_etageres_max = ?, nb_etageres_remplie = ?, place_restante = ?, latitude = ?, longitude = ? WHERE id = ?");
+        $stmt->execute([
+            $entrepot->nom, $entrepot->adresse, $entrepot->taille, $entrepot->nb_etageres, $entrepot->nb_etageres_max, $entrepot->nb_etageres_remplie, $entrepot->place_restante, $entrepot->latitude, $entrepot->longitude, $entrepot->id
+        ]);
     }
 
     public function delete($id) {
-        $condition = "ID_Entrepot = ?";
-        $conditionValues = [$id];
-        return deleteDB('entrepot', $condition, $conditionValues);
+        $stmt = $this->db->prepare("DELETE FROM Entrepots WHERE id = ?");
+        $stmt->execute([$id]);
     }
 }
-
 ?>

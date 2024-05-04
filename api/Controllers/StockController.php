@@ -3,9 +3,7 @@
 require_once './Repository/StockRepository.php';
 require_once './Services/StockService.php';
 require_once './Models/StockModel.php';
-require_once './exceptions.php';
 require_once './Helpers/ResponseHelper.php';
-require_once './Repository/BDD.php';
 
 class StockController {
     private $stockService;
@@ -16,15 +14,16 @@ class StockController {
         $this->stockService = new StockService($stockRepository);
     }
 
-    //---------------------------   ---------------------------//
     public function processRequest($method, $uri) {
-        var_dump($method);
-        var_dump($uri);
         try {
             switch ($method) {
                 case 'GET':
-                    if (isset($uri[3])) {
+                    if (isset($uri[3]) && is_numeric($uri[3])) {
                         $this->getStock($uri[3]);
+                    } else if (isset($uri[3]) && $uri[3] === 'filter') {
+                        // Handling GET request with filters
+                        $filters = $_GET; // Assuming you're passing filters as query parameters
+                        $this->getStocksByCriteria($filters);
                     } else {
                         $this->getAllStocks();
                     }
@@ -43,7 +42,7 @@ class StockController {
                     }
                     break;
                 default:
-                    ResponseHelper::sendMethodNotAllowed();
+                    ResponseHelper::sendMethodNotAllowed("HTTP method not supported.");
                     break;
             }
         } catch (Exception $e) {
@@ -51,11 +50,8 @@ class StockController {
         }
     }
 
-    //---------------------------   ---------------------------//
-
     private function getStock($id) {
         $stock = $this->stockService->getStockById($id);
-        var_dump($stock); // Inspecter l'objet stock
         if (!$stock) {
             ResponseHelper::sendNotFound("Stock not found.");
         } else {
@@ -63,18 +59,18 @@ class StockController {
         }
     }
 
-    //---------------------------   ---------------------------//
-
     private function getAllStocks() {
         $stocks = $this->stockService->getAllStocks();
         ResponseHelper::sendResponse($stocks);
     }
 
-    //---------------------------   ---------------------------//
+    private function getStocksByCriteria($criteria) {
+        $stocks = $this->stockService->getStocksByCriteria($criteria);
+        ResponseHelper::sendResponse($stocks);
+    }
 
-    public function addStock() {
+    private function addStock() {
         $data = json_decode(file_get_contents('php://input'), true);
-        var_dump($data); // Voir les données reçues
         try {
             $stock = new StockModel($data);
             $stock->validate();
@@ -85,33 +81,23 @@ class StockController {
         }
     }
 
-    //---------------------------   ---------------------------//
-
     private function updateStock($id) {
-        $json = file_get_contents("php://input");
-        $data = json_decode($json, true);
-
+        $data = json_decode(file_get_contents("php://input"), true);
         try {
             $this->stockService->updateStock($id, $data);
-            ResponseHelper::sendResponse(["success" => "Stock updated successfully."]);
+            ResponseHelper::sendResponse(['message' => "Stock updated successfully."]);
         } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
     }
-
-    //---------------------------   ---------------------------//
 
     private function deleteStock($id) {
         try {
             $this->stockService->deleteStock($id);
-            ResponseHelper::sendResponse(["success" => "Stock deleted successfully."]);
+            ResponseHelper::sendResponse(['message' => "Stock deleted successfully."]);
         } catch (Exception $e) {
-            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }
     }
-
-    //---------------------------   ---------------------------//
-
 }
-
 ?>

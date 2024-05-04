@@ -52,6 +52,20 @@ class StockRepository {
         $stmt->execute();
         return $stmt->rowCount();
     }
+
+    public function findByCriteria($criteria) {
+        $sql = "SELECT * FROM Stocks WHERE ";
+        $conditions = [];
+        $params = [];
+        foreach ($criteria as $key => $value) {
+            $conditions[] = "$key = :$key";
+            $params[":$key"] = $value;
+        }
+        $sql .= implode(' AND ', $conditions);
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 

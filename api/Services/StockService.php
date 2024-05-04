@@ -1,46 +1,64 @@
 <?php
 
 require_once './Repository/StockRepository.php';
+require_once './Repository/EntrepotRepository.php'; // Assurez-vous d'inclure le bon fichier pour EntrepotRepository
 require_once './Models/StockModel.php';
+require_once 'vendor/autoload.php'; // Assurez-vous d'avoir installé la bibliothèque avec composer
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
 class StockService {
-    private $repository;
+    private $stockRepository;
+    private $entrepotRepository;
 
-    public function __construct(StockRepository $repository) {
-        $this->repository = $repository;
+    public function __construct(StockRepository $stockRepository, EntrepotRepository $entrepotRepository) {
+        $this->stockRepository = $stockRepository;
+        $this->entrepotRepository = $entrepotRepository;
     }
 
-    public function getAllStocks() {
-        return $this->repository->findAll();
-    }
+    public function addStock($stockData) {
+        $entrepot = $this->entrepotRepository->findById($stockData['id_entrepot']);
+        $produit = $this->stockRepository->findProductById($stockData['id_produit']);
 
-    public function getStockById($id) {
-        return $this->repository->findById($id);
+        $volumeRequired = $stockData['quantite'] * $produit['volume'];
+
+        if ($entrepot['volume_total'] - $entrepot['volume_utilise'] < $volumeRequired) {
+            return $this->handleInsufficientVolume($stockData, $entrepot, $volumeRequired);
+        }
+
+        $stock = new StockModel($stockData);
+        $stockId = $this->stockRepository->save($stock);
+        $this->entrepotRepository->updateVolume($entrepot['id'], $volumeRequired);
+        $this->generateQrCode($stock);
+        return $stockId;
     }
 
     public function updateStock($id, $data) {
-        $existingStock = $this->repository->findById($id);
+        $existingStock = $this->getStockById($id);
         if (!$existingStock) {
             throw new Exception("Stock not found with ID: $id", 404);
         }
-        $updatedStock = new StockModel(array_merge($existingStock, $data));
-        $updatedStock->validate();
+        $updatedData = array_merge($existingStock, $data);
+        $updatedStock = new StockModel($updatedData);
+        $updatedStock->validate(); // Assurez-vous que les données sont valides
         $this->repository->save($updatedStock);
-        return $updatedStock->id;
+        return $updatedStock;
     }
 
-    public function deleteStock($id) {
-        return $this->repository->delete($id);
-    }
+    private function handleInsufficientVolume($stockData, $entrepot, $volumeRequired) {
+        $maxQuantitePossible = floor(($entrepot['volume_total'] - $entrepot['volume_utilise']) / $stockData['volume']);
+        if ($maxQuantitePossible > 0) {
+            $partialStockData = $stockData;
+            $partialStockData['quantite'] = $maxQuantitePossible;
+            $this->addStock($partialStockData);
 
-    public function addStock(StockModel $stock) {
-        $stock->validate();
-        $stockId = $this->repository->save($stock);
-        $this->generateQrCode($stock);
-        return $stockId;
+            $remainingStockData = $stockData;
+            $remainingStockData['quantite'] -= $maxQuantitePossible;
+            return $this->addStock($remainingStockData);
+        }
+
+        throw new Exception("Not enough space available in any warehouses.");
     }
 
     private function generateQrCode(StockModel $stock) {
@@ -61,19 +79,18 @@ class StockService {
         $writer->write($qrCode)->saveToFile($qrCodePath);
 
         $stock->qr_code = $qrCodePath;
-        $this->repository->updateQrCodePath($stock->id_stock, $qrCodePath);
+        $this->stockRepository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
 
     public function updateQrCodePath($stockId, $qrCodePath) {
-        $sql = "UPDATE Stocks SET QR_Code = :qr_code WHERE ID_Stock = :id_stock";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':qr_code' => $qrCodePath,
-            ':id_stock' => $stockId
-        ]);
+        $this->stockRepository->updateQrCodePath($stockId, $qrCodePath);
+    }
+
+    // Ajoutez ici les autres méthodes nécessaires pour gérer les stocks
+
+    public function getStocksByCriteria($criteria) {
+        return $this->repository->findByCriteria($criteria);
     }
 }
-
-
 
 ?>

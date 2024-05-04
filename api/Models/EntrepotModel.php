@@ -1,29 +1,27 @@
 <?php
-
 class EntrepotModel {
     public $id;
     public $nom;
     public $adresse;
-    public $capaciteStockage;
+    public $taille;
+    public $nb_etageres;
+    public $nb_etageres_max;
+    public $nb_etageres_remplie;
+    public $place_restante;
+    public $latitude;
+    public $longitude;
 
     public function __construct($data) {
         $this->id = $data['id'] ?? null;
         $this->nom = $data['nom'] ?? null;
-        $this->adresse = $data['adresse'] ?? '';
-        $this->capaciteStockage = $data['capaciteStockage'] ?? 0.0;
-    }
-
-    public function validate() {
-        if (empty($this->adresse) || empty($this->capaciteStockage)) {
-            throw new Exception("Missing required fields", 400);
-        }
-        if (!is_string($this->adresse)) {
-            throw new Exception("Address must be a string", 400);
-        }
-        if (!is_numeric($this->capaciteStockage) || $this->capaciteStockage <= 0) {
-            throw new Exception("Storage capacity must be a positive number", 400);
+        $this->adresse = $data['adresse'] ?? null;
+        $this->taille = $data['taille'] ?? 0.0;
+        $this->nb_etageres = $data['nb_etageres'] ?? 0;
+        $this->nb_etageres_max = $data['nb_etageres_max'] ?? 0;
+        $this->nb_etageres_remplie = $data['nb_etageres_remplie'] ?? 0;
+        $this->place_restante = $data['place_restante'] ?? 0.0;
+        $this->latitude = $data['latitude'] ?? null;
+        $this->longitude = $data['longitude'] ?? null;
     }
 }
-}
-
 ?>

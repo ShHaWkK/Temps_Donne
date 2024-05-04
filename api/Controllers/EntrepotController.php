@@ -1,7 +1,5 @@
 <?php
-
 require_once './Services/EntrepotService.php';
-require_once './Models/EntrepotModel.php';
 require_once './Helpers/ResponseHelper.php';
 
 class EntrepotController {

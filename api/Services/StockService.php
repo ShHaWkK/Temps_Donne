@@ -3,7 +3,6 @@
 require_once './Repository/StockRepository.php';
 require_once './Repository/EntrepotRepository.php'; // Assurez-vous d'inclure le bon fichier pour EntrepotRepository
 require_once './Models/StockModel.php';
-require_once 'vendor/autoload.php'; // Assurez-vous d'avoir installé la bibliothèque avec composer
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;

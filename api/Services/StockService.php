@@ -22,66 +22,58 @@ class StockService {
     }
 
     public function updateStock($id, $data) {
-        try {
-            $existingStock = $this->repository->findById($id);
-            if (!$existingStock) {
-                throw new Exception("Stock not found with ID: $id", 404);
-            }
-            $data['statut'] = $data['statut'] ?? $existingStock['statut']; 
-            $updatedStock = new StockModel(array_merge($existingStock, $data));
-            return $this->repository->save($updatedStock);
-        } catch (Exception $e) {
-            throw $e;
+        $existingStock = $this->repository->findById($id);
+        if (!$existingStock) {
+            throw new Exception("Stock not found with ID: $id", 404);
         }
+        $updatedStock = new StockModel(array_merge($existingStock, $data));
+        $updatedStock->validate();
+        $this->repository->save($updatedStock);
+        return $updatedStock->id;
     }
 
     public function deleteStock($id) {
-        try {
-            return $this->repository->delete($id);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return $this->repository->delete($id);
     }
 
     public function addStock(StockModel $stock) {
+        $stock->validate();
         $stockId = $this->repository->save($stock);
-        $stock->id_stock = $stockId;
         $this->generateQrCode($stock);
         return $stockId;
     }
 
-    //-------------------------- QR code --------------------------//
-
     private function generateQrCode(StockModel $stock) {
         $data = [
             'id_stock' => $stock->id_stock,
-            'type_article' => $stock->type_article,
+            'id_produit' => $stock->id_produit,
             'quantite' => $stock->quantite,
             'poids_total' => $stock->poids_total,
-            'poids_individuel' => $stock->poids_individuel,
             'volume_total' => $stock->volume_total,
-            'volume_individuel' => $stock->volume_individuel,
             'date_de_peremption' => $stock->date_de_peremption,
-            'emplacement' => $stock->emplacement,
-            'urgence' => $stock->urgence,
             'date_de_reception' => $stock->date_de_reception,
             'statut' => $stock->statut
         ];
-    
+
         $qrCode = new QrCode(json_encode($data, JSON_UNESCAPED_UNICODE));
-    
         $writer = new PngWriter();
         $qrCodePath = __DIR__ . '/../qr_codes/' . $stock->id_stock . '.png';
         $writer->write($qrCode)->saveToFile($qrCodePath);
-    
-        // Sauvegarder le chemin du QR Code dans le modèle
+
         $stock->qr_code = $qrCodePath;
-    
-        // Mettre à jour le stock avec le chemin du QR code
         $this->repository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
-    
-    
+
+    public function updateQrCodePath($stockId, $qrCodePath) {
+        $sql = "UPDATE Stocks SET QR_Code = :qr_code WHERE ID_Stock = :id_stock";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':qr_code' => $qrCodePath,
+            ':id_stock' => $stockId
+        ]);
+    }
 }
+
+
 
 ?>

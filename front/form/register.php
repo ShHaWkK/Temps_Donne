@@ -111,26 +111,27 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             <div class="col">
                 <div class="line permis">
                     <label class="switch">
-                        <input type="checkbox">
+                        <input type="checkbox" id="driverLicenseCheckbox" name="driverLicenseCheckbox">
                         <span class="slider round"></span>
                     </label>
                     <a><?php echo htmlspecialchars($data["DRIVER_LICENSE"]);?></a>
                 </div>
                 <div class="line permis">
                     <label class="switch">
-                        <input type="checkbox">
+                        <input type="checkbox" id="heavyLicenseCheckbox" name="heavyLicenseCheckbox">
                         <span class="slider round"></span>
                     </label>
                     <a><?php echo htmlspecialchars($data["HEAVY_LICENSE"]);?></a>
                 </div>
                 <div class="line permis">
                     <label class="switch">
-                        <input type="checkbox">
+                        <input type="checkbox" id="cacesCheckbox" name="cacesCheckbox">
                         <span class="slider round"></span>
                     </label>
                     <a>CACES</a>
                 </div>
             </div>
+
             <div class="col">
                 <h3><?php echo htmlspecialchars($data["SUPPORTING_DOCUMENTS"]);?>: *</h3>
                 <form action="upload.php" method="post" enctype="multipart/form-data" required>
@@ -142,8 +143,8 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             <div class="col">
                 <h3><?php echo htmlspecialchars($data["EXPERIENCE"]);?>: </h3>
                 <form action="upload.php" method="post" enctype="multipart/form-data" required>
-                    <label for="CV"> <?php echo htmlspecialchars($data["SEND_RESUME"]);?> : <br></label>
-                    <input type="file" id="CV" name="CV" accept=".pdf">
+                    <label for="cv_file"> <?php echo htmlspecialchars($data["SEND_RESUME"]);?> : <br></label>
+                    <input type="file" id="cv_file" name="cv" accept=".pdf">
                 </form>
             </div>
 
@@ -181,7 +182,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                     hideAvailability();
                 };
             </script>
-            
+
             <div class="col-availability">
                 <div class="line">
                     <h4><?php echo htmlspecialchars($data["I_CAN_DEVOTE"]);?> : </h4>
@@ -215,7 +216,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                     <label><input type="checkbox" id="dimanche" name="jour" value="dimanche"> <?php echo htmlspecialchars($data["SUNDAY"]);?></label><br>
                 </div>
 
-        </div>
+            </div>
         </div>
 
         <div class="section">
@@ -227,7 +228,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 
             <script>
                 // Effectuer une requête HTTP GET pour récupérer les compétences depuis l'API
-                fetch('http://localhost:8082/index.php/competences/All')
+                fetch('http://localhost:8082/index.php/skills/All')
                     .then(response => response.json())
                     .then(data => {
                         // Vérifier si data.success est défini et est un tableau
@@ -246,53 +247,53 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                                 competencesContainer.appendChild(label);
                             });
                         } else {
-                            console.error('La réponse de l\'API ne contient pas de tableau de compétences.');
+                            console.error('La réponse de l\'API ne contient pas de tableau de compétences.',data);
                         }
                     })
                     .catch(error => {
                         console.error('Erreur lors de la récupération des compétences :', error);
                     });
-           </script>
+            </script>
 
         </div>
+    </div>
+
+    <div class="section">
+        <h2> <?php echo htmlspecialchars($data["TERMS_LEGAL_NOTICES"]);?> </h2>
+        <div class="col">
+            <label>
+                <?php echo htmlspecialchars($data["READ_ACCEPT"]);?> <a href="#" id="termsLink"> <?php echo htmlspecialchars($data["TERMS_LEGAL_NOTICES"]);?> *</a>
+                <input type="checkbox" id="légales" name="conditions" value="légales" required>
+            </label>
         </div>
 
-        <div class="section">
-            <h2> <?php echo htmlspecialchars($data["TERMS_LEGAL_NOTICES"]);?> </h2>
-            <div class="col">
-                <label>
-                    <?php echo htmlspecialchars($data["READ_ACCEPT"]);?> <a href="#" id="termsLink"> <?php echo htmlspecialchars($data["TERMS_LEGAL_NOTICES"]);?> *</a>
-                    <input type="checkbox" id="légales" name="conditions" value="légales" required>
-                </label>
-            </div>
+        <div class="col">
+            <div id="termsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <!-- Contenu des termes et conditions -->
+                    <?php
+                    $contenu = file_get_contents($data["CONDITIONS_PATH"]);
 
-            <div class="col">
-                <div id="termsModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <!-- Contenu des termes et conditions -->
-                        <?php
-                        $contenu = file_get_contents($data["CONDITIONS_PATH"]);
-
-                        echo "<p>$contenu</p>";
-                        ?>
-                    </div>
+                    echo "<p>$contenu</p>";
+                    ?>
                 </div>
             </div>
-
-            <div class="col">
-                <label>
-                    <?php echo htmlspecialchars($data["WISH_MAIL_NEWS"]);?>
-                    <input type="checkbox" id="email_info" name="conditions" value="email_info">
-                </label>
-            </div>
-            <div class="col">
-                <p><?php echo htmlspecialchars($data["DEMANDS_CHECKED"]);?>.</p>
-            </div>
         </div>
 
-        <button id="validationButton" class="btn confirm-button"><?php echo htmlspecialchars($data["CONFIRM"]);?></button>
-    </div> <!-- end of form-content -->
+        <div class="col">
+            <label>
+                <?php echo htmlspecialchars($data["WISH_MAIL_NEWS"]);?>
+                <input type="checkbox" id="email_info" name="conditions" value="email_info">
+            </label>
+        </div>
+        <div class="col">
+            <p><?php echo htmlspecialchars($data["DEMANDS_CHECKED"]);?>.</p>
+        </div>
+    </div>
+
+    <button id="validationButton" class="btn confirm-button"><?php echo htmlspecialchars($data["CONFIRM"]);?></button>
+</div> <!-- end of form-content -->
 </div> <!-- end of form-container -->
 
 <script src="../scripts/nationalities.js"></script>

@@ -1,4 +1,10 @@
 function sendDataToAPI() {
+    // Récupérer les valeurs des permis cochés
+    var driverLicenseChecked = document.getElementById('driverLicenseCheckbox').checked;
+    var heavyLicenseChecked = document.getElementById('heavyLicenseCheckbox').checked;
+    var cacesChecked = document.getElementById('cacesCheckbox').checked;
+    console.log(driverLicenseChecked);
+
     var maxFileSize = 10 * 1024 * 1024; // 10 Mo
     var maxFileNameLength = 50;
 
@@ -12,6 +18,15 @@ function sendDataToAPI() {
     var adresse = document.getElementById('adresse').value;
     var mot_de_passe = document.getElementById('mot_de_passe').value;
     var situation = document.getElementById('situation').value;
+    var demi_journees = document.getElementById('heures').value;
+    var lundi = document.getElementById('lundi').value;
+    var mardi = document.getElementById('mardi').value;
+    var mercredi = document.getElementById('mercredi').value;
+    var jeudi = document.getElementById('jeudi').value;
+    var vendredi = document.getElementById('vendredi').value;
+    var samedi = document.getElementById('samedi').value;
+    var dimanche = document.getElementById('dimanche').value;
+
 
     // Créer un objet JSON avec les données du formulaire
     var data = {
@@ -25,49 +40,23 @@ function sendDataToAPI() {
         "Date_de_naissance": date_naissance,
         "Statut": "Pending",
         "Situation": situation,
-        "Role": "Benevole"
+        "Role": "Benevole",
+        "DEMI_JOURNEES": demi_journees,
+        "LUNDI": lundi,
+        "MARDI": mardi,
+        "MERCREDI": mercredi,
+        "JEUDI": jeudi,
+        "VENDREDI": vendredi,
+        "SAMEDI": samedi,
+        "DIMANCHE": dimanche
     };
 
     var formData = new FormData();
     formData.append('json_data', JSON.stringify(data)); // Ajouter les données JSON
 
-    var permisInput = document.getElementById('permis_file');
-    var permisFile = permisInput.files[0];
-    formData.append('permis_file', permisFile, permisFile.name);
-
-    var cvInput = document.getElementById('CV');
-    var cvFile = cvInput.files[0];
-    formData.append('cv_file', cvFile, cvFile.name);
-
-    if (!isFileNameValid(permisFile.name)) {
-        alert("Le nom du pdf du permis contient des caractères interdits (espaces, caractères spéciaux)"+permisFile.name);
-        return;
-    }
-
-    if (!isFileNameValid(cvFile.name)) {
-        alert("Le nom du CV contient des caractères interdits (espaces, caractères spéciaux)");
-        return;
-    }
-
-    if (!isFileSizeValid(permisFile, maxFileSize)) {
-        alert("La taille du fichier du permis dépasse la limite autorisée (10 Mo).");
-        return;
-    }
-
-    if (!isFileSizeValid(cvFile, maxFileSize)) {
-        alert("La taille du fichier du CV dépasse la limite autorisée (10 Mo).");
-        return;
-    }
-
-    if (!isFileNameLengthValid(permisFile.name, maxFileNameLength)) {
-        alert("Le nom du fichier du permis dépasse la limite autorisée (50 caractères).");
-        return;
-    }
-
-    if (!isFileNameLengthValid(cvFile.name, maxFileNameLength)) {
-        alert("Le nom du fichier du CV dépasse la limite autorisée (50 caractères).");
-        return;
-    }
+    // Envoyer les fichiers PDF
+    sendPDFFile('permis_file', formData, maxFileSize, maxFileNameLength);
+    sendPDFFile('cv_file', formData, maxFileSize, maxFileNameLength);
 
     var apiUrl = 'http://localhost:8082/index.php/volunteers/register';
 
@@ -77,7 +66,6 @@ function sendDataToAPI() {
         body: formData
     };
 
-    console.log(options);
     fetch(apiUrl, options)
         .then(response => {
             if (!response.ok) {
@@ -92,19 +80,74 @@ function sendDataToAPI() {
             alert(JSON.stringify(data));
             if (data && data.status && data.status.startsWith("success")) {
                 // Redirection vers la page souhaitée
-                window.location.href = "../../index.php";
+                //window.location.href = "../../index.php";
+                const userId = data["inserted id"];
+                addSelectedSkills(userId);
+                return data; // Passer les données pour le traitement suivant si nécessaire
+            } else {
+                throw new Error(data.message || "Erreur lors de l'enregistrement de l'utilisateur.");
             }
         })
         .catch(error => {
-            console.error('Erreur lors de la réponse de l\'API :', error.message);
-            alert('Erreur lors de la réponse de l\'API :', error.message);
+            //console.error('Erreur lors de l\'enregistrement de l\'utilisateur :', error.message);
+            alert('Erreur lors de l\'enregistrement de l\'utilisateur :', error.message);
         });
+}
 
-        //On récupére l'ID de l'utilisateur inséré:
-        let userIdUrl ='http://localhost:8082/index.php/users/Mail/pa8@example.com'
+function sendPDFFile(inputId, formData, maxFileSize, maxFileNameLength) {
+    console.log("On est dans sendPDFFile");
+    const fileInput = document.getElementById(inputId);
+    const file = fileInput.files[0];
+    console.log("File input ID:", inputId);
+    console.log("File:", file);
+    if (!file){
+    }else{
+        formData.append(inputId, file, file.name);
 
-        var apiCompetences = 'http://localhost:8082/index.php/volunteers/register';
+        if (!isFileNameValid(file.name)) {
+            alert("Le nom du fichier PDF contient des caractères interdits (espaces, caractères spéciaux)");
+            throw new Error("Nom de fichier invalide : " + file.name);
+        }
 
+        if (!isFileSizeValid(file, maxFileSize)) {
+            alert("La taille du fichier PDF dépasse la limite autorisée (10 Mo).");
+            throw new Error("Taille de fichier invalide : " + file.size);
+        }
+
+        if (!isFileNameLengthValid(file.name, maxFileNameLength)) {
+            alert("Le nom du fichier PDF dépasse la limite autorisée (50 caractères).");
+            throw new Error("Longueur de nom de fichier invalide : " + file.name.length);
+        }
+    }
+}
+
+function addSelectedSkills(userId) {
+    console.log("On est addSelectedSkills");
+    // Récupérer les compétences sélectionnées par l'utilisateur
+    var selectedSkills = document.querySelectorAll('input[name="competence"]:checked');
+    console.log(selectedSkills);
+
+    // Envoyer une requête POST pour chaque compétence sélectionnée
+    selectedSkills.forEach(skill => {
+        var skillId = skill.value;
+        console.log("Skill ID:", skillId);
+        var assignUrl = `http://localhost:8082/index.php/skills/assign/${userId}/${skillId}`;
+        console.log("Assign URL:", assignUrl);
+
+        fetch(assignUrl, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.status === "success") {
+                    console.log(`Compétence ${skillId} assignée à l'utilisateur ${userId}.`);
+                } else {
+                    throw new Error(data.message || "Erreur lors de l'assignation de la compétence.");
+                }
+            })
+            .catch(error => {
+                console.error(`Erreur lors de l'assignation de la compétence ${skillId} :`, error.message);
+                alert(`Erreur lors de l'assignation de la compétence ${skillId} :`, error.message);
+            });
+    });
 }
 
 function isFileNameValid(fileName) {
@@ -118,13 +161,4 @@ function isFileSizeValid(file, maxSizeInBytes) {
 
 function isFileNameLengthValid(fileName, maxFileNameLength) {
     return fileName.length <= maxFileNameLength;
-}
-
-function getTodayDate() {
-    var today = new Date();
-    var day = String(today.getDate()).padStart(2, '0');
-    var month = String(today.getMonth() + 1).padStart(2, '0');
-    var year = today.getFullYear();
-
-    return year + '-' + month + '-' + day;
 }

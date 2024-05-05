@@ -93,17 +93,20 @@ class UserController {
             $availability = new AvailabilityModel($data,$insertedUser->id_utilisateur);
             $this->availabilityService->createAvailability($availability);
 
-            if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null) {
-                $this->saveUploadedFiles($data);
-            }else{
-                throw new Exception("L'Utilisateur a été enregistré mais les fichiers justificatifs n'ont pas été envoyés");
-            }
+            if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null)
+                $filesSaved=$this->saveUploadedFiles($data);
 
             http_response_code(200);
             $response = [
                 'status' => 'success',
                 'message' => 'User added successfully.',
+                'inserted_id' => $insertedUser->id_utilisateur,
             ];
+
+            if (!$filesSaved) {
+                $response['remark'] = "L'utilisateur a été enregistré, mais les fichiers justificatifs n'ont pas été envoyés.";
+            }
+
             ResponseHelper::sendResponse($response);
 
         } catch (Exception $e) {
@@ -281,7 +284,6 @@ public function updateUser($id) {
 }*/
     private function getUserByEmail($email)
     {
-        var_dump($email);
         $user = $this->userService->findByEmail($email);
         if (!$user) {
             ResponseHelper::sendNotFound("User not found.");

@@ -221,16 +221,41 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
         <div class="section">
             <h2><?php echo htmlspecialchars($data["SKILLS"]);?></h2>
 
-            <div class="col-week">
-                <label><input type="checkbox" id="travail_social" name="competence" value="travail_social"> <?php echo htmlspecialchars($data["SOCIAL_WORK"]);?></label><br>
-                <label><input type="checkbox" id="gestion_projet" name="competence" value="gestion_projet"> <?php echo htmlspecialchars($data["PROJECT_MANAGEMENT"]);?></label><br>
-                <label><input type="checkbox" id="marketing_communication" name="competence" value="marketing_communication"> <?php echo htmlspecialchars($data["MARKETING_AND_COMMUNICATION"]);?></label><br>
-                <label><input type="checkbox" id="capacite_ecoute_empathie" name="competence" value="capacite_ecoute_empathie"> <?php echo htmlspecialchars($data["ABILITY_TO_LISTEN_AND_EMPATHIZE"]);?></label><br>
-                <label><input type="checkbox" id="gestion_financiere" name="competence" value="gestion_financiere"> <?php echo htmlspecialchars($data["FINANCIAL_MANAGEMENT"]);?></label><br>
+            <div class="col-skills" id="competences-container">
+                <!-- Les compétences seront ajoutées ici dynamiquement -->
             </div>
-        </div>
-        </div>
 
+            <script>
+                // Effectuer une requête HTTP GET pour récupérer les compétences depuis l'API
+                fetch('http://localhost:8082/index.php/competences/All')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Vérifier si data.success est défini et est un tableau
+                        if (data && Array.isArray(data.success)) {
+                            // Parcourir les compétences et générer dynamiquement les cases à cocher
+                            const competencesContainer = document.getElementById('competences-container');
+                            data.success.forEach(competence => {
+                                const label = document.createElement('label');
+                                const input = document.createElement('input');
+                                input.type = 'checkbox';
+                                input.name = 'competence';
+                                input.value = competence.ID_Competence;
+                                label.appendChild(input);
+                                label.appendChild(document.createTextNode(competence.Nom_Competence));
+                                label.appendChild(document.createElement('br'));
+                                competencesContainer.appendChild(label);
+                            });
+                        } else {
+                            console.error('La réponse de l\'API ne contient pas de tableau de compétences.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des compétences :', error);
+                    });
+           </script>
+
+        </div>
+        </div>
 
         <div class="section">
             <h2> <?php echo htmlspecialchars($data["TERMS_LEGAL_NOTICES"]);?> </h2>

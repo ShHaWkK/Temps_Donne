@@ -32,6 +32,9 @@ class UserController {
                             case 'All':
                                 $this->getAllUsersByRole($uri[2]);
                                 break;
+                            case 'Mail':
+                                $this->getUserByEmail($uri[4]);
+                                break;
                             default:
                                 $this->getUser($uri[3]);
                                 break;
@@ -276,5 +279,15 @@ public function updateUser($id) {
         ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
     }
 }*/
+    private function getUserByEmail($email)
+    {
+        var_dump($email);
+        $user = $this->userService->findByEmail($email);
+        if (!$user) {
+            ResponseHelper::sendNotFound("User not found.");
+        } else {
+            ResponseHelper::sendResponse($user);
+        }
+    }
 
 }

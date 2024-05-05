@@ -4,17 +4,16 @@ require_once './Services/ServiceService.php';
 require_once './Models/ServiceModel.php';
 require_once './exceptions.php';
 require_once './Helpers/ResponseHelper.php';
-require_once './Repository/BDD.php';
 
 class ServiceController {
 
     public $serviceService;
 
-public function __construct() {
-$db = connectDB();
-$serviceRepository = new ServiceRepository($db);
-$this->serviceService = new ServiceService($serviceRepository);
-}
+    public function __construct() {
+        $db = connectDB();
+        $serviceRepository = new ServiceRepository($db);
+        $this->serviceService = new ServiceService($serviceRepository);
+    }
 
     public function processRequest($method, $uri)
     {

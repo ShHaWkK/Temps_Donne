@@ -25,6 +25,10 @@ CREATE TABLE Utilisateurs (
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
+-- Ajout d'un admin lors de la création de la BDD
+INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Statut)
+VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', 'admin', 'Administrateur', 'Granted');
+
 
 -- Tables Services
 CREATE TABLE ServiceType(

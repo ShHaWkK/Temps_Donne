@@ -99,6 +99,12 @@ function sendDataToAPI() {
             console.error('Erreur lors de la réponse de l\'API :', error.message);
             alert('Erreur lors de la réponse de l\'API :', error.message);
         });
+
+        //On récupére l'ID de l'utilisateur inséré:
+        let userIdUrl ='http://localhost:8082/index.php/users/Mail/pa8@example.com'
+
+        var apiCompetences = 'http://localhost:8082/index.php/volunteers/register';
+
 }
 
 function isFileNameValid(fileName) {

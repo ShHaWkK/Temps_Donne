@@ -88,6 +88,7 @@ class UserRepository {
         $statement->execute();
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
+
         return $user ? new UserModel($user) : null;
     }
 

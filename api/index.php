@@ -23,6 +23,7 @@ require_once 'Controllers/EntrepotController.php';
 require_once 'Controllers/ProduitController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
+require_once 'Controllers/SkillController.php';
 require_once 'Helpers/ResponseHelper.php';
 require_once  __DIR__ . '/vendor/autoload.php';
 
@@ -67,6 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 //-------------------- ROUTER --------------------//
 
+/**
+ * @throws Exception
+ */
 function router($uri, $requestMethod) {
     $controller = null;
 
@@ -85,7 +89,6 @@ function router($uri, $requestMethod) {
                 exit_with_message('Method Not Allowed', 405);
             }
             break;
-
         case 'admins':
             $adminController = new AdminController();
             $userController = new UserController();
@@ -105,12 +108,10 @@ function router($uri, $requestMethod) {
             $controller = new UserController();
             $controller->processRequest($requestMethod,$uri);
             break;
-
         case 'services':
             $controller = new ServiceController();
             $controller->processRequest($requestMethod,$uri);
             break;
-
         case 'tickets':
             //$controller = new TicketController();
             // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour les tickets
@@ -131,11 +132,14 @@ function router($uri, $requestMethod) {
             $controller = new EntrepotController();
             $controller->processRequest($requestMethod, $uri);
             break;
+        case 'skills':
+            $controller=new SkillController();
+            $controller->processRequest($requestMethod,$uri);
+            break;
         default:
             exit_with_message('Not Found', 404);
             return;
     }
-
     // Gestion des erreurs
     try {
         // Traitement spécifique pour d'autres routes si nécessaire

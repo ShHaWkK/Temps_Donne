@@ -1,6 +1,8 @@
 <?php
 
 require_once './Repository/StockRepository.php';
+require_once './Repository/EntrepotRepository.php';
+require_once './Repository/ProduitRepository.php';
 require_once './Services/StockService.php';
 require_once './Models/StockModel.php';
 require_once './Helpers/ResponseHelper.php';
@@ -11,7 +13,9 @@ class StockController {
     public function __construct() {
         $db = connectDB();
         $stockRepository = new StockRepository($db);
-        $this->stockService = new StockService($stockRepository);
+        $entrepotRepository = new EntrepotRepository($db);
+        $produitRepository = new ProduitRepository($db);
+        $this->stockService = new StockService($stockRepository, $entrepotRepository, $produitRepository);
     }
 
     public function processRequest($method, $uri) {
@@ -100,4 +104,5 @@ class StockController {
         }
     }
 }
+
 ?>

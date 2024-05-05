@@ -1,6 +1,7 @@
 <?php
 
 require_once './Repository/ProduitRepository.php';
+require_once './Models/ProduitModel.php';
 
 class ProduitService {
     private $produitRepository;

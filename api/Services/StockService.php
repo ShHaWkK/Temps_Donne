@@ -1,7 +1,8 @@
 <?php
 
 require_once './Repository/StockRepository.php';
-require_once './Repository/EntrepotRepository.php'; // Assurez-vous d'inclure le bon fichier pour EntrepotRepository
+require_once './Repository/ProduitRepository.php';
+require_once './Repository/EntrepotRepository.php'; 
 require_once './Models/StockModel.php';
 
 use Endroid\QrCode\QrCode;
@@ -10,40 +11,52 @@ use Endroid\QrCode\Writer\PngWriter;
 class StockService {
     private $stockRepository;
     private $entrepotRepository;
+    private $produitRepository;
 
-    public function __construct(StockRepository $stockRepository, EntrepotRepository $entrepotRepository) {
+    public function __construct(StockRepository $stockRepository, EntrepotRepository $entrepotRepository, ProduitRepository $produitRepository) {
         $this->stockRepository = $stockRepository;
         $this->entrepotRepository = $entrepotRepository;
+        $this->produitRepository = $produitRepository;
     }
-
     public function addStock($stockData) {
-        // Trouver l'entrepôt concerné pour vérifier le volume disponible.
-        $entrepot = $this->entrepotRepository->findById($stockData['id_entrepot']);
-        $produit = $this->stockRepository->findProductById($stockData['id_produit']);
+        try {
+            // Vérifiez que stockData est bien un objet de type StockModel
+            if (!$stockData instanceof StockModel) {
+                throw new Exception("Les données de stock ne sont pas du type StockModel attendu.");
+            }
 
-        // Calculer le volume requis pour le nouveau stock.
-        $volumeRequired = $stockData['quantite'] * $produit['volume'];
+            $entrepot = $this->entrepotRepository->findById($stockData->id_entrepot);
+            $produit = $this->produitRepository->findById($stockData->id_produit);
 
-        // Vérifier s'il y a suffisamment de volume disponible dans l'entrepôt.
-        if (($entrepot['volume_total'] - $entrepot['volume_utilise']) < $volumeRequired) {
-            // Gérer le cas où il y a insuffisance de volume.
-            return $this->handleInsufficientVolume($stockData, $entrepot, $volumeRequired);
+            if (!$entrepot || !$produit) {
+                throw new Exception("Entrepôt ou produit introuvable.");
+            }
+
+            // Utilisation correcte des propriétés de l'objet
+            $volumeRequired = $stockData->quantite * $produit['volume'];
+            if (($entrepot['volume_total'] - $entrepot['volume_utilise']) < $volumeRequired) {
+                throw new Exception("Volume insuffisant dans l'entrepôt.");
+            }
+
+            // La méthode validate et save attend un objet StockModel, donc aucun changement n'est nécessaire ici
+            $stockData->validate();
+            $stockId = $this->stockRepository->save($stockData);
+
+            $this->entrepotRepository->updateVolume($entrepot['id'], $entrepot['volume_utilise'] + $volumeRequired);
+            $this->generateQrCode($stockData);
+
+            return $stockId;
+        } catch (PDOException $e) {
+            error_log("Erreur de base de données lors de l'ajout du stock: " . $e->getMessage());
+            throw new Exception("Erreur de base de données lors de l'ajout du stock: " . $e->getMessage());
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            throw $e ;
         }
-
-        // Créer un nouveau modèle de stock et l'enregistrer dans la base de données.
-        $stock = new StockModel($stockData);
-        $stock->validate();  // Validation pour assurer l'intégrité des données.
-        $stockId = $this->stockRepository->save($stock);
-
-        // Mettre à jour le volume utilisé dans l'entrepôt.
-        $this->entrepotRepository->updateVolume($entrepot['id'], $entrepot['volume_utilise'] + $volumeRequired);
-
-        // Générer un code QR pour le nouveau stock.
-        $this->generateQrCode($stock);
-
-        // Retourner l'ID du stock nouvellement ajouté.
-        return $stockId;
     }
+
+
+
 
     public function updateStock($id, $data) {
         $existingStock = $this->getStockById($id);
@@ -56,6 +69,7 @@ class StockService {
         $this->repository->save($updatedStock);
         return $updatedStock;
     }
+
 
     private function handleInsufficientVolume($stockData, $entrepot, $volumeRequired) {
         $maxQuantitePossible = floor(($entrepot['volume_total'] - $entrepot['volume_utilise']) / $stockData['volume']);
@@ -72,6 +86,7 @@ class StockService {
         throw new Exception("Pas assez d'espace dans l'entrepôt pour le stock.");
     }
 
+
     private function generateQrCode(StockModel $stock) {
         $data = [
             'id_stock' => $stock->id_stock,
@@ -80,13 +95,26 @@ class StockService {
         ];
         $qrCode = new QrCode(json_encode($data));
         $writer = new PngWriter();
-        $qrCodePath = __DIR__ . '/../qr_codes/' . $stock->id_stock . '.png';
-        $writer->write($qrCode)->saveToFile($qrCodePath);
-        $stock->qr_code = $qrCodePath;
 
-        // Mettre à jour le chemin du code QR dans la base de données.
+        $qrCodeDirectory = __DIR__ . '/../qr_codes/';
+        if (!file_exists($qrCodeDirectory)) {
+            mkdir($qrCodeDirectory, 0777, true);
+        }
+
+        $qrCodePath = $qrCodeDirectory . $stock->id_stock . '.png';
+        $writer->write($qrCode)->saveToFile($qrCodePath);
+
+        if (file_exists($qrCodePath)) {
+            error_log("QR Code successfully saved to: " . $qrCodePath);
+        } else {
+            error_log("Failed to save QR Code to: " . $qrCodePath);
+        }
+
+        $stock->qr_code = $qrCodePath;
         $this->stockRepository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
+
+
 
     public function updateQrCodePath($stockId, $qrCodePath) {
         $this->stockRepository->updateQrCodePath($stockId, $qrCodePath);

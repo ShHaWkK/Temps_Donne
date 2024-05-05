@@ -6,8 +6,9 @@ class EntrepotController {
     private $entrepotService;
 
     public function __construct() {
-        $db = connectDB();  // Assurez-vous que cette fonction retourne une instance de PDO
-        $this->entrepotService = new EntrepotService(new EntrepotRepository($db));
+        $db = connectDB();
+        $entrepotRepository = new EntrepotRepository($db);
+        $this->entrepotService = new EntrepotService($entrepotRepository);
     }
 
     public function processRequest($method, $uri) {
@@ -58,16 +59,36 @@ class EntrepotController {
         ResponseHelper::sendResponse($entrepots);
     }
 
-    public function createEntrepot($data) {
-        $entrepot = new EntrepotModel($data);
-        $this->entrepotService->createEntrepot($entrepot);
-        ResponseHelper::sendResponse(['message' => 'Entrepot created successfully'], 201);
+    public function updateEntrepot($id, $data) {
+        try {
+            $this->entrepotService->updateEntrepot($id, $data);
+            if (isset($data['volume_utilise'])) {
+                $this->entrepotService->updateVolume($id, $data['volume_utilise']);
+            }
+            ResponseHelper::sendResponse(['message' => 'Entrepot updated successfully']);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 500);
+        }
     }
 
-    private function updateEntrepot($id, $data) {
-        $this->entrepotService->updateEntrepot($id, $data);
-        ResponseHelper::sendResponse(['message' => 'Entrepot updated successfully']);
+
+    public function createEntrepot($data) {
+        $entrepot = new EntrepotModel($data);
+        if ($this->validateEntrepot($entrepot)) {
+            $id = $this->entrepotService->createEntrepot($entrepot);
+            ResponseHelper::sendResponse(['message' => 'Entrepot created successfully', 'id' => $id], 201);
+        } else {
+            ResponseHelper::sendResponse(['error' => 'Validation failed for entrepot'], 400);
+        }
     }
+
+
+    private function validateEntrepot($entrepot) {
+        // Validez ici selon vos critères
+        return $entrepot->nom && $entrepot->adresse && is_numeric($entrepot->volumeTotal) && is_numeric($entrepot->volumeUtilise);
+    }
+
+
 
     private function deleteEntrepot($id) {
         $this->entrepotService->deleteEntrepot($id);

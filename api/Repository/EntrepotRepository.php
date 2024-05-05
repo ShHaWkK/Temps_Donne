@@ -1,11 +1,10 @@
 <?php
 require_once 'BDD.php';
-
 class EntrepotRepository {
     private $db;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct() {
+        $this->db = connectDB();  // Assurez-vous que cette méthode initialise correctement une instance de PDO
     }
 
     public function save($entrepot) {
@@ -22,8 +21,10 @@ class EntrepotRepository {
     }
 
     public function findById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM Entrepots WHERE ID_Entrepot = ?");
-        $stmt->execute([$id]);
+        $sql = "SELECT * FROM Entrepots WHERE ID_Entrepot = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -34,11 +35,25 @@ class EntrepotRepository {
         ]);
     }
 
+    public function updateVolume($id, $newVolumeUtilise) {
+        try {
+            $this->db->beginTransaction();
+            $sql = "UPDATE Entrepots SET volume_utilise = :volume_utilise WHERE ID_Entrepot = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':volume_utilise', $newVolumeUtilise, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->db->commit();
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
     public function delete($id) {
         $stmt = $this->db->prepare("DELETE FROM Entrepots WHERE ID_Entrepot = ?");
         $stmt->execute([$id]);
     }
 }
-
 
 ?>

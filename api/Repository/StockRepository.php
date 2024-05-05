@@ -24,6 +24,7 @@ class StockRepository {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+
     public function save(StockModel $stock) {
         $sql = is_null($stock->id_stock) ?
             "INSERT INTO Stocks (ID_Entrepots, ID_Produit, Quantite, Poids_Total, Volume_Total, Date_de_reception, Statut, QR_Code, Date_de_peremption) VALUES (:id_entrepot, :id_produit, :quantite, :poids_total, :volume_total, :date_de_reception, :statut, :qr_code, :date_de_peremption)" :

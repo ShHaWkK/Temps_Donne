@@ -82,6 +82,7 @@ function sendDataToAPI() {
                 // Redirection vers la page souhaitée
                 //window.location.href = "../../index.php";
                 const userId = data["inserted id"];
+                console.log(userId);
                 addSelectedSkills(userId);
                 return data; // Passer les données pour le traitement suivant si nécessaire
             } else {

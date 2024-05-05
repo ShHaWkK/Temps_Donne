@@ -25,8 +25,8 @@ class UserRepository {
         // Génération apikey
         $user->apikey = hash("sha256", $user->nom.$user->prenom.$user->email.$user->mot_de_passe);
 
-        $query = "INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Situation, Besoins_specifiques, Photo_Profil, Date_Derniere_Connexion, Statut_Connexion, Emploi, Societe, Code_Verification, Type_Permis, Statut) 
-          VALUES (:nom, :prenom, :genre, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :situation, :besoins_specifiques, :photo_profil, :date_derniere_connexion, :statut_connexion, :emploi, :societe, :code_verification, :type_permis, :statut)";
+        $query = "INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Situation, Besoins_specifiques, Photo_Profil, Date_Derniere_Connexion, Statut_Connexion, Emploi, Societe, Code_Verification, Statut, Permis_B, Permis_Poids_Lourds, CACES) 
+          VALUES (:nom, :prenom, :genre, :email, :mot_de_passe, :role, :adresse, :telephone, :date_de_naissance, :langues, :nationalite, :date_d_inscription, :situation, :besoins_specifiques, :photo_profil, :date_derniere_connexion, :statut_connexion, :emploi, :societe, :code_verification, :statut, :permis_b, :permis_poids_lourds, :caces)";
 
 
         $statement = $this->db->prepare($query);
@@ -49,10 +49,14 @@ class UserRepository {
         $statement->bindValue(':emploi', $user->emploi);
         $statement->bindValue(':societe', $user->societe);
         $statement->bindValue(':code_verification', $user->code_verification);
-        $statement->bindValue(':type_permis', $user->type_permis);
         $statement->bindValue(':date_derniere_connexion', $user->date_derniere_connexion);
         $statement->bindValue(':statut_connexion', $user->statut_connexion);
         $statement->bindValue(':role', $user->role);
+        //Il faut convertir les booleans en int au lieu de directement mettre true or false car php et sql n'ont pas la même manière de traiter les booleans
+        $statement->bindValue(':permis_b', $user->permis_b ? 1 : 0, PDO::PARAM_INT);
+        $statement->bindValue(':permis_poids_lourds', $user->permis_poids_lourds ? 1 : 0, PDO::PARAM_INT);
+        $statement->bindValue(':caces', $user->caces ? 1 : 0, PDO::PARAM_INT);
+
         //$statement->bindValue(':apikey', $user->apikey);
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde de l'utilisateur : " . print_r($user, true));
@@ -78,7 +82,6 @@ class UserRepository {
         $statement->bindValue(':id', $userId);
         return $statement->execute();
     }
-
 
 //----------------- Il sert à vérifier si l'email existe déjà dans la base de données -----------------//
     public function findByEmail($email) {

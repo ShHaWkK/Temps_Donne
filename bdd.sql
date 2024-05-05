@@ -21,7 +21,9 @@ CREATE TABLE Utilisateurs (
                               Emploi VARCHAR(255),
                               Societe VARCHAR(255),
                               Code_Verification VARCHAR(255),
-                              Type_Permis VARCHAR(50),
+                              Permis_B BOOLEAN,
+                              Permis_Poids_Lourds BOOLEAN,
+                              CACES BOOLEAN,
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
@@ -429,7 +431,11 @@ CREATE TABLE UtilisateursCompetences (
 
 INSERT INTO Competences (Nom_Competence, Description) VALUES
                                                           ('Français', 'Capacité à parler et comprendre le français'),
-                                                          ('Conduite', 'Compétence en conduite de véhicules');
+                                                          ('Conduite', 'Compétence en conduite de véhicules'),
+                                                          ('Developpement web', 'Competences en developpement web'),
+                                                          ('Gestion de projet', 'Formation ou competence dans la gestion de projet'),
+                                                          ('Travail social', 'Experience passee et competence en travail social'),
+                                                          ('Marketing et communication', 'Marketing et communication');
 
 CREATE TABLE Inscriptions (
                               ID_Inscription INT AUTO_INCREMENT PRIMARY KEY,

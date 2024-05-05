@@ -190,7 +190,7 @@ class UserController {
             }
 
             $this->userService->updateUser($user, $fieldsToUpdate);
-            ResponseHelper::sendResponse(["Utilisateur mis à jour avec succès." => $user]);
+            ResponseHelper::sendResponse(["Utilisateur mis à jour avec succès."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }

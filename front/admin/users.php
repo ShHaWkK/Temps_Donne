@@ -5,6 +5,7 @@ include_once('../includes/head.php');
 include_once('./header.php');
 include_once('addUserModalWindow.php');
 include_once('userDetailsModalWindow.php');
+include_once('deleteUserModalWindow.php');
 echo "<title>Espace Administrateur - Utilisateurs</title>";
 ?>
 

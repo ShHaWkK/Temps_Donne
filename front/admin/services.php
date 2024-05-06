@@ -3,8 +3,6 @@ session_start();
 include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
-include_once('addUserModalWindow.php');
-//echo "<title>Espace Administrateur - Services</title>";
 ?>
 
 <head>
@@ -18,19 +16,18 @@ include_once('addUserModalWindow.php');
 <center>
     <div class="main-container-tabs">
         <div class="line">
-            <button class="popup-button" id="openAddTypeModalButton"> Ajouter un type de service</button>
-
+            <button class="popup-button" id="openAddServiceButton">Ajouter un service</button>
             <script>
-                document.getElementById('openAddTypeModalButton').addEventListener('click', function() {
-                    // Code pour ouvrir la fenêtre modale d'ajout de type de service
+                document.getElementById('openAddServiceButton').addEventListener('click', function() {
+                    window.location.href = 'addServiceType.php';
                 });
             </script>
 
-            <button class="popup-button" id="openAddServiceModalButton"> Ajouter un service</button>
 
+            <button class="popup-button" href="./addServiceType.php" id="openAddServiceTypeButton"> Ajouter un type de service</button>
             <script>
-                document.getElementById('openAddServiceModalButton').addEventListener('click', function() {
-                    // Code pour ouvrir la fenêtre modale d'ajout de service
+                document.getElementById('openAddServiceTypeButton').addEventListener('click', function() {
+                    window.location.href = 'addServiceType.php';
                 });
             </script>
 
@@ -38,6 +35,7 @@ include_once('addUserModalWindow.php');
 
             <script>
                 document.getElementById('openAssignUserModalButton').addEventListener('click', function() {
+                    window.parent.postMessage('openAddTypeModalButton', '*');
                 });
             </script>
         </div>

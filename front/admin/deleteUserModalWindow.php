@@ -8,55 +8,45 @@
 </head>
 <body>
 
-<div id="myModal" class="modal">
+<div id="deleteModal" class="modal">
     <div class="modal-content">
-        <h2>Confirmation de suppression</h2>
-        <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
-        <button class="confirm-button" id="confirmButton">Confirmer</button>
-        <button class="cancel-button" id="cancelButton">Annuler</button>
+        <h2>Suppression</h2>
+        <p>Voulez-vous supprimer cet utilisateur ?</p>
+        <div>
+            <button class="confirm-button" id="confirmButtonDelete">Confirmer</button>
+            <button class="cancel-button" id="cancelButton">Annuler</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Récupérer le bouton qui ouvre la fenêtre modale
-    var modal = document.getElementById('myModal');
+    document.getElementById('confirmButtonDelete').addEventListener('click', function() {
+        var userId = event.data.userId; // Capturer la valeur de event.data.userId
+        console.log(userId);
+        deleteUser(userId);
+    });
 
-    // Lien pour supprimer l'utilisateur
-    var deleteLink = 'http://localhost:8082/index.php/users/';
 
-    // Écouter les clics sur le bouton de confirmation
-    document.getElementById('confirmButton').onclick = function() {
-        // Envoyer la requête DELETE
-        var userId = /* Remplacez ceci par l'ID de l'utilisateur */;
-        fetch(deleteLink + userId, {
-            method: 'DELETE'
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('La suppression de l\'utilisateur a échoué.');
-                }
-                alert('L\'utilisateur a été supprimé avec succès.');
-                // Rafraîchir la page ou effectuer toute autre action nécessaire
-            })
-            .catch(error => {
-                console.error('Erreur lors de la suppression de l\'utilisateur :', error.message);
-                alert('Erreur lors de la suppression de l\'utilisateur :', error.message);
-            });
+    // Fonction pour ouvrir la fenêtre modale
+    function openDeleteModal(userId) {
+        document.getElementById('deleteModal').style.display = 'block';
+        // Mettre à jour le contenu ou effectuer toute autre action nécessaire en fonction de userId
+    }
 
-        // Cacher la fenêtre modale après la confirmation
-        modal.style.display = 'none';
-    };
+    // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci
+    window.onclick = function(event) {
+        var modal = document.getElementById('deleteModal');
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
 
-    // Écouter les clics sur le bouton d'annulation
-    document.getElementById('cancelButton').onclick = function() {
-        // Cacher la fenêtre modale en cas d'annulation
-        modal.style.display = 'none';
-    };
+    window.addEventListener('message', function(event) {
+        if (event.data.type === 'deleteUserModal') {
+            openDeleteModal(event.data.userId);
+        }
+    });
 
-    document.getElementById('deleteButton').onclick = function() {
-        modal.style.display = 'block';
-    };
 </script>
-
 </body>
 </html>

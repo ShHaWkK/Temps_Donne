@@ -49,7 +49,7 @@ function loginAdmin() {
                 }
             } else {
                 console.error("Réponse de l'API inattendue :", data);
-                alert("Réponse de l'API inattendue");
+                alert(data);
             }
         })
         .catch(error => {

@@ -55,12 +55,24 @@ function displayUsers(users) {
 }
 
 function addUserDetailsModalEventListeners() {
-    console.log("On ajoute l'event");
+    console.log("On ajoute l'event addUserDetailsModalEventListeners");
     document.querySelectorAll('.popup-button.userDetails').forEach(button => {
         button.addEventListener('click', function() {
             const userId = button.closest('tr').querySelector('.user-id').textContent.trim();
             console.log("click",userId);
             window.parent.postMessage({ type: 'openUserDetails', userId: userId }, '*');
+        });
+    });
+}
+
+function addRejectModalEventListeners(){
+    console.log("On ajoute l'event addRejectModalEventListeners");
+    document.querySelectorAll('.reject-link').forEach(link => {
+        link.addEventListener('click', function(event) { // Ajoute "event" comme argument ici
+            event.preventDefault();
+            const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
+            console.log("click modal",userId);
+            window.parent.postMessage({ type: 'deleteUserModal', userId: userId }, '*');
         });
     });
 }
@@ -86,8 +98,9 @@ window.onload = function() {
         .then(() => {
             addApproveEventListeners();
             addHoldEventListeners();
-            addRejectEventListeners();
+            // addRejectEventListeners();
             addUserDetailsModalEventListeners();
+            addRejectModalEventListeners();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

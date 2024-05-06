@@ -29,7 +29,7 @@ CREATE TABLE Utilisateurs (
 
 -- Ajout d'un admin lors de la création de la BDD
 INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Statut)
-VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', 'admin', 'Administrateur', 'Granted');
+VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', 'motdepasse123', 'Administrateur', 'Granted');
 
 
 -- Tables Services
@@ -52,12 +52,28 @@ CREATE TABLE Services (
                           Description TEXT,
                           Horaire TIME,
                           Lieu VARCHAR(255),
-                          NFC_Tag_Data TEXT,
-                          Date_Debut DATE,
-                          Date_Fin DATE,
+                          Date DATE,
                           ID_ServiceType INT,
                           FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType)
 );
+ALTER TABLE Services ADD COLUMN startTime TIME;
+ALTER TABLE Services ADD COLUMN endTime TIME;
+
+-- Table Planning (la table planning permet d'assigner une activité à un utilisateur)
+
+CREATE TABLE Planning (
+                          ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
+                          ID_Utilisateur INT NOT NULL,
+                          ID_Service INT NOT NULL NULL, -- On ajoute la clé étrangère du service
+                          Description TEXT,
+                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION,
+                          FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service) ON DELETE NO ACTION
+) ENGINE=InnoDB;
+/*
+ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
+ALTER TABLE Planning ADD COLUMN startTime TIME;
+ALTER TABLE Planning ADD COLUMN endTime TIME;
+*/
 
 -- Table Formations
 CREATE TABLE Formations (
@@ -370,20 +386,6 @@ CREATE TABLE Captchas (
                           ID_Utilisateur INT,
                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
-
--- Table Planning
-
-CREATE TABLE Planning (
-                          ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
-                          ID_Utilisateur INT NOT NULL,
-                          Date DATE,
-                          Description TEXT,
-                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION
-) ENGINE=InnoDB;
-
-ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
-ALTER TABLE Planning ADD COLUMN startTime TIME;
-ALTER TABLE Planning ADD COLUMN endTime TIME;
 
 -- Table AffectationsServices
 CREATE TABLE AffectationsServices (

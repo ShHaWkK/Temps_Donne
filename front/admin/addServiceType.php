@@ -1,20 +1,41 @@
 <?php
-ob_start(); // Commence la mise en tampon de sortie
-include_once('../includes/head.php');
-include_once('../includes/header.php');
+session_start();
 include_once('../includes/lang.php');
+include_once('../includes/head.php');
+include_once('./header.php');
 ?>
-<!DOCTYPE html>
-<html>
+
 <head>
+    <link rel="stylesheet" href="./css/table.css"
     <link rel="stylesheet" href="../css/services.css">
-    <title><?php echo htmlspecialchars($data["OUR_SERVICES"]); ?></title>
+    <script src="./js/checkSessionAdmin.js"></script>
+    <title>Espace Administrateur - Ajouter type de service</title>
 </head>
 
 <body>
-
 <div class="main-container">
-    <h1>Nos services</h1>
+    <h2>Type de services</h2>
+
+    <line>
+        <button class="popup-button" id="openAddServiceTypeModal">Ajouter un type de service</button>
+
+        <script>
+            document.getElementById('openAddUserModal').addEventListener('click', function() {
+                window.parent.postMessage('openAddServiceTypeModal', '*');
+            });
+        </script>
+
+        <button class="popup-button" id="openAddServiceTypeModal">Supprimer un type service</button>
+
+        <script>
+            document.getElementById('openAddUserModal').addEventListener('click', function() {
+                window.parent.postMessage('openAddServiceTypeModal', '*');
+            });
+        </script>
+
+    </line>
+
+
     <div id="service-list" class="service-list"></div>
 </div>
 
@@ -31,7 +52,7 @@ include_once('../includes/lang.php');
                 button.classList.add('service-button');
                 button.innerHTML = `
                         <h3>${service.Nom_Type_Service}</h3>
-                        <img src="../images/icones/${service.Nom_Type_Service.replace(/\s+/g, '-').toLowerCase()}.png" alt="${service.Nom_Type_Service}" width="100" height="100">
+<!--                        <img src="../images/icones/${service.Nom_Type_Service.replace(/\s+/g, '-').toLowerCase()}.png" alt="${service.Nom_Type_Service}" width="100" height="100">-->
                     `;
                 serviceList.appendChild(button);
             });

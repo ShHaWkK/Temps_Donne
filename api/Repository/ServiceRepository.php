@@ -19,23 +19,24 @@ class ServiceRepository
 
     public function createService($service)
     {
-        $query = "INSERT INTO Services (ID_Service, Nom_du_service, Description, Horaire, Lieu, NFC_Tag_Data, Date_Debut, Date_Fin, ID_ServiceType) VALUES (:id_service,:nom_du_service,:description,:horaire,:lieu,:nfc_tag_data,:date_debut,:date_fin, :id_serviceType)";
+        $query = "INSERT INTO Services (Nom_du_service, Description, Horaire, Lieu, Date, ID_ServiceType, startTime, endTime) 
+              VALUES (:nom_du_service, :description, :horaire, :lieu, :date, :id_serviceType, :startTime, :endTime)";
         $statement = $this->db->prepare($query);
 
-        $statement->bindValue(':id_service', $service->id_service, PDO::PARAM_INT);
         $statement->bindValue(':nom_du_service', $service->nom_du_service, PDO::PARAM_STR);
         $statement->bindValue(':description', $service->description, PDO::PARAM_STR);
         $statement->bindValue(':horaire', $service->horaire, PDO::PARAM_STR);
         $statement->bindValue(':lieu', $service->lieu, PDO::PARAM_STR);
-        $statement->bindValue(':nfc_tag_data', $service->nfc_Tag_Data, PDO::PARAM_STR);
-        $statement->bindValue(':date_debut', $service->date_debut, PDO::PARAM_STR);
-        $statement->bindValue(':date_fin', $service->date_fin, PDO::PARAM_STR);
-        $statement->bindValue(':id_serviceType', $service->id_serviceType, PDO::PARAM_STR);
+        $statement->bindValue(':date', $service->date, PDO::PARAM_STR);
+        $statement->bindValue(':id_serviceType', $service->id_serviceType, PDO::PARAM_INT);
+        $statement->bindValue(':startTime', $service->startTime, PDO::PARAM_STR);
+        $statement->bindValue(':endTime', $service->endTime, PDO::PARAM_STR);
 
         // Ajouter l'instruction de débogage juste avant d'exécuter la requête
         error_log("Sauvegarde du service : " . print_r($service, true));
 
         $success = $statement->execute();
+
         if (!$success) {
             error_log("Erreur lors de la sauvegarde du service : " . print_r($statement->errorInfo(), true));
             throw new Exception("Erreur lors de la sauvegarde du service.");
@@ -45,7 +46,6 @@ class ServiceRepository
             error_log("ID du service inséré : " . $insertedId);
             return $insertedId;
         }
-
     }
 
     public function getServiceById($id)

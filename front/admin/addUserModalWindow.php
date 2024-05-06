@@ -77,8 +77,9 @@
 </div>
 
 <script>
+    console.log("On est dans userModal");
     // Fonction pour ouvrir la fenêtre modale
-    function openModal() {
+    function openAddModal() {
         document.getElementById('addUserModal').style.display = 'block';
     }
 
@@ -93,7 +94,7 @@
     // Écouter les messages envoyés par l'iframe parent
     window.addEventListener('message', function(event) {
         if (event.data === 'openAddUserModal') {
-            openModal();
+            openAddModal();
         }
     });
 </script>

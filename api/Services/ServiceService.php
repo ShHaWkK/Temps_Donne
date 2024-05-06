@@ -12,7 +12,7 @@ class ServiceService{
 
     public function createService(ServiceModel $service)
     {
-        $serviceId = $this->serviceRepository->createService($service);
+        return $this->serviceRepository->createService($service);
     }
 
     public function getServiceById($id) {

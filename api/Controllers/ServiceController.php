@@ -72,9 +72,9 @@ class ServiceController {
         try {
             $service = new ServiceModel($id_type,$data);
 
-            $this->serviceService->createService($service);
+            $inserted_id=$this->serviceService->createService($service);
 
-            ResponseHelper::sendResponse(["Service ajouté avec succès." => $service]);
+            ResponseHelper::sendResponse(["Service ajouté avec succès." => $inserted_id]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -181,7 +181,7 @@ class ServiceController {
         try {
             $result = $this->serviceService->getServiceTypeById($id_type);
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse( $result);
             } else {
                 ResponseHelper::sendNotFound('Service non trouvé.');
             }

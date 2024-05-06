@@ -6,7 +6,6 @@ include_once('includes/header.php');
 echo "<title>Accueil - Au temps donné</title>";
 ?>
 
-
 <body>
   
 <div class="carousel-container">

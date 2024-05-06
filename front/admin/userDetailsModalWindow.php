@@ -48,16 +48,6 @@
             const skillsResponse = await fetch(`http://localhost:8082/index.php/skills/User/${userId}`);
             const skills = await skillsResponse.json();
 
-            // Afficher les détails de l'utilisateur dans la fenêtre modale
-            const userDetailsContainer = document.getElementById('userDetails');
-            userDetailsContainer.innerHTML = `
-            <h2>Détails de l'utilisateur</h2>
-            <p>ID Utilisateur: ${userDetails.id_utilisateur}</p>
-            <p>Nom: ${userDetails.nom}</p>
-            <p>Prénom: ${userDetails.prenom}</p>
-            <p>Genre: ${userDetails.genre}</p>
-            <p>Email: ${userDetails.email}</p>`;
-
             // Afficher les disponibilités de l'utilisateur dans la fenêtre modale
             const availabilitiesContainer = document.getElementById('availabilities');
             availabilitiesContainer.innerHTML = `
@@ -111,7 +101,7 @@
             // Convertir les disponibilités en un texte formaté
             let availabilityText = '';
             Object.entries(availabilityData).forEach(([day, value]) => {
-                if (day !== 'ID_Disponibilite' && day !== 'ID_Utilisateur' && value === 1) {
+                if (day !== 'ID_Disponibilite' && day !== 'ID_Utilisateur' && day !== 'DEMI_JOURNEES' && value === 1) {
                     availabilityText += `${day.charAt(0).toUpperCase() + day.slice(1)}, `;
                 }
             });
@@ -123,13 +113,29 @@
 
             // Afficher les détails de l'utilisateur dans la fenêtre modale
             const userDetailsContainer = document.getElementById('userDetails');
-            userDetailsContainer.innerHTML = `
-            <h2>Détails de l'utilisateur</h2>
-            <p>ID Utilisateur: ${userDetails.id_utilisateur}</p>
-            <p>Nom: ${userDetails.nom}</p>
-            <p>Prénom: ${userDetails.prenom}</p>
-            <p>Genre: ${userDetails.genre}</p>
-            <p>Email: ${userDetails.email}</p>`;
+            userDetailsContainer.innerHTML =
+                '<h2>Détails de l\'utilisateur</h2>' +
+                '<p>ID Utilisateur: ' + userDetails.id_utilisateur + '</p>' +
+                '<p>Nom: ' + userDetails.nom + '</p>' +
+                '<p>Prénom: ' + userDetails.prenom + '</p>' +
+                '<p>Genre: ' + userDetails.genre + '</p>' +
+                '<p>Email: ' + userDetails.email + '</p>' +
+                '<p>Adresse: ' + userDetails.adresse + '</p>' +
+                '<p>Téléphone: ' + userDetails.telephone + '</p>' +
+                '<p>Date de naissance: ' + userDetails.date_de_naissance + '</p>' +
+                '<p>Nationalité: ' + userDetails.nationalite + '</p>' +
+                '<p>Date d\'inscription: ' + userDetails.date_d_inscription + '</p>' +
+                '<p>Statut: ' + userDetails.statut + '</p>' +
+                '<p>Situation: ' + userDetails.situation + '</p>' +
+                '<p>Besoins spécifiques: ' + userDetails.besoins_specifiques + '</p>' +
+                '<p>Date de dernière connexion: ' + userDetails.date_derniere_connexion + '</p>' +
+                '<p>Statut de connexion: ' + userDetails.statut_connexion + '</p>' +
+                '<p>Emploi: ' + userDetails.emploi + '</p>' +
+                '<p>Société: ' + userDetails.societe + '</p>' +
+                '<p>Permis B: ' + userDetails.permis_b + '</p>' +
+                '<p>Permis poids lourds: ' + userDetails.permis_poids_lourds + '</p>' +
+                '<p>CACES: ' + userDetails.caces + '</p>' +
+                '<p>Rôle: ' + userDetails.role + '</p>';
 
             // Afficher les disponibilités de l'utilisateur dans la fenêtre modale
             const availabilitiesContainer = document.getElementById('availabilities');

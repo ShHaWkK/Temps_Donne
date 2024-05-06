@@ -116,11 +116,16 @@ class ServiceRepository
 
     public function getAllServices()
     {
-        $query = "SELECT * FROM Services";
-        $statement = $this->db->prepare($query);
-        $statement->execute();
+        try{
+            $query = "SELECT * FROM Services";
+            $statement = $this->db->prepare($query);
+            $statement->execute();
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération des services : " . $e->getMessage());
+        }
+
     }
 
     public function getAllServiceTypes()

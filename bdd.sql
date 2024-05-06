@@ -156,11 +156,11 @@ CREATE TABLE IF NOT EXISTS Stocks (
                                       Volume_Total FLOAT,
                                       Date_de_reception DATE,
                                       Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
-    QR_Code TEXT,
-    Date_de_peremption DATE,
-    FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),
-    FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
-    );
+                                      QR_Code TEXT,
+                                      Date_de_peremption DATE,
+                                      FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),
+                                      FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
+);
 
 CREATE TABLE IF NOT EXISTS Stocks_Entrepot (
                                                ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,

@@ -150,7 +150,7 @@ class ServiceController {
         try {
             $result = $this->serviceService->getAllServices();
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse($result);
             } else {
                 ResponseHelper::sendNotFound('Aucun service enregistré.');
             }

@@ -76,5 +76,6 @@ class SkillService
             throw new Exception("Erreur lors de la création de la compétence : " . $e->getMessage());
         }
     }
+
 }
 ?>

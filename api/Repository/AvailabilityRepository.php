@@ -62,8 +62,7 @@ class AvailabilityRepository
         if (!$availability) {
             return null;
         }
-
-        return new AvailabilityModel($availability);
+        return $availability;
     }
 }
 ?>

@@ -4,6 +4,7 @@ include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
 include_once('addUserModalWindow.php');
+include_once('userDetailsModalWindow.php');
 echo "<title>Espace Administrateur - Utilisateurs</title>";
 ?>
 
@@ -20,11 +21,11 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
     <div class="main-container-users">
         <div class="line">
 
-            <button class="popup-button  menu" id="openModalButton"> Ajouter un utilisateur</button>
+            <button class="popup-button  menu" id="openAddUserModalButton"> Ajouter un utilisateur</button>
 
             <script>
-                document.getElementById('openModalButton').addEventListener('click', function() {
-                    window.parent.postMessage('openModal', '*');
+                document.getElementById('openAddUserModalButton').addEventListener('click', function() {
+                    window.parent.postMessage('openAddUserModal', '*');
                 });
             </script>
 
@@ -57,6 +58,7 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 <script src="./js/filterByRole.js"></script>
 <script src="./js/users.js" defer></script>
 <script src="./js/approveUser.js"></script>
+<script src="./js/putOnHoldUser.js"></script>
 <script src="./js/rejectUser.js"></script>
 
 </body>

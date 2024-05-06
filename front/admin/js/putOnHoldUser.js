@@ -1,23 +1,21 @@
-function addRejectEventListeners() {
-    console.log("rejectevent");
-    document.querySelectorAll('.reject-link').forEach(link => {
+function addHoldEventListeners() {
+    console.log("holdevnet");
+    document.querySelectorAll('.hold-link').forEach(link => {
         link.addEventListener('click', async (event) => {
             event.preventDefault();
-            console.log("On ajoute le reject event listerner");
             const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
 
-            // Appeler la fonction approveUser avec l'ID utilisateur
             try {
-                await rejectUser(userId);
+                await putOnHoldUser(userId);
             } catch (error) {
-                console.error('Erreur lors du rejet de l\'utilisateur:', error);
+                console.error('Erreur lors de la mise en attente de l\'utilisateur:', error);
             }
         });
     });
 }
-async function rejectUser(user_id) {
-    const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/reject';
-    console.log("On entre dans approveUser");
+async function putOnHoldUser(user_id) {
+    const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/hold';
+    console.log("On entre dans hold");
     console.log("apiURL",apiUrl);
     const options = {
         method: 'PUT'

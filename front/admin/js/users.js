@@ -23,7 +23,7 @@ function displayUsers(users) {
 
     // On ajoute l'en-tête du tableau
     const tableHeader = ["ID_Utilisateur", "Nom", "Prénom", "Genre", "Date de naissance", "Email",
-        "Telephone","Role","Statut","Action"];
+        "Telephone","Role","Statut","Détails","Action"];
 
     const rowHeader = usersTable.insertRow();
     rowHeader.classList.add("head");
@@ -46,11 +46,29 @@ function displayUsers(users) {
                         <td>${user.Telephone}</td>
                         <td>${user.Role}</td>
                         <td>${user.Statut}</td>
+                        <td><button class="popup-button  menu" id="openUserDetailsModalButton"> Voir </button></td>
                         <td><a href='#' class="approve-link">Valider</a>
+                        <a href='#' class="hold-link">Mettre en attente</a>
                         <a href='#' class="reject-link">Rejeter</a></td>
                     `;
     });
 }
+
+function addUserDetailsEvent(){
+    document.getElementById('openUserDetailsModalButton').addEventListener('click', function() {
+        window.parent.postMessage('openUserDetails', '*');
+    });
+}
+
+function addUserDetailsModalEventListeners() {
+    document.querySelectorAll('.popup-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = button.closest('tr').querySelector('.user-id').textContent.trim();
+            window.parent.postMessage({ type: 'openUserDetails', userId: userId }, '*');
+        });
+    });
+}
+
 
 // Initialisation
 window.onload = function() {
@@ -72,12 +90,9 @@ window.onload = function() {
         })
         .then(() => {
             addApproveEventListeners();
-        })
-        .then(() => {
+            addHoldEventListeners();
             addRejectEventListeners();
-        })
-        .then(() => {
-            addAddUserEvent();
+            addUserDetailsModalEventListeners();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

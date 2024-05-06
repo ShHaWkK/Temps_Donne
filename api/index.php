@@ -21,6 +21,7 @@ require_once 'Controllers/StockController.php';
 require_once 'Controllers/CircuitController.php';
 require_once 'Controllers/EntrepotController.php';
 require_once 'Controllers/ProduitController.php';
+require_once 'Controllers/AvailabilityController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Controllers/SkillController.php';
@@ -134,6 +135,10 @@ function router($uri, $requestMethod) {
             break;
         case 'skills':
             $controller=new SkillController();
+            $controller->processRequest($requestMethod,$uri);
+            break;
+        case 'availabilities':
+            $controller=new AvailabilityController();
             $controller->processRequest($requestMethod,$uri);
             break;
         default:

@@ -10,7 +10,7 @@
 <body>
 
 <!-- Fenêtre modale -->
-<div id="myModal" class="modal">
+<div id="addUserModal" class="modal">
     <div class="modal-content">
         <h2>Ajouter un utilisateur</h2>
         <form id="userForm" action="#" method="post">
@@ -79,12 +79,12 @@
 <script>
     // Fonction pour ouvrir la fenêtre modale
     function openModal() {
-        document.getElementById('myModal').style.display = 'block';
+        document.getElementById('addUserModal').style.display = 'block';
     }
 
     // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci
     window.onclick = function(event) {
-        var modal = document.getElementById('myModal');
+        var modal = document.getElementById('addUserModal');
         if (event.target === modal) {
             modal.style.display = "none";
         }
@@ -92,7 +92,7 @@
 
     // Écouter les messages envoyés par l'iframe parent
     window.addEventListener('message', function(event) {
-        if (event.data === 'openModal') {
+        if (event.data === 'openAddUserModal') {
             openModal();
         }
     });

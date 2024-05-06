@@ -158,22 +158,18 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
 
             <script>
                 function showAvailability() {
-                    console.log("On est dans show");
                     var regularAvailabilityRadio = document.querySelector('input[name="disponibilite"][value="reguliere"]');
                     if (regularAvailabilityRadio.checked) {
                         document.querySelector('.col-availability').style.display = 'block';
                         document.querySelector('.col-week').style.display = 'block';
-                        console.log("On est dans la boucle show");
                     }
                 }
 
                 function hideAvailability() {
-                    console.log("On est dans hide");
                     var regularAvailabilityRadio = document.querySelector('input[name="disponibilite"][value="reguliere"]');
                     if (!regularAvailabilityRadio.checked) {
                         document.querySelector('.col-availability').style.display = 'none';
                         document.querySelector('.col-week').style.display = 'none';
-                        console.log("On est dans la boucle hide");
                     }
                 }
 

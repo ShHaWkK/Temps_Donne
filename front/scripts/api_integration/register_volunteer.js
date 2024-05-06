@@ -1,10 +1,4 @@
 function sendDataToAPI() {
-    // Récupérer les valeurs des permis cochés
-    var driverLicenseChecked = document.getElementById('driverLicenseCheckbox').checked;
-    var heavyLicenseChecked = document.getElementById('heavyLicenseCheckbox').checked;
-    var cacesChecked = document.getElementById('cacesCheckbox').checked;
-    console.log(driverLicenseChecked);
-
     var maxFileSize = 10 * 1024 * 1024; // 10 Mo
     var maxFileNameLength = 50;
 
@@ -26,7 +20,9 @@ function sendDataToAPI() {
     var vendredi = document.getElementById('vendredi').value;
     var samedi = document.getElementById('samedi').value;
     var dimanche = document.getElementById('dimanche').value;
-
+    var permis_b = document.getElementById('driverLicenseCheckbox').checked;
+    var permis_poids_lourd = document.getElementById('heavyLicenseCheckbox').checked;
+    var caces = document.getElementById('cacesCheckbox').checked;
 
     // Créer un objet JSON avec les données du formulaire
     var data = {
@@ -41,6 +37,9 @@ function sendDataToAPI() {
         "Statut": "Pending",
         "Situation": situation,
         "Role": "Benevole",
+        "Permis_B": permis_b,
+        "Permis_Poids_Lourds": permis_poids_lourd,
+        "CACES": caces,
         "DEMI_JOURNEES": demi_journees,
         "LUNDI": lundi,
         "MARDI": mardi,
@@ -73,22 +72,26 @@ function sendDataToAPI() {
                     throw new Error(errorMessage || 'Erreur inattendue.');
                 });
             }
+            console.log("response",response);
             return response.json(); // Analyser la réponse JSON
+
         })
         .then(data => {
-            // Afficher la réponse JSON dans une alerte
-            alert(JSON.stringify(data));
-            if (data && data.status && data.status.startsWith("success")) {
-                // Redirection vers la page souhaitée
-                //window.location.href = "../../index.php";
-                const userId = data["inserted id"];
-                console.log(userId);
-                addSelectedSkills(userId);
-                return data; // Passer les données pour le traitement suivant si nécessaire
-            } else {
-                throw new Error(data.message || "Erreur lors de l'enregistrement de l'utilisateur.");
-            }
-        })
+                // Afficher la réponse JSON dans la console
+                console.log(JSON.stringify(data));
+
+                if (data && data.status === "success") {
+                    alert("Demande correctement envoyée, en attente de validation");
+                    const userId = data["inserted_id"];
+                    console.log(userId);
+                    addSelectedSkills(userId);
+                    //window.location.href = "../../inscription_conn/connexion_benevole.php";
+                    return data;
+                } else {
+                    // Jetez une erreur avec le message de la réponse JSON
+                    throw new Error(data.message || "Erreur lors de l'enregistrement de l'utilisateur.");
+                }
+            })
         .catch(error => {
             //console.error('Erreur lors de l\'enregistrement de l\'utilisateur :', error.message);
             alert('Erreur lors de l\'enregistrement de l\'utilisateur :', error.message);
@@ -96,7 +99,6 @@ function sendDataToAPI() {
 }
 
 function sendPDFFile(inputId, formData, maxFileSize, maxFileNameLength) {
-    console.log("On est dans sendPDFFile");
     const fileInput = document.getElementById(inputId);
     const file = fileInput.files[0];
     console.log("File input ID:", inputId);
@@ -137,17 +139,22 @@ function addSelectedSkills(userId) {
 
         fetch(assignUrl, { method: 'POST' })
             .then(response => response.json())
-            .then(data => {
-                if (data && data.status === "success") {
-                    console.log(`Compétence ${skillId} assignée à l'utilisateur ${userId}.`);
+            .then(messages => {
+                // On vérifie si des messages ont été retournés
+                if (Array.isArray(messages) && messages.length > 0) {
+                    // Parcourez chaque message et affichez-le dans la console
+                    messages.forEach(message => console.log(message));
                 } else {
-                    throw new Error(data.message || "Erreur lors de l'assignation de la compétence.");
+                    // Si aucun message n'a été retourné, affichez un message par défaut
+                    console.log("Aucun message retourné par l'API.");
                 }
             })
             .catch(error => {
+                // Affichez les erreurs dans la console
                 console.error(`Erreur lors de l'assignation de la compétence ${skillId} :`, error.message);
-                alert(`Erreur lors de l'assignation de la compétence ${skillId} :`, error.message);
+                //alert(`Erreur lors de l'assignation de la compétence ${skillId} : ${error.message}`);
             });
+
     });
 }
 

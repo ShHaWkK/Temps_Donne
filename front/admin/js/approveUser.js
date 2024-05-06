@@ -1,11 +1,11 @@
 function addApproveEventListeners() {
+    console.log("approveevent");
     document.querySelectorAll('.approve-link').forEach(link => {
         link.addEventListener('click', async (event) => {
             event.preventDefault();
 
             const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
 
-            // Appeler la fonction approveUser avec l'ID utilisateur
             try {
                 await approveUser(userId);
             } catch (error) {
@@ -31,9 +31,12 @@ async function approveUser(user_id) {
         const data = await response.json();
         console.log('Réponse de l\'API :', data);
         alert(JSON.stringify(data));
-        displayUsers(displayedUsers);
+        // Recharger la page après l'approbation de l'utilisateur
+        window.location.reload();
     } catch (error) {
         console.error('Error :', error);
         alert('Error : ',error);
+        // Recharger la page en cas d'erreur
+        window.location.reload();
     }
 }

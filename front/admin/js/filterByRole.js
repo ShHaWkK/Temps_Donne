@@ -19,6 +19,7 @@ function filterByRole(role) {
     }
     addApproveEventListeners();
     addRejectEventListeners();
+    addHoldEventListeners();
     addFilterByRoleEvent();
 }
 
@@ -42,5 +43,6 @@ function filterByStatus(status) {
     }
     addApproveEventListeners();
     addRejectEventListeners();
+    addHoldEventListeners();
     addFilterByRoleEvent();
 }

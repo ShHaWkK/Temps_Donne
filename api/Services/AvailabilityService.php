@@ -24,5 +24,14 @@ class AvailabilityService {
             throw new Exception("Error while retrieving availability: " . $e->getMessage());
         }
     }
+
+    public function getAvailabilityByUserId($id)
+    {
+        try {
+            return $this->availabilityRepository->getAvailabilityByUserId($id);
+        } catch (Exception $e) {
+            throw new Exception("Error while retrieving availability: " . $e->getMessage());
+        }
+    }
 }
 ?>

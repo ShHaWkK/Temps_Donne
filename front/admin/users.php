@@ -21,7 +21,7 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
     <div class="main-container-users">
         <div class="line">
 
-            <button class="popup-button  menu" id="openAddUserModalButton"> Ajouter un utilisateur</button>
+            <button class="popup-button" id="openAddUserModalButton"> Ajouter un utilisateur</button>
 
             <script>
                 document.getElementById('openAddUserModalButton').addEventListener('click', function() {

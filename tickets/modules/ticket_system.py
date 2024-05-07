@@ -6,38 +6,73 @@ class TicketSystem:
         self.connect()
 
     def connect(self):
-        self.cnx = mysql.connector.connect(**self.db_config)
-        self.cursor = self.cnx.cursor()
+        """Établir une connexion à la base de données."""
+        try:
+            self.cnx = mysql.connector.connect(**self.db_config)
+            self.cursor = self.cnx.cursor()
+        except mysql.connector.Error as err:
+            print(f"Erreur de connexion SQL : {err}")
 
     def close(self):
-        self.cursor.close()
-        self.cnx.close()
+        """Fermer la connexion à la base de données."""
+        if self.cnx.is_connected():
+            self.cursor.close()
+            self.cnx.close()
 
-    def create_ticket(self, user_id, title, description):
-        query = "INSERT INTO Tickets (Titre, Description, ID_Utilisateur, Statut, Date_Creation) VALUES (%s, %s, %s, 'Ouvert', NOW())"
+    def create_ticket(self, user_id, title, description, priority='Moyen', assignee_id=None):
+        """Créer un ticket dans la base de données."""
+        query = """
+            INSERT INTO Tickets (Titre, Description, Date_Creation, Statut, Priorite, ID_Utilisateur, ID_Assignee)
+            VALUES (%s, %s, CURDATE(), 'Ouvert', %s, %s, %s)
+            """
         try:
-            self.cursor.execute(query, (title, description, user_id))
+            self.cursor.execute(query, (title, description, priority, user_id, assignee_id))
             self.cnx.commit()
-            return self.cursor.lastrowid
+            return True
         except mysql.connector.Error as err:
-            print(f"SQL error: {err}")
-            return None
+            print("Échec de la création du ticket :", err)
+            return False
 
     def close_ticket(self, ticket_id):
+        """Fermer un ticket."""
         query = "UPDATE Tickets SET Statut = 'Fermé' WHERE ID_Ticket = %s"
         try:
             self.cursor.execute(query, (ticket_id,))
             self.cnx.commit()
             return True
         except mysql.connector.Error as err:
-            print(f"SQL error: {err}")
+            print(f"Erreur SQL lors de la fermeture du ticket : {err}")
             return False
 
-    def get_tickets_by_user(self, user_id):
-        query = "SELECT * FROM Tickets WHERE ID_Utilisateur = %s"
+    def validate_ticket(self, ticket_id):
+        """Valider un ticket."""
+        query = "UPDATE Tickets SET Statut = 'Validé' WHERE ID_Ticket = %s"
         try:
-            self.cursor.execute(query, (user_id,))
-            return self.cursor.fetchall()
+            self.cursor.execute(query, (ticket_id,))
+            self.cnx.commit()
+            return True
         except mysql.connector.Error as err:
-            print(f"SQL error: {err}")
+            print(f"Erreur SQL lors de la validation du ticket : {err}")
+            return False
+
+    def assign_ticket(self, ticket_id, admin_id):
+        """Assigner un ticket à un autre administrateur."""
+        query = "UPDATE Tickets SET ID_Assignee = %s WHERE ID_Ticket = %s"
+        try:
+            self.cursor.execute(query, (admin_id, ticket_id))
+            self.cnx.commit()
+            return True
+        except mysql.connector.Error as err:
+            print(f"Erreur SQL lors de l'assignation du ticket : {err}")
+            return False
+
+    def get_all_tickets(self):
+        """Récupérer tous les tickets de la base de données."""
+        query = "SELECT ID_Ticket, Titre, Statut, ID_Assignee FROM Tickets"
+        try:
+            self.cursor.execute(query)
+            return [{'id': row[0], 'title': row[1], 'status': row[2], 'assigned_to': row[3]} for row in self.cursor.fetchall()]
+        except mysql.connector.Error as err:
+            print(f"Erreur SQL lors de la récupération des tickets : {err}")
             return []
+

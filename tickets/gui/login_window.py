@@ -3,9 +3,12 @@ from tkinter import messagebox
 from .main_window import MainWindow
 
 class LoginWindow:
-    def __init__(self, master, user_manager):
+    def __init__(self, master, user_manager, ticket_system, chat_manager, db_config):
         self.master = master
         self.user_manager = user_manager
+        self.ticket_system = ticket_system
+        self.chat_manager = chat_manager
+        self.db_config = db_config  # Store db_config
         self.master.title("Login")
 
         self.frame = tk.Frame(self.master)
@@ -33,6 +36,7 @@ class LoginWindow:
         if user:
             self.master.withdraw()
             new_window = tk.Toplevel(self.master)
-            main_app = MainWindow(new_window, user)
+            # Ajoutez db_config comme argument pour correspondre à la définition de MainWindow.
+            main_app = MainWindow(new_window, user, self.ticket_system, self.chat_manager, self.db_config)
         else:
             messagebox.showerror("Login failed", "Invalid credentials")

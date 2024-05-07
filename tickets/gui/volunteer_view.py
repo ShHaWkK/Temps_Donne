@@ -1,12 +1,15 @@
 import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 from modules.ticket_system import TicketSystem
+from modules.chat_management import ChatManager
 
 class VolunteerView:
-    def __init__(self, master, user_id, ticket_system):
+    def __init__(self, master, user_id, ticket_system, chat_manager, db_config):
         self.master = master
         self.user_id = user_id
         self.ticket_system = ticket_system
+        self.chat_manager = chat_manager
+        self.db_config = db_config
 
         self.master.title("Volunteer Dashboard")
         self.master.geometry("800x600")
@@ -41,8 +44,50 @@ class VolunteerView:
         self.populate_tickets()
 
         # Bouton de création de ticket
-        self.create_ticket_button = tk.Button(self.main_frame, text="Create Ticket", command=self.create_ticket,bg=self.secondary_color, fg="white", padx=10, pady=5)
+        self.create_ticket_button = tk.Button(self.main_frame, text="Create Ticket", command=self.create_ticket, bg=self.secondary_color, fg="white", padx=10, pady=5)
         self.create_ticket_button.pack(side=tk.BOTTOM, pady=10)
+
+        # Chat-related UI elements
+        self.chat_frame = tk.Frame(self.main_frame, bg=self.bg_color)
+        self.chat_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        self.chat_text = tk.Text(self.chat_frame, width=50, height=10, font=("Arial", 12))
+        self.chat_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        self.chat_scrollbar = tk.Scrollbar(self.chat_frame)
+        self.chat_scrollbar.pack(side=tk.RIGHT, fill=tk.BOTH)
+
+        self.chat_text.config(yscrollcommand=self.chat_scrollbar.set)
+        self.chat_scrollbar.config(command=self.chat_text.yview)
+
+        self.chat_entry = tk.Entry(self.main_frame, width=40, font=("Arial", 12))
+        self.chat_entry.pack(side=tk.LEFT, padx=10, pady=10)
+
+        self.chat_send_button = tk.Button(self.main_frame, text="Send", command=self.send_message, bg=self.secondary_color, fg="white", padx=10, pady=5)
+        self.chat_send_button.pack(side=tk.LEFT, pady=10)
+
+        self.update_chat()
+
+    def send_message(self):
+        message = self.chat_entry.get()
+        if message:
+            self.chat_manager.send_message(self.user_id, message)
+            self.chat_entry.delete(0, tk.END)
+            self.update_chat()
+
+    def update_chat(self):
+        self.chat_text.config(state=tk.NORMAL)
+        self.chat_text.delete(1.0, tk.END)
+
+        messages = self.chat_manager.get_messages(self.user_id)
+        for msg in messages:
+            if msg['sender_id'] == self.user_id:
+                self.chat_text.insert(tk.END, f"You: {msg['message']}\n", 'blue')
+            else:
+                self.chat_text.insert(tk.END, f"Admin: {msg['message']}\n", 'red')
+
+        self.chat_text.config(state=tk.DISABLED)
+        self.master.after(5000, self.update_chat)
 
     def populate_tickets(self):
         # Clear the treeview

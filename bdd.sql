@@ -28,6 +28,17 @@ CREATE TABLE Utilisateurs (
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
 
+
+INSERT INTO Utilisateurs
+(Nom, Prenom, Genre, Email, Mot_de_passe, Role, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Situation, Besoins_specifiques, Photo_Profil, Date_Derniere_Connexion, Statut_Connexion, Emploi, Societe, Code_Verification, Type_Permis, Statut)
+VALUES
+    ('Doe', 'John', 'Homme', 'john.doe@example.com', 'hashed_password1', 'Administrateur', '1234 Boulevard Freedom', '0123456789', '1980-01-01', 'Français, Anglais', 'Française', '2023-01-01', 'Employé', 'Aucun', 'profile1.jpg', '2023-05-01', TRUE, 'Directeur', 'ESGI', 'ABCD1234', 'B', 'Pending'),
+    ('Smith', 'Jane', 'Femme', 'jane.smith@example.com', 'hashed_password2', 'Benevole', '5678 Avenue Liberty', '9876543210', '1990-02-02', 'Anglais, Espagnol', 'Canadienne', '2023-02-01', 'Indépendant', 'Mobilité réduite', 'profile2.jpg', '2023-05-02', TRUE, 'Consultant', 'TechCo', 'WXYZ5678', 'C', 'Pending'),
+    ('Brown', 'Charlie', 'Homme', 'charlie.brown@example.com', 'hashed_password3', 'Beneficiaire', '91011 Rue de la Paix', '0123465798', '1985-03-03', 'Français', 'Belge', '2023-03-01', 'Retraité', 'Vue basse', 'profile3.jpg', '2023-05-03', FALSE, '', '', 'EFGH1357', 'A', 'Pending'),
+    ('Taylor', 'Alex', 'Autre', 'alex.taylor@example.com', 'hashed_password4', 'Benevole', '121314 Avenue Hope', '8765432190', '1995-04-04', 'Allemand, Français', 'Allemande', '2023-04-01', 'Étudiant', '', 'profile4.jpg', '2023-05-04', TRUE, 'Étudiant', 'UniBerlin', 'IJKL2468', 'D', 'Pending'),
+    ('Wilson', 'Emma', 'Femme', 'emma.wilson@example.com', 'hashed_password5', 'Beneficiaire', '151617 Boulevard Liberty', '0987654321', '1970-05-05', 'Italien, Anglais', 'Italienne', '2023-05-01', 'Sans emploi', 'Diabète', 'profile5.jpg', '2023-05-05', FALSE, '', '', 'MNOP6789', '', 'Pending');
+
+
 -- On retire le role dans les classes étangères
 /*
 ALTER TABLE Utilisateurs

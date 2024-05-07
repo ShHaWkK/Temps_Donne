@@ -15,7 +15,6 @@ class MainWindow:
         if self.user['role'] == 'Administrateur':
             self.admin_view = AdminView(self.master, self.ticket_system, self.chat_manager)
         elif self.user['role'] == 'Benevole':
-            # Supposez que VolunteerView ne nécessite pas db_config
-            self.volunteer_view = VolunteerView(self.master, self.user['id'], self.ticket_system)
+            self.volunteer_view = VolunteerView(self.master, self.user['id'], self.ticket_system, self.chat_manager, self.db_config)
         elif self.user['role'] == 'Beneficiaire':
-            self.beneficiary_view = BeneficiaryView(self.master, self.user['id'], self.ticket_system)
+            self.beneficiary_view = BeneficiaryView(self.master, self.user['id'], self.ticket_system, self.chat_manager, self.db_config)

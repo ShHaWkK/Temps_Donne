@@ -5,8 +5,8 @@ import "time"
 // User représente un utilisateur dans votre système.
 type User struct {
 	ID                 int64
-	FirstName          string
-	LastName           string
+	Nom                string
+	Prenom             string
 	Gender             string // 'Homme', 'Femme', 'Autre'
 	Email              string
 	Password           string // Stocké sous forme hashée

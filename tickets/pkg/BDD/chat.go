@@ -1,6 +1,9 @@
 package BDD
 
-import "time"
+import (
+	"tickets/pkg/models"
+	"time"
+)
 
 type Message struct {
 	ID         int64
@@ -11,30 +14,28 @@ type Message struct {
 	Read       bool
 }
 
-// SendMessage enregistre un message envoyé dans la base de données.
-func SendMessage(senderID, receiverID int, message string) error {
-	_, err := DB.Exec("INSERT INTO ChatMessages (ID_Expediteur_Utilisateur, ID_Destinataire_Utilisateur, Message) VALUES (?, ?, ?)",
-		senderID, receiverID, message)
-	return err
-}
-
 // GetMessages récupère les messages entre deux utilisateurs.
-func GetMessages(senderID, receiverID int) ([]Message, error) {
-	rows, err := DB.Query("SELECT Message, Timestamp FROM ChatMessages WHERE ID_Expediteur_Utilisateur = ? AND ID_Destinataire_Utilisateur = ? ORDER BY Timestamp DESC",
-		senderID, receiverID)
+func GetMessages(userID int) ([]models.Message, error) {
+	var messages []models.Message
+	query := "SELECT ID_Message, ID_Expediteur_Utilisateur, ID_Destinataire_Utilisateur, Message, Timestamp, Lu FROM ChatMessages WHERE ID_Expediteur_Utilisateur = ? OR ID_Destinataire_Utilisateur = ?"
+	rows, err := DB.Query(query, userID, userID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-
-	var messages []Message
 	for rows.Next() {
-		var msg Message
-		if err := rows.Scan(&msg.Text, &msg.Timestamp); err != nil {
+		var msg models.Message
+		if err := rows.Scan(&msg.ID, &msg.SenderID, &msg.ReceiverID, &msg.Text, &msg.Timestamp, &msg.Read); err != nil {
 			return nil, err
 		}
 		messages = append(messages, msg)
 	}
-
 	return messages, nil
+}
+
+// SendMessage adds a new message to the database.
+func SendMessage(senderID, receiverID int, message string) error {
+	query := "INSERT INTO ChatMessages (ID_Expediteur_Utilisateur, ID_Destinataire_Utilisateur, Message, Lu) VALUES (?, ?, ?, FALSE)"
+	_, err := DB.Exec(query, senderID, receiverID, message)
+	return err
 }

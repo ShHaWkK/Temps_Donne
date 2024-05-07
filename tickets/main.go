@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	web.SetupRoutes() // Set up all the routes
+	web.SetupRoutes()
 	http.ListenAndServe(":8080", nil)
 }

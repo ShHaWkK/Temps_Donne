@@ -1,5 +1,4 @@
 function addHoldEventListeners() {
-    console.log("holdevnet");
     document.querySelectorAll('.hold-link').forEach(link => {
         link.addEventListener('click', async (event) => {
             event.preventDefault();

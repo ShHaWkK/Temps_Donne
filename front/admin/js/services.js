@@ -16,9 +16,7 @@ function getAllServices() {
 }
 
 function getServiceType(serviceTypeID){
-    console.log("serviceTypeID",serviceTypeID);
     const Url = 'http://localhost:8082/index.php/services/type/' + serviceTypeID;
-    console.log(Url);
     return fetch(Url)
         .then(response => {
             if (!response.ok) {
@@ -55,8 +53,6 @@ function displayServices(services) {
 
     services.forEach(service => {
         const row = serviceTable.insertRow();
-        console.log("service.Nom", service.ID_ServiceType);
-
         // Appel de getServiceType qui renvoie une promesse
         getServiceType(service.ID_ServiceType)
             .then(serviceType => {
@@ -82,6 +78,10 @@ function displayServices(services) {
 
 }
 
+function addService(){
+
+}
+
 window.onload = function() {
     checkSession()
         .then(() => {
@@ -90,7 +90,6 @@ window.onload = function() {
         .then(services => {
             allServices = services;
             displayedServices=services;
-            console.log(allServices);
             displayServices(allServices);
         })
 }

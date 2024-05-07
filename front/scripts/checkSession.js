@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:8082/index.php/login';
+let apiUrl = 'http://localhost:8082/index.php/login';
 
 var data = {
     "role": "Benevole"

@@ -91,6 +91,9 @@
         input[type="tel"],
         input[type="number"],
         input[type="password"],
+        input[type="time"],
+        input[type="datetime-local"],
+        input[type="file"],
         select,
         textarea {
             border: none;

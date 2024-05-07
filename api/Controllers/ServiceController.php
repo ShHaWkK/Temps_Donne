@@ -167,7 +167,7 @@ class ServiceController {
         try{
             $result = $this->serviceService->getAllServiceTypes();
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse($result);
             } else {
                 ResponseHelper::sendNotFound('Aucun type de service enregistré.');
             }

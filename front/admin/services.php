@@ -3,6 +3,7 @@ session_start();
 include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
+include_once('./addServiceModalWindow.php');
 ?>
 
 <head>
@@ -19,7 +20,8 @@ include_once('./header.php');
             <button class="popup-button" id="openAddServiceButton">Ajouter un service</button>
             <script>
                 document.getElementById('openAddServiceButton').addEventListener('click', function() {
-                    window.location.href = 'addServiceType.php';
+                    console.log("click");
+                    window.parent.postMessage('openAddServiceModal', '*');
                 });
             </script>
 
@@ -60,11 +62,7 @@ include_once('./header.php');
     </div>
 </div>
 
-<!-- Fenêtre modale pour ajouter un service -->
-<!-- Code pour la fenêtre modale d'ajout de service -->
-
-<!-- Fenêtre modale pour affecter un utilisateur au service -->
-<!-- Code pour la fenêtre modale d'affectation d'utilisateur au service -->
 <script src="js/services.js" defer></script>
+<script src="./js/serviceType.js"></script>
 </body>
 </html>

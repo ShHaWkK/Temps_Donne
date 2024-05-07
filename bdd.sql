@@ -50,7 +50,7 @@ CREATE TABLE Services (
                           ID_Service INT AUTO_INCREMENT PRIMARY KEY,
                           Nom_du_service VARCHAR(255),
                           Description TEXT,
-                          Horaire TIME,
+#                           Horaire TIME,
                           Lieu VARCHAR(255),
                           Date DATE,
                           ID_ServiceType INT,

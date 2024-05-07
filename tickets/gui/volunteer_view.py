@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk, simpledialog, messagebox
 from modules.ticket_system import TicketSystem
 from modules.chat_management import ChatManager
+from .chat_view import ChatView
+
 
 class VolunteerView:
     def __init__(self, master, user_id, ticket_system, chat_manager, db_config):
@@ -11,7 +13,7 @@ class VolunteerView:
         self.chat_manager = chat_manager
         self.db_config = db_config
 
-        self.master.title("Volunteer Dashboard")
+        self.master.title("Espace Bénévole")
         self.master.geometry("800x600")
 
         # Couleurs
@@ -37,6 +39,7 @@ class VolunteerView:
 
         self.tickets_treeview = ttk.Treeview(self.tickets_frame, columns=("Title", "Status"), show="headings")
         self.tickets_treeview.pack(fill=tk.BOTH, expand=True)
+        self.tickets_treeview.bind("<ButtonRelease-1>", self.open_chat_on_ticket_click)
 
         self.tickets_treeview.heading("Title", text="Ticket Title")
         self.tickets_treeview.heading("Status", text="Status")
@@ -68,10 +71,24 @@ class VolunteerView:
 
         self.update_chat()
 
+    def open_chat_on_ticket_click(self, event):
+        item = self.tickets_treeview.selection()[0]  # Récupère l'élément sélectionné dans l'arbre des tickets
+        ticket_info = self.tickets_treeview.item(item, "values")  # Récupère les valeurs de l'élément sélectionné
+        if ticket_info:
+            # Supposons que les valeurs du ticket soient (ID, Title, Status), où ID est l'ID de l'administrateur
+            admin_id = ticket_info[0]
+            self.open_chat_with_admin(admin_id)
+
+    def open_chat_with_admin(self, admin_id):
+        chat_window = tk.Toplevel(self.master)
+        chat_view = ChatView(chat_window, self.user_id, admin_id, self.chat_manager, self.db_config)
+        chat_view.display_chat_window()
+
     def send_message(self):
         message = self.chat_entry.get()
         if message:
-            self.chat_manager.send_message(self.user_id, message)
+            # Envoyer le message au destinataire avec l'ID utilisateur actuel comme expéditeur
+            self.chat_manager.send_message(self.user_id, self.user_id, message)
             self.chat_entry.delete(0, tk.END)
             self.update_chat()
 
@@ -81,11 +98,10 @@ class VolunteerView:
 
         messages = self.chat_manager.get_messages(self.user_id)
         for msg in messages:
-            if msg['sender_id'] == self.user_id:
-                self.chat_text.insert(tk.END, f"You: {msg['message']}\n", 'blue')
+            if msg[1] == self.user_id:  # Comparaison avec l'expéditeur de chaque message
+                self.chat_text.insert(tk.END, f"You: {msg[3]}\n", 'blue')  # Insérer le message avec l'ID expéditeur
             else:
-                self.chat_text.insert(tk.END, f"Admin: {msg['message']}\n", 'red')
-
+                self.chat_text.insert(tk.END, f"Admin: {msg[3]}\n", 'red')  # Insérer le message avec l'ID expéditeur
         self.chat_text.config(state=tk.DISABLED)
         self.master.after(5000, self.update_chat)
 

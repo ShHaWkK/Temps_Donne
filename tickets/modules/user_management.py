@@ -59,3 +59,14 @@ class UserManager:
             self.close()  # Close the connection in case of an error
             return None
 
+        def is_admin(self, user_id):
+            # Query the database to check if the user with the specified ID has the role of 'Administrateur'
+            query = "SELECT Role FROM Utilisateurs WHERE ID_Utilisateur = %s"
+            self.cursor.execute(query, (user_id,))
+            role = self.cursor.fetchone()
+            if role and role[0] == 'Administrateur':
+                return True
+            else:
+                return False
+
+

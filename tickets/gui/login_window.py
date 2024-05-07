@@ -8,7 +8,7 @@ class LoginWindow:
         self.user_manager = user_manager
         self.ticket_system = ticket_system
         self.chat_manager = chat_manager
-        self.db_config = db_config  # Store db_config
+        self.db_config = db_config  # Conservez uniquement la configuration de la base de données
         self.master.title("Login")
 
         self.frame = tk.Frame(self.master)
@@ -36,6 +36,7 @@ class LoginWindow:
         if user:
             self.master.withdraw()
             new_window = tk.Toplevel(self.master)
+            # Initialisez MainWindow avec la configuration appropriée
             main_app = MainWindow(new_window, user, self.ticket_system, self.chat_manager, self.db_config)
         else:
             messagebox.showerror("Login failed", "Invalid credentials")

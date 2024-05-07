@@ -20,10 +20,15 @@ class TicketSystem:
             self.cnx.close()
 
     def get_tickets_by_user(self, user_id):
-        query = "SELECT ID_Ticket, Titre, Statut FROM Tickets WHERE ID_Utilisateur = %s"
+        query = """
+            SELECT t.ID_Ticket, t.Titre, t.Statut, t.ID_Assignee, a.ID_Utilisateur AS Admin_ID
+            FROM Tickets t
+            LEFT JOIN Utilisateurs a ON t.ID_Assignee = a.ID_Utilisateur
+            WHERE t.ID_Utilisateur = %s
+            """
         try:
             self.cursor.execute(query, (user_id,))
-            tickets = [{'id': row[0], 'title': row[1], 'status': row[2]} for row in self.cursor.fetchall()]
+            tickets = [{'id': row[0], 'title': row[1], 'status': row[2], 'assigned_to': row[3], 'admin_id': row[4]} for row in self.cursor.fetchall()]
             return tickets
         except mysql.connector.Error as err:
             print(f"SQL error: {err}")

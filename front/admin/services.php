@@ -4,7 +4,7 @@ include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
 include_once('./addServiceModalWindow.php');
-include_once('./addServiceTypeModalWindow.php');
+include_once('./deleteServiceModalWindow.php');
 ?>
 
 <head>
@@ -35,6 +35,17 @@ include_once('./addServiceTypeModalWindow.php');
                 });
             </script>
 -->
+            <button class="popup-button" id="openDeleteServiceModalButton"> Supprimer un service</button>
+
+            <script>
+                document.getElementById('openDeleteServiceModalButton').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const serviceId = document.getElementById('serviceTypeSelector').value;
+                    console.log("click modal", serviceId);
+                    openDeleteServiceModal(serviceId);
+                });
+            </script>
+
             <button class="popup-button" id="openAssignUserModalButton"> Affecter un utilisateur au service</button>
 
             <script>
@@ -42,6 +53,7 @@ include_once('./addServiceTypeModalWindow.php');
                     window.parent.postMessage('openAddTypeModalButton', '*');
                 });
             </script>
+
         </div>
 
         <table id="serviceTable">
@@ -66,6 +78,7 @@ include_once('./addServiceTypeModalWindow.php');
 
 <script src="js/services.js" defer></script>
 <script src="js/addService.js" defer></script>
+<script src="js/deleteService.js" defer></script>
 <script src="./js/serviceType.js"></script>
 </body>
 </html>

@@ -115,13 +115,6 @@ class ServiceController {
     private function deleteService($id)
     {
         try {
-            $service = $this->serviceService->getServiceById($id);
-            if ($service) {
-                ResponseHelper::sendResponse(['Service :' => $service]);
-            } else {
-                ResponseHelper::sendNotFound('Le service n existe pas.');
-                return;
-            }
             $result = $this->serviceService->deleteService($id);
             if ($result) {
                 ResponseHelper::sendResponse(['success' => 'Service supprimé avec succès.']);

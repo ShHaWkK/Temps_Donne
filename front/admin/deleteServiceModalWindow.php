@@ -10,6 +10,7 @@
 
 <div id="deleteModal" class="modal">
     <div class="modal-content">
+        <span class="close">&times;</span>
         <h2>Suppression</h2>
         <p>Voulez-vous supprimer ce service ?</p>
         <div>
@@ -20,6 +21,7 @@
 </div>
 
 <script>
+    let service_id_delete;
     document.getElementById('confirmButtonDelete').addEventListener('click', function(event) {
         console.log(service_id_delete);
         deleteService(service_id_delete);
@@ -35,7 +37,7 @@
     function openDeleteServiceModal(serviceId) {
         document.getElementById('deleteModal').style.display = 'block';
         service_id_delete=serviceId;
-        console.log(service_id_delete)
+        console.log("service id",service_id_delete)
     }
 
     // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci
@@ -46,6 +48,11 @@
         }
     }
 
+    // Fermer la fenêtre modale lorsqu'on clique sur la croix
+    document.querySelector('.close').addEventListener('click', function() {
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    });
 </script>
 </body>
 </html>

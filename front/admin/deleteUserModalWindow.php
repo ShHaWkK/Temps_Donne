@@ -10,6 +10,7 @@
 
 <div id="deleteModal" class="modal">
     <div class="modal-content">
+        <span class="close">&times;</span>
         <h2>Suppression</h2>
         <p>Voulez-vous supprimer cet utilisateur ?</p>
         <div>

@@ -18,6 +18,16 @@
 </div>
 
 <script>
+    function addUserDetailsModalEventListeners() {
+        console.log("On ajoute l'event addUserDetailsModalEventListeners");
+        document.querySelectorAll('.popup-button.userDetails').forEach(button => {
+            button.addEventListener('click', function() {
+                const userId = button.closest('tr').querySelector('.user-id').textContent.trim();
+                console.log("click",userId);
+                window.parent.postMessage({ type: 'openUserDetails', userId: userId }, '*');
+            });
+        });
+    }
     // Fonction pour ouvrir la fenêtre modale lorsqu'on clique sur le bouton "Voir"
     document.querySelectorAll('.userDetails').forEach(button => {
         button.addEventListener('click', async function() {

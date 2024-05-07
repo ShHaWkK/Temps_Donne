@@ -12,19 +12,21 @@ class PlanningRepository {
 
     public function save(PlanningModel $planning) {
         // Vérifier si un planning existe déjà à cette date et heure pour cet utilisateur
-        if (!$this->isPlanningAvailable($planning->ID_Utilisateur, $planning->date, $planning->startTime, $planning->endTime)) {
+        if (!$this->isPlanningAvailable($planning->ID_Utilisateur,$planning->ID_Service, $planning->startTime, $planning->date,$planning->endTime)) {
             throw new Exception("Un planning existe déjà pour cet utilisateur à cette date et heure.");
         }
     
         // Insertion du nouveau planning si aucun conflit n'est détecté
-        $stmt = $this->db->prepare("INSERT INTO Planning (ID_Utilisateur, activity, description, date, startTime, endTime) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $this->db->prepare("INSERT INTO Planning (ID_Utilisateur, ID_Service, description) VALUES (?, ?, ?)");
         $stmt->execute([
-            $planning->ID_Utilisateur, 
-            $planning->activity,
+            $planning->ID_Utilisateur,
             $planning->description,
+            $planning->ID_Service,
+            /*
+            $planning->activity,
             $planning->date,
             $planning->startTime,
-            $planning->endTime
+            $planning->endTime*/
         ]);
         return $this->db->lastInsertId();
     }

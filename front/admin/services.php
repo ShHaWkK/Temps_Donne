@@ -4,6 +4,7 @@ include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
 include_once('./addServiceModalWindow.php');
+include_once ('./assignUserModalWindow.php');
 include_once('./deleteServiceModalWindow.php');
 ?>
 
@@ -26,21 +27,12 @@ include_once('./deleteServiceModalWindow.php');
                 });
             </script>
 
-
-<!--           <button class="popup-button" id="openAddServiceTypeButton"> Ajouter un type de service</button>
-            <script>
-                document.getElementById('openAddServiceTypeButton').addEventListener('click', function() {
-                    console.log("click");
-                    window.parent.postMessage('openAddServiceTypeModal', '*');
-                });
-            </script>
--->
             <button class="popup-button" id="openDeleteServiceModalButton"> Supprimer un service</button>
 
             <script>
                 document.getElementById('openDeleteServiceModalButton').addEventListener('click', function(event) {
                     event.preventDefault();
-                    const serviceId = document.getElementById('serviceTypeSelector').value;
+                    const serviceId = document.querySelector('input[name="id_buttons"]:checked').value;
                     console.log("click modal", serviceId);
                     openDeleteServiceModal(serviceId);
                 });
@@ -49,8 +41,11 @@ include_once('./deleteServiceModalWindow.php');
             <button class="popup-button" id="openAssignUserModalButton"> Affecter un utilisateur au service</button>
 
             <script>
-                document.getElementById('openAssignUserModalButton').addEventListener('click', function() {
-                    window.parent.postMessage('openAddTypeModalButton', '*');
+                document.getElementById('openAssignUserModalButton').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const serviceId = document.querySelector('input[name="id_buttons"]:checked').value;
+                    console.log("click modal", serviceId);
+                    openAssignUserModal(serviceId);
                 });
             </script>
 
@@ -80,5 +75,6 @@ include_once('./deleteServiceModalWindow.php');
 <script src="js/addService.js" defer></script>
 <script src="js/deleteService.js" defer></script>
 <script src="./js/serviceType.js"></script>
+<script src="./js/assignUserToService.js"></script>
 </body>
 </html>

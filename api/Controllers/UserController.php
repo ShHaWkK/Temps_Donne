@@ -228,7 +228,7 @@ class UserController {
                     $users =$this->userService->getAllUsersByRole('Beneficiaire');
                     break;
             }
-            ResponseHelper::sendResponse(["Utilisateurs demandés" =>$users]);
+            ResponseHelper::sendResponse($users);
         }catch (Exception $e){
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -245,7 +245,7 @@ class UserController {
                     $users =$this->userService->getAllUsersByRoleAndStatus('Beneficiaire',$statut);
                     break;
             }
-            ResponseHelper::sendResponse(["Utilisateurs demandés" =>$users]);
+            ResponseHelper::sendResponse($users);
         }catch (Exception $e){
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }

@@ -282,3 +282,53 @@
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
         }
+
+        /* Style des inputs radio */
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Style des inputs radio sélectionnés */
+        input[type="radio"]:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        /* Style des labels des inputs radio */
+        input[type="radio"] + label {
+            margin-left: 10px;
+            font-size: 16px;
+        }
+
+        /* Style des inputs checkbox */
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Style des inputs checkbox sélectionnés */
+        input[type="checkbox"]:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        /* Style des labels des inputs checkbox */
+        input[type="checkbox"] + label {
+            margin-left: 10px;
+            font-size: 16px;
+        }

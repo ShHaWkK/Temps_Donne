@@ -50,7 +50,7 @@ function displayServices(services) {
         th.textContent = tableHeader[i];
         rowHeader.appendChild(th);
     }
-
+    let firstService = true;
     services.forEach(service => {
         const row = serviceTable.insertRow();
         // Appel de getServiceType qui renvoie une promesse
@@ -58,7 +58,7 @@ function displayServices(services) {
             .then(serviceType => {
                 // Une fois que la promesse est résolue, afficher les détails du service dans le tableau
                 row.innerHTML = `
-                <td> <input type="radio" id=${service.ID_Service} name='id_buttons' value=${service.ID_Service} /> </td>
+                <td> <input type="radio" id=${service.ID_Service} name='id_buttons' value=${service.ID_Service} ${firstService ? 'checked' : ''} /> </td>
                 <td class="service-id">${service.ID_Service}</td>
                 <td>${service.Nom_du_service}</td>
                 <td>${serviceType}</td>
@@ -68,16 +68,13 @@ function displayServices(services) {
                 <td>${service.startTime}</td>
                 <td>${service.endTime}</td>
             `;
+                firstService = false;
             })
             .catch(error => {
                 // Gérer les erreurs si la promesse est rejetée
                 console.error('Erreur lors de la récupération du type de service :', error);
             });
     });
-
-}
-
-function addService(){
 
 }
 

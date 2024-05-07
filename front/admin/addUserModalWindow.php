@@ -12,6 +12,7 @@
 <!-- Fenêtre modale -->
 <div id="addUserModal" class="modal">
     <div class="modal-content">
+        <span class="close">&times;</span>
         <h2>Ajouter un utilisateur</h2>
         <form id="userForm" action="#" method="post">
 

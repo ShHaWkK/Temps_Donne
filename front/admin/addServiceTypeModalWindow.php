@@ -10,6 +10,7 @@
 
 <div id="addServiceTypeModal" class="modal">
     <div class="modal-content">
+        <span class="close">&times;</span>
         <h2>Ajouter un service</h2>
         <form id="serviceForm" action="#" method="post">
 

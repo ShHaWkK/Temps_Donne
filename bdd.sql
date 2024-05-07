@@ -35,7 +35,8 @@ VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', 'motdepasse123', 'Administ
 -- Tables Services
 CREATE TABLE ServiceType(
                             ID_ServiceType INT AUTO_INCREMENT PRIMARY KEY,
-                            Nom_Type_Service VARCHAR(100)
+                            Nom_Type_Service VARCHAR(100),
+                            Description VARCHAR(200)
 );
 
 INSERT INTO ServiceType ( Nom_Type_Service) VALUES
@@ -48,16 +49,18 @@ INSERT INTO ServiceType ( Nom_Type_Service) VALUES
 
 CREATE TABLE Services (
                           ID_Service INT AUTO_INCREMENT PRIMARY KEY,
-                          Nom_du_service VARCHAR(255),
+                          Nom_du_service VARCHAR(255) NOT NULL ,
                           Description TEXT,
 #                           Horaire TIME,
-                          Lieu VARCHAR(255),
-                          Date DATE,
-                          ID_ServiceType INT,
+                          Lieu VARCHAR(255) NOT NULL ,
+                          Date DATE NOT NULL ,
+                          ID_ServiceType INT NOT NULL ,
+                          startTime TIME NOT NULL ,
+                          endTime TIME NOT NULL ,
                           FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType)
 );
-ALTER TABLE Services ADD COLUMN startTime TIME;
-ALTER TABLE Services ADD COLUMN endTime TIME;
+# ALTER TABLE Services ADD COLUMN startTime TIME;
+# ALTER TABLE Services ADD COLUMN endTime TIME;
 
 -- Table Planning (la table planning permet d'assigner une activité à un utilisateur)
 
@@ -149,11 +152,11 @@ CREATE TABLE Dons (
 CREATE TABLE IF NOT EXISTS Produits (
                                         ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
                                         Nom_Produit VARCHAR(100) NOT NULL,
-    Description TEXT,
-    Prix FLOAT NOT NULL,
-    Volume FLOAT,
-    Poids FLOAT
-    );
+                                        Description TEXT,
+                                        Prix FLOAT NOT NULL,
+                                        Volume FLOAT,
+                                        Poids FLOAT
+                                        );
 
 CREATE TABLE IF NOT EXISTS Entrepots (
                                          ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
@@ -411,7 +414,7 @@ CREATE TABLE Disponibilites(
                                VENDREDI BOOLEAN,
                                SAMEDI BOOLEAN,
                                DIMANCHE BOOLEAN,
-                               FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                               FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 
 -- Création de la table Competences
@@ -498,6 +501,22 @@ END;
 //
 
 DELIMITER ;
+
+DELIMITER //
+-- On vérifie si l'heure de fin d'un service est bien ultérieure à son heure de début
+
+CREATE TRIGGER check_end_date
+    BEFORE INSERT ON Services
+    FOR EACH ROW
+BEGIN
+    IF NEW.endTime <= NEW.startTime THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La date de fin doit être ultérieure à la date de début.';
+    END IF;
+END //
+
+DELIMITER ;
+
 
 -- Ajout d'un événement pour suprimer automatiquement les sessions expirées
 CREATE EVENT deleteExpiredSessions

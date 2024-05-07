@@ -4,6 +4,7 @@ include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
 include_once('./addServiceModalWindow.php');
+include_once('./addServiceTypeModalWindow.php');
 ?>
 
 <head>
@@ -26,13 +27,14 @@ include_once('./addServiceModalWindow.php');
             </script>
 
 
-            <button class="popup-button" href="./addServiceType.php" id="openAddServiceTypeButton"> Ajouter un type de service</button>
+<!--           <button class="popup-button" id="openAddServiceTypeButton"> Ajouter un type de service</button>
             <script>
                 document.getElementById('openAddServiceTypeButton').addEventListener('click', function() {
-                    window.location.href = 'addServiceType.php';
+                    console.log("click");
+                    window.parent.postMessage('openAddServiceTypeModal', '*');
                 });
             </script>
-
+-->
             <button class="popup-button" id="openAssignUserModalButton"> Affecter un utilisateur au service</button>
 
             <script>
@@ -63,6 +65,7 @@ include_once('./addServiceModalWindow.php');
 </div>
 
 <script src="js/services.js" defer></script>
+<script src="js/addService.js" defer></script>
 <script src="./js/serviceType.js"></script>
 </body>
 </html>

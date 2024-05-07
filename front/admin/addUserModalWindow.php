@@ -71,7 +71,7 @@
             <label for="typePermis">Type de permis:</label>
             <input type="text" id="typePermis" name="typePermis" value="B"><br><br>
 
-            <input class="confirm-button" id="confirm-button" type="submit" value="Ajouter">
+            <input class="confirm-button" id="confirm-button-addUser" type="submit" value="Ajouter">
         </form>
     </div>
 </div>

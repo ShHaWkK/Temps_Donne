@@ -40,7 +40,7 @@ function displayServices(services) {
     serviceTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["ID_Service", "Nom", "Type", "Description", "Horaire", "Adresse","Date_Debut","Date_Fin","Détails","Action"];
+    const tableHeader = ["","ID_Service", "Nom", "Type", "Description", "Adresse","Date","Heure début","Heure fin"];
 
     const rowHeader = serviceTable.insertRow();
     rowHeader.classList.add("head");
@@ -58,16 +58,15 @@ function displayServices(services) {
             .then(serviceType => {
                 // Une fois que la promesse est résolue, afficher les détails du service dans le tableau
                 row.innerHTML = `
+                <td> <input type="radio" id=${service.ID_Service} name='id_buttons' value=${service.ID_Service} /> </td>
                 <td class="service-id">${service.ID_Service}</td>
                 <td>${service.Nom_du_service}</td>
                 <td>${serviceType}</td>
                 <td>${service.Description}</td>
-                <td>${service.Horaire}</td>
+                <td>${service.Lieu}</td>
+                <td>${service.Date}</td>
                 <td>${service.startTime}</td>
                 <td>${service.endTime}</td>
-                <td>${service.Détails}</td>
-                <td><button class="popup-button serviceDetails">Voir</button></td>
-                <td><a href='#' class="assignUser-link">Affecter</a>
             `;
             })
             .catch(error => {
@@ -91,5 +90,6 @@ window.onload = function() {
             allServices = services;
             displayedServices=services;
             displayServices(allServices);
+            addAddServiceEvent();
         })
 }

@@ -1,5 +1,5 @@
 function addAddUserEvent(){
-    const confirmButton = document.getElementById('confirm-button');
+    const confirmButton = document.getElementById('confirm-button-addUser');
     console.log("On est là");
     confirmButton.addEventListener('click', function(event) {
         event.preventDefault();
@@ -85,8 +85,7 @@ function addUser() {
             // Afficher la réponse JSON dans une alerte
             alert(JSON.stringify(data));
             if (data && data.status && data.status.startsWith("success")) {
-                // Redirection vers la page souhaitée
-                window.location.href = "../../index.php";
+                window.location.reload();
             }
         })
         .catch(error => {

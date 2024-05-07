@@ -27,7 +27,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
             <div class="col">
                 <h3> <?php echo htmlspecialchars($data["GENDER"]);?>: * </h3>
                 <div class="line">
-                    <label class="radio-label"> <?php echo htmlspecialchars($data["MALE"]);?> <input type="radio" id="genre" name="genre" value="homme" required> </label>
+                    <label class="radio-label"> <?php echo htmlspecialchars($data["MALE"]);?> <input type="radio" id="genre" name="genre" value="homme" checked required> </label>
                     <label class="radio-label"> <?php echo htmlspecialchars($data["FEMALE"]);?> <input type="radio" id="genre" name="genre" value="femme" required> </label>
                     <label class="radio-label"> <?php echo htmlspecialchars($data["OTHER"]);?> <input type="radio" id="genre" name="genre" value="autre" required> </label>
                 </div>
@@ -152,7 +152,7 @@ echo "<title>Inscription bénévole - Au temps donné</title>";
                 <h3><?php echo htmlspecialchars($data["AVAILABILITY"]);?>: </h3>
                 <div class="line">
                     <label class="radio-label"> <?php echo htmlspecialchars($data["REGULAR_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="reguliere" required onclick="showAvailability()"> </label>
-                    <label class="radio-label"> <?php echo htmlspecialchars($data["PUNCTUAL_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="ponctuelle" required onclick="hideAvailability()"> </label>
+                    <label class="radio-label"> <?php echo htmlspecialchars($data["PUNCTUAL_AVAILABILITY"]);?> <input type="radio" name="disponibilite" value="ponctuelle" required checked onclick="hideAvailability()"> </label>
                 </div>
             </div>
 

@@ -19,13 +19,13 @@ class ServiceRepository
 
     public function createService($service)
     {
-        $query = "INSERT INTO Services (Nom_du_service, Description, Horaire, Lieu, Date, ID_ServiceType, startTime, endTime) 
-              VALUES (:nom_du_service, :description, :horaire, :lieu, :date, :id_serviceType, :startTime, :endTime)";
+        $query = "INSERT INTO Services (Nom_du_service, Description, Lieu, Date, ID_ServiceType, startTime, endTime) 
+              VALUES (:nom_du_service, :description, :lieu, :date, :id_serviceType, :startTime, :endTime)";
         $statement = $this->db->prepare($query);
 
         $statement->bindValue(':nom_du_service', $service->nom_du_service, PDO::PARAM_STR);
         $statement->bindValue(':description', $service->description, PDO::PARAM_STR);
-        $statement->bindValue(':horaire', $service->horaire, PDO::PARAM_STR);
+//        $statement->bindValue(':horaire', $service->horaire, PDO::PARAM_STR);
         $statement->bindValue(':lieu', $service->lieu, PDO::PARAM_STR);
         $statement->bindValue(':date', $service->date, PDO::PARAM_STR);
         $statement->bindValue(':id_serviceType', $service->id_serviceType, PDO::PARAM_INT);

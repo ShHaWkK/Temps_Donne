@@ -74,7 +74,13 @@ class ServiceController {
 
             $inserted_id=$this->serviceService->createService($service);
 
-            ResponseHelper::sendResponse(["Service ajouté avec succès." => $inserted_id]);
+            $response = [
+                'status' => 'success',
+                'message' => 'service added successfully.',
+                'inserted_id' => $inserted_id,
+            ];
+
+            ResponseHelper::sendResponse($response);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }

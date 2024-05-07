@@ -14,7 +14,7 @@
         <p>Voulez-vous supprimer cet utilisateur ?</p>
         <div>
             <button class="confirm-button" id="confirmButtonDelete">Confirmer</button>
-            <button class="cancel-button" id="cancelButton">Annuler</button>
+            <button class="cancel-button" id="cancelButtonDelete">Annuler</button>
         </div>
     </div>
 </div>
@@ -27,13 +27,17 @@
         deleteUser(user_id_delete);
     });
 
+    //Evenement pour fermer la fenêtre modale si l'utilisateur clique sur annuler
+    document.getElementById('cancelButtonDelete').addEventListener('click', function(event) {
+        var modal = document.getElementById('deleteModal');
+        modal.style.display = "none";
+    });
 
     // Fonction pour ouvrir la fenêtre modale
     function openDeleteModal(userId) {
         document.getElementById('deleteModal').style.display = 'block';
         user_id_delete=userId;
         console.log(user_id_delete)
-        // Mettre à jour le contenu ou effectuer toute autre action nécessaire en fonction de userId
     }
 
     // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci
@@ -45,7 +49,7 @@
     }
 
     window.addEventListener('message', function(event) {
-        console.log("Message reçu :", event); // Vérifiez si l'événement 'message' est déclenché
+        console.log("Message reçu :", event);
         if (event.data.type === 'deleteUserModal') {
             console.log("Bonjour", event.data.userId);
             user_id_delete=event.data.userId;

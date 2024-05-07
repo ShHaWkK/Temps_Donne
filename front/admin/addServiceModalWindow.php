@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un service</title>
     <link rel="stylesheet" href="./css/modal.css">
-    <script src="./js/checkSessionAdmin.js"></script>
 </head>
 <body>
 
@@ -42,13 +41,14 @@
             <label for="serviceEndTime">Heure de fin :</label>
             <input type="time" id="serviceEndTime" name="serviceEndTime" required><br><br>
 
-            <input class="confirm-button" id="confirm-button" type="submit" value="Ajouter">
+            <input class="confirm-button" id="confirm-button-addService" type="submit" value="Ajouter">
         </form>
     </div>
 </div>
 
 <script>
     console.log("On est dans addServiceModal");
+
     // Fonction pour ouvrir la fenêtre modale
     function openAddServiceModal() {
         document.getElementById('addServiceModal').style.display = 'block';
@@ -62,11 +62,22 @@
         }
     }
 
+    // Ajouter un écouteur d'événement sur la soumission du formulaire
+    document.getElementById('serviceForm').addEventListener('submit', function(event) {
+        var startDate = new Date(document.getElementById('serviceDate').value + ' ' + document.getElementById('serviceStartTime').value);
+        var endDate = new Date(document.getElementById('serviceDate').value + ' ' + document.getElementById('serviceEndTime').value);
+
+        // Vérifier si la date de fin est postérieure à la date de début
+        if (endDate <= startDate) {
+            alert('La date de fin doit être ultérieure à la date de début.');
+            event.preventDefault(); // Empêcher l'envoi du formulaire si la validation échoue
+        }
+    });
+
     // Écouter les messages envoyés par l'iframe parent
     window.addEventListener('message', function(event) {
         if (event.data === 'openAddServiceModal') {
             openAddServiceModal();
-
         }
     });
 </script>

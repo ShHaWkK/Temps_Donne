@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/json"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -10,6 +11,12 @@ import (
 
 // templates est un parseur de templates qui précharge les templates HTML pour éviter de les charger à chaque requête.
 var templates = template.Must(template.ParseGlob("templates/*.html"))
+
+//---------- CSS ----------//
+
+staticDir := http.Dir("templates/css")
+staticHandler := http.FileServer(staticDir)
+http.Handle("/static/", http.StripPrefix("/static/", staticHandler))
 
 // SetupRoutes configure les routes et les handlers correspondants.
 func SetupRoutes() {
@@ -21,7 +28,6 @@ func SetupRoutes() {
 	http.HandleFunc("/ticket/create", createTicketHandler)
 	http.HandleFunc("/ticket/update", updateTicketHandler)
 	http.HandleFunc("/chat", chatHandler)
-	// Ajouter d'autres routes ici
 }
 
 // loginHandler gère la connexion des utilisateurs.
@@ -83,19 +89,31 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 
 // adminDashboardHandler vérifie si l'utilisateur est un administrateur avant d'afficher le dashboard.
 func adminDashboardHandler(w http.ResponseWriter, r *http.Request) {
-	email, err := GetSession(r)
+	userIDStr, err := GetSession(r)
 	if err != nil {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
-
-	user, err := BDD.GetUserByEmail(email)
-	if err != nil || user.Role != "Administrateur" {
-		http.Error(w, "Access denied", http.StatusForbidden)
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		http.Error(w, "Invalid user ID", http.StatusBadRequest)
 		return
 	}
 
-	templates.ExecuteTemplate(w, "admin_dashboard.html", user)
+	stats, err := BDD.GetDashboardStats(userID)
+	if err != nil {
+		http.Error(w, "Failed to get dashboard stats", http.StatusInternalServerError)
+		return
+	}
+
+	jsonData, err := json.Marshal(stats)
+	if err != nil {
+		http.Error(w, "Failed to serialize stats", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }
 
 // volunteerDashboardHandler affiche le tableau de bord du bénévole.

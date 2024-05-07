@@ -65,12 +65,13 @@ CREATE TABLE Services (
 -- Table Planning (la table planning permet d'assigner une activité à un utilisateur)
 
 CREATE TABLE Planning (
-                          ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
+#                           ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
                           ID_Utilisateur INT NOT NULL,
                           ID_Service INT NOT NULL NULL, -- On ajoute la clé étrangère du service
                           Description TEXT,
-                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION,
-                          FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service) ON DELETE NO ACTION
+                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
+                          FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service) ON DELETE CASCADE,
+                          PRIMARY KEY (ID_Utilisateur, ID_Service)
 ) ENGINE=InnoDB;
 /*
 ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;

@@ -1,3 +1,14 @@
+function addUserDetailsModalEventListeners() {
+    console.log("On ajoute l'event addUserDetailsModalEventListeners");
+    document.querySelectorAll('.popup-button.userDetails').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = button.closest('tr').querySelector('.user-id').textContent.trim();
+            console.log("click",userId);
+            window.parent.postMessage({ type: 'openUserDetails', userId: userId }, '*');
+        });
+    });
+}
+
 async function deleteUser(user_id) {
     const apiUrl = 'http://localhost:8082/index.php/users/' + user_id;
     console.log("On entre dans deleteUser");

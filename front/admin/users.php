@@ -61,6 +61,7 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 <script src="./js/approveUser.js"></script>
 <script src="./js/putOnHoldUser.js"></script>
 <script src="./js/rejectUser.js"></script>
+<script src="./js/deleteUser.js"></script>
 
 </body>
 </html>

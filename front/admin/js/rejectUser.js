@@ -1,3 +1,15 @@
+function addRejectModalEventListeners(){
+    console.log("On ajoute l'event addRejectModalEventListeners");
+    document.querySelectorAll('.reject-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
+            console.log("click modal", userId);
+            openDeleteModal(userId); // Appel direct de la fonction avec l'ID de l'utilisateur
+        });
+    });
+}
+
 function addRejectEventListeners() {
     console.log("rejectevent");
     document.querySelectorAll('.reject-link').forEach(link => {

@@ -20,16 +20,19 @@
 </div>
 
 <script>
-    document.getElementById('confirmButtonDelete').addEventListener('click', function() {
-        var userId = event.data.userId; // Capturer la valeur de event.data.userId
-        console.log(userId);
-        deleteUser(userId);
+    let user_id_delete;
+    document.getElementById('confirmButtonDelete').addEventListener('click', function(event) {
+        // Utilisez event.data.userId pour accéder à l'ID de l'utilisateur
+        console.log(user_id_delete);
+        deleteUser(user_id_delete);
     });
 
 
     // Fonction pour ouvrir la fenêtre modale
     function openDeleteModal(userId) {
         document.getElementById('deleteModal').style.display = 'block';
+        user_id_delete=userId;
+        console.log(user_id_delete)
         // Mettre à jour le contenu ou effectuer toute autre action nécessaire en fonction de userId
     }
 
@@ -42,10 +45,16 @@
     }
 
     window.addEventListener('message', function(event) {
+        console.log("Message reçu :", event); // Vérifiez si l'événement 'message' est déclenché
         if (event.data.type === 'deleteUserModal') {
+            console.log("Bonjour", event.data.userId);
+            user_id_delete=event.data.userId;
             openDeleteModal(event.data.userId);
+        } else {
+            console.log("Type d'événement non pris en charge :", event.data.type);
         }
     });
+
 
 </script>
 </body>

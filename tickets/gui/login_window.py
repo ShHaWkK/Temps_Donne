@@ -36,7 +36,6 @@ class LoginWindow:
         if user:
             self.master.withdraw()
             new_window = tk.Toplevel(self.master)
-            # Ajoutez db_config comme argument pour correspondre à la définition de MainWindow.
             main_app = MainWindow(new_window, user, self.ticket_system, self.chat_manager, self.db_config)
         else:
             messagebox.showerror("Login failed", "Invalid credentials")

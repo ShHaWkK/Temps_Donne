@@ -19,6 +19,16 @@ class TicketSystem:
             self.cursor.close()
             self.cnx.close()
 
+    def get_tickets_by_user(self, user_id):
+        query = "SELECT ID_Ticket, Titre, Statut FROM Tickets WHERE ID_Utilisateur = %s"
+        try:
+            self.cursor.execute(query, (user_id,))
+            tickets = [{'id': row[0], 'title': row[1], 'status': row[2]} for row in self.cursor.fetchall()]
+            return tickets
+        except mysql.connector.Error as err:
+            print(f"SQL error: {err}")
+            return []
+
     def create_ticket(self, user_id, title, description, priority='Moyen', assignee_id=None):
         """Créer un ticket dans la base de données."""
         query = """

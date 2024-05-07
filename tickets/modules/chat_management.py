@@ -31,3 +31,5 @@ class ChatManager:
         except mysql.connector.Error as err:
             print(f"SQL error: {err}")
             return []
+
+

@@ -24,6 +24,11 @@ class StockService {
         return $this->stockRepository->findAll();
     }
 
+    public function getStockById($id)
+    {
+        return $this->stockRepository->findById($id);
+    }
+
     public function addStock($stockData) {
         try {
             // Vérifiez que stockData est bien un objet de type StockModel

@@ -7,7 +7,6 @@ function addAddUserEvent(){
     });
 }
 
-
 function addUser() {
     var apiUrl = 'http://localhost:8082/index.php/users/register';
 

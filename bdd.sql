@@ -179,16 +179,6 @@ CREATE TABLE IF NOT EXISTS Stocks (
                                       FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
 );
 
-CREATE TABLE IF NOT EXISTS Stocks_Entrepot (
-                                               ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                                               ID_Entrepot INT,
-                                               ID_Stock INT,
-                                               FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
-                                               FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
-);
-
-
-
 CREATE TABLE Camions (
                          ID_Camion INT AUTO_INCREMENT PRIMARY KEY,
                          Immatriculation VARCHAR(255) NOT NULL UNIQUE,
@@ -515,6 +505,31 @@ END //
 
 DELIMITER ;
 
+-- On vérifie si l'entrepot a bien un volume restant suffisant pour y accueilir le stock, sinon one refuse l'insertion de la ligne
+DELIMITER //
+
+CREATE TRIGGER check_stock_volume
+    BEFORE INSERT ON Stocks
+    FOR EACH ROW
+BEGIN
+    DECLARE volume_entrepot DECIMAL(10, 2);
+
+    -- Calculer le volume restant dans l'entrepôt associé au nouveau stock
+    SELECT E.Volume_Total - IFNULL(SUM(S.Volume_Total), 0)
+    INTO volume_entrepot
+    FROM Entrepots E
+             LEFT JOIN Stocks S ON E.ID_Entrepot = S.ID_Entrepots
+    WHERE E.ID_Entrepot = NEW.ID_Entrepots
+    GROUP BY E.ID_Entrepot;
+
+    -- Vérifier si le volume du stock dépasse le volume restant
+    IF NEW.Volume_Total > volume_entrepot THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Le volume du stock dépasse le volume restant dans l''entrepôt.';
+    END IF;
+END //
+
+DELIMITER ;
 
 -- Ajout d'un événement pour suprimer automatiquement les sessions expirées
 CREATE EVENT deleteExpiredSessions

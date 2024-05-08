@@ -13,16 +13,16 @@ class StockModel {
     public $date_de_peremption;
 
     public function __construct($data) {
-        $this->id_stock = $data['id_stock'] ?? null;
-        $this->id_entrepot = $data['id_entrepot'];
-        $this->id_produit = $data['id_produit'];
-        $this->quantite = $data['quantite'];
-        $this->poids_total = $data['poids_total'];
-        $this->volume_total = $data['volume_total'];
-        $this->date_de_reception = $data['date_de_reception'];
-        $this->statut = $data['statut'] ?? 'en_route';
-        $this->qr_code = $data['qr_code'] ?? null;
-        $this->date_de_peremption = $data['date_de_peremption'];
+        $this->id_stock = $data['ID_Stock'] ?? null;
+        $this->id_entrepot = $data['ID_Entrepots'];
+        $this->id_produit = $data['ID_Produit'];
+        $this->quantite = $data['Quantite'];
+        $this->poids_total = $data['Poids_Total'];
+        $this->volume_total = $data['Volume_Total'];
+        $this->date_de_reception = $data['Date_de_reception'];
+        $this->statut = $data['Statut'] ?? 'en_route';
+        $this->qr_code = $data['QR_Code'] ?? null;
+        $this->date_de_peremption = $data['Date_de_peremption'];
     }
 
     public function validate() {

@@ -1,5 +1,21 @@
-//Fonctions de filtres
+//Récupérer informations des entrepots:
+function getEntrepotName(entrepots, id) {
 
+    let entrepotName = "Entrepot non trouvé";
+
+    // Parcourir le tableau de produits
+    entrepots.forEach(entrepot => {
+        // Vérifier si l'ID du produit correspond à l'ID recherché
+        if (entrepot.ID_Entrepot == id) {
+            // Affecter le nom du produit correspondant à la variable productName
+            entrepotName = entrepot.Nom;
+        }
+    });
+
+    return entrepotName;
+}
+
+//Fonctions de filtres
 function addProductFilterEvent(){
     const selectElement = document.getElementById("productFilter");
 
@@ -25,11 +41,26 @@ function addEntrepotFilterEvent(){
 
     console.log("On entre dans filterByEntrepotEvent");
     selectElement.addEventListener("change", function() {
+
+        //On récupère l'id de l'entrepot sélectionné
         entrepotFilter=selectElement.value;
+
+        //On affiche le nom de l'entrepot sélectionné:
+        const progressBar = document.querySelector('#progress');
+        const entrepotNameElement = document.querySelector('.EntrepotName');
+        if(entrepotFilter !== 'all'){
+            entrepotNameElement.textContent = 'Entrepot de ' + getEntrepotName(allEntrepots,entrepotFilter);
+            progressBar.display = 'block';
+        }else{
+            entrepotNameElement.textContent = '';
+            progressBar.style.display = 'none';
+        }
+
         displayStocks(allStocks,produitFilter,statutFilter,entrepotFilter);
     });
 }
 
+// Fonctions de tri
 function addSortEvents() {
     const sortElements = document.querySelectorAll("[name='Sort']");
 
@@ -39,7 +70,7 @@ function addSortEvents() {
         });
     });
 }
-//Fonctions de tri
+
 function sortByID(stocks) {
     return stocks.sort((a, b) => a.ID_Stock - b.ID_Stock);
 }

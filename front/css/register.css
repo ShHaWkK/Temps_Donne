@@ -298,8 +298,8 @@
 
         /* Style des inputs radio sélectionnés */
         input[type="radio"]:checked {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #23B5BE;
+            border-color: #23B5BE;
         }
 
         /* Style des labels des inputs radio */
@@ -323,8 +323,8 @@
 
         /* Style des inputs checkbox sélectionnés */
         input[type="checkbox"]:checked {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #23B5BE;
+            border-color: #23B5BE;
         }
 
         /* Style des labels des inputs checkbox */

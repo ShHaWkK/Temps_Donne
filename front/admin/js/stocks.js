@@ -1,4 +1,6 @@
 let allStocks = [];
+let allProduits= [];
+let allEntrepots = [];
 let displayedStocks =[];
 const currentDate = new Date();
 let statutFilter='all';
@@ -34,25 +36,53 @@ async function getAllEntrepots(){
 }
 
 function getProductName(products, id) {
-    console.log("id get", id);
-    console.log("products get", products);
 
     let productName = "Produit non trouvé";
 
     // Parcourir le tableau de produits
     products.forEach(product => {
-        console.log("foreach",product);
-        console.log("foreach id",product.ID_Produit);
-        console.log(product.ID_Produit === id);
-        console.log(product.Nom_Produit);
         // Vérifier si l'ID du produit correspond à l'ID recherché
-        if (product.ID_Produit === id) {
+        if (product.ID_Produit == id) {
             // Affecter le nom du produit correspondant à la variable productName
             productName = product.Nom_Produit;
         }
     });
 
     return productName;
+}
+
+function getProductWeight(products, id) {
+    let productWeight = "Produit non trouvé";
+
+    // Parcourir le tableau de produits
+    products.forEach(product => {
+        console.log("foreach id",product.ID_Produit);
+        console.log(product.ID_Produit === id);
+        // Vérifier si l'ID du produit correspond à l'ID recherché
+        if (product.ID_Produit == id) {
+            // Affecter le nom du produit correspondant à la variable productName
+            productWeight = product.Poids;
+        }
+    });
+
+    return productWeight;
+}
+
+function getProductVolume(products, id) {
+    console.log("id get", id);
+    console.log("products get", products);
+
+    let productVolume = "Produit non trouvé";
+
+    // Parcourir le tableau de produits
+    products.forEach(product => {
+        // Vérifier si l'ID du produit correspond à l'ID recherché
+        if (product.ID_Produit == id) {
+            productVolume = product.Volume;
+        }
+    });
+
+    return productVolume;
 }
 
 // Module pour la récupération des utilisateurs
@@ -77,7 +107,7 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
     stockTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["ID", "Produit", "Quantite", "Poids Total", "Volume Total", "Date de reception","Date de péremption", "Statut", "Détails"];
+    const tableHeader = ["","ID", "Produit", "Quantite", "Poids Total", "Volume Total", "Date de reception","Date de péremption", "Statut", "Détails"];
 
     const rowHeader = stockTable.insertRow();
     rowHeader.classList.add("head");
@@ -117,11 +147,12 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
             stocksFiltres = sortByID(stocksFiltres);
             break;
     }
-
+    let firstStock = true;
     // Afficher les stocks filtrés et triés
     stocksFiltres.forEach(stock => {
         const row = stockTable.insertRow();
         row.innerHTML = `
+             <td> <input type="radio" id=${stock.ID_Stock} name='id_buttons' value=${stock.ID_Stock} ${firstStock ? 'checked' : ''} /> </td>
             <td class="stock-id">${stock.ID_Stock}</td>
             <td>${getProductName(allProduits, stock.ID_Produit)}</td>
             <td>${stock.Quantite}</td>
@@ -134,18 +165,15 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
         `;
         // Vérifier si la date de péremption est antérieure à la date actuelle
         const expirationDate = new Date(stock.Date_de_peremption);
-        console.log("expirationDate",expirationDate);
-        console.log("currentDate",currentDate);
         if (expirationDate < currentDate) {
             row.classList.add('expired');
         }
+        firstStock=false;
     });
 }
 
-async function displayProducts() {
-    const productFilter = document.getElementById('productFilter');
-
-    console.log("displayProducts");
+async function displayProducts(element_id) {
+    const productFilter = document.getElementById(element_id);
 
     try {
         allProduits.forEach(produit => {
@@ -159,10 +187,8 @@ async function displayProducts() {
     }
 }
 
-async function displayEntrepots() {
-    const entrepotFilter = document.getElementById('entrepotFilter');
-
-    console.log("displayEntrepots");
+async function displayEntrepots(element_id) {
+    const entrepotFilter = document.getElementById(element_id);
 
     try {
         allEntrepots.forEach(entrepot => {
@@ -197,18 +223,20 @@ window.onload = function() {
         .then(stocks => {
             allStocks = stocks;
             displayedStocks=stocks;
-            console.log("displayStocks");
             displayStocks(allStocks,produitFilter,statutFilter,entrepotFilter);
         })
         .then(() => {
-            displayProducts();
-            displayEntrepots()
+            displayProducts('productFilter');
+            displayEntrepots('entrepotFilter');
+            displayProducts('productSelector');
+            displayEntrepots('entrepotSelector');
         })
         .then(() => {
             addProductFilterEvent();
             addEntrepotFilterEvent();
             addStatusFilterEvent();
             addSortEvents();
+            addAddStockEvent();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

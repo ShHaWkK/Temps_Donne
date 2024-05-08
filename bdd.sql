@@ -116,17 +116,24 @@ ALTER TABLE Inscriptions_Formations
 ADD COLUMN Attended BOOLEAN NOT NULL DEFAULT FALSE;
 
 -- Table ChatMessages
-CREATE TABLE ChatMessages (
-                              ID_Message INT AUTO_INCREMENT PRIMARY KEY,
-                              ID_Expediteur_Utilisateur INT,
-                              ID_Destinataire_Utilisateur INT,
-                              Message TEXT,
-                              Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                              Lu BOOLEAN DEFAULT FALSE,
-                              FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-                              FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+CREATE TABLE ChatMessages
+(
+    ID_Message                  int auto_increment PRIMARY KEY,
+    ID_Expediteur_Utilisateur   int NULL,
+    ID_Destinataire_Utilisateur int NULL,
+    Message                     text NULL,
+    Timestamp                   datetime DEFAULT CURRENT_TIMESTAMP,
+    Lu                          tinyint(1) DEFAULT 0,
+    ticket_id                   int NULL,
+    CONSTRAINT ChatMessages_ibfk_1 FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs (ID_Utilisateur),
+    CONSTRAINT ChatMessages_ibfk_2 FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs (ID_Utilisateur),
+    CONSTRAINT ChatMessages_ibfk_3 FOREIGN KEY (ticket_id) REFERENCES Tickets (ID_Ticket)
 );
 
+CREATE INDEX ID_Destinataire_Utilisateur ON ChatMessages (ID_Destinataire_Utilisateur);
+CREATE INDEX ID_Expediteur_Utilisateur ON ChatMessages (ID_Expediteur_Utilisateur);
+
+ALTER TABLE ChatMessages ADD COLUMN ticket_id INT;
 -- Table Feedbacks
 CREATE TABLE Feedbacks (
                            ID_Feedback INT AUTO_INCREMENT PRIMARY KEY,

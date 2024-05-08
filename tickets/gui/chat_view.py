@@ -2,10 +2,11 @@ import tkinter as tk
 from tkinter import scrolledtext, messagebox
 
 class ChatView:
-    def __init__(self, master, user_id, other_user_id, chat_manager):
+    def __init__(self, master, user_id, other_user_id, chat_manager, ticket_id):
         self.master = master
         self.user_id = user_id
         self.other_user_id = other_user_id
+        self.ticket_id = ticket_id
         self.chat_manager = chat_manager
 
         self.master.title("Chat")
@@ -16,7 +17,7 @@ class ChatView:
         self.msg_entry = tk.Entry(master)
         self.msg_entry.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=10)
 
-        self.send_button = tk.Button(master, text="Send", command=self.send_message)
+        self.send_button = tk.Button(master, text="Envoyer", command=self.send_message)
         self.send_button.pack(side=tk.RIGHT, padx=10)
 
         self.update_chat()
@@ -25,23 +26,25 @@ class ChatView:
         message = self.msg_entry.get()
         if message.strip():
             try:
-                self.chat_manager.send_message(self.user_id, self.other_user_id, message)
-                self.msg_entry.delete(0, tk.END)
-                self.update_chat()
+                if self.chat_manager.send_message(self.user_id, self.other_user_id, message, self.ticket_id):
+                    self.msg_entry.delete(0, tk.END)
+                    self.update_chat()
+                else:
+                    messagebox.showerror("Erreur", "Échec de l'envoi du message.")
             except ValueError:
-                messagebox.showerror("Error", "Invalid user ID. ID must be an integer.")
+                messagebox.showerror("Erreur", "L'ID utilisateur doit être un entier.")
 
     def update_chat(self):
         self.chat_box.config(state=tk.NORMAL)
-        self.chat_box.delete(1.0, tk.END)
-        messages = self.chat_manager.get_messages(self.user_id, self.other_user_id)
+        self.chat_box.delete('1.0', tk.END)
+        messages = self.chat_manager.get_ticket_messages(self.ticket_id)
         for msg in messages:
-            if msg[1] == self.user_id:
-                self.chat_box.insert(tk.END, f"You: {msg[3]}\n", 'blue')
-            else:
-                self.chat_box.insert(tk.END, f"Admin: {msg[3]}\n", 'red')
+            expediteur = "Vous" if msg[1] == self.user_id else "Autre"
+            self.chat_box.insert(tk.END, f"{expediteur}: {msg[0]} [{msg[3]}]\n")
         self.chat_box.config(state=tk.DISABLED)
         self.master.after(5000, self.update_chat)
+
+
 
 
     def open_chat_with_admin(self, admin_id):

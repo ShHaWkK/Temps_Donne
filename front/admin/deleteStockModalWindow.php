@@ -10,9 +10,9 @@
 
 <div id="deleteModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="close-delete">&times;</span>
         <h2>Suppression</h2>
-        <p>Voulez-vous retirer ce stock de l'entrepot ?</p>
+        <p>Voulez-vous retirer ce stock de l'entrepot ? Cette action est irréversible</p>
         <div>
             <button class="confirm-button" id="confirmButtonDelete">Confirmer</button>
             <button class="cancel-button" id="cancelButtonDelete">Annuler</button>
@@ -20,11 +20,25 @@
     </div>
 </div>
 
+<div id="deleteExpiredModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-delete-expired">&times;</span>
+        <h2>Suppression</h2>
+        <p>Voulez-vous retirer tous les stocks périmés de l'entrepot ? Cette action est irréversible</p>
+        <div>
+            <button class="confirm-button" id="confirmButtonDeleteExpired">Confirmer</button>
+            <button class="cancel-button" id="cancelButtonDeleteExpired">Annuler</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    let service_id_delete;
     document.getElementById('confirmButtonDelete').addEventListener('click', function(event) {
-        console.log(service_id_delete);
-        deleteService(service_id_delete);
+        deleteStock();
+    });
+
+    document.getElementById('confirmButtonDeleteExpired').addEventListener('click', function(event) {
+        deleteExpiredStocks(displayedStocks);
     });
 
     //Evenement pour fermer la fenêtre modale si l'utilisateur clique sur annuler
@@ -32,12 +46,17 @@
         var modal = document.getElementById('deleteModal');
         modal.style.display = "none";
     });
+    document.getElementById('cancelButtonDeleteExpired').addEventListener('click', function(event) {
+        var modal = document.getElementById('deleteExpiredModal');
+        modal.style.display = "none";
+    });
 
     // Fonction pour ouvrir la fenêtre modale
-    function openDeleteStockModal(stockId) {
+    function openDeleteStockModal() {
         document.getElementById('deleteModal').style.display = 'block';
-        service_id_delete=stockId;
-        console.log("service id",service_id_delete)
+    }
+    function openDeleteExpiredStockModal() {
+        document.getElementById('deleteExpiredModal').style.display = 'block';
     }
 
     // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci
@@ -47,12 +66,22 @@
             modal.style.display = "none";
         }
     }
+    window.onclick = function(event) {
+        var modal = document.getElementById('deleteExpiredModal');
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
 
         // Fermer la fenêtre modale lorsqu'on clique sur la croix
-        document.querySelector('.close').addEventListener('click', function() {
-            const modal = document.getElementById('deleteModal');
-            modal.style.display = 'none';
-        });
+    document.getElementById('close-delete').addEventListener('click', function() {
+        const modal = document.getElementById('deleteModal');
+        modal.style.display = 'none';
+    });
+    document.getElementById('close-delete-expired').addEventListener('click', function() {
+        const modal = document.getElementById('deleteExpiredModal');
+        modal.style.display = 'none';
+    });
 </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ let allProduits= [];
 let allEntrepots = [];
 let displayedStocks =[];
 const currentDate = new Date();
+let selectedStock = null;
 let statutFilter='all';
 let entrepotFilter='all';
 let produitFilter='all';
@@ -148,6 +149,7 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
             break;
     }
     let firstStock = true;
+    displayedStocks=stocksFiltres;
     // Afficher les stocks filtrés et triés
     stocksFiltres.forEach(stock => {
         const row = stockTable.insertRow();
@@ -168,6 +170,7 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
         if (expirationDate < currentDate) {
             row.classList.add('expired');
         }
+
         firstStock=false;
     });
 }
@@ -237,6 +240,7 @@ window.onload = function() {
             addStatusFilterEvent();
             addSortEvents();
             addAddStockEvent();
+            addSelectedButtonEvent();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

@@ -90,3 +90,21 @@ function sortByDatePeremption(stocks, descending = false) {
         return descending ? dateB - dateA : dateA - dateB;
     });
 }
+
+//On récupère le stock sélectionné:
+function addSelectedButtonEvent(){
+    const buttons = document.getElementsByName('id_buttons');
+
+// Parcourir tous les boutons radio et ajouter un écouteur d'événement de changement à chacun
+    buttons.forEach(button => {
+        button.addEventListener('change', function() {
+            // Vérifier si le bouton est coché
+            if (this.checked) {
+                // Mettre à jour la valeur sélectionnée avec la value du bouton coché
+                selectedStock = this.value;
+                console.log("La valeur sélectionnée est : ", selectedStock);
+            }
+        });
+    });
+}
+

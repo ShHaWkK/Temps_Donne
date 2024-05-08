@@ -29,6 +29,11 @@ class StockService {
         return $this->stockRepository->findById($id);
     }
 
+    public function deleteStock($id)
+    {
+        return $this->stockRepository->delete($id);
+    }
+
     public function addStock($stockData) {
         try {
             // Vérifiez que stockData est bien un objet de type StockModel

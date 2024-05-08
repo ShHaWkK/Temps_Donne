@@ -76,11 +76,11 @@ echo "<title>Espace Administrateur - Stocks</title>";
                         openDeleteStockModal();
                     });
                 </script>
-                <button class="tabButton deleteButton"> Retirer tous les stocks périmés </button>
+                <button class="tabButton deleteButton" id="deleteExpiredButton"> Retirer tous les stocks périmés </button>
                 <script>
-                    document.getElementById('addStockButton').addEventListener('click', function() {
+                    document.getElementById('deleteExpiredButton').addEventListener('click', function() {
                         console.log("click");
-                        openAddStockModal();
+                        openDeleteExpiredStockModal();
                     });
                 </script>
             </div>
@@ -94,6 +94,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="./js/stocks.js"></script>
 <script src="./js/filtersStock.js"></script>
 <script src="./js/addStock.js"></script>
+<script src="./js/deleteStocks.js"></script>
 
 </body>
 </html>

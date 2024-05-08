@@ -61,7 +61,7 @@ class ServiceRepository
             return null;
         }
 
-        return new serviceModel($service);
+        return $service;
     }
 
     public function getServiceTypeById($id)

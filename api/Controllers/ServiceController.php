@@ -131,7 +131,7 @@ class ServiceController {
         try {
             $result = $this->serviceService->getServiceById($id);
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse($result);
             } else {
                 ResponseHelper::sendNotFound('Service non trouvé.');
             }

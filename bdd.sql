@@ -67,7 +67,7 @@ CREATE TABLE Services (
 CREATE TABLE Planning (
 #                           ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
                           ID_Utilisateur INT NOT NULL,
-                          ID_Service INT NOT NULL NULL, -- On ajoute la clé étrangère du service
+                          ID_Service INT NOT NULL, -- On ajoute la clé étrangère du service
                           Description TEXT,
                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
                           FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service) ON DELETE CASCADE,

@@ -18,6 +18,12 @@ class StockService {
         $this->entrepotRepository = $entrepotRepository;
         $this->produitRepository = $produitRepository;
     }
+
+    public function getAllStocks()
+    {
+        return $this->stockRepository->findAll();
+    }
+
     public function addStock($stockData) {
         try {
             // Vérifiez que stockData est bien un objet de type StockModel

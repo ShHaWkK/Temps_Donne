@@ -147,9 +147,6 @@ CREATE TABLE Dons (
                       FOREIGN KEY (ID_Source) REFERENCES SourcesDons(ID_Source)
 );
 
-
-
-
 CREATE TABLE IF NOT EXISTS Produits (
                                         ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
                                         Nom_Produit VARCHAR(100) NOT NULL,
@@ -157,15 +154,15 @@ CREATE TABLE IF NOT EXISTS Produits (
                                         Prix FLOAT NOT NULL,
                                         Volume FLOAT,
                                         Poids FLOAT
-                                        );
+);
 
 CREATE TABLE IF NOT EXISTS Entrepots (
                                          ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
                                          Nom VARCHAR(255) NOT NULL,
-    Adresse VARCHAR(255) NOT NULL,
-    Volume_Total DECIMAL(10, 2) NOT NULL,
-    Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
-    );
+                                         Adresse VARCHAR(255) NOT NULL,
+                                         Volume_Total DECIMAL(10, 2) NOT NULL,
+                                         Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+);
 
 CREATE TABLE IF NOT EXISTS Stocks (
                                       ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
@@ -187,8 +184,8 @@ CREATE TABLE IF NOT EXISTS Stocks_Entrepot (
                                                ID_Entrepot INT,
                                                ID_Stock INT,
                                                FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
-    FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
-    );
+                                               FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
+);
 
 
 

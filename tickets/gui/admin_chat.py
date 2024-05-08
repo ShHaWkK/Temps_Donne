@@ -38,7 +38,9 @@ class AdminChatView:
         for msg in messages:
             expediteur = f"Utilisateur {msg[1]}" if msg[1] else "Admin"
             destinataire = f"Utilisateur {msg[2]}" if msg[2] else "Tous"
-            self.chat_box.insert(tk.END, f"{expediteur} à {destinataire} : {msg[0]} [{msg[3]}]\n")
+            couleur = 'red' if expediteur == "Admin" else 'black'
+            self.chat_box.tag_configure(expediteur, foreground=couleur)
+            self.chat_box.insert(tk.END, f"{expediteur} à {destinataire} : {msg[0]} [{msg[3]}]\n", expediteur)
 
         self.chat_box.yview(tk.END)
         self.chat_box.config(state='disabled')

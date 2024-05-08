@@ -71,12 +71,9 @@ class AdminView:
     def assign_admin(self):
         selected_item = self.tickets_treeview.focus()
         ticket_id = self.tickets_treeview.item(selected_item)['text']
-        admin_id = simpledialog.askinteger("Assigner un Admin", "Entrez l'ID de l'administrateur :")
-        if admin_id is not None:
-            if self.is_admin(admin_id):
-                self.assign_ticket(ticket_id, admin_id)
-            else:
-                messagebox.showerror("Erreur", "Vous ne pouvez attribuer des tickets qu'à des administrateurs.")
+        admin_id = self.select_admin()
+        if admin_id:
+            self.assign_ticket(ticket_id, admin_id)
 
     def is_admin(self, user_id):
         try:
@@ -90,6 +87,40 @@ class AdminView:
             print(f"Erreur : {err}")
             return False
 
+    def select_admin(self):
+        admins = self.get_all_admins()
+
+        window = tk.Toplevel(self.master)
+        window.title("Sélectionner un Administrateur")
+        window.geometry("300x150")
+
+        tk.Label(window, text="Choisissez un administrateur :").pack(pady=10)
+
+        selected_admin = tk.StringVar()
+        admin_menu = ttk.Combobox(window, textvariable=selected_admin, values=admins)
+        admin_menu.pack(pady=10)
+        admin_menu.current(0)
+
+        def assign():
+            window.destroy()
+
+        assign_button = tk.Button(window, text="Assigner", command=assign)
+        assign_button.pack(pady=10)
+
+        window.wait_window()
+        return selected_admin.get().split(":")[0]  # Renvoie l'ID de l'admin
+
+    def get_all_admins(self):
+        try:
+            cursor = self.db_connection.cursor()
+            query = "SELECT ID_Utilisateur, Nom FROM Utilisateurs WHERE Role = 'Administrateur'"
+            cursor.execute(query)
+            admins = [f"{row[0]}: {row[1]}" for row in cursor.fetchall()]
+            cursor.close()
+            return admins
+        except mysql.connector.Error as err:
+            print(f"Erreur : {err}")
+            return []
     def assign_ticket(self, ticket_id, admin_id):
         try:
             cursor = self.db_connection.cursor()

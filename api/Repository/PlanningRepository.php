@@ -132,5 +132,17 @@ class PlanningRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function addActivityToPlanning($id_utilisateur, $activity) {
+        $sql = "INSERT INTO Planning (ID_Utilisateur, Date, Description, activity, startTime, endTime) VALUES (:id_utilisateur, :date, :description, :activity, :startTime, :endTime)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $stmt->bindValue(':date', $activity['Date']);
+        $stmt->bindValue(':description', $activity['Description'], PDO::PARAM_STR);
+        $stmt->bindValue(':activity', $activity['activity'], PDO::PARAM_STR);
+        $stmt->bindValue(':startTime', $activity['startTime']);
+        $stmt->bindValue(':endTime', $activity['endTime']);
+        $stmt->execute();
+    }
+
 
 }

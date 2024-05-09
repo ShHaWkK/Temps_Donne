@@ -493,3 +493,25 @@ CREATE EVENT deleteExpiredSessions
     ON SCHEDULE EVERY 1 HOUR
     DO
     DELETE FROM Session WHERE Expiration <= NOW();
+
+
+-- Ajout d'une table demandes
+-- Bénéfciaire 
+CREATE TABLE Demandes (
+    ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Utilisateur INT,
+    ID_Service INT,
+    Date_Demande DATE NOT NULL,
+    Statut ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
+    FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service)
+);
+
+
+CREATE TABLE DemandesBenevoles (
+    ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Demande INT,
+    ID_Utilisateur INT, 
+    FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande),
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+);

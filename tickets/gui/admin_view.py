@@ -4,10 +4,11 @@ from gui.admin_chat import AdminChatView
 import mysql.connector
 
 class AdminView:
-    def __init__(self, master, ticket_system, chat_manager, db_config):
+    def __init__(self, master, ticket_system, chat_manager, db_config, admin_id):
         self.master = master
         self.ticket_system = ticket_system
         self.chat_manager = chat_manager
+        self.admin_id = admin_id
         self.db_connection = mysql.connector.connect(**db_config)
 
         self.master.title("Tableau de bord de l'administrateur")
@@ -95,6 +96,7 @@ class AdminView:
 
     def select_admin(self):
         admins = self.get_all_admins()
+
         window = tk.Toplevel(self.master)
         window.title("Sélectionner un Administrateur")
         window.geometry("300x150")
@@ -117,10 +119,10 @@ class AdminView:
 
     def get_all_admins(self):
         try:
-            cursor = self.db_connection.cursor(dictionary=True)
+            cursor = self.db_connection.cursor()
             query = "SELECT ID_Utilisateur, Nom FROM Utilisateurs WHERE Role = 'Administrateur'"
             cursor.execute(query)
-            admins = [f"{row['ID_Utilisateur']}: {row['Nom']}" for row in cursor.fetchall()]
+            admins = [f"{row[0]}: {row[1]}" for row in cursor.fetchall()]
             cursor.close()
             return admins
         except mysql.connector.Error as err:
@@ -128,28 +130,22 @@ class AdminView:
             return []
 
     def assign_ticket(self, ticket_id, admin_id):
-        try:
-            cursor = self.db_connection.cursor()
-            query = "UPDATE Tickets SET ID_Assignee = %s WHERE ID_Ticket = %s"
-            cursor.execute(query, (admin_id, ticket_id))
-            self.db_connection.commit()
-            cursor.close()
+        if self.ticket_system.assign_ticket(ticket_id, admin_id):
             self.list_tickets()
-        except mysql.connector.Error as err:
-            print(f"Erreur : {err}")
+        else:
+            messagebox.showerror("Erreur", "Échec de l'assignation du ticket.")
 
     def show_ticket_messages(self):
         selected_item = self.tickets_treeview.focus()
         ticket_id = self.tickets_treeview.item(selected_item)['text']
         chat_window = tk.Toplevel(self.master)
-        AdminChatView(chat_window, ticket_id, self.chat_manager)
+        AdminChatView(chat_window, ticket_id, self.chat_manager, self.admin_id)
 
     def send_message(self):
         selected_item = self.tickets_treeview.focus()
         ticket_id = self.tickets_treeview.item(selected_item)['text']
-        message = simpledialog.askstring("Envoyer un message", "Entrez votre message :")
-        admin_id = 1  # Assurez-vous que cet ID correspond à l'ID de l'admin actuel
-        if message and self.chat_manager.send_admin_message(ticket_id, message, admin_id):
+        message = simpledialog.askstring("Envoyer un Message", "Entrez votre message :")
+        if message and self.chat_manager.send_admin_message(ticket_id, message, self.admin_id):
             self.show_ticket_messages()
         else:
-            messagebox.showerror("Erreur", "Échec de l'envoi du message.")
+            messagebox.showerror("Erreur", "Impossible d'envoyer le message.")

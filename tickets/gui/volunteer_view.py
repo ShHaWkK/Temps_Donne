@@ -1,5 +1,6 @@
+# gui/volunteer_view.py
 import tkinter as tk
-from tkinter import ttk, simpledialog, messagebox
+from tkinter import ttk, messagebox, simpledialog
 from gui.chat_view import ChatView
 
 class VolunteerView:
@@ -18,9 +19,9 @@ class VolunteerView:
         self.main_frame = tk.Frame(self.master, bg="#f0f0f0")
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.header_frame = tk.Frame(self.main_frame, bg="#2196F3")
+        self.header_frame = tk.Frame(self.main_frame, bg="#4CAF50")
         self.header_frame.pack(fill=tk.X)
-        self.header_label = tk.Label(self.header_frame, text="Espace Bénévole", font=("Arial", 18), fg="white", bg="#2196F3")
+        self.header_label = tk.Label(self.header_frame, text="Volunteer Dashboard", font=("Arial", 18), fg="white", bg="#4CAF50")
         self.header_label.pack(pady=10)
 
         self.tickets_frame = tk.Frame(self.main_frame, bg="#f0f0f0")
@@ -37,6 +38,9 @@ class VolunteerView:
         self.create_ticket_button = tk.Button(self.main_frame, text="Créer un Ticket", command=self.create_ticket, bg="#2196F3", fg="white", padx=10, pady=5)
         self.create_ticket_button.pack(side=tk.BOTTOM, pady=10)
 
+        self.validate_button = tk.Button(self.main_frame, text="Valider le Ticket", command=self.validate_ticket, bg="#4CAF50", fg="white", padx=10, pady=5)
+        self.validate_button.pack(side=tk.BOTTOM, pady=10)
+
     def open_chat_on_ticket_click(self, event):
         item = self.tickets_treeview.selection()[0]
         ticket_info = self.tickets_treeview.item(item, "values")
@@ -44,7 +48,7 @@ class VolunteerView:
             print("Ticket info:", ticket_info)
             try:
                 ticket_id = int(ticket_info[0])
-                admin_id = int(ticket_info[3]) if ticket_info[3] else 0
+                admin_id = int(ticket_info[3]) if ticket_info[3] else None
                 print("Admin ID:", admin_id)
                 self.open_chat_with_admin(ticket_id, admin_id)
             except ValueError:
@@ -55,7 +59,7 @@ class VolunteerView:
             self.ticket_id = int(ticket_id)
             self.admin_id = int(admin_id) if admin_id is not None else 0
             chat_window = tk.Toplevel(self.master)
-            ChatView(chat_window, self.user_id, self.admin_id, self.chat_manager, self.ticket_id)
+            chat_view = ChatView(chat_window, self.user_id, self.admin_id, self.chat_manager, self.ticket_id)
         except ValueError:
             messagebox.showerror("Erreur", "L'ID doit être un entier.")
 
@@ -81,3 +85,17 @@ class VolunteerView:
                 messagebox.showerror("Erreur", "Échec de la création du ticket.")
         else:
             messagebox.showwarning("Attention", "Le titre et la description ne doivent pas être vides.")
+
+    def validate_ticket(self):
+        selected = self.tickets_treeview.selection()
+        if selected:
+            ticket_info = self.tickets_treeview.item(selected[0], 'values')
+            ticket_id = int(ticket_info[0])
+            # Call validate_ticket on TicketSystem, assuming it also closes the ticket
+            if self.ticket_system.validate_ticket(ticket_id):
+                messagebox.showinfo("Succès", "Ticket validé avec succès!")
+                self.populate_tickets()
+            else:
+                messagebox.showerror("Erreur", "Échec de la validation du ticket.")
+        else:
+            messagebox.showwarning("Attention", "Veuillez sélectionner un ticket.")

@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from .main_window import MainWindow
+import mysql.connector
+
 
 class LoginWindow:
     def __init__(self, master, user_manager, ticket_system, chat_manager, db_config):
@@ -57,3 +59,19 @@ class LoginWindow:
             main_app = MainWindow(new_window, user, self.ticket_system, self.chat_manager, self.db_config)
         else:
             messagebox.showerror("Login failed", "Invalid credentials")
+    def authenticate(self, username, password):
+        query = """
+        SELECT ID_Utilisateur, Role FROM Utilisateurs
+        WHERE Nom = %s AND Mot_de_Passe = %s
+        """
+        try:
+            connection = mysql.connector.connect(**self.db_config)
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(query, (username, password))
+            user = cursor.fetchone()
+            cursor.close()
+            connection.close()
+            return user
+        except mysql.connector.Error as err:
+            print(f"Erreur d'authentification : {err}")
+            return None

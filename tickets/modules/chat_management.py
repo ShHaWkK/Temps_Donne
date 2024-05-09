@@ -1,10 +1,12 @@
 import mysql.connector
+from googletrans import Translator
 
 class ChatManager:
     def __init__(self, db_config):
         self.db_config = db_config
         self.connection = None
         self.cursor = None
+        self.translator = Translator()
 
     def connect(self):
         if not self.connection or not self.connection.is_connected():
@@ -75,5 +77,15 @@ class ChatManager:
             result = self.cursor.fetchone()
             return result['Nom'] if result else None
         except mysql.connector.Error as err:
-            print(f"Échec de la récupération du nom de l'utilisateur : {err}")
+            print(f"Failed to retrieve user name: {err}")
             return None
+
+    def translate_message(self, message, target_language):
+        try:
+            translated = self.translator.translate(message, dest=target_language)
+            return translated.text
+        except Exception as e:
+            print(f"Erreur de traduction: {e}")
+            return message
+
+

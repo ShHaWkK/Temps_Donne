@@ -45,7 +45,7 @@ async function rejectUser(user_id) {
         console.log('Réponse de l\'API :', data);
         alert(JSON.stringify(data));
         // Recharger la page après l'approbation de l'utilisateur
-        // window.location.reload();
+        //  window.location.reload();
         //window.parent.postMessage({ type: 'deleteUserModal'}, '*');
     } catch (error) {
         console.error('Error :', error);

@@ -16,20 +16,11 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 
 <body>
 
-<h2 style="text-align: center;">Gestion des utilisateurs</h2>
+<h1 style="text-align: center;">Gestion des utilisateurs</h1>
 
 <center>
     <div class="main-container-tabs">
-        <div class="line">
-
-            <button class="popup-button" id="openAddUserModalButton"> Ajouter un utilisateur</button>
-
-            <script>
-                document.getElementById('openAddUserModalButton').addEventListener('click', function() {
-                    window.parent.postMessage('openAddUserModal', '*');
-                });
-            </script>
-
+        <div class="line filters">
             <form action="#" method="post">
                 <label for="roleFilter">Filtrer par rôle :</label>
                 <select id="roleFilter">
@@ -51,17 +42,50 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
             </form>
         </div>
 
+        <div class="line actions">
+            <button class="popup-button" id="openAddUserModalButton"> Ajouter un utilisateur</button>
+            <script>
+                document.getElementById('openAddUserModalButton').addEventListener('click', function() {
+                    window.parent.postMessage('openAddUserModal', '*');
+                });
+            </script>
+
+            <button class="tabButton addButton" id="approveUser"> Valider un utilisateur</button>
+            <script>
+                document.getElementById('approveUser').addEventListener('click', function() {
+                    approveUser(selectedUser);
+                });
+            </script>
+            <button class="tabButton holdButton" id="holdUser"> Mettre un utilisateur en attente</button>
+            <script>
+                document.getElementById('holdUser').addEventListener('click', function() {
+                    putOnHoldUser(selectedUser);
+                });
+            </script>
+            <button class="tabButton deleteButton" id="rejectUser"> Refuser un utilisateur</button>
+            <script>
+                document.getElementById('rejectUser').addEventListener('click', function() {
+                    rejectUser(selectedUser)
+                        .then(() => {
+                            openDeleteModal();
+                        })
+                });
+            </script>
+
+        </div>
+
         <table id="usersTable">
         </table>
     </div>
 </center>
 
 <script src="js/filtersUsers.js"></script>
-<script src="js/users.js" defer></script>
+<script src="js/users.js"></script>
 <script src="./js/approveUser.js"></script>
 <script src="./js/putOnHoldUser.js"></script>
 <script src="./js/rejectUser.js"></script>
 <script src="./js/deleteUser.js"></script>
+<script src="./js/userPageExecutionOrder.js"></script>
 
 </body>
 </html>

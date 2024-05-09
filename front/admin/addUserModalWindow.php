@@ -12,7 +12,7 @@
 <!-- Fenêtre modale -->
 <div id="addUserModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="close-add">&times;</span>
         <h2>Ajouter un utilisateur</h2>
         <form id="userForm" action="#" method="post">
 
@@ -69,8 +69,14 @@
             <label for="societe">Société:</label>
             <input type="text" id="societe" name="societe" value="Université Exemple"><br><br>
 
-            <label for="typePermis">Type de permis:</label>
-            <input type="text" id="typePermis" name="typePermis" value="B"><br><br>
+            <label for="permis_b">Permis B:</label>
+            <input type="checkbox" id="permis_b" name="permis_b" value="permis_b"><br><br>
+
+            <label for="caces">CACES:</label>
+            <input type="checkbox" id="caces" name="caces" value="caces"><br><br>
+
+            <label for="permis_poids_lourd">Permis poids lourds:</label>
+            <input type="checkbox" id="permis_poids_lourd" name="permis_poids_lourd" value="permis_poids_lourd"><br><br>
 
             <input class="confirm-button" id="confirm-button-addUser" type="submit" value="Ajouter">
         </form>
@@ -97,6 +103,11 @@
         if (event.data === 'openAddUserModal') {
             openAddModal();
         }
+    });
+
+    document.getElementById('close-add').addEventListener('click', function() {
+        const modal = document.getElementById('addUserModal');
+        modal.style.display = 'none';
     });
 </script>
 

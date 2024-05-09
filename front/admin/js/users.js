@@ -1,5 +1,6 @@
 let allUsers = [];
 let displayedUsers =[];
+let selectedUser = null;
 
 // Module pour la récupération des utilisateurs
 function getAllUsers() {
@@ -22,8 +23,8 @@ function displayUsers(users) {
     usersTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["ID_Utilisateur", "Nom", "Prénom", "Genre", "Date de naissance", "Email",
-        "Telephone","Role","Statut","Détails","Action"];
+    const tableHeader = ["","ID_Utilisateur", "Nom", "Prénom", "Genre", "Date de naissance", "Email",
+        "Telephone","Role","Statut","Détails"];
 
     const rowHeader = usersTable.insertRow();
     rowHeader.classList.add("head");
@@ -34,9 +35,11 @@ function displayUsers(users) {
         rowHeader.appendChild(th);
     }
 
+    let firstUser = true;
     users.forEach(user => {
         const row = usersTable.insertRow();
         row.innerHTML = `
+                        <td> <input type="radio" id=${user.ID_Utilisateur} name='id_buttons' value=${user.ID_Utilisateur} ${firstUser ? 'checked' : ''} /> </td>
                         <td class="user-id">${user.ID_Utilisateur}</td>
                         <td>${user.Nom}</td>
                         <td>${user.Prenom}</td>
@@ -47,42 +50,32 @@ function displayUsers(users) {
                         <td>${user.Role}</td>
                         <td>${user.Statut}</td>
                         <td><button class="popup-button userDetails"> Voir </button></td>
+                        <!--                        
                         <td><a href='#' class="approve-link">Valider</a>
                         <a href='#' class="hold-link">Mettre en attente</a>
                         <a href='#' class="reject-link">Rejeter</a></td>
+                        -->
                     `;
+        if (firstUser === true){
+            selectedUser = user.ID_Utilisateur;
+        }
+        firstUser = false;
     });
 }
 
-// Initialisation
-window.onload = function() {
-    checkSession()
-        .then(() => {
-            return getAllUsers();
-        })
-        .then(users => {
-            allUsers = users;
-            displayedUsers=users;
-            console.log(allUsers);
-            displayUsers(allUsers);
-        })
-        .then(() => {
-            addFilterByRoleEvent();
-        })
-        .then(() => {
-            addFilterByStatusEvent();
-        })
-        .then(() => {
-            addApproveEventListeners();
-            addHoldEventListeners();
-            addRejectEventListeners();
-        })
-        .then(()=>{
-            addRejectModalEventListeners();
-            addUserDetailsModalEventListeners();
-            addAddUserEvent();
-        })
-        .catch(error => {
-            console.error("Une erreur s'est produite :", error);
+// Parcourir tous les boutons radio et ajouter un écouteur d'événement de changement à chacun
+function addSelectedButtonEvent(){
+    const buttons = document.getElementsByName('id_buttons');
+
+// Parcourir tous les boutons radio et ajouter un écouteur d'événement de changement à chacun
+    buttons.forEach(button => {
+        button.addEventListener('change', function() {
+            // Vérifier si le bouton est coché
+            if (this.checked) {
+                // Mettre à jour la valeur sélectionnée avec la value du bouton coché
+                selectedUser = this.value;
+                console.log("La valeur sélectionnée est : ", selectedUser);
+            }
         });
+    });
 }

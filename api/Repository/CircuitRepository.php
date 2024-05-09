@@ -8,7 +8,7 @@ class CircuitRepository {
     private $db;
 
     public function __construct() {
-        $this->db = connectDB(); 
+        $this->db = connectDB();
     }
 
     public function getDbConnection() {
@@ -45,7 +45,7 @@ class CircuitRepository {
             $circuit->collectionTime,
             $circuit->driverId,
             json_encode($circuit->partnerMerchants),
-            $circuit->id 
+            $circuit->id
         ];
         $condition = "id = ?";
         return updateDB('circuits', $columnArray, $columnData, $condition);
@@ -68,7 +68,7 @@ class CircuitRepository {
         $values = [$chauffeurId];
         return selectDB('circuits', '*', $condition, $values);
     }
-    
+
     public function planRoute($startPoint, $endPoint) {
         // Implement your route planning logic here.
 

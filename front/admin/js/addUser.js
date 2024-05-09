@@ -24,7 +24,9 @@ function addUser() {
     var nationalite = document.getElementById('nationalite').value;
     var emploi = document.getElementById('emploi').value;
     var societe = document.getElementById('societe').value;
-    var typePermis = document.getElementById('typePermis').value;
+    var permis_b = document.getElementById('permis_b').checked;
+    var caces = document.getElementById('caces').checked;
+    var permis_poids_lourd = document.getElementById('permis_poids_lourd').checked;
     var status =document.querySelector('select[name="status"]').value;
 
     // Créer un objet JSON avec les données du formulaire
@@ -42,12 +44,15 @@ function addUser() {
         "Nationalite":nationalite,
         "Emploi":emploi,
         "Societe":societe,
-        "Type_Permis":typePermis,
+        "Permis_B":permis_b,
+        "CACES":caces,
+        "Permis_Poids_Lourds":permis_poids_lourd,
         "Role": role
     };
 
     // Créer un objet FormData pour envoyer les données du formulaire
     var formData = new FormData();
+    /*
     formData.append('Nom', nom);
     formData.append('Prenom', prenom);
     formData.append('Email', email);
@@ -60,7 +65,7 @@ function addUser() {
     formData.append('Statut', 'Pending');
     formData.append('Situation', situation);
     formData.append('Statut', 'Granted');
-
+    */
     formData.append('json_data', JSON.stringify(data)); // Ajouter les données JSON
 
     console.log(formData);

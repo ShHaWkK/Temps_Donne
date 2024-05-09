@@ -1,4 +1,3 @@
-
 CREATE TABLE Utilisateurs (
                               ID_Utilisateur INT AUTO_INCREMENT PRIMARY KEY,
                               Nom VARCHAR(255) NOT NULL,
@@ -123,7 +122,7 @@ CREATE TABLE Feedbacks (
                            ID_Reference INT, -- ID du service, événement, ou formation concerné
                            Commentaire TEXT,
                            Date_Creation DATE,
-                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE SET NULL
 );
 
 -- Table SourcesDons
@@ -474,6 +473,25 @@ CREATE TABLE Session (
                          INDEX idx_user_id (ID_Utilisateur),
                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
+
+-- Implémentation des tables pour l'algorithme de recherche de circuits optimisés
+
+CREATE TABLE nodes (
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       name VARCHAR(100),
+                       latitude DECIMAL(10,6),
+                       longitude DECIMAL(10,6)
+);
+
+CREATE TABLE edges (
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       start_point INT,
+                       end_point INT,
+                       cost FLOAT,
+                       FOREIGN KEY (start_point) REFERENCES nodes(id),
+                       FOREIGN KEY (end_point) REFERENCES nodes(id)
+);
+
 
 -- Ajout d'un événement pour attribuer automatiquement une valeur d'expiration de 24h
 

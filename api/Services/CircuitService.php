@@ -15,7 +15,7 @@ class CircuitService {
 
     private function loadGraphData() {
         $db = $this->circuitRepository->getDbConnection();
-        
+
         $nodesSql = "SELECT id, name FROM nodes";
         $edgesSql = "SELECT start_point, end_point, cost FROM edges";
 
@@ -39,6 +39,7 @@ class CircuitService {
             exit_with_message("Error loading graph data: " . $e->getMessage());
         }
     }
+
     public function getAllCircuits() {
         return $this->circuitRepository->findAll();
     }
@@ -89,9 +90,11 @@ class CircuitService {
         return $this->circuitRepository->findByChauffeur($chauffeurId);
     }
 
+
     public function planRoute($startPoint, $endPoint) {
         return $this->aStarService->findShortestPath($startPoint, $endPoint);
     }
+
 }
 
 ?>

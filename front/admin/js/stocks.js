@@ -2,11 +2,24 @@ let allStocks = [];
 let allProduits= [];
 let allEntrepots = [];
 let displayedStocks =[];
+let allDrivers;
 const currentDate = new Date();
 let selectedStock = null;
 let statutFilter='all';
 let entrepotFilter='all';
 let produitFilter='all';
+console.log("stocks.js");
+
+//----------------------------- On sélectionne uniquement les bénévoles validés ayant le permis poids lourd
+function getDrivers(users) {
+    // Filtrer les utilisateurs selon les critères requis
+    const drivers = users.filter(user => {
+        return user.Statut == "Granted" && user.Role == "Benevole" && user.Permis_Poids_Lourds == 1;
+    });
+
+    return drivers;
+}
+
 
 async function getAllProducts(){
     return fetch('http://localhost:8082/index.php/produits')
@@ -154,7 +167,7 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
     stocksFiltres.forEach(stock => {
         const row = stockTable.insertRow();
         row.innerHTML = `
-             <td> <input type="radio" id=${stock.ID_Stock} name='id_buttons' value=${stock.ID_Stock} ${firstStock ? 'checked' : ''} /> </td>
+            <td> <input type="radio" id=${stock.ID_Stock} name='id_buttons' value=${stock.ID_Stock} ${firstStock ? 'checked' : ''} /> </td>
             <td class="stock-id">${stock.ID_Stock}</td>
             <td>${getProductName(allProduits, stock.ID_Produit)}</td>
             <td>${stock.Quantite}</td>
@@ -192,7 +205,6 @@ async function displayProducts(element_id) {
 
 async function displayEntrepots(element_id) {
     const entrepotFilter = document.getElementById(element_id);
-
     try {
         allEntrepots.forEach(entrepot => {
             const option = document.createElement('option');
@@ -228,11 +240,25 @@ window.onload = function() {
             displayedStocks=stocks;
             displayStocks(allStocks,produitFilter,statutFilter,entrepotFilter);
         })
+        .then(()=> {
+            return getAllUsers();
+        })
+        .then(users => {
+            allUsers = users;
+        })
+        .then(()=> {
+            return getDrivers(allUsers);
+        })
+        .then(drivers => {
+            allDrivers = drivers;
+            console.log(allDrivers);
+        })
         .then(() => {
             displayProducts('productFilter');
             displayEntrepots('entrepotFilter');
             displayProducts('productSelector');
             displayEntrepots('entrepotSelector');
+            displayEntrepots('entrepotFilterCollecte');
         })
         .then(() => {
             addProductFilterEvent();
@@ -241,6 +267,7 @@ window.onload = function() {
             addSortEvents();
             addAddStockEvent();
             addSelectedButtonEvent();
+            initMap();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

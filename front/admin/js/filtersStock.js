@@ -60,6 +60,16 @@ function addEntrepotFilterEvent(){
     });
 }
 
+function addEntrepotFilterCollecteEvent(){
+    console.log("addEntrepotFilterCollecteEvent");
+    const selectElement = document.getElementById("entrepotFilterCollecte");
+    console.log(selectElement.value);
+    selectElement.addEventListener("change", function() {
+        entrepotFilter=selectElement.value;
+        displayTrucks(selectElement.value);
+    });
+}
+
 // Fonctions de tri
 function addSortEvents() {
     const sortElements = document.querySelectorAll("[name='Sort']");

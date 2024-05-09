@@ -2,7 +2,8 @@ let allStocks = [];
 let allProduits= [];
 let allEntrepots = [];
 let displayedStocks =[];
-let allDrivers;
+let allTrucks=[];
+let allDrivers =[];
 const currentDate = new Date();
 let selectedStock = null;
 let statutFilter='all';
@@ -20,7 +21,6 @@ function getDrivers(users) {
     return drivers;
 }
 
-
 async function getAllProducts(){
     return fetch('http://localhost:8082/index.php/produits')
         .then(response => {
@@ -37,6 +37,20 @@ async function getAllProducts(){
 
 async function getAllEntrepots(){
     return fetch('http://localhost:8082/index.php/entrepots')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
+}
+
+async function getAllTrucks() {
+    return fetch('http://localhost:8082/index.php/trucks')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erreur réseau');
@@ -247,11 +261,16 @@ window.onload = function() {
             allUsers = users;
         })
         .then(()=> {
+            return getAllTrucks();
+        })
+        .then(trucks => {
+            allTrucks = trucks;
+        })
+        .then(()=> {
             return getDrivers(allUsers);
         })
         .then(drivers => {
             allDrivers = drivers;
-            console.log(allDrivers);
         })
         .then(() => {
             displayProducts('productFilter');
@@ -260,6 +279,7 @@ window.onload = function() {
             displayEntrepots('entrepotSelector');
             displayEntrepots('entrepotFilterCollecte');
             displayDrivers(allDrivers);
+            displayTrucks(1);
         })
         .then(() => {
             addProductFilterEvent();
@@ -269,6 +289,7 @@ window.onload = function() {
             addAddStockEvent();
             addSelectedButtonEvent();
             addUserDetailsModalEventListeners();
+            addEntrepotFilterCollecteEvent();
             initMap();
         })
         .catch(error => {

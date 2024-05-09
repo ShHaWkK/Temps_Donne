@@ -1,6 +1,7 @@
 <?php
 
 require_once './Services/CamionService.php';
+require_once './Repository/CamionRepository.php';
 require_once './Helpers/ResponseHelper.php';
 
 class CamionController {
@@ -48,8 +49,12 @@ class CamionController {
     }
 
     private function getAllCamions() {
-        $camions = $this->camionService->getAllCamions();
-        ResponseHelper::sendResponse($camions);
+        try {
+            $camions = $this->camionService->getAllCamions();
+            ResponseHelper::sendResponse($camions);
+        }catch (Exception $e){
+            ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
+        }
     }
 
     private function createCamion() {

@@ -35,3 +35,30 @@ function displayDrivers(users) {
         firstUser = false;
     });
 }
+
+//----------------------------- On sélectionne uniquement les camions prêts à partir (ni en service ni en panne)
+function getAvailableTrucks(trucks,id_entrepot) {
+     return trucks.filter(truck => {
+        return truck.Statut == "En service" && truck.ID_Entrepot == id_entrepot;
+    });
+}
+
+function displayTrucks(id_entrepot) {
+    const truckList = document.getElementById('truckList');
+
+    console.log(allTrucks);
+    let availableTrucks = getAvailableTrucks(allTrucks,id_entrepot);
+    truckList.innerHTML = '';
+    console.log("availaibleTrucks",availableTrucks);
+
+    try {
+        availableTrucks.forEach(truck => {
+            const option = document.createElement('option');
+            option.value = truck.ID_Camion;
+            option.textContent = truck.Modele + ' ' + truck.Immatriculation;
+            truckList.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Une erreur s\'est produite lors de la récupération des types de service :', error);
+    }
+}

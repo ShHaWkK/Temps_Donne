@@ -130,7 +130,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
                 <table id="collectTable"></table>
             </div>
 
-            <button class="tabButton addButton" id="addTruckButton"> Générer le circuit </button>
+            <button class="tabButton addButton" id="generateCircuitButton"> Générer le circuit </button>
 
             <div id="map" style="height: 400px; width: 100%;"></div>
         </div>
@@ -142,7 +142,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="./js/deleteStocks.js"></script>
 <script src="./js/map.js"></script>
 <script src="./js/users.js"></script>
-<script src="./js/displayDrivers.js"></script>
+<script src="js/displayDrivers.js"></script>
 <script src="../scripts/tabChange.js"></script>
 <script src="./js/stocks.js"></script>
 

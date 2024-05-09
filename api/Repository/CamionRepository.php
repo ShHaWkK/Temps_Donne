@@ -11,10 +11,10 @@ class CamionRepository {
 
     //-------------------------------------------------------------------------------//
 
-
     public function findAll() {
         $stmt = $this->db->query("SELECT * FROM Camions");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $success = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $success;
     }
 
     //-------------------------------------------------------------------------------//

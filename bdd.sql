@@ -27,9 +27,15 @@ CREATE TABLE Utilisateurs (
 );
 
 -- Ajout d'un admin lors de la création de la BDD
-INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Statut)
-VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', 'motdepasse123', 'Administrateur', 'Granted');
-
+INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Situation, Besoins_specifiques, Photo_Profil, Date_Derniere_Connexion, Statut_Connexion, Emploi, Societe, Code_Verification, Permis_B, Permis_Poids_Lourds, CACES, Statut)
+VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Administrateur', 'Adresse Admin', '+330123456789', '1980-01-01', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
+       ('Dupont', 'Jean', 'Homme', 'jean.dupont@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Benevole', '10 Rue de la Paix, Paris, France', '+33123456789', '1980-06-15', 'Français', 'Française', '2024-05-09', 'Marié', 'Aucun', NULL, '2024-05-09', TRUE, 'Ingénieur', 'Entreprise A', NULL, TRUE, FALSE, FALSE, 'Granted'),
+       ('Leclerc', 'Marie', 'Femme', 'marie.leclerc@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Beneficiaire', '20 Avenue des Fleurs, Lyon, France', '+33456789012', '1995-02-20', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
+       ('Moreau', 'Thomas', 'Homme', 'thomas.moreau@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Administrateur', '30 Rue du Commerce, Marseille, France', '+33765432109', '1978-12-10', 'Français', 'Française', '2024-05-09', 'Marié', 'Aucun', NULL, '2024-05-09', TRUE, 'Directeur', 'Entreprise B', NULL, TRUE, TRUE, FALSE, 'Granted'),
+       ('Lefevre', 'Sophie', 'Femme', 'sophie.lefevre@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Benevole', '40 Avenue de la République, Lille, France', '+33987654321', '1988-04-25', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, 'Enseignant', 'Université C', NULL, FALSE, FALSE, FALSE, 'Granted'),
+       ('Bertrand', 'David', 'Homme', 'david.bertrand@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Benevole', '50 Rue des Ecoles, Bordeaux, France', '+33123456789', '1970-09-30', 'Français', 'Française', '2024-05-09', 'Marié', 'Aucun', NULL, '2024-05-09', TRUE, 'Médecin', 'Hôpital D', NULL, TRUE, FALSE, FALSE, 'Granted'),
+       ('Roux', 'Anne', 'Femme', 'anne.roux@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Beneficiaire', '60 Boulevard des Roses, Toulouse, France', '+33456789012', '1992-07-18', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
+       ('Fournier', 'Nicolas', 'Homme', 'nicolas.fournier@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Benevole', '70 Rue du Paradis, Nice, France', '+33765432109', '1985-03-05', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, 'Avocat', 'Cabinet E', NULL, FALSE, TRUE, FALSE, 'Granted');
 
 -- Tables Services
 CREATE TABLE ServiceType(
@@ -155,6 +161,19 @@ CREATE TABLE IF NOT EXISTS Produits (
                                         Poids FLOAT
 );
 
+INSERT INTO Produits (Nom_Produit, Description, Prix, Volume, Poids) VALUES
+                                                                         ('Pain', 'Pain traditionnel français', 1.50, 0.5, 0.3),
+                                                                         ('Lait', 'Lait demi-écrémé en bouteille', 1.20, 1, 1.2),
+                                                                         ('Fromage', 'Fromage de chèvre bio', 3.50, 0.2, 0.15),
+                                                                         ('Jambon', 'Jambon blanc découenné dégraissé', 2.80, 0.3, 0.25),
+                                                                         ('Fruits', 'Assortiment de fruits frais', 4.00, 2, 1.5),
+                                                                         ('Légumes', 'Assortiment de légumes bio', 3.50, 2.5, 2),
+                                                                         ('Eau', 'Eau minérale naturelle en bouteille', 0.80, 0.5, 0.6),
+                                                                         ('Vin', 'Vin rouge de Bordeaux', 8.50, 0.75, 0.9),
+                                                                         ('Chocolat', 'Tablette de chocolat noir 70%', 2.00, 0.1, 0.1),
+                                                                         ('Café', 'Café moulu arabica', 4.50, 0.25, 0.2);
+
+
 CREATE TABLE IF NOT EXISTS Entrepots (
                                          ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
                                          Nom VARCHAR(255) NOT NULL,
@@ -162,6 +181,11 @@ CREATE TABLE IF NOT EXISTS Entrepots (
                                          Volume_Total DECIMAL(10, 2) NOT NULL,
                                          Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
 );
+
+INSERT INTO Entrepots (Nom, Adresse, Volume_Total, Volume_Utilise) VALUES
+                                                                       ('Laon', '15 Boulevard Saint-Michel, Laon, France', 380, 20.00),
+                                                                       ('Saint-Quentin', '6 Boulevard Gambetta, Saint-Quentin, France',  250.00, 30.00);
+
 
 CREATE TABLE IF NOT EXISTS Stocks (
                                       ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
@@ -189,12 +213,46 @@ CREATE TABLE Camions (
                          FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot) ON DELETE SET NULL
 );
 
+INSERT INTO Camions (Immatriculation, Modele, ID_Entrepot, Type, Statut, Capacite_Max) VALUES
+                                                                                           ('AB-123-CD', 'Camion A', 1, 'Porteur', 'En service', 5000.00),
+                                                                                           ('EF-456-GH', 'Camion B', 2, 'Semi-remorque', 'En panne', 10000.00),
+                                                                                           ('IJ-789-KL', 'Camion C', 1, 'Tracteur', 'En maintenance', 15000.00),
+                                                                                           ('MN-101-OP', 'Camion D', 2, 'Porteur', 'En service', 5000.00),
+                                                                                           ('QR-112-ST', 'Camion E', 1, 'Semi-remorque', 'En panne', 10000.00),
+                                                                                           ('UV-131-WX', 'Camion F', 2, 'Tracteur', 'En maintenance', 15000.00),
+                                                                                           ('YZ-314-AB', 'Camion G', 1, 'Porteur', 'En service', 5000.00),
+                                                                                           ('CD-415-EF', 'Camion H', 2, 'Semi-remorque', 'En panne', 10000.00),
+                                                                                           ('GH-516-IJ', 'Camion I', 1, 'Tracteur', 'En maintenance', 15000.00);
+
+
 CREATE TABLE Commercants (
                              ID_Commercant INT AUTO_INCREMENT PRIMARY KEY,
                              Nom VARCHAR(255) NOT NULL,
                              Adresse VARCHAR(255) NOT NULL,
-                             Contrat TEXT
+                             Contrat ENUM('en_cours', 'a_renouveler', 'en_attente') NOT NULL,
+                             Frequence_Collecte ENUM('quotidienne', 'hebdomadaire', 'mensuelle') NOT NULL,
+                             Date_Derniere_Collecte DATE NOT NULL ,
+    -- C'est pour connaître les jours de collecte
+                             LUNDI BOOLEAN DEFAULT FALSE,
+                             MARDI BOOLEAN DEFAULT FALSE,
+                             MERCREDI BOOLEAN DEFAULT FALSE,
+                             JEUDI BOOLEAN DEFAULT FALSE,
+                             VENDREDI BOOLEAN DEFAULT FALSE,
+                             SAMEDI BOOLEAN DEFAULT FALSE,
+                             DIMANCHE BOOLEAN DEFAULT FALSE
 );
+INSERT INTO Commercants (Nom, Adresse, Contrat, Frequence_Collecte, Date_Derniere_Collecte, LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE) VALUES
+                            ('Supermarché A', '1 Rue de l\'Isle, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                            ('Boulangerie B', '10 Rue des Charpentiers, Saint-Quentin, France', 'a_renouveler', 'hebdomadaire', '2024-05-09', FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE),
+                            ('Épicerie C', '25 Rue d\'Isle, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+                            ('Pharmacie D', '30 Rue de la République, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+                            ('Boucherie E', '5 Rue Victor Basch, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                            ('Magasin F', '15 Avenue de Laon, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                            ('Café G', '2 Rue des Canonniers, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+                            ('Librairie H', '20 Rue des Toiles, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+                            ('Fleuriste I', '8 Rue de la Sellerie, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                            ('Caviste J', '12 Rue de Guise, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE);
+
 
 CREATE TABLE Trajets (
                          ID_Trajet INT AUTO_INCREMENT PRIMARY KEY,
@@ -429,6 +487,16 @@ INSERT INTO Competences (Nom_Competence, Description) VALUES
                                                           ('Travail social', 'Experience passee et competence en travail social'),
                                                           ('Marketing et communication', 'Marketing et communication');
 
+-- Attribuer des compétences à un utilisateur
+INSERT INTO UtilisateursCompetences (ID_Utilisateur, ID_Competence) VALUES
+                                                                        (1, 1), -- Utilisateur avec ID 1 possède la compétence 'Français'
+                                                                        (2, 2), -- Utilisateur avec ID 2 possède la compétence 'Conduite'
+                                                                        (3, 3), -- Utilisateur avec ID 3 possède la compétence 'Developpement web'
+                                                                        (4, 4), -- Utilisateur avec ID 4 possède la compétence 'Gestion de projet'
+                                                                        (5, 5), -- Utilisateur avec ID 5 possède la compétence 'Travail social'
+                                                                        (6, 6); -- Utilisateur avec ID 6 possède la compétence 'Marketing et communication'
+
+
 CREATE TABLE Inscriptions (
                               ID_Inscription INT AUTO_INCREMENT PRIMARY KEY,
                               ID_Utilisateur INT,
@@ -473,26 +541,6 @@ CREATE TABLE Session (
                          INDEX idx_user_id (ID_Utilisateur),
                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
-
--- Implémentation des tables pour l'algorithme de recherche de circuits optimisés
-
-CREATE TABLE nodes (
-                       id INT AUTO_INCREMENT PRIMARY KEY,
-                       name VARCHAR(100),
-                       latitude DECIMAL(10,6),
-                       longitude DECIMAL(10,6)
-);
-
-CREATE TABLE edges (
-                       id INT AUTO_INCREMENT PRIMARY KEY,
-                       start_point INT,
-                       end_point INT,
-                       cost FLOAT,
-                       FOREIGN KEY (start_point) REFERENCES nodes(id),
-                       FOREIGN KEY (end_point) REFERENCES nodes(id)
-);
-
-
 -- Ajout d'un événement pour attribuer automatiquement une valeur d'expiration de 24h
 
 DELIMITER //

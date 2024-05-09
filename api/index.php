@@ -25,6 +25,7 @@ require_once 'Controllers/AvailabilityController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Controllers/SkillController.php';
+require_once 'Controllers/CamionController.php';
 require_once 'Helpers/ResponseHelper.php';
 require_once  __DIR__ . '/vendor/autoload.php';
 
@@ -139,6 +140,10 @@ function router($uri, $requestMethod) {
             break;
         case 'availabilities':
             $controller=new AvailabilityController();
+            $controller->processRequest($requestMethod,$uri);
+            break;
+        case 'trucks':
+            $controller=new CamionController();
             $controller->processRequest($requestMethod,$uri);
             break;
         default:

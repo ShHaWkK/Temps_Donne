@@ -4,17 +4,16 @@ require_once './Services/ServiceService.php';
 require_once './Models/ServiceModel.php';
 require_once './exceptions.php';
 require_once './Helpers/ResponseHelper.php';
-require_once './Repository/BDD.php';
 
 class ServiceController {
 
     public $serviceService;
 
-public function __construct() {
-$db = connectDB();
-$serviceRepository = new ServiceRepository($db);
-$this->serviceService = new ServiceService($serviceRepository);
-}
+    public function __construct() {
+        $db = connectDB();
+        $serviceRepository = new ServiceRepository($db);
+        $this->serviceService = new ServiceService($serviceRepository);
+    }
 
     public function processRequest($method, $uri)
     {
@@ -73,9 +72,15 @@ $this->serviceService = new ServiceService($serviceRepository);
         try {
             $service = new ServiceModel($id_type,$data);
 
-            $this->serviceService->createService($service);
+            $inserted_id=$this->serviceService->createService($service);
 
-            ResponseHelper::sendResponse(["Service ajouté avec succès." => $service]);
+            $response = [
+                'status' => 'success',
+                'message' => 'service added successfully.',
+                'inserted_id' => $inserted_id,
+            ];
+
+            ResponseHelper::sendResponse($response);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -110,13 +115,6 @@ $this->serviceService = new ServiceService($serviceRepository);
     private function deleteService($id)
     {
         try {
-            $service = $this->serviceService->getServiceById($id);
-            if ($service) {
-                ResponseHelper::sendResponse(['Service :' => $service]);
-            } else {
-                ResponseHelper::sendNotFound('Le service n existe pas.');
-                return;
-            }
             $result = $this->serviceService->deleteService($id);
             if ($result) {
                 ResponseHelper::sendResponse(['success' => 'Service supprimé avec succès.']);
@@ -133,7 +131,7 @@ $this->serviceService = new ServiceService($serviceRepository);
         try {
             $result = $this->serviceService->getServiceById($id);
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse($result);
             } else {
                 ResponseHelper::sendNotFound('Service non trouvé.');
             }
@@ -151,7 +149,7 @@ $this->serviceService = new ServiceService($serviceRepository);
         try {
             $result = $this->serviceService->getAllServices();
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse($result);
             } else {
                 ResponseHelper::sendNotFound('Aucun service enregistré.');
             }
@@ -168,7 +166,7 @@ $this->serviceService = new ServiceService($serviceRepository);
         try{
             $result = $this->serviceService->getAllServiceTypes();
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse($result);
             } else {
                 ResponseHelper::sendNotFound('Aucun type de service enregistré.');
             }
@@ -182,7 +180,7 @@ $this->serviceService = new ServiceService($serviceRepository);
         try {
             $result = $this->serviceService->getServiceTypeById($id_type);
             if ($result) {
-                ResponseHelper::sendResponse(['success' => $result]);
+                ResponseHelper::sendResponse( $result);
             } else {
                 ResponseHelper::sendNotFound('Service non trouvé.');
             }

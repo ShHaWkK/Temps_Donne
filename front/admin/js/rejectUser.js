@@ -1,4 +1,17 @@
+function addRejectModalEventListeners(){
+    console.log("On ajoute l'event addRejectModalEventListeners");
+    document.querySelectorAll('.reject-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
+            console.log("click modal", userId);
+            openDeleteModal(userId); // Appel direct de la fonction avec l'ID de l'utilisateur
+        });
+    });
+}
+
 function addRejectEventListeners() {
+    console.log("rejectevent");
     document.querySelectorAll('.reject-link').forEach(link => {
         link.addEventListener('click', async (event) => {
             event.preventDefault();
@@ -15,8 +28,9 @@ function addRejectEventListeners() {
     });
 }
 async function rejectUser(user_id) {
-    console.log("On rentre dans rejectUser");
     const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/reject';
+    console.log("On entre dans approveUser");
+    console.log("apiURL",apiUrl);
     const options = {
         method: 'PUT'
     };
@@ -30,9 +44,13 @@ async function rejectUser(user_id) {
         const data = await response.json();
         console.log('Réponse de l\'API :', data);
         alert(JSON.stringify(data));
-        displayUsers(displayedUsers);
+        // Recharger la page après l'approbation de l'utilisateur
+        // window.location.reload();
+        //window.parent.postMessage({ type: 'deleteUserModal'}, '*');
     } catch (error) {
         console.error('Error :', error);
         alert('Error : ',error);
+        // Recharger la page en cas d'erreur
+        window.location.reload();
     }
 }

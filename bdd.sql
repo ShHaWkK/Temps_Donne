@@ -21,15 +21,22 @@ CREATE TABLE Utilisateurs (
                               Emploi VARCHAR(255),
                               Societe VARCHAR(255),
                               Code_Verification VARCHAR(255),
-                              Type_Permis VARCHAR(50),
+                              Permis_B BOOLEAN,
+                              Permis_Poids_Lourds BOOLEAN,
+                              CACES BOOLEAN,
                               Statut ENUM('Pending', 'Granted', 'Denied')
 );
+
+-- Ajout d'un admin lors de la création de la BDD
+INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Statut)
+VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', 'motdepasse123', 'Administrateur', 'Granted');
 
 
 -- Tables Services
 CREATE TABLE ServiceType(
                             ID_ServiceType INT AUTO_INCREMENT PRIMARY KEY,
-                            Nom_Type_Service VARCHAR(100)
+                            Nom_Type_Service VARCHAR(100),
+                            Description VARCHAR(200)
 );
 
 INSERT INTO ServiceType ( Nom_Type_Service) VALUES
@@ -42,16 +49,35 @@ INSERT INTO ServiceType ( Nom_Type_Service) VALUES
 
 CREATE TABLE Services (
                           ID_Service INT AUTO_INCREMENT PRIMARY KEY,
-                          Nom_du_service VARCHAR(255),
+                          Nom_du_service VARCHAR(255) NOT NULL ,
                           Description TEXT,
-                          Horaire TIME,
-                          Lieu VARCHAR(255),
-                          NFC_Tag_Data TEXT,
-                          Date_Debut DATE,
-                          Date_Fin DATE,
-                          ID_ServiceType INT,
+#                           Horaire TIME,
+                          Lieu VARCHAR(255) NOT NULL ,
+                          Date DATE NOT NULL ,
+                          ID_ServiceType INT NOT NULL ,
+                          startTime TIME NOT NULL ,
+                          endTime TIME NOT NULL ,
                           FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType)
 );
+# ALTER TABLE Services ADD COLUMN startTime TIME;
+# ALTER TABLE Services ADD COLUMN endTime TIME;
+
+-- Table Planning (la table planning permet d'assigner une activité à un utilisateur)
+
+CREATE TABLE Planning (
+#                           ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
+                          ID_Utilisateur INT NOT NULL,
+                          ID_Service INT NOT NULL, -- On ajoute la clé étrangère du service
+                          Description TEXT,
+                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
+                          FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service) ON DELETE CASCADE,
+                          PRIMARY KEY (ID_Utilisateur, ID_Service)
+) ENGINE=InnoDB;
+/*
+ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
+ALTER TABLE Planning ADD COLUMN startTime TIME;
+ALTER TABLE Planning ADD COLUMN endTime TIME;
+*/
 
 -- Table Formations
 CREATE TABLE Formations (
@@ -121,25 +147,22 @@ CREATE TABLE Dons (
                       FOREIGN KEY (ID_Source) REFERENCES SourcesDons(ID_Source)
 );
 
-
-
-
 CREATE TABLE IF NOT EXISTS Produits (
                                         ID_Produit INT AUTO_INCREMENT PRIMARY KEY,
                                         Nom_Produit VARCHAR(100) NOT NULL,
-    Description TEXT,
-    Prix FLOAT NOT NULL,
-    Volume FLOAT,
-    Poids FLOAT
-    );
+                                        Description TEXT,
+                                        Prix FLOAT NOT NULL,
+                                        Volume FLOAT,
+                                        Poids FLOAT
+);
 
 CREATE TABLE IF NOT EXISTS Entrepots (
                                          ID_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
                                          Nom VARCHAR(255) NOT NULL,
-    Adresse VARCHAR(255) NOT NULL,
-    Volume_Total DECIMAL(10, 2) NOT NULL,
-    Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
-    );
+                                         Adresse VARCHAR(255) NOT NULL,
+                                         Volume_Total DECIMAL(10, 2) NOT NULL,
+                                         Volume_Utilise DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+);
 
 CREATE TABLE IF NOT EXISTS Stocks (
                                       ID_Stock INT AUTO_INCREMENT PRIMARY KEY,
@@ -150,21 +173,11 @@ CREATE TABLE IF NOT EXISTS Stocks (
                                       Volume_Total FLOAT,
                                       Date_de_reception DATE,
                                       Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
-    QR_Code TEXT,
-    Date_de_peremption DATE,
-    FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),
-    FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
-    );
-
-CREATE TABLE IF NOT EXISTS Stocks_Entrepot (
-                                               ID_Stock_Entrepot INT AUTO_INCREMENT PRIMARY KEY,
-                                               ID_Entrepot INT,
-                                               ID_Stock INT,
-                                               FOREIGN KEY (ID_Entrepot) REFERENCES Entrepots(ID_Entrepot),
-    FOREIGN KEY (ID_Stock) REFERENCES Stocks(ID_Stock)
-    );
-
-
+                                      QR_Code TEXT,
+                                      Date_de_peremption DATE,
+                                      FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),
+                                      FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
+);
 
 CREATE TABLE Camions (
                          ID_Camion INT AUTO_INCREMENT PRIMARY KEY,
@@ -365,20 +378,6 @@ CREATE TABLE Captchas (
                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
 
--- Table Planning
-
-CREATE TABLE Planning (
-                          ID_Planning INT AUTO_INCREMENT PRIMARY KEY,
-                          ID_Utilisateur INT NOT NULL,
-                          Date DATE,
-                          Description TEXT,
-                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE NO ACTION
-) ENGINE=InnoDB;
-
-ALTER TABLE Planning ADD COLUMN activity VARCHAR(255) NOT NULL;
-ALTER TABLE Planning ADD COLUMN startTime TIME;
-ALTER TABLE Planning ADD COLUMN endTime TIME;
-
 -- Table AffectationsServices
 CREATE TABLE AffectationsServices (
                                       ID_Affectation INT AUTO_INCREMENT PRIMARY KEY,
@@ -403,7 +402,7 @@ CREATE TABLE Disponibilites(
                                VENDREDI BOOLEAN,
                                SAMEDI BOOLEAN,
                                DIMANCHE BOOLEAN,
-                               FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                               FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 
 -- Création de la table Competences
@@ -425,7 +424,11 @@ CREATE TABLE UtilisateursCompetences (
 
 INSERT INTO Competences (Nom_Competence, Description) VALUES
                                                           ('Français', 'Capacité à parler et comprendre le français'),
-                                                          ('Conduite', 'Compétence en conduite de véhicules');
+                                                          ('Conduite', 'Compétence en conduite de véhicules'),
+                                                          ('Developpement web', 'Competences en developpement web'),
+                                                          ('Gestion de projet', 'Formation ou competence dans la gestion de projet'),
+                                                          ('Travail social', 'Experience passee et competence en travail social'),
+                                                          ('Marketing et communication', 'Marketing et communication');
 
 CREATE TABLE Inscriptions (
                               ID_Inscription INT AUTO_INCREMENT PRIMARY KEY,
@@ -476,17 +479,57 @@ CREATE TABLE Session (
 
 DELIMITER //
 
-CREATE TRIGGER set_expiration AFTER INSERT ON Session
+CREATE TRIGGER set_expiration BEFORE INSERT ON Session
     FOR EACH ROW
 BEGIN
-    UPDATE Session
-    SET Expiration = NOW() + INTERVAL 24 HOUR
-    WHERE ID_Session = NEW.ID_Session;
+    DECLARE expiration_date TIMESTAMP;
+    SET expiration_date = NOW() + INTERVAL 24 HOUR;
+    SET NEW.Expiration = expiration_date;
 END;
 //
 
 DELIMITER ;
 
+DELIMITER //
+-- On vérifie si l'heure de fin d'un service est bien ultérieure à son heure de début
+
+CREATE TRIGGER check_end_date
+    BEFORE INSERT ON Services
+    FOR EACH ROW
+BEGIN
+    IF NEW.endTime <= NEW.startTime THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La date de fin doit être ultérieure à la date de début.';
+    END IF;
+END //
+
+DELIMITER ;
+
+-- On vérifie si l'entrepot a bien un volume restant suffisant pour y accueilir le stock, sinon one refuse l'insertion de la ligne
+DELIMITER //
+
+CREATE TRIGGER check_stock_volume
+    BEFORE INSERT ON Stocks
+    FOR EACH ROW
+BEGIN
+    DECLARE volume_entrepot DECIMAL(10, 2);
+
+    -- Calculer le volume restant dans l'entrepôt associé au nouveau stock
+    SELECT E.Volume_Total - IFNULL(SUM(S.Volume_Total), 0)
+    INTO volume_entrepot
+    FROM Entrepots E
+             LEFT JOIN Stocks S ON E.ID_Entrepot = S.ID_Entrepots
+    WHERE E.ID_Entrepot = NEW.ID_Entrepots
+    GROUP BY E.ID_Entrepot;
+
+    -- Vérifier si le volume du stock dépasse le volume restant
+    IF NEW.Volume_Total > volume_entrepot THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Le volume du stock dépasse le volume restant dans l''entrepôt.';
+    END IF;
+END //
+
+DELIMITER ;
 
 -- Ajout d'un événement pour suprimer automatiquement les sessions expirées
 CREATE EVENT deleteExpiredSessions

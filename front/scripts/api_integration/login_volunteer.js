@@ -52,7 +52,7 @@ function loginVolunteer(){
                 } else {
                     console.error("Les cookies n'ont pas été créés ou existent déjà.");
                 }
-                // window.location.href = "../../volunteers/planning.php";
+                // window.location.href = "../../volunteers/services.php";
             }
         })
         .catch(error => {

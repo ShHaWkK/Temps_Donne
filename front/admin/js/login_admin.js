@@ -1,5 +1,5 @@
 document.write('<script src="../../scripts/getCookie.js"></script>');
-function loginAdmin(){
+function loginAdmin() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
@@ -21,44 +21,41 @@ function loginAdmin(){
 
     fetch(apiUrl, options)
         .then(response => {
+            // Gérer les réponses non réussies
             if (!response.ok) {
                 return response.text().then(errorMessage => {
                     throw new Error(errorMessage || 'Erreur inattendue.');
                 });
             }
-            return response.json(); // Analyser la réponse JSON
+            // Analyser la réponse JSON
+            return response.json();
         })
         .then(data => {
-            // Afficher la réponse JSON dans une alerte
-            alert("Connection succeeded");
+            // Gérer la réponse JSON
             if (data && data.status && data.status.startsWith("success")) {
-                // Récupérer le token de session
                 var sessionToken = data.session_token;
                 var userId = data.user_id;
 
-                // Créer un cookie avec le nom 'session_token'
+                // Créer des cookies avec les informations reçues
                 document.cookie = 'session_token=' + sessionToken + '; path=/; max-age=86400';
                 document.cookie = 'user_id=' + userId + '; path=/; max-age=86400';
 
-                console.log('getCookieSession',getCookie('session_token'));
-                console.log('sessionToken',sessionToken);
-                console.log('getCookieID',getCookie('user_id'));
-                console.log('userId',userId);
-
-                // Vérifier si les cookies ont été attribués correctement
+                // Vérifier si les cookies ont été créés correctement
                 if (getCookie('session_token') === sessionToken && parseInt(getCookie('user_id'), 10) === userId) {
-                    // Redirection vers la page souhaitée
+                    alert("Connexion réussie");
                     window.location.href = "./users.php";
                 } else {
                     console.error("Les cookies n'ont pas été créés ou existent déjà.");
                 }
-                // window.location.href = "../../volunteers/planning.php";
+            } else {
+                console.error("Réponse de l'API inattendue :", data);
+                alert(data);
             }
         })
         .catch(error => {
+            // Gérer les erreurs
             console.error('Erreur lors de la réponse de l\'API :', error.message);
-            alert('Erreur lors de la réponse de l\'API :', error.message);
-            //window.location.href = "./login.php";
+            alert('Erreur lors de la réponse de l\'API : ' + error.message);
         });
 }
 

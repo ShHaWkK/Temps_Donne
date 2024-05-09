@@ -4,7 +4,7 @@ require_once './Repository/ServiceRepository.php';
 require_once './Models/ServiceModel.php';
 require_once './Helpers/ResponseHelper.php';
 class ServiceService{
-    private $serivceRepository;
+    private $serviceRepository;
 
     public function __construct(ServiceRepository $serviceRepository) {
         $this->serviceRepository = $serviceRepository;
@@ -12,7 +12,7 @@ class ServiceService{
 
     public function createService(ServiceModel $service)
     {
-        $serviceId = $this->serviceRepository->createService($service);
+        return $this->serviceRepository->createService($service);
     }
 
     public function getServiceById($id) {

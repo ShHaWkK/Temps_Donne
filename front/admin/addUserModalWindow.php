@@ -1,6 +1,6 @@
 <?php ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,9 @@
 <body>
 
 <!-- Fenêtre modale -->
-<div id="myModal" class="modal">
+<div id="addUserModal" class="modal">
     <div class="modal-content">
+        <span class="close">&times;</span>
         <h2>Ajouter un utilisateur</h2>
         <form id="userForm" action="#" method="post">
 
@@ -71,20 +72,21 @@
             <label for="typePermis">Type de permis:</label>
             <input type="text" id="typePermis" name="typePermis" value="B"><br><br>
 
-            <input class="confirm-button" id="confirm-button" type="submit" value="Ajouter">
+            <input class="confirm-button" id="confirm-button-addUser" type="submit" value="Ajouter">
         </form>
     </div>
 </div>
 
 <script>
+    console.log("On est dans userModal");
     // Fonction pour ouvrir la fenêtre modale
-    function openModal() {
-        document.getElementById('myModal').style.display = 'block';
+    function openAddModal() {
+        document.getElementById('addUserModal').style.display = 'block';
     }
 
     // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci
     window.onclick = function(event) {
-        var modal = document.getElementById('myModal');
+        var modal = document.getElementById('addUserModal');
         if (event.target === modal) {
             modal.style.display = "none";
         }
@@ -92,8 +94,8 @@
 
     // Écouter les messages envoyés par l'iframe parent
     window.addEventListener('message', function(event) {
-        if (event.data === 'openModal') {
-            openModal();
+        if (event.data === 'openAddUserModal') {
+            openAddModal();
         }
     });
 </script>

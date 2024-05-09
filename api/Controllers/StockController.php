@@ -79,7 +79,7 @@ class StockController {
             $stock = new StockModel($data);
             $stock->validate();
             $id = $this->stockService->addStock($stock);
-            ResponseHelper::sendResponse(['message' => 'Stock added successfully', 'id' => $id], 201);
+            ResponseHelper::sendResponse(['status' => 'success','message' => 'Stock added successfully', 'id' => $id], 201);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], $e->getCode());
         }

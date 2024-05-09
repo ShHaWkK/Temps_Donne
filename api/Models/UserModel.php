@@ -22,7 +22,9 @@ class UserModel {
     public $emploi;
     public $societe;
     public $code_verification;
-    public $type_permis;
+    public $permis_b;
+    public $permis_poids_lourds;
+    public $caces;
     public $role;
     public $apikey;
 
@@ -48,14 +50,14 @@ class UserModel {
         $this->emploi = $data['Emploi'] ?? null;
         $this->societe = $data['Societe'] ?? null;
         $this->code_verification = $data['Code_Verification'] ?? null;
-        $this->type_permis = $data['Type_Permis'] ?? null;
         $this->role = $data['Role'] ?? null;
         $this->apikey = $data['apikey'] ?? null;
+        $this->permis_b = $data['Permis_B'] ?? false;
+        $this->permis_poids_lourds = $data['Permis_Poids_Lourds'] ?? false;
+        $this->caces = $data['CACES'] ?? false;
 
         $this->validate($data);
-
     }
-
 
     public function validate($data) {
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {

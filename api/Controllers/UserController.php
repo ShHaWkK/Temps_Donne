@@ -32,6 +32,9 @@ class UserController {
                             case 'All':
                                 $this->getAllUsersByRole($uri[2]);
                                 break;
+                            case 'Mail':
+                                $this->getUserByEmail($uri[4]);
+                                break;
                             default:
                                 $this->getUser($uri[3]);
                                 break;
@@ -90,17 +93,20 @@ class UserController {
             $availability = new AvailabilityModel($data,$insertedUser->id_utilisateur);
             $this->availabilityService->createAvailability($availability);
 
-            if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null) {
-                $this->saveUploadedFiles($data);
-            }else{
-                throw new Exception("L'Utilisateur a été enregistré mais les fichiers justificatifs n'ont pas été envoyés");
-            }
+            if ($_FILES['cv_file'] && isset($_FILES['permis_file']) !== null)
+                $filesSaved=$this->saveUploadedFiles($data);
 
             http_response_code(200);
             $response = [
                 'status' => 'success',
                 'message' => 'User added successfully.',
+                'inserted_id' => $insertedUser->id_utilisateur,
             ];
+
+            if (!$filesSaved) {
+                $response['remark'] = "L'utilisateur a été enregistré, mais les fichiers justificatifs n'ont pas été envoyés.";
+            }
+
             ResponseHelper::sendResponse($response);
 
         } catch (Exception $e) {
@@ -184,7 +190,7 @@ class UserController {
             }
 
             $this->userService->updateUser($user, $fieldsToUpdate);
-            ResponseHelper::sendResponse(["Utilisateur mis à jour avec succès." => $user]);
+            ResponseHelper::sendResponse(["Utilisateur mis à jour avec succès."]);
         } catch (Exception $e) {
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -222,7 +228,7 @@ class UserController {
                     $users =$this->userService->getAllUsersByRole('Beneficiaire');
                     break;
             }
-            ResponseHelper::sendResponse(["Utilisateurs demandés" =>$users]);
+            ResponseHelper::sendResponse($users);
         }catch (Exception $e){
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -239,7 +245,7 @@ class UserController {
                     $users =$this->userService->getAllUsersByRoleAndStatus('Beneficiaire',$statut);
                     break;
             }
-            ResponseHelper::sendResponse(["Utilisateurs demandés" =>$users]);
+            ResponseHelper::sendResponse($users);
         }catch (Exception $e){
             ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
         }
@@ -276,5 +282,14 @@ public function updateUser($id) {
         ResponseHelper::sendResponse(["error" => $e->getMessage()], $e->getCode());
     }
 }*/
+    private function getUserByEmail($email)
+    {
+        $user = $this->userService->findByEmail($email);
+        if (!$user) {
+            ResponseHelper::sendNotFound("User not found.");
+        } else {
+            ResponseHelper::sendResponse($user);
+        }
+    }
 
 }

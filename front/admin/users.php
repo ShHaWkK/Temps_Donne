@@ -4,11 +4,13 @@ include_once('../includes/lang.php');
 include_once('../includes/head.php');
 include_once('./header.php');
 include_once('addUserModalWindow.php');
+include_once('userDetailsModalWindow.php');
+include_once('deleteUserModalWindow.php');
 echo "<title>Espace Administrateur - Utilisateurs</title>";
 ?>
 
 <head>
-    <link rel="stylesheet" href="./css/users.css">
+    <link rel="stylesheet" href="./css/table.css">
     <script src="./js/checkSessionAdmin.js"></script>
 </head>
 
@@ -17,14 +19,14 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 <h2 style="text-align: center;">Gestion des utilisateurs</h2>
 
 <center>
-    <div class="main-container-users">
+    <div class="main-container-tabs">
         <div class="line">
 
-            <button class="popup-button  menu" id="openModalButton"> Ajouter un utilisateur</button>
+            <button class="popup-button" id="openAddUserModalButton"> Ajouter un utilisateur</button>
 
             <script>
-                document.getElementById('openModalButton').addEventListener('click', function() {
-                    window.parent.postMessage('openModal', '*');
+                document.getElementById('openAddUserModalButton').addEventListener('click', function() {
+                    window.parent.postMessage('openAddUserModal', '*');
                 });
             </script>
 
@@ -54,10 +56,12 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
     </div>
 </center>
 
-<script src="./js/filterByRole.js"></script>
-<script src="./js/users.js" defer></script>
+<script src="js/filtersUsers.js"></script>
+<script src="js/users.js" defer></script>
 <script src="./js/approveUser.js"></script>
+<script src="./js/putOnHoldUser.js"></script>
 <script src="./js/rejectUser.js"></script>
+<script src="./js/deleteUser.js"></script>
 
 </body>
 </html>

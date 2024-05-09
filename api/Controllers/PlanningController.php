@@ -95,8 +95,8 @@ class PlanningController {
 
             $planning = new PlanningModel($data);
             $this->planningService->addPlanning($planning);
-            //ResponseHelper::sendResponse(["success" => "Planning added successfully."], 201);
-            exit_with_message("Planning added successfully.");
+            ResponseHelper::sendResponse(["success" => "Planning added successfully."], 201);
+//            exit_with_message("Planning added successfully.");
         } catch (Exception $e) {
             exit_with_message($e->getMessage(), 500);
         }

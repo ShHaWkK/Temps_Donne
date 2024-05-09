@@ -23,7 +23,7 @@ function displayUsers(users) {
 
     // On ajoute l'en-tête du tableau
     const tableHeader = ["ID_Utilisateur", "Nom", "Prénom", "Genre", "Date de naissance", "Email",
-        "Telephone","Role","Statut","Action"];
+        "Telephone","Role","Statut","Détails","Action"];
 
     const rowHeader = usersTable.insertRow();
     rowHeader.classList.add("head");
@@ -46,7 +46,9 @@ function displayUsers(users) {
                         <td>${user.Telephone}</td>
                         <td>${user.Role}</td>
                         <td>${user.Statut}</td>
+                        <td><button class="popup-button userDetails"> Voir </button></td>
                         <td><a href='#' class="approve-link">Valider</a>
+                        <a href='#' class="hold-link">Mettre en attente</a>
                         <a href='#' class="reject-link">Rejeter</a></td>
                     `;
     });
@@ -72,11 +74,12 @@ window.onload = function() {
         })
         .then(() => {
             addApproveEventListeners();
-        })
-        .then(() => {
+            addHoldEventListeners();
             addRejectEventListeners();
         })
-        .then(() => {
+        .then(()=>{
+            addRejectModalEventListeners();
+            addUserDetailsModalEventListeners();
             addAddUserEvent();
         })
         .catch(error => {

@@ -10,24 +10,59 @@ class PlanningRepository {
         $this->db = $db;
     }
 
+    //On récupère la date et l'heure du planning dans la table Services
+    public function getServiceInfo($serviceId) {
+        $stmt = $this->db->prepare("SELECT Date, startTime, endTime FROM Services WHERE ID_Service = ?");
+        $stmt->execute([$serviceId]);
+        return $stmt->fetch();
+    }
+
+    //On vérifie qu'il n'y a pas de conflit sur les dates
+    public function checkScheduleConflict($userID, $date, $startTime, $endTime) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM Planning AS p
+                                INNER JOIN Services AS s ON p.ID_Service = s.ID_Service
+                                WHERE p.ID_Utilisateur = ? 
+                                AND s.Date = ?
+                                AND (
+                                    (s.startTime BETWEEN ? AND ?) OR
+                                    (s.endTime BETWEEN ? AND ?) OR
+                                    (s.startTime < ? AND s.endTime > ?)
+                                )");
+        $stmt->execute([
+            $userID,
+            $date,
+            $startTime,
+            $endTime,
+            $startTime,
+            $endTime,
+            $startTime,
+            $endTime
+        ]);
+        $count = $stmt->fetchColumn();
+
+        return $count > 0;
+    }
+
     public function save(PlanningModel $planning) {
-        // Vérifier si un planning existe déjà à cette date et heure pour cet utilisateur
-        if (!$this->isPlanningAvailable($planning->ID_Utilisateur, $planning->date, $planning->startTime, $planning->endTime)) {
+        // Récupérer les informations sur le service associé au planning
+        $serviceInfo = $this->getServiceInfo($planning->ID_Service);
+
+        // Vérifier s'il y a un conflit d'horaire pour cet utilisateur
+        if ($this->checkScheduleConflict($planning->ID_Utilisateur, $serviceInfo['Date'], $serviceInfo['startTime'], $serviceInfo['endTime'])) {
             throw new Exception("Un planning existe déjà pour cet utilisateur à cette date et heure.");
         }
-    
+
         // Insertion du nouveau planning si aucun conflit n'est détecté
-        $stmt = $this->db->prepare("INSERT INTO Planning (ID_Utilisateur, activity, description, date, startTime, endTime) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([
-            $planning->ID_Utilisateur, 
-            $planning->activity,
-            $planning->description,
-            $planning->date,
-            $planning->startTime,
-            $planning->endTime
+        $stmtInsert = $this->db->prepare("INSERT INTO Planning (ID_Utilisateur, ID_Service, description) VALUES (?, ?, ?)");
+        $stmtInsert->execute([
+            $planning->ID_Utilisateur,
+            $planning->ID_Service,
+            $planning->description
         ]);
         return $this->db->lastInsertId();
     }
+
+
     
     private function isPlanningAvailable($userId, $date, $startTime, $endTime) {
         // Requête pour vérifier si un planning avec les mêmes informations existe déjà
@@ -68,7 +103,7 @@ class PlanningRepository {
 
    
     public function remove($id) { 
-        $stmt = $this->db->prepare ('DELETE FROM Planning WHERE id =?');
+        $stmt = $this->db->prepare ('DELETE FROM Planning WHERE ID_Planning =?');
         $stmt->bindValue (1 , $id, PDO::PARAM_INT);
         $res = $stmt->execute([$id]);    
         if(!$res){

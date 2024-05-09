@@ -88,7 +88,7 @@ class FormationController {
 
     public function getAllFormations() {
         $formations = $this->formationService->listAllFormations();
-        var_dump();
+
         error_log(print_r($formations, true));
         if (!$formations) {
             ResponseHelper::sendNotFound("Formation not found.");

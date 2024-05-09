@@ -43,6 +43,7 @@ async function getUserPlanning() {
     }
 }
 
+// Fonction pour afficher les semaines dans le calendrier
 function displayWeekTable() {
     // Displaying information
     const startDate = new Date(currentWeek);
@@ -85,16 +86,46 @@ function displayWeekTable() {
     })();
 }
 
-function displayEvents(events) {
+async function getEventData(serviceId) {
+    try {
+        const url = 'http://localhost:8082/index.php/services/' + serviceId;
+        const response = await fetch(url);
+        if (!response.ok) {
+            alert('Erreur réseau');
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        return [];
+    }
+}
+
+async function displayEvents(events) {
     const table = document.getElementById("planningTable");
 
-    events.forEach((event, index) => {
+    for (const event of events) {
+        const index = events.indexOf(event);
+        let eventData = await getEventData(event.ID_Service);
+        console.log(eventData);
+
+        const startTime = parseInt(eventData.startTime.split(":")[0]);
+        const endTime = parseInt(eventData.endTime.split(":")[0]);
+        /*
         const startTime = parseInt(event.startTime.split(":")[0]);
         const endTime = parseInt(event.endTime.split(":")[0]);
+        */
 
+        const startDate = new Date(eventData.Date);
+        const eventDayIndex = startDate.getDay();
+        const eventColumnIndex = (eventDayIndex === 0) ? 7 : eventDayIndex;
+
+        /*
         const startDate = new Date(event.Date);
         const eventDayIndex = startDate.getDay();
         const eventColumnIndex = (eventDayIndex === 0) ? 7 : eventDayIndex; // Si c'est dimanche, on met 7 pour obtenir la dernière colonne
+        */
 
         const startRow = startTime + 1;
         const endRow = endTime + 1;
@@ -106,7 +137,8 @@ function displayEvents(events) {
             const formattedEventWeek = formatWeek(startDate); // Formatage de la semaine de l'événement
             if (formattedCurrentWeek === formattedEventWeek) {
                 if (row === startRow) {
-                    cell.textContent = event.activity;
+                    // cell.textContent = event.activity;
+                    cell.textContent = eventData.Nom_du_service;
                     cell.rowSpan = endRow - startRow + 1;
                     cell.classList.add("planning-event");
                     cell.id="planningEvent";
@@ -116,7 +148,7 @@ function displayEvents(events) {
                 }
             }
         }
-    });
+    }
 }
 
 function displayNextWeek() {

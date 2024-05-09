@@ -5,3 +5,9 @@ site/form/vendor/
 
 .env
 .idea/
+
+tickets/__pycache__/
+
+tickets/gui/__pycache__/
+
+tickets/modules/__pycache__/

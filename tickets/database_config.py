@@ -4,6 +4,6 @@ db_config = {
     'user': 'root',
     'password': 'toor',
     'host': 'localhost',
-    'database': 'temps',     
+    'database': 'temps',
     'raise_on_warnings': True
 }

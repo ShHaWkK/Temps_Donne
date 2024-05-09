@@ -5,6 +5,7 @@ include_once('../includes/head.php');
 include_once('./header.php');
 include_once('./addStockModalWindow.php');
 include_once('./deleteStockModalWindow.php');
+include_once ('./userDetailsModalWindow.php');
 echo "<title>Espace Administrateur - Stocks</title>";
 ?>
 
@@ -115,10 +116,19 @@ echo "<title>Espace Administrateur - Stocks</title>";
                 </select>
             </div>
 
-            <line>
+            <div class="line">
                 <h2>Assigner un chauffeur :</h2>
-                <table id="driverTable"></table>
-            </line>
+            </div>
+            <div class="line">
+                <table class="driverTable" id="driverTable"></table>
+            </div>
+
+            <div class="line">
+                <h2>Denrées à collecter :</h2>
+            </div>
+            <div class="line">
+                <table id="collectTable"></table>
+            </div>
 
             <button class="tabButton addButton" id="addTruckButton"> Générer le circuit </button>
 

@@ -259,6 +259,7 @@ window.onload = function() {
             displayProducts('productSelector');
             displayEntrepots('entrepotSelector');
             displayEntrepots('entrepotFilterCollecte');
+            displayDrivers(allDrivers);
         })
         .then(() => {
             addProductFilterEvent();
@@ -267,6 +268,7 @@ window.onload = function() {
             addSortEvents();
             addAddStockEvent();
             addSelectedButtonEvent();
+            addUserDetailsModalEventListeners();
             initMap();
         })
         .catch(error => {

@@ -52,20 +52,6 @@ function addUser() {
 
     // Créer un objet FormData pour envoyer les données du formulaire
     var formData = new FormData();
-    /*
-    formData.append('Nom', nom);
-    formData.append('Prenom', prenom);
-    formData.append('Email', email);
-    formData.append('Role', role);
-    formData.append('Mot_de_passe', mot_de_passe);
-    formData.append('Genre', genre);
-    formData.append('Adresse', adresse);
-    formData.append('Telephone', telephone);
-    formData.append('Date_de_naissance', date_naissance);
-    formData.append('Statut', 'Pending');
-    formData.append('Situation', situation);
-    formData.append('Statut', 'Granted');
-    */
     formData.append('json_data', JSON.stringify(data)); // Ajouter les données JSON
 
     console.log(formData);

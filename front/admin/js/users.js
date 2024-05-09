@@ -50,11 +50,6 @@ function displayUsers(users) {
                         <td>${user.Role}</td>
                         <td>${user.Statut}</td>
                         <td><button class="popup-button userDetails"> Voir </button></td>
-                        <!--                        
-                        <td><a href='#' class="approve-link">Valider</a>
-                        <a href='#' class="hold-link">Mettre en attente</a>
-                        <a href='#' class="reject-link">Rejeter</a></td>
-                        -->
                     `;
         if (firstUser === true){
             selectedUser = user.ID_Utilisateur;

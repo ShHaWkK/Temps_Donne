@@ -22,7 +22,7 @@
         console.log("On ajoute l'event addUserDetailsModalEventListeners");
         document.querySelectorAll('.popup-button.userDetails').forEach(button => {
             button.addEventListener('click', function() {
-                const userId = button.closest('tr').querySelector('.user-id').textContent.trim();
+                const userId = button.closest('tr').querySelector('input[name="id_buttons"]').value;
                 console.log("click",userId);
                 window.parent.postMessage({ type: 'openUserDetails', userId: userId }, '*');
             });
@@ -32,7 +32,7 @@
     document.querySelectorAll('.userDetails').forEach(button => {
         button.addEventListener('click', async function() {
             // Récupérer l'ID de l'utilisateur associé à ce bouton
-            const userId = this.closest('tr').querySelector('.user-id').textContent;
+            const userId = document.querySelector('input[name="id_buttons"]:checked').value;
 
             // Récupérer les détails de l'utilisateur
             const userDetailsResponse = await fetch(`http://localhost:8082/index.php/users/${userId}`);

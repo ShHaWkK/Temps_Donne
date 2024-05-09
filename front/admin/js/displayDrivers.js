@@ -22,7 +22,6 @@ function displayDrivers(users) {
         const row = usersTable.insertRow();
         row.innerHTML = `
                         <td> <input type="radio" id=${user.ID_Utilisateur} name='id_buttons' value=${user.ID_Utilisateur} ${firstUser ? 'checked' : ''} /> </td>
-                        <td class="user-id">${user.ID_Utilisateur}</td>
                         <td>${user.Nom}</td>
                         <td>${user.Prenom}</td>
                         <td>${user.Genre}</td>

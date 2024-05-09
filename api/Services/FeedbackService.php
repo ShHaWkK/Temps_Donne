@@ -1,6 +1,7 @@
 <?php
 
 require_once './Repository/FeedbackRepository.php';
+require_once './Models/FeedbackModel.php';
 
 class FeedbackService {
     private $feedbackRepository;

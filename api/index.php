@@ -21,6 +21,7 @@ require_once 'Controllers/StockController.php';
 require_once 'Controllers/CircuitController.php';
 require_once 'Controllers/EntrepotController.php';
 require_once 'Controllers/ProduitController.php';
+require_once 'Controllers/FeedbackController.php';
 require_once 'Controllers/AvailabilityController.php';
 // require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
@@ -103,6 +104,9 @@ function router($uri, $requestMethod) {
             $produitController =  new ProduitController();
             $produitController->processRequest($requestMethod, $uri);
             break;
+        case 'feedbacks':
+            $feedbackController = new FeedbackController();
+            $feedbackController = processRequest($requestMethod, $uri);
         case 'users':
         case 'beneficiaries':
         case 'volunteers':

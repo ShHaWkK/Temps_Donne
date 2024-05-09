@@ -10,27 +10,45 @@ class AdminView:
         self.chat_manager = chat_manager
         self.db_connection = mysql.connector.connect(**db_config)
 
-        self.master.title("Admin Dashboard")
+        self.master.title("Tableau de bord de l'administrateur")
         self.master.geometry("800x600")
 
-        self.frame = tk.Frame(self.master)
-        self.frame.pack(fill='both', expand=True)
+        # Couleurs
+        self.bg_color = "#f0f0f0"
+        self.primary_color = "#4CAF50"
+        self.secondary_color = "#2196F3"
+        self.text_color = "#333333"
 
-        self.tickets_treeview = ttk.Treeview(self.frame, columns=('ID', 'Title', 'Status', 'Assigned To'))
+        # Cadre principal
+        self.main_frame = tk.Frame(self.master, bg=self.bg_color)
+        self.main_frame.pack(fill='both', expand=True)
+
+        # En-tête
+        self.header_frame = tk.Frame(self.main_frame, bg=self.primary_color)
+        self.header_frame.pack(fill=tk.X)
+        self.header_label = tk.Label(self.header_frame, text="Tableau de bord de l'administrateur", font=("Arial", 18), fg="white", bg=self.primary_color)
+        self.header_label.pack(pady=10)
+
+        # Cadre des tickets
+        self.tickets_frame = tk.Frame(self.main_frame, bg=self.bg_color)
+        self.tickets_frame.pack(fill='both', expand=True, padx=20, pady=20)
+
+        self.tickets_treeview = ttk.Treeview(self.tickets_frame, columns=('ID', 'Titre', 'Statut', 'Assigné à'))
         self.tickets_treeview.heading('#0', text='ID')
-        self.tickets_treeview.heading('Title', text='Title')
-        self.tickets_treeview.heading('Status', text='Status')
-        self.tickets_treeview.heading('Assigned To', text='Assigned To')
-        self.tickets_treeview.pack(fill='both', expand=True, padx=10, pady=10)
+        self.tickets_treeview.heading('Titre', text='Titre')
+        self.tickets_treeview.heading('Statut', text='Statut')
+        self.tickets_treeview.heading('Assigné à', text='Assigné à')
+        self.tickets_treeview.pack(fill='both', expand=True)
 
-        button_frame = tk.Frame(self.frame)
-        button_frame.pack(pady=10)
+        # Cadre des boutons
+        self.buttons_frame = tk.Frame(self.main_frame, bg=self.bg_color)
+        self.buttons_frame.pack(pady=10)
 
-        self.close_ticket_button = tk.Button(button_frame, text="Close Ticket", command=self.close_ticket)
-        self.validate_ticket_button = tk.Button(button_frame, text="Validate Ticket", command=self.validate_ticket)
-        self.assign_admin_button = tk.Button(button_frame, text="Assign Admin", command=self.assign_admin)
-        self.show_messages_button = tk.Button(button_frame, text="Show Messages", command=self.show_ticket_messages)
-        self.send_message_button = tk.Button(button_frame, text="Send Message", command=self.send_message)
+        self.close_ticket_button = tk.Button(self.buttons_frame, text="Fermer le ticket", command=self.close_ticket, bg=self.secondary_color, fg="white", padx=10, pady=5)
+        self.validate_ticket_button = tk.Button(self.buttons_frame, text="Valider le ticket", command=self.validate_ticket, bg=self.secondary_color, fg="white", padx=10, pady=5)
+        self.assign_admin_button = tk.Button(self.buttons_frame, text="Assigner un administrateur", command=self.assign_admin, bg=self.secondary_color, fg="white", padx=10, pady=5)
+        self.show_messages_button = tk.Button(self.buttons_frame, text="Afficher les messages", command=self.show_ticket_messages, bg=self.secondary_color, fg="white", padx=10, pady=5)
+        self.send_message_button = tk.Button(self.buttons_frame, text="Envoyer un message", command=self.send_message, bg=self.secondary_color, fg="white", padx=10, pady=5)
 
         self.close_ticket_button.pack(side=tk.LEFT, padx=5)
         self.validate_ticket_button.pack(side=tk.LEFT, padx=5)
@@ -75,21 +93,8 @@ class AdminView:
         if admin_id:
             self.assign_ticket(ticket_id, admin_id)
 
-    def is_admin(self, user_id):
-        try:
-            cursor = self.db_connection.cursor()
-            query = "SELECT Role FROM Utilisateurs WHERE ID_Utilisateur = %s"
-            cursor.execute(query, (user_id,))
-            role = cursor.fetchone()
-            cursor.close()
-            return role and role[0] == 'Administrateur'
-        except mysql.connector.Error as err:
-            print(f"Erreur : {err}")
-            return False
-
     def select_admin(self):
         admins = self.get_all_admins()
-
         window = tk.Toplevel(self.master)
         window.title("Sélectionner un Administrateur")
         window.geometry("300x150")
@@ -108,19 +113,20 @@ class AdminView:
         assign_button.pack(pady=10)
 
         window.wait_window()
-        return selected_admin.get().split(":")[0]  # Renvoie l'ID de l'admin
+        return selected_admin.get().split(":")[0]
 
     def get_all_admins(self):
         try:
-            cursor = self.db_connection.cursor()
+            cursor = self.db_connection.cursor(dictionary=True)
             query = "SELECT ID_Utilisateur, Nom FROM Utilisateurs WHERE Role = 'Administrateur'"
             cursor.execute(query)
-            admins = [f"{row[0]}: {row[1]}" for row in cursor.fetchall()]
+            admins = [f"{row['ID_Utilisateur']}: {row['Nom']}" for row in cursor.fetchall()]
             cursor.close()
             return admins
         except mysql.connector.Error as err:
             print(f"Erreur : {err}")
             return []
+
     def assign_ticket(self, ticket_id, admin_id):
         try:
             cursor = self.db_connection.cursor()
@@ -142,7 +148,8 @@ class AdminView:
         selected_item = self.tickets_treeview.focus()
         ticket_id = self.tickets_treeview.item(selected_item)['text']
         message = simpledialog.askstring("Envoyer un message", "Entrez votre message :")
-        if message and self.chat_manager.send_admin_message(ticket_id, message):
+        admin_id = 1  # Assurez-vous que cet ID correspond à l'ID de l'admin actuel
+        if message and self.chat_manager.send_admin_message(ticket_id, message, admin_id):
             self.show_ticket_messages()
         else:
             messagebox.showerror("Erreur", "Échec de l'envoi du message.")

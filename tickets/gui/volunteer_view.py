@@ -18,9 +18,9 @@ class VolunteerView:
         self.main_frame = tk.Frame(self.master, bg="#f0f0f0")
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.header_frame = tk.Frame(self.main_frame, bg="#4CAF50")
+        self.header_frame = tk.Frame(self.main_frame, bg="#2196F3")
         self.header_frame.pack(fill=tk.X)
-        self.header_label = tk.Label(self.header_frame, text="Volunteer Dashboard", font=("Arial", 18), fg="white", bg="#4CAF50")
+        self.header_label = tk.Label(self.header_frame, text="Espace Bénévole", font=("Arial", 18), fg="white", bg="#2196F3")
         self.header_label.pack(pady=10)
 
         self.tickets_frame = tk.Frame(self.main_frame, bg="#f0f0f0")
@@ -44,7 +44,7 @@ class VolunteerView:
             print("Ticket info:", ticket_info)
             try:
                 ticket_id = int(ticket_info[0])
-                admin_id = int(ticket_info[3])
+                admin_id = int(ticket_info[3]) if ticket_info[3] else 0
                 print("Admin ID:", admin_id)
                 self.open_chat_with_admin(ticket_id, admin_id)
             except ValueError:
@@ -53,9 +53,9 @@ class VolunteerView:
     def open_chat_with_admin(self, ticket_id, admin_id):
         try:
             self.ticket_id = int(ticket_id)
-            self.admin_id = int(admin_id)
+            self.admin_id = int(admin_id) if admin_id is not None else 0
             chat_window = tk.Toplevel(self.master)
-            chat_view = ChatView(chat_window, self.user_id, self.admin_id, self.chat_manager, self.ticket_id)
+            ChatView(chat_window, self.user_id, self.admin_id, self.chat_manager, self.ticket_id)
         except ValueError:
             messagebox.showerror("Erreur", "L'ID doit être un entier.")
 

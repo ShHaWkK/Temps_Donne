@@ -24,7 +24,8 @@ class AdminChatView:
     def send_message(self):
         message = self.msg_entry.get()
         if message.strip():
-            if self.chat_manager.send_admin_message(self.ticket_id, message):
+            admin_id = 1  # Remplacez par l'ID de l'administrateur actuel
+            if self.chat_manager.send_admin_message(self.ticket_id, message, admin_id):
                 self.msg_entry.delete(0, tk.END)
                 self.update_chat()
             else:
@@ -36,11 +37,10 @@ class AdminChatView:
 
         messages = self.chat_manager.get_ticket_messages(self.ticket_id)
         for msg in messages:
-            expediteur = f"Utilisateur {msg[1]}" if msg[1] else "Admin"
-            destinataire = f"Utilisateur {msg[2]}" if msg[2] else "Tous"
-            couleur = 'red' if expediteur == "Admin" else 'black'
+            expediteur_nom = self.chat_manager.get_user_name(msg['ID_Expediteur_Utilisateur'])
+            expediteur = "Vous" if msg['ID_Expediteur_Utilisateur'] == 1 else (expediteur_nom if expediteur_nom else "Inconnu")
+            couleur = 'red' if expediteur_nom == "Admin" else 'black'
             self.chat_box.tag_configure(expediteur, foreground=couleur)
-            self.chat_box.insert(tk.END, f"{expediteur} à {destinataire} : {msg[0]} [{msg[3]}]\n", expediteur)
-
+            self.chat_box.insert(tk.END, f"{expediteur}: {msg['Message']} [{msg['Timestamp']}]\n", expediteur)
         self.chat_box.yview(tk.END)
         self.chat_box.config(state='disabled')

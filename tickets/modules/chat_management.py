@@ -9,7 +9,7 @@ class ChatManager:
     def connect(self):
         if not self.connection or not self.connection.is_connected():
             self.connection = mysql.connector.connect(**self.db_config)
-            self.cursor = self.connection.cursor()
+            self.cursor = self.connection.cursor(dictionary=True)
 
     def close(self):
         if self.cursor:
@@ -51,12 +51,13 @@ class ChatManager:
             print(f"Échec de la récupération des messages : {err}")
             return []
 
-    def send_admin_message(self, ticket_id, message):
+    def send_admin_message(self, ticket_id, message, admin_id):
         try:
             ticket_id = int(ticket_id)
+            admin_id = int(admin_id)
             self.connect()
-            query = "INSERT INTO ChatMessages (Message, ticket_id) VALUES (%s, %s)"
-            self.cursor.execute(query, (message, ticket_id))
+            query = "INSERT INTO ChatMessages (ID_Expediteur_Utilisateur, Message, ticket_id) VALUES (%s, %s, %s)"
+            self.cursor.execute(query, (admin_id, message, ticket_id))
             self.connection.commit()
             return True
         except ValueError:
@@ -65,3 +66,14 @@ class ChatManager:
         except mysql.connector.Error as err:
             print(f"Échec de l'envoi du message d'administration : {err}")
             return False
+
+    def get_user_name(self, user_id):
+        query = "SELECT Nom FROM Utilisateurs WHERE ID_Utilisateur = %s"
+        try:
+            self.connect()
+            self.cursor.execute(query, (user_id,))
+            result = self.cursor.fetchone()
+            return result['Nom'] if result else None
+        except mysql.connector.Error as err:
+            print(f"Échec de la récupération du nom de l'utilisateur : {err}")
+            return None

@@ -39,19 +39,10 @@ class ChatView:
         self.chat_box.delete('1.0', tk.END)
         messages = self.chat_manager.get_ticket_messages(self.ticket_id)
         for msg in messages:
-            expediteur = "Vous" if msg[1] == self.user_id else "Autre"
-            self.chat_box.insert(tk.END, f"{expediteur}: {msg[0]} [{msg[3]}]\n")
+            expediteur_nom = self.chat_manager.get_user_name(msg['ID_Expediteur_Utilisateur'])
+            expediteur = "Vous" if msg['ID_Expediteur_Utilisateur'] == self.user_id else (expediteur_nom if expediteur_nom else "Inconnu")
+            couleur = 'red' if expediteur_nom == "Admin" else 'black'
+            self.chat_box.tag_configure(expediteur, foreground=couleur)
+            self.chat_box.insert(tk.END, f"{expediteur}: {msg['Message']} [{msg['Timestamp']}]\n", expediteur)
         self.chat_box.config(state=tk.DISABLED)
         self.master.after(5000, self.update_chat)
-
-
-
-
-    def open_chat_with_admin(self, admin_id):
-        try:
-            self.admin_id = int(admin_id)  # Store the admin_id as an attribute
-            chat_window = tk.Toplevel(self.master)
-            chat_view = ChatView(chat_window, self.user_id, self.admin_id, self.chat_manager)
-            chat_window.mainloop()
-        except ValueError:
-            messagebox.showerror("Error", "Invalid admin ID. ID must be an integer.")

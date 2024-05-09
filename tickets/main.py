@@ -19,3 +19,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#'Doe', 'John', 'Homme', 'john.doe@example.com', 'hashed_password1', 'Administrateur'
+ #  jane.smith@example.com hashed_password2', 'Benevole
+# charlie.brown@example.com', 'hashed_password3', 'Beneficiaire'

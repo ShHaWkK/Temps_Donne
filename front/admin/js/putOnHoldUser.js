@@ -14,8 +14,6 @@ function addHoldEventListeners() {
 }
 async function putOnHoldUser(user_id) {
     const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/hold';
-    console.log("On entre dans hold");
-    console.log("apiURL",apiUrl);
     const options = {
         method: 'PUT'
     };

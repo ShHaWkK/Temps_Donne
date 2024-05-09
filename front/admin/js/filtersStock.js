@@ -29,7 +29,6 @@ function addProductFilterEvent(){
 function addStatusFilterEvent(){
     const selectElement = document.getElementById("statusFilter");
 
-    console.log("On entre dans filterByStatusEvent");
     selectElement.addEventListener("change", function() {
         statutFilter=selectElement.value;
         displayStocks(allStocks,produitFilter,statutFilter,entrepotFilter);
@@ -39,7 +38,6 @@ function addStatusFilterEvent(){
 function addEntrepotFilterEvent(){
     const selectElement = document.getElementById("entrepotFilter");
 
-    console.log("On entre dans filterByEntrepotEvent");
     selectElement.addEventListener("change", function() {
 
         //On récupère l'id de l'entrepot sélectionné
@@ -61,9 +59,7 @@ function addEntrepotFilterEvent(){
 }
 
 function addEntrepotFilterCollecteEvent(){
-    console.log("addEntrepotFilterCollecteEvent");
     const selectElement = document.getElementById("entrepotFilterCollecte");
-    console.log(selectElement.value);
     selectElement.addEventListener("change", function() {
         entrepotFilter=selectElement.value;
         displayTrucks(selectElement.value);

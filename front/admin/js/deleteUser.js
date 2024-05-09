@@ -1,7 +1,5 @@
 async function deleteUser(user_id) {
     const apiUrl = 'http://localhost:8082/index.php/users/' + user_id;
-    console.log("On entre dans deleteUser");
-    console.log("apiURL",apiUrl);
     const options = {
         method: 'DELETE'
     };

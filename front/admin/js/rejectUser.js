@@ -1,5 +1,4 @@
 function addRejectModalEventListeners(){
-    console.log("On ajoute l'event addRejectModalEventListeners");
     document.querySelectorAll('.reject-link').forEach(link => {
         link.addEventListener('click', function(event) {
             event.preventDefault();
@@ -29,7 +28,6 @@ function addRejectEventListeners() {
 }
 async function rejectUser(user_id) {
     const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/reject';
-    console.log("On entre dans approveUser");
     console.log("apiURL",apiUrl);
     const options = {
         method: 'PUT'

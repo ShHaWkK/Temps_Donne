@@ -1,7 +1,5 @@
 async function deleteService(service_id) {
     const apiUrl = 'http://localhost:8082/index.php/services/' + service_id;
-    console.log("On entre dans deleteService");
-    console.log("apiURL",apiUrl);
     const options = {
         method: 'DELETE'
     };

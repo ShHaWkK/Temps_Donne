@@ -2,6 +2,7 @@
 
 require_once './Repository/CommercantRepository.php';
 require_once './Repository/BDD.php';
+require_once './Services/CommercantService.php';
 require_once './exceptions.php';
 require_once './Helpers/ResponseHelper.php';
 

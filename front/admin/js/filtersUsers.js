@@ -1,14 +1,12 @@
 function addFilterByRoleEvent(){
     const selectElement = document.getElementById("roleFilter");
 
-    console.log("On entre dans filterByRoleEvent");
     selectElement.addEventListener("change", function() {
         filterByRole(selectElement.value);
     });
 }
 
 function filterByRole(role) {
-    console.log("On entre dans filterByRole");
     if (role === 'all') {
         console.log("All Users",allUsers)
         displayUsers(allUsers);
@@ -26,7 +24,6 @@ function filterByRole(role) {
 function addFilterByStatusEvent(){
     const selectElement = document.getElementById("statusFilter");
 
-    console.log("On entre dans filterByStatusEvent");
     selectElement.addEventListener("change", function() {
         filterByStatus(selectElement.value);
     });

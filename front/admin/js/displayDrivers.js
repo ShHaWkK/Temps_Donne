@@ -46,10 +46,8 @@ function getAvailableTrucks(trucks,id_entrepot) {
 function displayTrucks(id_entrepot) {
     const truckList = document.getElementById('truckList');
 
-    console.log(allTrucks);
     let availableTrucks = getAvailableTrucks(allTrucks,id_entrepot);
     truckList.innerHTML = '';
-    console.log("availaibleTrucks",availableTrucks);
 
     try {
         availableTrucks.forEach(truck => {

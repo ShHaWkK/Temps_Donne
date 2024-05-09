@@ -18,7 +18,6 @@
 
 <script>
     function addUserDetailsModalEventListeners() {
-        console.log("On ajoute l'event addUserDetailsModalEventListeners");
         document.querySelectorAll('.popup-button.userDetails').forEach(button => {
             button.addEventListener('click', function() {
                 const userId = button.closest('tr').querySelector('input[name="id_buttons"]').value;

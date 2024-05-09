@@ -11,7 +11,6 @@ function totalVolumeCalculation(product_id,quantity){
 
 function addAddStockEvent(){
     const confirmButton = document.getElementById('confirm-button-addStock');
-    console.log("addAddStockEvent");
     confirmButton.addEventListener('click', function(event) {
         event.preventDefault();
         addStock();

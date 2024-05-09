@@ -12,11 +12,21 @@ let produitFilter='all';
 console.log("stocks.js");
 
 //----------------------------- On sélectionne uniquement les bénévoles validés ayant le permis poids lourd
-function getDrivers(users) {
-    // Filtrer les utilisateurs selon les critères requis
-    const drivers = users.filter(user => {
-        return user.Statut == "Granted" && user.Role == "Benevole" && user.Permis_Poids_Lourds == 1;
-    });
+async function getDrivers(users, warehouseAddress) {
+    const drivers = [];
+
+    // Parcourir chaque utilisateur de manière synchrone
+    for (const user of users) {
+        // Vérifier si le statut est "Granted", le rôle est "Benevole" et s'il possède le permis poids lourds
+        if (user.Statut === "Granted" && user.Role === "Benevole" && user.Permis_Poids_Lourds === 1) {
+            // Si oui, vérifier si l'utilisateur habite à moins de 200 km de l'entrepôt
+            let result = await checkUserInRadius(user.Adresse, warehouseAddress);
+            console.log("getDrivers tri", result);
+            if (result) {
+                drivers.push(user); // Ajouter l'utilisateur à la liste des conducteurs s'il est dans le rayon
+            }
+        }
+    }
 
     return drivers;
 }
@@ -267,7 +277,7 @@ window.onload = function() {
             allTrucks = trucks;
         })
         .then(()=> {
-            return getDrivers(allUsers);
+            return getDrivers(allUsers,'6 Boulevard Gambetta, Saint-Quentin, France');
         })
         .then(drivers => {
             allDrivers = drivers;

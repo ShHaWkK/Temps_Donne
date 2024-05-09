@@ -35,8 +35,6 @@ function addApproveEventListeners() {
 
 async function approveUser(user_id) {
     const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/approve';
-    console.log("On entre dans approveUser");
-    console.log("apiURL",apiUrl);
     const options = {
         method: 'PUT'
     };

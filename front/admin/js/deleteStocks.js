@@ -1,7 +1,5 @@
 async function deleteStock() {
     const apiUrl = 'http://localhost:8082/index.php/stocks/' + selectedStock;
-    console.log("On entre dans deleteStocks",selectedStock);
-    console.log("apiURL",apiUrl);
     const options = {
         method: 'DELETE'
     };

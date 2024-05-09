@@ -12,7 +12,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <head>
     <link rel="stylesheet" href="./css/table.css">
     <script src="./js/checkSessionAdmin.js"></script>
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRnUwwESRTk-EVVhTJEwjWz3CpiRnhScQ&libraries=places"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRnUwwESRTk-EVVhTJEwjWz3CpiRnhScQ&libraries=places&callback=initMap"></script>
 </head>
 
 <body>
@@ -124,7 +124,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
             </div>
 
             <div class="line">
-                <h2>Denrées à collecter :</h2>
+                <h2>Points de passage :</h2>
             </div>
             <div class="line">
                 <table id="collectTable"></table>
@@ -144,6 +144,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="./js/users.js"></script>
 <script src="js/displayDrivers.js"></script>
 <script src="../scripts/tabChange.js"></script>
+<!--<script src="./js/checkDistance.js"></script>-->
 <script src="./js/stocks.js"></script>
 
 </body>

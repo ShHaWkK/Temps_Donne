@@ -1,7 +1,8 @@
 <?php
 // Repository/CircuitRepository.php
 
-require_once './Repository/BDD.php'; // Ensure this path is correct.
+require_once './Repository/BDD.php';
+require_once './Models/CircuitModel.php';
 
 class CircuitRepository {
 
@@ -69,9 +70,9 @@ class CircuitRepository {
         return selectDB('circuits', '*', $condition, $values);
     }
 
-    public function planRoute($startPoint, $endPoint) {
-        // Implement your route planning logic here.
-
+    public function updateQrCodePath($id, $path) {
+        $stmt = $this->db->prepare("UPDATE circuits SET QR_Code = :path WHERE ID_Circuit = :id");
+        $stmt->execute([':path' => $path, ':id' => $id]);
     }
 }
 

@@ -447,6 +447,8 @@ CREATE TABLE Circuits (
                           ID_Chauffeur INT,
                           FOREIGN KEY (ID_Chauffeur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
+ALTER TABLE Circuits ADD COLUMN QR_Code TEXT;
+
 
 CREATE TABLE PlanRoutes (
                             ID_Plan INT AUTO_INCREMENT PRIMARY KEY,

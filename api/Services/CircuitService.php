@@ -13,32 +13,6 @@ class CircuitService {
         $this->aStarService = new AStarService($graph);
     }
 
-    private function loadGraphData() {
-        $db = $this->circuitRepository->getDbConnection();
-        
-        $nodesSql = "SELECT id, name FROM nodes";
-        $edgesSql = "SELECT start_point, end_point, cost FROM edges";
-
-        try {
-            $stmt = $db->query($nodesSql);
-            $nodes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $stmt = $db->query($edgesSql);
-            $edges = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $graph = [];
-            foreach ($nodes as $node) {
-                $graph[$node['id']] = [];
-            }
-            foreach ($edges as $edge) {
-                $graph[$edge['start_point']][$edge['end_point']] = $edge['cost'];
-            }
-
-            return $graph;
-        } catch (PDOException $e) {
-            exit_with_message("Error loading graph data: " . $e->getMessage());
-        }
-    }
     public function getAllCircuits() {
         return $this->circuitRepository->findAll();
     }
@@ -49,13 +23,19 @@ class CircuitService {
 
     public function createCircuit($circuitData) {
         $circuit = new CircuitModel($circuitData);
-        return $this->circuitRepository->save($circuit);
+        $circuit->validate();
+
+        $circuitId = $this->circuitRepository->save($circuit);
+        $circuit->id = $circuitId;
+
+        $this->generateQrCode($circuit);
+        return $circuitId;
     }
 
     public function updateCircuit($id, $newData) {
         $circuit = $this->circuitRepository->findById($id);
         if (!$circuit) {
-            throw new Exception("Circuit not found");
+            throw new Exception("Circuit not found", 404);
         }
 
         // Mettre à jour les propriétés du modèle Circuit
@@ -65,7 +45,9 @@ class CircuitService {
             }
         }
 
-        return $this->circuitRepository->update($circuit);
+        $circuit->validate();
+        $this->circuitRepository->update($circuit);
+        $this->generateQrCode($circuit);
     }
 
     public function deleteCircuit($id) {
@@ -79,6 +61,11 @@ class CircuitService {
 
     public function findAll() {
         return $this->circuitRepository->findAll();
+    }
+
+    private function generateQrCode(CircuitModel $circuit) {
+        $circuit->generateQrCode();
+        $this->circuitRepository->updateQrCodePath($circuit->id, $circuit->qr_code);
     }
 
     public function findByDate($date) {

@@ -210,3 +210,8 @@ tbody tr {
     background-color: #2c2c2c;
     box-shadow: #2c2c2c;
 }
+
+.fixed-height-table {
+    max-height: 300px; /* Définissez la hauteur maximale souhaitée */
+    overflow-y: auto; /* Ajoutez une barre de défilement vertical si nécessaire */
+}

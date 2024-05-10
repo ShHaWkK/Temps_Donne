@@ -4,6 +4,7 @@ let allEntrepots = [];
 let displayedStocks =[];
 let allTrucks=[];
 let allDrivers =[];
+let allCommercants=[];
 const currentDate = new Date();
 let selectedStock = null;
 let statutFilter='all';
@@ -20,7 +21,7 @@ async function getDrivers(users, warehouseAddress) {
         // Vérifier si le statut est "Granted", le rôle est "Benevole" et s'il possède le permis poids lourds
         if (user.Statut === "Granted" && user.Role === "Benevole" && user.Permis_Poids_Lourds === 1) {
             // Si oui, vérifier si l'utilisateur habite à moins de 200 km de l'entrepôt
-            let result = await checkUserInRadius(user.Adresse, warehouseAddress);
+            let result = await checkUserInRadius(user.Adresse, warehouseAddress,100);
             console.log("getDrivers tri", result);
             if (result) {
                 drivers.push(user); // Ajouter l'utilisateur à la liste des conducteurs s'il est dans le rayon
@@ -239,70 +240,4 @@ async function displayEntrepots(element_id) {
     } catch (error) {
         console.error('Une erreur s\'est produite lors de la récupération des types de service :', error);
     }
-}
-
-// Initialisation
-window.onload = function() {
-    checkSession()
-        .then(()=> {
-            return getAllProducts();
-        })
-        .then(produits => {
-            allProduits = produits;
-        })
-        .then(()=> {
-            return getAllEntrepots();
-        })
-        .then(entrepots => {
-            allEntrepots = entrepots;
-        })
-        .then(() => {
-            return getAllStocks();
-        })
-        .then(stocks => {
-            allStocks = stocks;
-            displayedStocks=stocks;
-            displayStocks(allStocks,produitFilter,statutFilter,entrepotFilter);
-        })
-        .then(()=> {
-            return getAllUsers();
-        })
-        .then(users => {
-            allUsers = users;
-        })
-        .then(()=> {
-            return getAllTrucks();
-        })
-        .then(trucks => {
-            allTrucks = trucks;
-        })
-        .then(()=> {
-            return getDrivers(allUsers,'6 Boulevard Gambetta, Saint-Quentin, France');
-        })
-        .then(drivers => {
-            allDrivers = drivers;
-        })
-        .then(() => {
-            displayProducts('productFilter');
-            displayEntrepots('entrepotFilter');
-            displayProducts('productSelector');
-            displayEntrepots('entrepotSelector');
-            displayEntrepots('entrepotFilterCollecte');
-            displayDrivers(allDrivers);
-            displayTrucks(1);
-        })
-        .then(() => {
-            addProductFilterEvent();
-            addEntrepotFilterEvent();
-            addStatusFilterEvent();
-            addSortEvents();
-            addAddStockEvent();
-            addSelectedButtonEvent();
-            addUserDetailsModalEventListeners();
-            addEntrepotFilterCollecteEvent();
-            initMap();
-        })
-        .catch(error => {
-            console.error("Une erreur s'est produite :", error);
-        });
 }

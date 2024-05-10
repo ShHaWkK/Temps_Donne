@@ -241,6 +241,7 @@ CREATE TABLE Commercants (
                              SAMEDI BOOLEAN DEFAULT FALSE,
                              DIMANCHE BOOLEAN DEFAULT FALSE
 );
+
 INSERT INTO Commercants (Nom, Adresse, Contrat, Frequence_Collecte, Date_Derniere_Collecte, LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE) VALUES
                             ('Supermarché A', '1 Rue de l\'Isle, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
                             ('Boulangerie B', '10 Rue des Charpentiers, Saint-Quentin, France', 'a_renouveler', 'hebdomadaire', '2024-05-09', FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE),

@@ -15,6 +15,22 @@ function getEntrepotName(entrepots, id) {
     return entrepotName;
 }
 
+function getEntrepotAddress(entrepots, id) {
+
+    let entrepotAddress = "Entrepot non trouvé";
+
+    // Parcourir le tableau de produits
+    entrepots.forEach(entrepot => {
+        // Vérifier si l'ID du produit correspond à l'ID recherché
+        if (entrepot.ID_Entrepot == id) {
+            // Affecter le nom du produit correspondant à la variable productName
+            entrepotAddress = entrepot.Adresse;
+        }
+    });
+
+    return entrepotAddress;
+}
+
 //Fonctions de filtres
 function addProductFilterEvent(){
     const selectElement = document.getElementById("productFilter");
@@ -63,6 +79,12 @@ function addEntrepotFilterCollecteEvent(){
     selectElement.addEventListener("change", function() {
         entrepotFilter=selectElement.value;
         displayTrucks(selectElement.value);
+        let entrepotAddress = getEntrepotAddress(allEntrepots,selectElement.value);
+            getDrivers(allUsers,entrepotAddress)
+            .then(drivers => {
+                displayDrivers(drivers);
+                addUserDetailsModalEventListeners();
+            })
     });
 }
 

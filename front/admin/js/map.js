@@ -1,3 +1,4 @@
+let map;
 function initMap() {
     // Coordonnées de Saint-Quentin
     var saintQuentin = { lat: 49.8530, lng: 3.2878 };
@@ -9,7 +10,48 @@ function initMap() {
     };
 
     // Création de la carte
-    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+}
+/*
+function generateWaypoints(commercantTable) {
+    const waypoints = [];
+
+    // Parcourir chaque ligne du tableau
+    commercantTable.querySelectorAll('tr').forEach(row => {
+        // Extraire l'adresse de la cellule correspondante dans chaque ligne
+        const addressCell = row.querySelector('[name="commercant-address"]');
+        if (addressCell) {
+            const address = addressCell.innerText;
+
+            // Ajouter l'adresse à la liste des waypoints
+            waypoints.push(address);
+        }
+    });
+
+    return waypoints;
+}*/
+
+async function generateWaypoints(commercantTable) {
+    const waypoints = [];
+
+    // Parcourir les lignes du tableau des commerçants
+    commercantTable.querySelectorAll('tbody tr').forEach(row => {
+        // Récupérer la cellule contenant l'adresse
+        const addressCell = row.querySelector('[name="commercant-address"]');
+        if (addressCell) {
+            // Extraire l'adresse depuis la cellule
+            const address = addressCell.innerText;
+            if (address) {
+                // Ajouter l'adresse à la liste des waypoints
+                waypoints.push({
+                    location: address,
+                    stopover: true // Indique que c'est un point d'arrêt
+                });
+            }
+        }
+    });
+
+    return waypoints; // Retourne la liste des waypoints
 }
 
 function generateRouteRequest(startAddress, endAddress, waypoints) {
@@ -65,12 +107,12 @@ function geocodeAddress(address) {
 }
 
 // Fonction pour vérifier si l'utilisateur habite dans un rayon de 200 km autour de l'entrepôt
-async function checkUserInRadius(userAddress, warehouseAddress) {
+async function checkUserInRadius(userAddress, warehouseAddress, maxDistance) {
     try {
         var userLatLng = await geocodeAddress(userAddress);
         var warehouseLatLng = await geocodeAddress(warehouseAddress);
         var distance = calculateDistance(userLatLng.lat, userLatLng.lng, warehouseLatLng.lat, warehouseLatLng.lng);
-        return distance <= 200;
+        return distance <= maxDistance;
     } catch (error) {
         console.error(error);
         return false;

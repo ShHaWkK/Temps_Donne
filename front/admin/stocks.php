@@ -106,7 +106,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 
             <div class="line">
                 <label for="entrepotFilter"> <h2> Entrepôt :</h2></label>
-                <select id="entrepotFilterCollecte" name="entrepotFilter">
+                <select id="entrepotFilterCollecte" name="entrepotFilterCollecte">
                 </select>
             </div>
 
@@ -127,10 +127,31 @@ echo "<title>Espace Administrateur - Stocks</title>";
                 <h2>Points de passage :</h2>
             </div>
             <div class="line">
-                <table id="collectTable"></table>
+                <div class="fixed-height-table">
+                    <table id="commercantTable" ></table>
+                </div>
             </div>
 
             <button class="tabButton addButton" id="generateCircuitButton"> Générer le circuit </button>
+            <script>
+                document.getElementById('generateCircuitButton').addEventListener('click', async function () {
+                    // Attend la résolution de la promesse retournée par generateWaypoints
+                    let waypoints = await generateWaypoints(document.getElementById('commercantTable'));
+                    console.log("waypoints:", waypoints);
+
+                    let selectedEntrepot = document.querySelector('select[name="entrepotFilterCollecte"]').value;
+                    console.log("selectedEntrepot", selectedEntrepot);
+
+                    let address = getEntrepotAddress(allEntrepots, selectedEntrepot);
+                    console.log("address", address);
+
+                    let request = generateRouteRequest(address, address, waypoints);
+                    console.log(request);
+
+                    // generateRouteRequest(); // Il semble que cette ligne soit redondante
+                    displayRouteOnMap(map, request);
+                });
+            </script>
 
             <div id="map" style="height: 400px; width: 100%;"></div>
         </div>
@@ -144,8 +165,10 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="./js/users.js"></script>
 <script src="js/displayDrivers.js"></script>
 <script src="../scripts/tabChange.js"></script>
+<script src="./js/displayCommercants.js"></script>
 <!--<script src="./js/checkDistance.js"></script>-->
 <script src="./js/stocks.js"></script>
+<script src="./js/stockPageExecutionOrder.js"></script>
 
 </body>
 </html>

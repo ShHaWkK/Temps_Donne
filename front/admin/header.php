@@ -75,10 +75,12 @@
 </header>
 
 <aside class="sidebar bebas-neue">
+<!--
     <div class="profile-section">
         <img src="../../images/Ethan.jpg" alt="Photo de profil">
         <h2>Nom et Prénom</h2>
     </div>
+    -->
     <nav class="sidebar-nav">
         <a href="./panel_volunteer.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>
         <a href="./users.php" class="nav-item"><i class="fa fa-calendar-check"></i>Utilisateurs</a>

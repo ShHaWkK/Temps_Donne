@@ -96,7 +96,7 @@
         <a href="#" class="nav-item"><i class="fa fa-calendar-check"></i>Disponibilités</a>
         <a href="./planning.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Planning</a>
         <a href="#" class="nav-item"><i class="fa fa-envelope"></i>Messages</a>
-        <a href="#" class="nav-item"><i class="fa fa-graduation-cap"></i>Formations</a>
+        <a href="./formations.php" class="nav-item"><i class="fa fa-graduation-cap"></i>Formations</a>
         <a href="#" class="nav-item"><i class="fa fa-user"></i>Profil</a>
     </nav>
     <div class="sidebar-footer">

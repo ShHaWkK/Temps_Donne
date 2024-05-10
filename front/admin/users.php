@@ -79,6 +79,7 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
     </div>
 </center>
 
+<script src="../scripts/getCookie.js"></script>
 <script src="js/filtersUsers.js"></script>
 <script src="js/users.js"></script>
 <script src="./js/approveUser.js"></script>

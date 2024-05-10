@@ -9,7 +9,7 @@
 <center>
     <div id="assignModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" id="close-assign">&times;</span>
             <h2>Assignation utilisateur(s)</h2>
 
             <table id="usersTable">
@@ -64,6 +64,10 @@
         }
     }
 
+    document.getElementById('close-assign').addEventListener('click', function() {
+        const modal = document.getElementById('assignModal');
+        modal.style.display = 'none';
+    });
 </script>
 </body>
 </html>

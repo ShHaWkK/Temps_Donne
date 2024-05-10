@@ -50,8 +50,8 @@ INSERT INTO ServiceType ( Nom_Type_Service) VALUES
                                                 ('Navettes pour rendez-vous eloignes'),
                                                 ('Cours d alphabetisation pour adulte'),
                                                 ('Recolte de fonds'),
-                                                ('Visite et activites avec personnes agees');
-
+                                                ('Visite et activites avec personnes agees'),
+                                                ('Formation');
 CREATE TABLE Services (
                           ID_Service INT AUTO_INCREMENT PRIMARY KEY,
                           Nom_du_service VARCHAR(255) NOT NULL ,
@@ -89,12 +89,38 @@ CREATE TABLE Formations (
                             ID_Formation INT AUTO_INCREMENT PRIMARY KEY,
                             Titre VARCHAR(255),
                             Description TEXT,
-                            Date_Formation DATE,
-                            Duree TIME,
-                            Lieu VARCHAR(255),
+                            Date_Debut_Formation DATE,
+                            Date_Fin_Formation DATE,
+#                             Duree TIME,
+#                             Lieu VARCHAR(255),
                             ID_Organisateur INT,
                             FOREIGN KEY (ID_Organisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
+
+INSERT INTO Formations (Titre, Description, Date_Debut_Formation, Date_Fin_Formation, ID_Organisateur)
+VALUES ('Formation en développement web', 'Formation complète sur le développement web avec HTML, CSS et JavaScript.', '2024-06-15', '2024-08-15', 123),
+         ('Formation en data science', 'Initiation à la science des données, exploration de données, et modélisation.', '2024-07-01', '2024-09-01', 456),
+         ('Formation en gestion de projet', 'Méthodologies de gestion de projet, outils de planification et suivi.', '2024-08-10', '2024-10-10', 789);
+
+-- Table Séances
+CREATE TABLE Seances(
+                            ID_Seance INT AUTO_INCREMENT PRIMARY KEY,
+                            ID_Formation INT,
+                            ID_Salle INT,
+                            Description TEXT,
+                            Date DATE,
+                            Heure_Debut_Seance TIME,
+                            Heure_Fin_Seance TIME,
+                            FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation) ON DELETE CASCADE ,
+                            FOREIGN KEY (ID_Salle) REFERENCES Salles(ID_Salle) ON DELETE SET NULL
+);
+
+-- TABLE Salle
+    CREATE TABLE Salles(
+                        ID_Salle INT AUTO_INCREMENT PRIMARY KEY ,
+                        Capacite INT NOT NULL,
+                        Adresse VARCHAR(100) NOT NULL
+    );
 
 -- Table Inscriptions_Formations
 CREATE TABLE Inscriptions_Formations (
@@ -544,6 +570,28 @@ CREATE TABLE Session (
                          INDEX idx_user_id (ID_Utilisateur),
                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
+
+-- Ajout d'une table demandes
+-- Bénéfciaire 
+CREATE TABLE Demandes (
+    ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Utilisateur INT,
+    ID_Service INT,
+    Date_Demande DATE NOT NULL,
+    Statut ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
+    FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service)
+);
+
+
+CREATE TABLE DemandesBenevoles (
+    ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Demande INT,
+    ID_Utilisateur INT, 
+    FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande),
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+);
+
 -- Ajout d'un événement pour attribuer automatiquement une valeur d'expiration de 24h
 
 DELIMITER //
@@ -605,25 +653,3 @@ CREATE EVENT deleteExpiredSessions
     ON SCHEDULE EVERY 1 HOUR
     DO
     DELETE FROM Session WHERE Expiration <= NOW();
-
-
--- Ajout d'une table demandes
--- Bénéfciaire 
-CREATE TABLE Demandes (
-    ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Utilisateur INT,
-    ID_Service INT,
-    Date_Demande DATE NOT NULL,
-    Statut ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
-    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-    FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service)
-);
-
-
-CREATE TABLE DemandesBenevoles (
-    ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Demande INT,
-    ID_Utilisateur INT, 
-    FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande),
-    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
-);

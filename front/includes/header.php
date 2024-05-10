@@ -81,9 +81,11 @@
             <?php
             $imagePath = htmlspecialchars($data["FLAG"]);
             ?>
+
             <button class="popup-button" onclick="toggleLanguageList()">
                 <img src="<?php echo $imagePath; ?>" width="30" height="30">
             </button>
+
             <ul class="popover-content" id="languageList">
                 <li>
                     <a href="javascript:void(0);" onclick="changeLanguage('fr')">

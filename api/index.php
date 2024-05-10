@@ -23,7 +23,6 @@ require_once 'Controllers/EntrepotController.php';
 require_once 'Controllers/ProduitController.php';
 require_once 'Controllers/FeedbackController.php';
 require_once 'Controllers/AvailabilityController.php';
-// require_once 'Controllers/TicketController.php';
 require_once 'Controllers/PlanningController.php';
 require_once 'Controllers/SkillController.php';
 require_once 'Controllers/CamionController.php';

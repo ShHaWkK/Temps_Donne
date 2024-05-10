@@ -28,7 +28,7 @@ require_once 'Controllers/SkillController.php';
 require_once 'Controllers/CamionController.php';
 require_once 'Controllers/CommercantController.php';
 require_once 'Helpers/ResponseHelper.php';
-require_once  __DIR__ . '/vendor/autoload.php';
+//require_once  __DIR__ . '/vendor/autoload.php';
 
 //require_once 'vendor/autoload.php';
 

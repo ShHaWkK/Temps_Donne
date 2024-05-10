@@ -1,4 +1,4 @@
-function checkSession(){
+async function checkSession(){
     let apiUrl = 'http://localhost:8082/index.php/login';
 
     var data = {

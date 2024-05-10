@@ -1,6 +1,6 @@
 // Initialisation
 window.onload = function() {
-    checkSession()
+    checkSessionVolunteer()
         .then(()=> {
             return getAllProducts();
         })

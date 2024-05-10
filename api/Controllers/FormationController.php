@@ -1,10 +1,8 @@
 <?php
-require_once './exceptions.php';
 require_once './Helpers/ResponseHelper.php';
 require_once './Repository/BDD.php';
 require_once './Services/FormationService.php';
 require_once './Models/FormationModel.php';
-require_once './Helpers/ResponseHelper.php';
 
 class FormationController {
     private $formationService;
@@ -25,19 +23,25 @@ class FormationController {
                                 $this->browseFormations();
                                 break;
                             case 'my-formations':
-                                $this->viewFormationsOfVolunteer($uri[4]); // Assuming $uri[4] is the volunteer ID
+                                $this->viewFormationsOfVolunteer($uri[4]);
                                 break;
                             case 'registrations':
-                                $this->getRegistrationsForFormation($uri[4]); // Assuming $uri[4] is the formation ID
+                                $this->getRegistrationsForFormation($uri[4]);
                                 break;
                             case 'reports':
                                 $this->generateReports();
                                 break;
-                                case 'available-formations':
-                                    $this->browseAvailableFormations();
-                                    break;
+                            case 'available-formations':
+                                $this->browseAvailableFormations();
+                                break;
+                            case 'sessions':
+                                $this->getAllSessionsForUser($uri[4]);
+                                break;
+                            case 'upcoming-sessions':
+                                $this->getUpcomingSessionsForFormation($uri[4]);
+                                break;
                             default:
-                                $this->getFormation($uri[3]); // Fetch a specific formation by ID
+                                $this->getFormation($uri[3]);
                                 break;
                         }
                     } else {
@@ -51,7 +55,7 @@ class FormationController {
                                 $this->registerFormationOfVolunteer();
                                 break;
                             case 'feedback':
-                                $this->submitFeedback(); // Endpoint for beneficiaries to submit feedback
+                                $this->submitFeedback();
                                 break;
                             default:
                                 $this->createFormation();
@@ -63,7 +67,7 @@ class FormationController {
                     break;
                 case 'PUT':
                     if (!empty($uri[3]) && $uri[3] === 'validate-attendance') {
-                        $this->validateAttendance($uri[4], $uri[5]); // Assuming $uri[4] is the user ID, $uri[5] is the formation ID
+                        $this->validateAttendance($uri[4], $uri[5]);
                     } else if (!empty($uri[3])) {
                         $this->updateFormation($uri[3]);
                     }
@@ -83,32 +87,28 @@ class FormationController {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], 500);
         }
     }
-    
-    //------------------------ Get All Formations ------------------------//s
+
+    //------------------------ Get All Formations ------------------------//
 
     public function getAllFormations() {
         $formations = $this->formationService->listAllFormations();
-
-        error_log(print_r($formations, true));
         if (!$formations) {
             ResponseHelper::sendNotFound("Formation not found.");
         } else {
-            ResponseHelper::sendResponse(['success' => $formations]);
+            ResponseHelper::sendResponse($formations);
         }
     }
 
     //------------------------ Get Formation ------------------------//
-    
 
     public function getFormation($id) {
         $formation = $this->formationService->getFormationDetails($id);
         if (!$formation) {
-            ResponseHelper::sendNotFound("ICI : Formation not found.");
+            ResponseHelper::sendNotFound("Formation not found.");
         } else {
             ResponseHelper::sendResponse($formation);
         }
     }
-
 
     //------------------------ Create Formation ------------------------//
 
@@ -118,16 +118,19 @@ class FormationController {
             ResponseHelper::sendResponse("Invalid data", 400);
             return;
         }
-        $result = $this->formationService->addFormation($data);
-        if ($result) {
-            ResponseHelper::sendResponse("Formation created successfully", 201);
-        } else {
-            ResponseHelper::sendResponse("Failed to create formation", 400);
+        try {
+            $result = $this->formationService->addFormation($data);
+            if ($result) {
+                ResponseHelper::sendResponse("Formation created successfully", 201);
+            } else {
+                ResponseHelper::sendResponse("Failed to create formation", 400);
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
         }
     }
-    
 
-    //------------------------ Update Formation ------------------------//s
+    //------------------------ Update Formation ------------------------//
 
     public function updateFormation($id) {
         $data = json_decode(file_get_contents("php://input"), true);
@@ -150,9 +153,7 @@ class FormationController {
         }
     }
 
-    //------------------------ Administer Formation ------------------------// 
-
-
+    //------------------------ Administer Formation ------------------------//
 
     public function getRegistrationsForFormation($formationId) {
         $registrations = $this->formationService->getRegistrationsForFormation($formationId);
@@ -172,20 +173,20 @@ class FormationController {
         $reports = $this->formationService->generateReports();
         ResponseHelper::sendResponse($reports);
     }
-    
-    
-    
 
     //------------------------ Volunteer Registration ------------------------//
 
     public function registerFormationOfVolunteer() {
         $data = json_decode(file_get_contents("php://input"), true);
-        // Assuming $data contains 'volunteerId' and 'formationId'
-        $result = $this->formationService->registerVolunteerForFormation($data['volunteerId'], $data['formationId']);
-        if ($result) {
-            ResponseHelper::sendResponse("Volunteer registered successfully", 201);
-        } else {
-            ResponseHelper::sendResponse("Failed to register volunteer", 400);
+        try {
+            $result = $this->formationService->registerVolunteerForFormation($data['volunteerId'], $data['formationId']);
+            if ($result) {
+                ResponseHelper::sendResponse("Volunteer registered successfully", 201);
+            } else {
+                ResponseHelper::sendResponse("Failed to register volunteer", 400);
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
         }
     }
 
@@ -193,7 +194,6 @@ class FormationController {
 
     public function unregisterFormationOfVolunteer() {
         $data = json_decode(file_get_contents("php://input"), true);
-        // Assuming $data contains 'volunteerId' and 'formationId'
         $result = $this->formationService->unregisterVolunteerFromFormation($data['volunteerId'], $data['formationId']);
         if ($result) {
             ResponseHelper::sendResponse("Volunteer unregistered successfully");
@@ -201,7 +201,6 @@ class FormationController {
             ResponseHelper::sendNotFound("Failed to unregister volunteer or volunteer not found");
         }
     }
-
 
     //------------------------ Browse Formations ------------------------//
 
@@ -217,8 +216,19 @@ class FormationController {
         ResponseHelper::sendResponse($formations);
     }
 
+    //------------------------ Sessions ------------------------//
 
-    //-------------------------------------------------------------------------------//
+    public function getAllSessionsForUser($userId) {
+        $sessions = $this->formationService->getAllSessionsForUser($userId);
+        ResponseHelper::sendResponse($sessions);
+    }
+
+    public function getUpcomingSessionsForFormation($formationId) {
+        $sessions = $this->formationService->getUpcomingSessionsForFormation($formationId);
+        ResponseHelper::sendResponse($sessions);
+    }
+
+    //------------------------ Feedback ------------------------//
 
     public function submitFeedback() {
         $data = json_decode(file_get_contents("php://input"), true);
@@ -234,18 +244,10 @@ class FormationController {
         }
     }
 
-    //-------------------------------------------------------------------------------//
-
-
-    // public function viewAvailableServices() {
-    //     $services = $this->formationService->listAvailableServices();
-    //     ResponseHelper::sendResponse($services);
-    // }
+    //------------------------ Browse Available Formations ------------------------//
 
     public function browseAvailableFormations() {
-    $availableFormations = $this->formationService->getAvailableFormations();
-    ResponseHelper::sendResponse($availableFormations);
-}
-
-    
+        $availableFormations = $this->formationService->getAvailableFormations();
+        ResponseHelper::sendResponse($availableFormations);
+    }
 }

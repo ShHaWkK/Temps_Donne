@@ -23,8 +23,3 @@ local.properties
 /.idea/caches
 /.idea/libraries
 /libs/*
-src/androidTest/*
-src/main/java/*
-android/app/src/androidTest/
-
-android/app/src/test/java/com/example/myapplication/ExampleUnitTest.kt

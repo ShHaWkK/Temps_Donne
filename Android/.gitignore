@@ -13,8 +13,3 @@
 .externalNativeBuild
 .cxx
 local.properties
-/.idea/caches
-/.idea/libraries
-/libs/*
-src/androidTest/*
-src/main/java/*

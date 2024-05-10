@@ -1,6 +1,7 @@
 <?php
 
 require_once 'BDD.php';
+require_once './Models/FeedbackModel.php';
 
 class FeedbackRepository {
     private $db;

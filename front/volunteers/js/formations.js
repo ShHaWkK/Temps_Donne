@@ -1,3 +1,5 @@
+let selectedFormation = null;
+
 function addFormationDetailsListeners(){
     console.log("On est là");
     document.querySelectorAll('.service-button').forEach(button => {
@@ -5,6 +7,7 @@ function addFormationDetailsListeners(){
         button.addEventListener('click', async function() {
             // Récupérer l'ID de la formation associée à ce bouton
             const formationId = button.id;
+            selectedFormation = formationId;
             console.log("formationId",formationId);
 
             // Récupérer les détails de la formation

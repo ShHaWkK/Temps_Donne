@@ -9,6 +9,7 @@ window.onload = function() {
         })
         .then(() => {
             addFormationDetailsListeners();
+            addInscriptionListener();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

@@ -22,8 +22,10 @@ echo "<title>Espace bénévole - Formations</title>";
 
 </center>
 
+<script src="../scripts/getCookie.js"></script>
+<script src="./js/inscriptionFormation.js"></script>
 <script src="./js/formationExecutionOrder.js"></script>
-<script src="js/displayFormations.js"></script>
+<script src="./js/displayFormations.js"></script>
 <script src="./js/formations.js"></script>
 
 </body>

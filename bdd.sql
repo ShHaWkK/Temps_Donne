@@ -29,6 +29,8 @@ CREATE TABLE Utilisateurs (
 -- Ajout d'un admin lors de la création de la BDD
 INSERT INTO Utilisateurs (Nom, Prenom, Genre, Email, Mot_de_passe, Role, Adresse, Telephone, Date_de_naissance, Langues, Nationalite, Date_d_inscription, Situation, Besoins_specifiques, Photo_Profil, Date_Derniere_Connexion, Statut_Connexion, Emploi, Societe, Code_Verification, Permis_B, Permis_Poids_Lourds, CACES, Statut)
 VALUES ('admin', 'admin', 'Homme', 'admin@admin.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Administrateur', 'Adresse Admin', '+330123456789', '1980-01-01', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
+       ('benevole', 'benevole', 'Homme', 'benevole@benevole.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Benevole', 'Adresse Benevole', '+330123456789', '1980-01-01', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
+       ('beneficiaire', 'beneficiaire', 'Homme', 'beneficiaire@beneficiaire.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Beneficiaire', 'Adresse Beneficiaire', '+330123456789', '1980-01-01', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
        ('Dupont', 'Jean', 'Homme', 'jean.dupont@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Benevole', '10 Rue de la Paix, Paris, France', '+33123456789', '1980-06-15', 'Français', 'Française', '2024-05-09', 'Marié', 'Aucun', NULL, '2024-05-09', TRUE, 'Ingénieur', 'Entreprise A', NULL, TRUE, FALSE, FALSE, 'Granted'),
        ('Leclerc', 'Marie', 'Femme', 'marie.leclerc@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Beneficiaire', '20 Avenue des Fleurs, Lyon, France', '+33456789012', '1995-02-20', 'Français', 'Française', '2024-05-09', 'Célibataire', 'Aucun', NULL, '2024-05-09', TRUE, NULL, NULL, NULL, FALSE, FALSE, FALSE, 'Granted'),
        ('Moreau', 'Thomas', 'Homme', 'thomas.moreau@example.com', '75216c44a46bfff78f692d1fe695c02a407a2136625dcc17ca6cf3141e0c4c72', 'Administrateur', '30 Rue du Commerce, Marseille, France', '+33765432109', '1978-12-10', 'Français', 'Française', '2024-05-09', 'Marié', 'Aucun', NULL, '2024-05-09', TRUE, 'Directeur', 'Entreprise B', NULL, TRUE, TRUE, FALSE, 'Granted'),
@@ -91,36 +93,38 @@ CREATE TABLE Formations (
                             Description TEXT,
                             Date_Debut_Formation DATE,
                             Date_Fin_Formation DATE,
-#                             Duree TIME,
-#                             Lieu VARCHAR(255),
+--                           Duree TIME,
+--                           Lieu VARCHAR(255),
                             ID_Organisateur INT,
                             FOREIGN KEY (ID_Organisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
 
 INSERT INTO Formations (Titre, Description, Date_Debut_Formation, Date_Fin_Formation, ID_Organisateur)
-VALUES ('Formation en développement web', 'Formation complète sur le développement web avec HTML, CSS et JavaScript.', '2024-06-15', '2024-08-15', 123),
-         ('Formation en data science', 'Initiation à la science des données, exploration de données, et modélisation.', '2024-07-01', '2024-09-01', 456),
-         ('Formation en gestion de projet', 'Méthodologies de gestion de projet, outils de planification et suivi.', '2024-08-10', '2024-10-10', 789);
+VALUES ('Formation en développement web', 'Formation complète sur le développement web avec HTML, CSS et JavaScript.', '2024-06-15', '2024-08-15', 1),
+       ('Formation en data science', 'Initiation à la science des données, exploration de données, et modélisation.', '2024-07-01', '2024-09-01', 2),
+       ('Formation en gestion de projet', 'Méthodologies de gestion de projet, outils de planification et suivi.', '2024-08-10', '2024-10-10', 3);
+
+
+-- TABLE Salle
+CREATE TABLE Salles(
+                       ID_Salle INT AUTO_INCREMENT PRIMARY KEY ,
+                       Capacite INT NOT NULL,
+                       Numero VARCHAR(20) NOT NULL ,
+                       Adresse VARCHAR(100) NOT NULL
+);
 
 -- Table Séances
 CREATE TABLE Seances(
-                            ID_Seance INT AUTO_INCREMENT PRIMARY KEY,
-                            ID_Formation INT,
-                            ID_Salle INT,
-                            Description TEXT,
-                            Date DATE,
-                            Heure_Debut_Seance TIME,
-                            Heure_Fin_Seance TIME,
-                            FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation) ON DELETE CASCADE ,
-                            FOREIGN KEY (ID_Salle) REFERENCES Salles(ID_Salle) ON DELETE SET NULL
+                        ID_Seance INT AUTO_INCREMENT PRIMARY KEY,
+                        ID_Formation INT,
+                        ID_Salle INT,
+                        Description TEXT,
+                        Date DATE,
+                        Heure_Debut_Seance TIME,
+                        Heure_Fin_Seance TIME,
+                        FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation) ON DELETE CASCADE ,
+                        FOREIGN KEY (ID_Salle) REFERENCES Salles(ID_Salle) ON DELETE SET NULL
 );
-
--- TABLE Salle
-    CREATE TABLE Salles(
-                        ID_Salle INT AUTO_INCREMENT PRIMARY KEY ,
-                        Capacite INT NOT NULL,
-                        Adresse VARCHAR(100) NOT NULL
-    );
 
 -- Table Inscriptions_Formations
 CREATE TABLE Inscriptions_Formations (

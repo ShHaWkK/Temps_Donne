@@ -16,41 +16,12 @@ echo "<title>Espace bénévole - Formations</title>";
     <h1>Catalogue de formations</h1>
 
     <main>
-        <div class="formations-container">
-            <section class="formation">
-                <h2>Formation 1</h2>
-                <p>Description de la formation 1.</p>
-                <button class="btn-inscription">S'inscrire</button>
-            </section>
-            <section class="formation">
-                <h2>Formation 2</h2>
-                <p>Description de la formation 2.</p>
-                <button class="btn-inscription">S'inscrire</button>
-            </section>
-            <section class="formation">
-                <h2>Formation 2</h2>
-                <p>Description de la formation 2.</p>
-                <button class="btn-inscription">S'inscrire</button>
-            </section>
-            <section class="formation">
-                <h2>Formation 2</h2>
-                <p>Description de la formation 2.</p>
-                <button class="btn-inscription">S'inscrire</button>
-            </section>
-            <section class="formation">
-                <h2>Formation 2</h2>
-                <p>Description de la formation 2.</p>
-                <button class="btn-inscription">S'inscrire</button>
-            </section>
-            <section class="formation">
-                <h2>Formation 2</h2>
-                <p>Description de la formation 2.</p>
-                <button class="btn-inscription">S'inscrire</button>
-            </section>
+        <div class="formations-container" id="formations-container">
             <!-- Ajouter d'autres formations selon le besoin -->
         </div>
     </main>
 </center>
 
+<script src="./js/dipslayFomations.js"></script>
 </body>
 </html>

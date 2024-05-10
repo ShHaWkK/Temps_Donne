@@ -93,7 +93,7 @@ class FormationController {
         if (!$formations) {
             ResponseHelper::sendNotFound("Formation not found.");
         } else {
-            ResponseHelper::sendResponse($formations);
+            ResponseHelper::sendResponse(['success' => $formations]);
         }
     }
 

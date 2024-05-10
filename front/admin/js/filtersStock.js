@@ -76,15 +76,19 @@ function addEntrepotFilterEvent(){
 
 function addEntrepotFilterCollecteEvent(){
     const selectElement = document.getElementById("entrepotFilterCollecte");
-    selectElement.addEventListener("change", function() {
-        entrepotFilter=selectElement.value;
+    selectElement.addEventListener("change", async function () {
+        entrepotFilter = selectElement.value;
         displayTrucks(selectElement.value);
-        let entrepotAddress = getEntrepotAddress(allEntrepots,selectElement.value);
-            getDrivers(allUsers,entrepotAddress)
+        entrepotAddress = getEntrepotAddress(allEntrepots, selectElement.value);
+        console.log(entrepotAddress);
+        getDrivers(allUsers, entrepotAddress)
             .then(drivers => {
                 displayDrivers(drivers);
                 addUserDetailsModalEventListeners();
             })
+        let filteredCommercants = await filterCommercants(allCommercants, '6 boulevard Gambetta, Saint Quentin, France');
+        console.log("filteredCommcercants addEntrepotEvent", filteredCommercants);
+        displayCommercants(filteredCommercants);
     });
 }
 

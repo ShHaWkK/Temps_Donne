@@ -1,35 +1,15 @@
 let map;
-function initMap() {
-    // Coordonnées de Saint-Quentin
-    var saintQuentin = { lat: 49.8530, lng: 3.2878 };
 
+function initMap(latLong) {
     // Options de la carte
     var mapOptions = {
         zoom: 12, // Zoom par défaut
-        center: saintQuentin // Centrer la carte sur Saint-Quentin
+        center: latLong // Centrer la carte sur Saint-Quentin
     };
 
     // Création de la carte
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
-/*
-function generateWaypoints(commercantTable) {
-    const waypoints = [];
-
-    // Parcourir chaque ligne du tableau
-    commercantTable.querySelectorAll('tr').forEach(row => {
-        // Extraire l'adresse de la cellule correspondante dans chaque ligne
-        const addressCell = row.querySelector('[name="commercant-address"]');
-        if (addressCell) {
-            const address = addressCell.innerText;
-
-            // Ajouter l'adresse à la liste des waypoints
-            waypoints.push(address);
-        }
-    });
-
-    return waypoints;
-}*/
 
 async function generateWaypoints(commercantTable) {
     const waypoints = [];
@@ -72,6 +52,7 @@ function generateRouteRequest(startAddress, endAddress, waypoints) {
 }
 
 function displayRouteOnMap(map, request) {
+
     // Créer un objet DirectionsService
     var directionsService = new google.maps.DirectionsService();
 
@@ -106,7 +87,7 @@ function geocodeAddress(address) {
     });
 }
 
-// Fonction pour vérifier si l'utilisateur habite dans un rayon de 200 km autour de l'entrepôt
+// Fonction pour vérifier si l'utilisateur habite dans un rayon de 100 km autour de l'entrepôt
 async function checkUserInRadius(userAddress, warehouseAddress, maxDistance) {
     try {
         var userLatLng = await geocodeAddress(userAddress);

@@ -146,9 +146,8 @@ echo "<title>Espace Administrateur - Stocks</title>";
                     console.log("address", address);
 
                     let request = generateRouteRequest(address, address, waypoints);
-                    console.log(request);
+                    console.log("request",request);
 
-                    // generateRouteRequest(); // Il semble que cette ligne soit redondante
                     displayRouteOnMap(map, request);
                 });
             </script>
@@ -166,7 +165,6 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="js/displayDrivers.js"></script>
 <script src="../scripts/tabChange.js"></script>
 <script src="./js/displayCommercants.js"></script>
-<!--<script src="./js/checkDistance.js"></script>-->
 <script src="./js/stocks.js"></script>
 <script src="./js/stockPageExecutionOrder.js"></script>
 

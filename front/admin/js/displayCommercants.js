@@ -13,41 +13,49 @@ async function getAllCommercants(){
 }
 
 // Fonction pour filtrer les commerçants selon les critères donnés
-function filterCommercants(commercants) {
-    // Obtenir la date actuelle
+async function filterCommercants(commercants, warehouseAddress) {
     const currentDate = new Date();
-    // Récupérer le jour de la semaine (0 pour dimanche, 1 pour lundi, ..., 6 pour samedi)
     const currentDayOfWeek = currentDate.getDay();
+    const filteredCommercants = [];
 
-    // Filtrer les commerçants
-    const filteredCommercants = commercants.filter(commercant => {
-        // Vérifier si le contrat est en cours
-        if (commercants.Contrat !== 'en_cours') {
-            return false;
+    for (const commercant of commercants) {
+        if (commercant.Contrat !== 'en_cours') {
+            continue;
         }
 
-        // Vérifier si c'est un jour de collecte pour le commerçant
+        const isCommercantInRadius = await checkUserInRadius(commercant.Adresse, warehouseAddress, 50);
+        console.log("is commercant in radius", isCommercantInRadius);
+
+        if (!isCommercantInRadius) {
+            continue;
+        }
+
         const currentDay = getDayOfWeekName(currentDayOfWeek);
-        if (!commercants[currentDay]) {
-            return false;
+        if (!commercant[currentDay]) {
+            continue;
         }
 
-        // Calculer le délai depuis la dernière collecte en jours
         const lastCollectDate = new Date(commercant.Date_Derniere_Collecte);
         const daysSinceLastCollect = Math.floor((currentDate - lastCollectDate) / (1000 * 60 * 60 * 24));
 
-        // Vérifier si le délai depuis la dernière collecte est suffisant selon la fréquence de collecte du commerçant
         switch (commercant.Frequence_Collecte) {
             case 'quotidienne':
-                return daysSinceLastCollect >= 1;
+                if (daysSinceLastCollect >= 1) {
+                    filteredCommercants.push(commercant);
+                }
+                break;
             case 'hebdomadaire':
-                return daysSinceLastCollect >= 7;
+                if (daysSinceLastCollect >= 7) {
+                    filteredCommercants.push(commercant);
+                }
+                break;
             case 'mensuelle':
-                return daysSinceLastCollect >= 30;
-            default:
-                return false;
+                if (daysSinceLastCollect >= 30) {
+                    filteredCommercants.push(commercant);
+                }
+                break;
         }
-    });
+    }
 
     return filteredCommercants;
 }

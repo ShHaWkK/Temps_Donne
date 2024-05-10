@@ -7,6 +7,7 @@ let allDrivers =[];
 let allCommercants=[];
 const currentDate = new Date();
 let selectedStock = null;
+let entrepotAddress = null;
 let statutFilter='all';
 let entrepotFilter='all';
 let produitFilter='all';

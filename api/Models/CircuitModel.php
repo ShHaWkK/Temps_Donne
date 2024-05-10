@@ -26,10 +26,10 @@ class CircuitModel {
             throw new Exception("Date Circuit must be a string", 400);
         }
         if (!is_string($this->itineraire)) {
-            throw new Exception("Itineraire must be a string", 400);
+            throw new Exception("Itineraire must be un string", 400);
         }
         if (!is_numeric($this->id_chauffeur)) {
-            throw new Exception("Chauffeur ID must be a number", 400);
+            throw new Exception("Chauffeur ID must be un numéro", 400);
         }
     }
 
@@ -47,7 +47,7 @@ class CircuitModel {
         $writer = new PngWriter();
 
         // Spécifier le chemin où enregistrer le QR code
-        $qrCodeDirectory = '/mnt/data/qr_codes/';
+        $qrCodeDirectory = __DIR__ . '/../qr_codes/';
         if (!file_exists($qrCodeDirectory)) {
             mkdir($qrCodeDirectory, 0777, true);
         }

@@ -1,5 +1,4 @@
 <?php
-// Repository/CircuitRepository.php
 
 require_once './Repository/BDD.php';
 require_once './Models/CircuitModel.php';
@@ -16,64 +15,62 @@ class CircuitRepository {
         return $this->db;
     }
 
-
     public function findAll() {
-        return selectDB('circuits', '*'); // Assuming 'circuits' is your table name.
+        return selectDB('Circuits', '*');
     }
 
     public function findById($id) {
-        $condition = "id = ?";
-        $values = [$id];
-        $results = selectDB('circuits', '*', $condition, $values);
-        return $results ? $results[0] : null; // Assumes id is unique and returns a single record.
+        $condition = "ID_Circuit = :id";
+        $values = [':id' => $id];
+        $results = selectDB('Circuits', '*', $condition, $values);
+        return $results ? new CircuitModel($results[0]) : null;
     }
 
-    public function save($circuit) {
-        $columnArray = ['route', 'collection_time', 'driver_id', 'partner_merchants'];
+    public function save(CircuitModel $circuit) {
+        $columnArray = ['Date_Circuit', 'Itineraire', 'ID_Chauffeur', 'QR_Code'];
         $columnData = [
-            json_encode($circuit->route),
-            $circuit->collectionTime,
-            $circuit->driverId,
-            json_encode($circuit->partnerMerchants)
+            $circuit->date_circuit,
+            $circuit->itineraire,
+            $circuit->id_chauffeur,
+            $circuit->qr_code
         ];
-        return insertDB('circuits', $columnArray, $columnData);
+        return insertDB('Circuits', $columnArray, $columnData);
     }
 
-    public function update($circuit) {
-        $columnArray = ['route', 'collection_time', 'driver_id', 'partner_merchants'];
+    public function update(CircuitModel $circuit) {
+        $columnArray = ['Date_Circuit', 'Itineraire', 'ID_Chauffeur', 'QR_Code'];
         $columnData = [
-            json_encode($circuit->route),
-            $circuit->collectionTime,
-            $circuit->driverId,
-            json_encode($circuit->partnerMerchants),
-            $circuit->id
+            $circuit->date_circuit,
+            $circuit->itineraire,
+            $circuit->id_chauffeur,
+            $circuit->qr_code,
+            $circuit->id_circuit
         ];
-        $condition = "id = ?";
-        return updateDB('circuits', $columnArray, $columnData, $condition);
+        $condition = "ID_Circuit = ?";
+        return updateDB('Circuits', $columnArray, $columnData, $condition);
     }
 
     public function delete($id) {
-        $condition = "id = ?";
+        $condition = "ID_Circuit = ?";
         $conditionValues = [$id];
-        return deleteDB('circuits', $condition, $conditionValues);
+        return deleteDB('Circuits', $condition, $conditionValues);
     }
 
     public function findByDate($date) {
-        $condition = "DATE(collection_time) = ?";
+        $condition = "DATE(Date_Circuit) = ?";
         $values = [$date];
-        return selectDB('circuits', '*', $condition, $values);
+        return selectDB('Circuits', '*', $condition, $values);
     }
 
     public function findByChauffeur($chauffeurId) {
-        $condition = "driver_id = ?";
+        $condition = "ID_Chauffeur = ?";
         $values = [$chauffeurId];
-        return selectDB('circuits', '*', $condition, $values);
+        return selectDB('Circuits', '*', $condition, $values);
     }
 
     public function updateQrCodePath($id, $path) {
-        $stmt = $this->db->prepare("UPDATE circuits SET QR_Code = :path WHERE ID_Circuit = :id");
+        $stmt = $this->db->prepare("UPDATE Circuits SET QR_Code = :path WHERE ID_Circuit = :id");
         $stmt->execute([':path' => $path, ':id' => $id]);
     }
 }
 
-?>

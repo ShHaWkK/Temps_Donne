@@ -34,6 +34,30 @@ async function generateWaypoints(commercantTable) {
     return waypoints; // Retourne la liste des waypoints
 }
 
+function getWaypointsOrder(response) {
+    // Vérifier si la réponse est valide
+    if (response.status !== 'OK') {
+        console.error('Erreur lors de la récupération de l\'itinéraire :', response.status);
+        return [];
+    }
+
+    // Extraire les waypoints de la réponse
+    const waypoints = response.waypoints || [];
+    const waypointsOrder = [];
+
+    // Parcourir les waypoints pour récupérer les coordonnées
+    waypoints.forEach(waypoint => {
+        const location = waypoint.location;
+        const lat = location.lat();
+        const lng = location.lng();
+
+        // Ajouter les coordonnées au tableau des points de passage
+        waypointsOrder.push({ lat: lat, lng: lng });
+    });
+
+    return waypointsOrder;
+}
+
 function generateRouteRequest(startAddress, endAddress, waypoints) {
     // Initialisation de la requête
     var request = {
@@ -55,14 +79,15 @@ function displayRouteOnMap(map, request) {
 
     // Créer un objet DirectionsService
     var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer();
 
     // Envoyer une requête au service Directions
     directionsService.route(request, function(response, status) {
         if (status === 'OK') {
             // Afficher l'itinéraire sur la carte
-            var directionsRenderer = new google.maps.DirectionsRenderer();
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(response);
+            document.getElementById('generateCircuitButton')
         } else {
             // Gérer les erreurs
             alert('Impossible de calculer l\'itinéraire : ' + status);

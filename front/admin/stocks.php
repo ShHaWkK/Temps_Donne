@@ -132,7 +132,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
                 </div>
             </div>
 
-            <button class="tabButton addButton" id="generateCircuitButton"> Générer le circuit </button>
+            <button class="tabButton addButton addCircuit" id="generateCircuitButton"> Générer le circuit </button>
             <script>
                 document.getElementById('generateCircuitButton').addEventListener('click', async function () {
                     // Attend la résolution de la promesse retournée par generateWaypoints
@@ -148,7 +148,13 @@ echo "<title>Espace Administrateur - Stocks</title>";
                     let request = generateRouteRequest(address, address, waypoints);
                     console.log("request",request);
 
+                    let order = getWaypointsOrder(request);
+                    console.log(order);
+
                     displayRouteOnMap(map, request);
+
+                    document.getElementById('generateCircuitButton').classList.toggle('active');
+
                 });
             </script>
 

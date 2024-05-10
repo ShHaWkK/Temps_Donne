@@ -2,6 +2,7 @@ function addAddServiceEvent(){
     const confirmButton = document.getElementById('confirm-button-addService');
     console.log("On est là");
     confirmButton.addEventListener('click', function(event) {
+        console.log("click")
         event.preventDefault();
         addService();
     });
@@ -55,6 +56,7 @@ function addService() {
             // Afficher la réponse JSON dans une alerte
             alert(JSON.stringify(data));
             if (data && data.status && data.status.startsWith("success")) {
+                alert("success");
                 window.location.reload();
                 console.log("success");
             }

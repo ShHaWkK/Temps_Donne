@@ -9,7 +9,7 @@
 
 <div id="addServiceModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="close-add-service">&times;</span>
         <h2>Ajouter un service</h2>
         <form id="serviceForm" action="#" method="post">
 
@@ -79,6 +79,11 @@
         if (event.data === 'openAddServiceModal') {
             openAddServiceModal();
         }
+    });
+
+    document.getElementById('close-add-service').addEventListener('click', function() {
+        const modal = document.getElementById('addServiceModal');
+        modal.style.display = 'none';
     });
 </script>
 

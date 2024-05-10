@@ -35,6 +35,12 @@ function getServiceType(serviceTypeID){
 }
 
 function displayServices(services) {
+    //On vérifie si le paramètre est valide
+    if (!Array.isArray(services)) {
+        console.error("Le paramètre 'services' doit être un tableau.");
+        return;
+    }
+
     const serviceTable = document.getElementById('serviceTable');
 
     serviceTable.innerHTML = '';

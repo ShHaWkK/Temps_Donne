@@ -21,6 +21,10 @@
     background-color: darkgreen;
 }
 
+.addButton.addCircuit.active{
+    display: none;
+}
+
 .holdButton{
     background-color: lightsalmon;
 }

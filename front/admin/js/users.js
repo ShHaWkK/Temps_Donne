@@ -18,6 +18,12 @@ function getAllUsers() {
 }
 
 function displayUsers(users) {
+    //On vérifie si le paramètre est valide
+    if (!Array.isArray(users)) {
+        console.error("Le paramètre 'services' doit être un tableau.");
+        return;
+    }
+
     const usersTable = document.getElementById('usersTable');
 
     usersTable.innerHTML = '';

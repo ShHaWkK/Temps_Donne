@@ -141,6 +141,11 @@ async function getAllStocks() {
 }
 
 function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri) {
+    //On vérifie si le paramètre est valide
+    if (!Array.isArray(stocks)) {
+        console.error("Le paramètre 'services' doit être un tableau.");
+        return;
+    }
     const stockTable = document.getElementById('stockTable');
 
     //On réinitialise le contenu de la table

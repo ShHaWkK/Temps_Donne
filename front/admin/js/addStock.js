@@ -17,13 +17,6 @@ function addAddStockEvent(){
     });
 }
 
-function formatDate(date) {
-    const options = {year: 'numeric', month: 'long', day: 'numeric'};
-    return date.toLocaleDateString('fr-FR', options).replace(/\b\w{1}/g, function(letter) {
-        return letter.toUpperCase();
-    });
-}
-
 function addStock() {
     var apiUrl = 'http://localhost:8082/index.php/stocks';
 

@@ -45,16 +45,17 @@ class FormationRepository {
         $data = $stmt->fetch();
         return $data ? new FormationModel($data) : null;
     }
+    /*
+        public function addFormation($data) {
+            $stmt = $this->db->prepare("INSERT INTO Formations (Titre, Description, Date_Formation, Duree, Lieu, ID_Organisateur) VALUES (?, ?, ?, ?, ?, ?)");
+            return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Formation'], $data['Duree'], $data['Lieu'], $data['ID_Organisateur']]);
+        }
 
-    public function addFormation($data) {
-        $stmt = $this->db->prepare("INSERT INTO Formations (Titre, Description, Date_Formation, Duree, Lieu, ID_Organisateur) VALUES (?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Formation'], $data['Duree'], $data['Lieu'], $data['ID_Organisateur']]);
-    }
 
-    public function updateFormation($id, $data) {
-        $stmt = $this->db->prepare("UPDATE Formations SET Titre = ?, Description = ?, Date_Formation = ?, Duree = ?, Lieu = ? WHERE ID_Formation = ?");
-        return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Formation'], $data['Duree'], $data['Lieu'], $id]);
-    }
+        public function updateFormation($id, $data) {
+            $stmt = $this->db->prepare("UPDATE Formations SET Titre = ?, Description = ?, Date_Formation = ?, Duree = ?, Lieu = ? WHERE ID_Formation = ?");
+            return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Formation'], $data['Duree'], $data['Lieu'], $id]);
+        }*/
 
     public function deleteFormation($id) {
         $stmt = $this->db->prepare("DELETE FROM Formations WHERE ID_Formation = ?");
@@ -105,10 +106,29 @@ class FormationRepository {
         return $stmt->fetchAll();
     }
 
+    // old version
+    /*
     public function markAttendance($userId, $formationId) {
-        $stmt = $this->db->prepare("UPDATE Inscriptions_Formations SET Attended = TRUE WHERE ID_Utilisateur = ? AND ID_Formation = ?");
-        $stmt->execute([$userId, $formationId]);
-        return $stmt->rowCount() > 0;
+        try {
+            $stmt = $this->db->prepare("UPDATE Inscriptions_Formations SET Attended = TRUE WHERE ID_Utilisateur = ? AND ID_Formation = ?");
+            $stmt->execute([$userId, $formationId]);
+            return $stmt->rowCount() > 0;
+        } catch(PDOException $e) {
+            // Remonte l'erreur SQL
+            throw new Exception("Erreur SQL : " . $e->getMessage());
+        }
+    }
+    */
+
+    public function markAttendance($userId, $formationId, $status) {
+        try {
+            $stmt = $this->db->prepare("UPDATE Inscriptions_Formations SET Statut = ? WHERE ID_Utilisateur = ? AND ID_Formation = ?");
+            $stmt->execute([$status,$userId, $formationId]);
+            return $stmt->rowCount() > 0;
+        } catch(PDOException $e) {
+            // Remonte l'erreur SQL
+            throw new Exception("Erreur SQL : " . $e->getMessage());
+        }
     }
 
     public function getParticipationAndFeedback() {
@@ -136,7 +156,7 @@ class FormationRepository {
     }
 
     public function getAvailableFormations() {
-        $stmt = $this->db->prepare("SELECT * FROM Formations WHERE Date_Formation >= CURDATE()");
+        $stmt = $this->db->prepare("SELECT * FROM Formations WHERE Formations.Date_Debut_Formation >= CURDATE()");
         $stmt->execute();
         return $stmt->fetchAll();
     }

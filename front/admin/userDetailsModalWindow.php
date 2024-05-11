@@ -18,6 +18,7 @@
 
 <script>
     function addUserDetailsModalEventListeners() {
+        console.log("wesh");
         document.querySelectorAll('.popup-button.userDetails').forEach(button => {
             button.addEventListener('click', function() {
                 const userId = button.closest('tr').querySelector('input[name="id_buttons"]').value;

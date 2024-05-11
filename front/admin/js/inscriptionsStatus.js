@@ -15,8 +15,54 @@ function addApproveEventListeners() {
         });
     });
 }*/
-async function approveInscriptions(selectedInscription) {
-    const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/approve';
+/*
+function addApproveEventListeners() {
+    console.log("approveevent");
+    document.querySelectorAll('.approve-link').forEach(link => {
+        link.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
+
+            try {
+                await approveUser(userId);
+            } catch (error) {
+                console.error('Erreur lors de l\'approbation de l\'utilisateur:', error);
+            }
+        });
+    });
+}*/
+function addApproveEventListeners() {
+    console.log("approveevent");
+    document.querySelectorAll('.approveInscription').forEach(link => {
+        link.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
+
+            try {
+                await approveUser(userId);
+            } catch (error) {
+                console.error('Erreur lors de l\'approbation de l\'utilisateur:', error);
+            }
+        });
+    });
+}
+
+async function approveUser(user_id) {
+
+}
+
+public function markAttendance(user_id,formation_id,status) {
+    switch (status){
+        case 'approve':
+            const apiUrl = 'http://localhost:8082/index.php/validate-attendance/' + user_id + '/' + status
+            break;
+        case 'reject':
+            const apiUrl = 'http://localhost:8082/index.php/validate-attendance/' + user_id + '/' + status
+            break;
+    }
+    ;
     const options = {
         method: 'PUT'
     };

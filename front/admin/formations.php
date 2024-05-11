@@ -42,9 +42,9 @@ echo "<title>Espace Administrateur - Formations</title>";
 
             <div class="line actions">
                 <button class="tabButton neutralButton" id="openAddInscriptionModalButton"> Ajouter une inscription</button>
-                <button class="tabButton addButton" id="approveInscription"> Valider une inscription </button>
-                <button class="tabButton holdButton" id="holdInscription"> Mettre une demande en attente</button>
-                <button class="tabButton deleteButton" id="rejectInscription"> Refuser une inscription</button>
+                <button class="tabButton addButton approveInscription" id="approveInscription"> Valider une inscription </button>
+                <button class="tabButton holdButton holdInscription" id="holdInscription"> Mettre une demande en attente</button>
+                <button class="tabButton deleteButton rejectInscription" id="rejectInscription"> Refuser une inscription</button>
             </div>
 
             <table id="inscriptionTable">
@@ -97,7 +97,7 @@ echo "<title>Espace Administrateur - Formations</title>";
     document.getElementById("inscriptionsTab").style.display = "block";
 </script>
 <script src="../scripts/getCookie.js"></script>
-<script src="js/filtersUsers.js"></script>
+<script src="./js/users.js"></script>
 <script src="js/formations.js"></script>
 <script src="./js/inscriptionsStatus.js"></script>
 <script src="../scripts/tabChange.js"></script>

@@ -11,6 +11,33 @@ function getAllFormations(){
             throw error;
         });
 }
+async function getUserByID(userID){
+    return fetch('http://localhost:8082/index.php/users/'+userID)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
+}
+
+async function getFormationByID(formationID){
+    return fetch('http://localhost:8082/index.php/formations/'+formationID)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
+}
 
 function getAllInscriptions(){
     return fetch('http://localhost:8082/index.php/formations/inscriptions')
@@ -40,7 +67,7 @@ function getAllSalles(){
         });
 }
 
-function displayFormations(formations) {
+async function displayFormations(formations) {
     console.log("displayFormations",formations);
     //On vérifie si le paramètre est valide
     if (!Array.isArray(formations)) {
@@ -82,8 +109,8 @@ function displayFormations(formations) {
     });
 }
 
-function displayInscriptions(inscriptions) {
-    console.log("inscriptions",inscriptions);
+async function displayInscriptions(inscriptions) {
+    console.log("inscriptions", inscriptions);
     //On vérifie si le paramètre est valide
     if (!Array.isArray(inscriptions)) {
         console.error("Le paramètre 'inscriptions' doit être un tableau.");
@@ -95,7 +122,7 @@ function displayInscriptions(inscriptions) {
     inscriptionTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["", "Utilisateur", "Détails utilisateur", "Formation", "Détails Formation","Date_inscription","Statut"];
+    const tableHeader = ["", "Utilisateur", "Détails utilisateur", "Formation", "Détails Formation", "Date_inscription", "Statut"];
 
     const rowHeader = inscriptionTable.insertRow();
     rowHeader.classList.add("head");
@@ -107,22 +134,32 @@ function displayInscriptions(inscriptions) {
     }
 
     let first = true;
-    inscriptions.forEach(inscription => {
+    for (const inscription of inscriptions) {
+        let userId = inscription.ID_Utilisateur;
+        let user = await getUserByID(userId);
+
+        let formationId= inscription.ID_Formation;
+        let formation= await getFormationByID(formationId);
+
         const row = inscriptionTable.insertRow();
         row.innerHTML = `
                         <td> <input type="radio" id=${inscription.ID_Utilisateur}-${inscription.ID_Formation} name='id_buttons' value=${inscription.ID_Utilisateur}- ${first ? 'checked' : ''} /> </td>
-                        <td class="user-id">${inscription.ID_Utilisateur}</td>
+                        <td class="user-id">${user.nom} ${user.prenom}</td>
                         <td><button class="popup-button userDetails" id=${inscription.ID_Utilisateur}> Voir </button></td>
-                        <td class="formation-id">${inscription.ID_Formation}</td>
+                        <td class="formation-id">${formation.titre}</td>
                         <td><button class="popup-button formationsDetails" id=${inscription.ID_Formation}> Voir </button></td>
                         <td>${inscription.Date_Inscription}</td>
                     `;
 
         const attendedCell = document.createElement('td');
-        if (inscription.Attended == 0) {
+        if (inscription.Statut == 'en_attente') {
             attendedCell.textContent = 'En attente';
         } else {
-            attendedCell.textContent = 'Validée';
+            if (inscription.Statut == 'refusee') {
+                attendedCell.textContent = 'Refusée';
+            }else{
+                attendedCell.textContent = 'Validée';
+            }
         }
         row.appendChild(attendedCell);
 
@@ -130,5 +167,5 @@ function displayInscriptions(inscriptions) {
             selectedFormation = inscription.ID_Utilisateur;
         }
         first = false;
-    });
+    }
 }

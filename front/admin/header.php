@@ -86,6 +86,7 @@
         <a href="./users.php" class="nav-item"><i class="fa fa-calendar-check"></i>Utilisateurs</a>
         <a href="./services.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Services</a>
         <a href="./stocks.php" class="nav-item"><i class="fa fa-envelope"></i>Stocks</a>
+        <a href="./formations.php" class="nav-item"><i class="fa fa-graduation-cap"></i>Formations</a>
         <a href="#" class="nav-item"><i class="fa fa-graduation-cap"></i>Maraudes</a>
         <a href="#" class="nav-item"><i class="fa fa-user"></i>Profil</a>
     </nav>

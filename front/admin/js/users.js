@@ -17,6 +17,20 @@ function getAllUsers() {
         });
 }
 
+async function getUserByID(userID){
+    return fetch('http://localhost:8082/index.php/users/'+userID)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
+}
+
 function displayUsers(users) {
     //On vérifie si le paramètre est valide
     if (!Array.isArray(users)) {

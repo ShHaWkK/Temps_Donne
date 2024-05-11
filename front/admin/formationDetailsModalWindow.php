@@ -31,8 +31,8 @@
     });
 
     function addFormationDetailsListeners(){
+        console.log("On est dans addFormationDetailsListeners");
         document.querySelectorAll('.formationsDetails').forEach(button => {
-            console.log(button);
             button.addEventListener('click', async function() {
                 // Récupérer l'ID de la formation associée à ce bouton
                 const formationId = button.id;

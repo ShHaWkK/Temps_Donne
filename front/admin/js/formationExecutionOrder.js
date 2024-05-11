@@ -13,14 +13,16 @@ window.onload = function() {
         })
         .then(inscriptions => {
             console.log(inscriptions);
-            displayInscriptions(inscriptions);
+            displayInscriptions(inscriptions)
+                .then(() => {
+                    addUserDetailsModalEventListeners();
+                    addFormationDetailsListeners();
+                });
         })
         .then(() => {
-            addFormationDetailsListeners();
-            addUserDetailsModalEventListeners();
+            // addFormationDetailsListeners();
             // addNextSessionsListeners();
-            addInscriptionListener();
-
+            // addInscriptionListener();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

@@ -72,8 +72,18 @@ class FormationController {
                     }
                     break;
                 case 'PUT':
-                    if (!empty($uri[3]) && $uri[3] === 'validate-attendance') {
-                        $this->validateAttendance($uri[4], $uri[5]);
+                    if (!empty($uri[3])) {
+                        switch ($uri[3]) {
+                            case 'validate-attendance':
+                                $this->validateAttendance($uri[4], $uri[5]);
+                                break;
+                            case 'reject-attendance':
+                                $this->rejectAttendance($uri[4], $uri[5]);
+                                break;
+                            case 'putOnHold-attendance':
+                                $this->putOnHoldAttendance($uri[4], $uri[5]);
+                                break;
+                        }
                     } else if (!empty($uri[3])) {
                         $this->updateFormation($uri[3]);
                     }
@@ -167,13 +177,18 @@ class FormationController {
     }
 
     public function validateAttendance($userId, $formationId) {
-        $result = $this->formationService->validateAttendance($userId, $formationId);
-        if ($result) {
-            ResponseHelper::sendResponse("Attendance validated successfully");
-        } else {
-            ResponseHelper::sendNotFound("Failed to validate attendance");
+        try {
+            $result = $this->formationService->validateAttendance($userId, $formationId);
+            if ($result) {
+                ResponseHelper::sendResponse("Attendance validated successfully");
+            } else {
+                ResponseHelper::sendNotFound("Failed to validate attendance");
+            }
+        } catch(Exception $e) {
+            ResponseHelper::sendResponse("Erreur lors de la validation de la présence : " . $e->getMessage());
         }
     }
+
 
     public function generateReports() {
         $reports = $this->formationService->generateReports();
@@ -268,4 +283,33 @@ class FormationController {
         $sessions = $this->formationService->getAllInscriptions();
         ResponseHelper::sendResponse($sessions);
     }
+
+    private function rejectAttendance($userId, $formationId)
+    {
+        try {
+            $result = $this->formationService->rejectAttendance($userId, $formationId);
+            if ($result) {
+                ResponseHelper::sendResponse("Attendance rejected successfully");
+            } else {
+                ResponseHelper::sendNotFound("Failed to reject attendance");
+            }
+        } catch(Exception $e) {
+            ResponseHelper::sendResponse("Erreur lors de la validation de la présence : " . $e->getMessage());
+        }
+    }
+
+    private function putOnHoldAttendance($userId, $formationId)
+    {
+        try {
+            $result = $this->formationService->putOnHoldAttendance($userId, $formationId);
+            if ($result) {
+                ResponseHelper::sendResponse("Attendance put on hold successfully");
+            } else {
+                ResponseHelper::sendNotFound("Failed to put on hold attendance");
+            }
+        } catch(Exception $e) {
+            ResponseHelper::sendResponse("Erreur lors de la validation de la présence : " . $e->getMessage());
+        }
+    }
+
 }

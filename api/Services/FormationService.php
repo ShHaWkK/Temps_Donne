@@ -59,10 +59,6 @@ class FormationService {
         return $this->repository->getRegistrationsForFormation($formationId);
     }
 
-    public function validateAttendance($userId, $formationId) {
-        return $this->repository->markAttendance($userId, $formationId);
-    }
-
     public function generateReports() {
         return $this->repository->getParticipationAndFeedback();
     }
@@ -91,6 +87,30 @@ class FormationService {
     public function getAllInscriptions()
     {
         return $this->repository->getAllInscriptions();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function validateAttendance($userId, $formationId) {
+        return $this->repository->markAttendance($userId, $formationId,'confirmee');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function rejectAttendance($userId, $formationId)
+    {
+        return $this->repository->markAttendance($userId, $formationId,'refusee');
 
     }
+
+    /**
+     * @throws Exception
+     */
+    public function putOnHoldAttendance($userId, $formationId)
+    {
+        return $this->repository->markAttendance($userId, $formationId,'en_attente');
+    }
+
 }

@@ -53,7 +53,7 @@ function displayFormations(formations) {
     formationTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["", "Titre", "Description", "Date de début", "Date de fin"];
+    const tableHeader = ["", "Titre", "Description", "Date de début", "Date de fin","Séances"];
 
     const rowHeader = formationTable.insertRow();
     rowHeader.classList.add("head");
@@ -73,7 +73,7 @@ function displayFormations(formations) {
                         <td>${formation.description}</td>
                         <td>${formation.dateDebut}</td>
                         <td>${formation.dateFin}</td>
-<!--                        <td>${formation.Date_de_naissance}</td>-->
+                        <td><button class="popup-button seancesDetails" id=${formation.id}> Voir </button></td>
                     `;
         if (first === true) {
             selectedFormation = formation.ID_Utilisateur;
@@ -117,7 +117,7 @@ function displayInscriptions(inscriptions) {
                         <td><button class="popup-button formationsDetails" id=${inscription.ID_Formation}> Voir </button></td>
                         <td>${inscription.Date_Inscription}</td>
                     `;
-        
+
         const attendedCell = document.createElement('td');
         if (inscription.Attended == 0) {
             attendedCell.textContent = 'En attente';

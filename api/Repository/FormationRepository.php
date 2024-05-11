@@ -1,5 +1,6 @@
 <?php
 require_once './Models/FormationModel.php';
+require_once './Models/SeanceModel.php';
 
 class FormationRepository {
     private $db;
@@ -158,11 +159,11 @@ class FormationRepository {
     //-------------------- Récupérer toutes les séances à venir d'une formation --------------------//
 
     public function getUpcomingSessionsForFormation($formationId) {
-        $stmt = $this->db->prepare("SELECT * FROM Formations WHERE ID_Formation = ? AND Date_Formation >= CURDATE()");
+        $stmt = $this->db->prepare("SELECT * FROM Seances WHERE ID_Formation = ? AND Date >= CURDATE()");
         $stmt->execute([$formationId]);
         $sessions = [];
         while ($row = $stmt->fetch()) {
-            $sessions[] = new FormationModel($row);
+            $sessions[] = new SeanceModel($row);
         }
         return $sessions;
     }

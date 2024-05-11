@@ -64,7 +64,7 @@ CREATE TABLE Services (
                           ID_ServiceType INT NOT NULL ,
                           startTime TIME NOT NULL ,
                           endTime TIME NOT NULL ,
-                          FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType)
+                          FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType) ON DELETE SET NULL
 );
 # ALTER TABLE Services ADD COLUMN startTime TIME;
 # ALTER TABLE Services ADD COLUMN endTime TIME;
@@ -96,7 +96,7 @@ CREATE TABLE Formations (
 --                           Duree TIME,
 --                           Lieu VARCHAR(255),
                             ID_Organisateur INT,
-                            FOREIGN KEY (ID_Organisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                            FOREIGN KEY (ID_Organisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE SET NULL
 );
 
 INSERT INTO Formations (Titre, Description, Date_Debut_Formation, Date_Fin_Formation, ID_Organisateur)
@@ -148,8 +148,8 @@ CREATE TABLE ChatMessages (
                               Message TEXT,
                               Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                               Lu BOOLEAN DEFAULT FALSE,
-                              FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-                              FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                              FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
+                              FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 
 -- Table Feedbacks
@@ -160,7 +160,7 @@ CREATE TABLE Feedbacks (
                            ID_Reference INT, -- ID du service, événement, ou formation concerné
                            Commentaire TEXT,
                            Date_Creation DATE,
-                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE SET NULL
+                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 
 -- Table SourcesDons
@@ -230,8 +230,8 @@ CREATE TABLE IF NOT EXISTS Stocks (
                                       Statut ENUM('en_stock', 'en_route', 'retire') NOT NULL DEFAULT 'en_route',
                                       QR_Code TEXT,
                                       Date_de_peremption DATE,
-                                      FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot),
-                                      FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit)
+                                      FOREIGN KEY (ID_Entrepots) REFERENCES Entrepots(ID_Entrepot) ON DELETE SET NULL ,
+                                      FOREIGN KEY (ID_Produit) REFERENCES Produits(ID_Produit) ON DELETE SET NULL
 );
 
 CREATE TABLE Camions (
@@ -275,16 +275,16 @@ CREATE TABLE Commercants (
 );
 
 INSERT INTO Commercants (Nom, Adresse, Contrat, Frequence_Collecte, Date_Derniere_Collecte, LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE) VALUES
-                            ('Supermarché A', '1 Rue de l\'Isle, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
-                            ('Boulangerie B', '10 Rue des Charpentiers, Saint-Quentin, France', 'a_renouveler', 'hebdomadaire', '2024-05-09', FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE),
-                            ('Épicerie C', '25 Rue d\'Isle, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
-                            ('Pharmacie D', '30 Rue de la République, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
-                            ('Boucherie E', '5 Rue Victor Basch, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
-                            ('Magasin F', '15 Avenue de Laon, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
-                            ('Café G', '2 Rue des Canonniers, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
-                            ('Librairie H', '20 Rue des Toiles, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
-                            ('Fleuriste I', '8 Rue de la Sellerie, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
-                            ('Caviste J', '12 Rue de Guise, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE);
+                                                                                                                                                           ('Supermarché A', '1 Rue de l\'Isle, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                                                                                                                                                           ('Boulangerie B', '10 Rue des Charpentiers, Saint-Quentin, France', 'a_renouveler', 'hebdomadaire', '2024-05-09', FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Épicerie C', '25 Rue d\'Isle, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Pharmacie D', '30 Rue de la République, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Boucherie E', '5 Rue Victor Basch, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                                                                                                                                                           ('Magasin F', '15 Avenue de Laon, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                                                                                                                                                           ('Café G', '2 Rue des Canonniers, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Librairie H', '20 Rue des Toiles, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Fleuriste I', '8 Rue de la Sellerie, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                                                                                                                                                           ('Caviste J', '12 Rue de Guise, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE);
 
 
 CREATE TABLE Trajets (
@@ -315,7 +315,7 @@ CREATE TABLE Evenements (
                             Sponsor VARCHAR(255),
                             Type VARCHAR(255),
                             Organisateur INT,
-                            FOREIGN KEY (Organisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                            FOREIGN KEY (Organisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 
 
@@ -578,24 +578,24 @@ CREATE TABLE Session (
 );
 
 -- Ajout d'une table demandes
--- Bénéfciaire 
+-- Bénéfciaire
 CREATE TABLE Demandes (
-    ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Utilisateur INT,
-    ID_Service INT,
-    Date_Demande DATE NOT NULL,
-    Statut ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
-    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-    FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service)
+                          ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
+                          ID_Utilisateur INT,
+                          ID_Service INT,
+                          Date_Demande DATE NOT NULL,
+                          Statut ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
+                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
+                          FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service)
 );
 
 
 CREATE TABLE DemandesBenevoles (
-    ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Demande INT,
-    ID_Utilisateur INT, 
-    FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande),
-    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
+                                   ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
+                                   ID_Demande INT,
+                                   ID_Utilisateur INT,
+                                   FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande) ON DELETE CASCADE,
+                                   FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 
 -- Ajout d'un événement pour attribuer automatiquement une valeur d'expiration de 24h

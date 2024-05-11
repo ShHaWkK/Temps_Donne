@@ -70,7 +70,7 @@
     }
 
     // Ajouter un écouteur d'événement sur la soumission du formulaire
-    document.getElementById('formationForm').addEventListener('submit-formation', function(event) {
+    document.getElementById('formationForm').addEventListener('submit', function(event) {
         var startDate = new Date(document.getElementById('startDate').value + ' ' + document.getElementById('startDate').value);
         var endDate = new Date(document.getElementById('endDate').value + ' ' + document.getElementById('endDate').value);
 

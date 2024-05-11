@@ -1,21 +1,19 @@
-package temps.android.adapters
+package com.temps.android.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import temps.android.adapters.R
-import temps.android.model.PlanningEvent
+import com.temps.android.model.PlanningEvent
+import temps.android.R
 
-class PlanningAdapter(private val planningList: List<PlanningEvent>) : RecyclerView.Adapter<PlanningAdapter.PlanningViewHolder>() {
+class PlanningAdapter(private val planningList: List<PlanningEvent>) :
+    RecyclerView.Adapter<PlanningAdapter.PlanningViewHolder>() {
 
     class PlanningViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val eventNameTextView: TextView = itemView.findViewById(R.id.eventName)
-
         fun bind(event: PlanningEvent) {
-            eventNameTextView.text = event.name
-            // Vous pouvez ajouter plus de propriétés à afficher ici
+            itemView.findViewById<TextView>(R.id.eventName).text = event.name
         }
     }
 
@@ -28,5 +26,5 @@ class PlanningAdapter(private val planningList: List<PlanningEvent>) : RecyclerV
         holder.bind(planningList[position])
     }
 
-    override fun getItemCount() = planningList.size
+    override fun getItemCount(): Int = planningList.size
 }

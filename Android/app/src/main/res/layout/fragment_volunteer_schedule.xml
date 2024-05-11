@@ -5,12 +5,12 @@
     android:id="@+id/volunteerScheduleLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VolunteerScheduleFragment">
+    tools:context=".ui.VolunteerScheduleFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

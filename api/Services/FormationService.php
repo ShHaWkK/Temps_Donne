@@ -82,4 +82,9 @@ class FormationService {
     public function getUpcomingSessionsForFormation($formationId) {
         return $this->repository->getUpcomingSessionsForFormation($formationId);
     }
+
+    public function getAllFormationSessions($formationId)
+    {
+        return $this->repository->getAllFormationSessions($formationId);
+    }
 }

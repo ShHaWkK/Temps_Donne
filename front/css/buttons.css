@@ -7,6 +7,14 @@
     background-color: darkgreen;
 }
 
+.neutralButton{
+    background-color: #00334A;
+}
+
+.neutralButton:hover{
+    background-color: #002233;
+}
+
 .addButton.addCircuit.active{
     display: none;
 }

@@ -37,6 +37,9 @@ class FormationController {
                             case 'sessions':
                                 $this->getAllSessionsForUser($uri[4]);
                                 break;
+                            case 'formation-sessions':
+                                $this->getAllFormationSessions($uri[4]);
+                                break;
                             case 'upcoming-sessions':
                                 $this->getUpcomingSessionsForFormation($uri[4]);
                                 break;
@@ -249,5 +252,11 @@ class FormationController {
     public function browseAvailableFormations() {
         $availableFormations = $this->formationService->getAvailableFormations();
         ResponseHelper::sendResponse($availableFormations);
+    }
+
+    private function getAllFormationSessions($formationId)
+    {
+        $sessions = $this->formationService->getAllFormationSessions($formationId);
+        ResponseHelper::sendResponse($sessions);
     }
 }

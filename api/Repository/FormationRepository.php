@@ -180,4 +180,26 @@ class FormationRepository {
         $stmt->execute([$formationId]);
         return $stmt->fetchColumn();
     }
+
+    public function getAllFormationSessions($formationId)
+    {
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Seances 
+                                    WHERE Seances.ID_Formation = :id");
+        /*
+        $result = $stmt->execute([$formationId]);
+        $stmt = $this->db->prepare($sql);
+        */
+        $stmt->bindParam(':id', $formationId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $sessions = $stmt->fetch(PDO::FETCH_ASSOC);
+//        $sessions = [];
+        /*
+        while ($row = $stmt->fetch()) {
+            $sessions[] = new FormationModel($row);
+        }*/
+        return $sessions;
+
+    }
 }

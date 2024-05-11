@@ -16,7 +16,7 @@ echo "<title>Espace bénévole - Formations</title>";
     <div class="main-container-tabs">
         <!-- Onglets permettant de basculer entre les deux sections  -->
         <div class="tabs">
-            <button class="tab-link" onclick="openTab(event, 'availableFormationsTab')">Formatiions disponibles</button>
+            <button class="tab-link" onclick="openTab(event, 'availableFormationsTab')">Formations disponibles</button>
             <button class="tab-link" onclick="openTab(event, 'myFormationsTab')">Mes formations</button>
         </div>
 

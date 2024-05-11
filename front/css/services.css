@@ -79,6 +79,12 @@
      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
  }
 
+ .service-button.active{
+     background-color: #23B5BE;
+     transform: scale(1.05);
+     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+ }
+
 /*Bouton de fin de page*/
 .confirm-button {
     display: block;

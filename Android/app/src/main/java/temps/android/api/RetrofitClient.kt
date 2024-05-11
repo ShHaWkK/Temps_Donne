@@ -4,6 +4,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
+
+    // http://AdresseIP:8081/index.php
     private const val BASE_URL = "http://localhost:8082/"
 
     val instance: ApiService by lazy {

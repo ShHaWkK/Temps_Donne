@@ -32,37 +32,42 @@ function addApproveEventListeners() {
         });
     });
 }*/
-function addApproveEventListeners() {
-    console.log("approveevent");
-    document.querySelectorAll('.approveInscription').forEach(link => {
-        link.addEventListener('click', async (event) => {
-            event.preventDefault();
+function addStatusButtonEventListener() {
+    const statusButtons = document.querySelectorAll('.statusButton');
 
-            const userId = link.closest('tr').querySelector('.user-id').textContent.trim();
+    statusButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            // Récupérer l'ID du radioButton checked actuellement
+            const checkedRadioButton = document.querySelector('input[name="id_buttons"]:checked');
+            if (checkedRadioButton) {
+                const ids = checkedRadioButton.id.split('-');
+                const userId = ids[0];
+                const formationId = ids[1];
 
-            try {
-                await approveUser(userId);
-            } catch (error) {
-                console.error('Erreur lors de l\'approbation de l\'utilisateur:', error);
+                // Appeler la fonction setInscriptionStatus avec les IDs récupérés
+                await setInscriptionStatus(userId, formationId, button.id);
+            } else {
+                console.error('Aucun radioButton n\'est coché');
             }
         });
     });
 }
 
-async function approveUser(user_id) {
-
-}
-
-public function markAttendance(user_id,formation_id,status) {
-    switch (status){
-        case 'approve':
-            const apiUrl = 'http://localhost:8082/index.php/validate-attendance/' + user_id + '/' + status
+async function setInscriptionStatus(user_id, formation_id, status) {
+    let apiUrl;
+    switch (status) {
+        case 'approveInscription':
+            apiUrl = 'http://localhost:8082/index.php/formations/validate-attendance/' + user_id + '/' + formation_id;
             break;
-        case 'reject':
-            const apiUrl = 'http://localhost:8082/index.php/validate-attendance/' + user_id + '/' + status
+        case 'rejectInscription':
+            apiUrl = 'http://localhost:8082/index.php/formations/reject-attendance/' + user_id + '/' + formation_id;
+            break;
+        case 'holdInscription':
+            apiUrl = 'http://localhost:8082/index.php/formations/putOnHold-attendance/' + user_id + '/' + formation_id;
             break;
     }
-    ;
+    console.log(apiUrl);
+
     const options = {
         method: 'PUT'
     };
@@ -80,7 +85,7 @@ public function markAttendance(user_id,formation_id,status) {
         window.location.reload();
     } catch (error) {
         console.error('Error :', error);
-        alert('Error : ',error);
+        alert('Error : ', error);
         // Recharger la page en cas d'erreur
         window.location.reload();
     }

@@ -5,24 +5,19 @@ window.onload = function() {
             return getAllFormations();
         })
         .then(formations => {
-            console.log(formations);
-            displayFormations(formations);
+            return displayFormations(formations)
         })
         .then(() => {
+            // addFormationSeancesListeners();
             return getAllInscriptions();
         })
         .then(inscriptions => {
-            console.log(inscriptions);
             displayInscriptions(inscriptions)
                 .then(() => {
                     addUserDetailsModalEventListeners();
                     addFormationDetailsListeners();
+                    addStatusButtonEventListener();
                 });
-        })
-        .then(() => {
-            // addFormationDetailsListeners();
-            // addNextSessionsListeners();
-            // addInscriptionListener();
         })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);

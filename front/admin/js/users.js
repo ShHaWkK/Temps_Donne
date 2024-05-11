@@ -34,7 +34,7 @@ async function getUserByID(userID){
 function displayUsers(users) {
     //On vérifie si le paramètre est valide
     if (!Array.isArray(users)) {
-        console.error("Le paramètre 'services' doit être un tableau.");
+        console.error("Le paramètre 'users' doit être un tableau.");
         return;
     }
 

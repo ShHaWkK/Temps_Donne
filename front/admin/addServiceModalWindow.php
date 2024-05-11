@@ -14,7 +14,7 @@
         <form id="serviceForm" action="#" method="post">
 
             <label for="serviceName">Nom du service :</label>
-            <input type="text" id="serviceName" name="serviceName"  value="Service" required><br><br>
+            <input type="text" id="serviceName" name="serviceName"  value="Service"required><br><br>
 
             <label for="serviceDescription">Description :</label>
             <textarea id="serviceDescription" name="serviceDescription" content="Service" required></textarea><br><br>
@@ -50,7 +50,7 @@
     console.log("On est dans addServiceModal");
 
     // Fonction pour ouvrir la fenêtre modale
-    function openAddServiceModal() {
+    function openAddFormationModal() {
         document.getElementById('addServiceModal').style.display = 'block';
     }
 

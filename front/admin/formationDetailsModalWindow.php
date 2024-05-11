@@ -52,7 +52,7 @@
                     '<p><h3>Description: </h3>' + formationDetails.description + '</p>' +
                     '<p><h3>Date de début: </h3>' + formationDetails.dateDebut + '</p>' +
                     '<p><h3>Date de fin: </h3>' + formationDetails.dateFin + '</p>';
-                    // '<p><h3>Organisateur: </h3>' + formationDetails.dateFin + '</p>';
+                // '<p><h3>Organisateur: </h3>' + formationDetails.dateFin + '</p>';
 
 
                 // Afficher la fenêtre modale

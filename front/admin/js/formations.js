@@ -100,8 +100,7 @@ async function displayFormations(formations) {
                         <td>${formation.description}</td>
                         <td>${formation.dateDebut}</td>
                         <td>${formation.dateFin}</td>
-                        <td><button class="popup-button seancesDetails" id=${formation.id}> Voir </button></td>
-                    `;
+                        <td><button class="popup-button seancesDetails" onclick="openFormationSeancesModal(this.id)" id=${formation.id}> Voir </button></td>                    `;
         if (first === true) {
             selectedFormation = formation.ID_Utilisateur;
         }

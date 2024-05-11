@@ -204,11 +204,9 @@ class FormationRepository {
 
     public function getAllInscriptions()
     {
-        $stmt = $this->db->prepare("SELECT * 
-                                    FROM Inscriptions_Formations 
-                                    ");
+        $stmt = $this->db->prepare("SELECT * FROM Inscriptions_Formations");
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //        $sessions = $stmt->fetch(PDO::FETCH_ASSOC);
 //        $sessions = [];

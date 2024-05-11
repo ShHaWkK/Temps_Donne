@@ -44,7 +44,7 @@ function displayUsers(users) {
     let firstUser = true;
     users.forEach(user => {
         if (!(getCookie('user_id') == user.ID_Utilisateur)) {
-        const row = usersTable.insertRow();
+            const row = usersTable.insertRow();
             row.innerHTML = `
                         <td> <input type="radio" id=${user.ID_Utilisateur} name='id_buttons' value=${user.ID_Utilisateur} ${firstUser ? 'checked' : ''} /> </td>
                         <td class="user-id">${user.ID_Utilisateur}</td>

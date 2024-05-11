@@ -25,20 +25,30 @@
             <label for="endDate">Date de fin:</label>
             <input type="date" id="endDate" name="endDate" value="12-12-2024" required><br><br>
 
+            <label for="usersTable">Organisateur:</label>
             <table id="usersTable">
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        // return getAllUsers()
-                        fetch('http://localhost:8082/index.php/volunteers/All').
-                        then(users => {
-                            console.log(users);
-                            displayUsersInFormationModalWindow(users);
-                        })
+                        fetch('http://localhost:8082/index.php/volunteers/All')
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Erreur lors de la récupération des données');
+                                }
+                                return response.json();
+                            })
+                            .then(users => {
+                                console.log(users); // Affiche les données JSON récupérées
+                                displayUsersInFormationModalWindow(users); // Passe les données JSON en tant que paramètre à votre fonction
+                            })
+                            .catch(error => {
+                                console.error('Une erreur s\'est produite :', error);
+                            });
+
                     });
                 </script>
             </table><br><br>
 
-            <input class="confirm-button" id="confirm-button-addFormation"  onclick="addFormation()" type="submit" value="Ajouter">
+            <input class="confirm-button" id="confirm-button-addFormation" type="submit" value="Ajouter">
         </form>
     </div>
 </div>
@@ -60,7 +70,7 @@
     }
 
     // Ajouter un écouteur d'événement sur la soumission du formulaire
-    document.getElementById('formationForm').addEventListener('submit', function(event) {
+    document.getElementById('formationForm').addEventListener('submit-formation', function(event) {
         var startDate = new Date(document.getElementById('startDate').value + ' ' + document.getElementById('startDate').value);
         var endDate = new Date(document.getElementById('endDate').value + ' ' + document.getElementById('endDate').value);
 
@@ -69,6 +79,7 @@
             alert('La date de fin doit être ultérieure à la date de début.');
             event.preventDefault(); // Empêcher l'envoi du formulaire si la validation échoue
         }
+        addFormation();
     });
 
     // Écouter les messages envoyés par l'iframe parent
@@ -91,6 +102,7 @@
         var description = document.getElementById('formationDescription').value;
         var startDate = document.getElementById('startDate').value;
         var endDate = document.getElementById('endDate').value;
+        var id_organisateur = document.querySelector('input[name="id_buttons_user_formation"]:checked').value;
 
         // Créer un objet JSON avec les données du formulaire
         const data = {
@@ -98,8 +110,7 @@
             "Description": description,
             "Date_Debut_Formation": startDate,
             "Date_Fin_Formation": endDate,
-            "ID_Organisateur": getCookie('user_id'),
-
+            "ID_Organisateur": id_organisateur,
         };
 
         // Options de la requête HTTP
@@ -108,7 +119,8 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            timeout: 10000
         };
 
         console.log(options);
@@ -124,17 +136,11 @@
                 return response.json(); // Analyser la réponse JSON
             })
             .then(data => {
-                // Afficher la réponse JSON dans une alerte
                 alert(JSON.stringify(data));
-                if (data && data.status && data.status.startsWith("success")) {
-                    alert("success");
-                    window.location.reload();
-                    console.log("success");
-                }
             })
             .catch(error => {
                 console.error('Erreur lors de la réponse de l\'API :', error.message);
-                alert('Erreur lors de la réponse de l\'API :', error.message);
+                alert("failed to fetch");
             });
     }
 
@@ -150,7 +156,7 @@
         usersTable.innerHTML = '';
 
         // On ajoute l'en-tête du tableau
-        const tableHeader = ["", "Nom", "Prénom", "Genre","Détails"];
+        const tableHeader = ["", "Nom", "Prénom", "Genre"];
 
         const rowHeader = usersTable.insertRow();
         rowHeader.classList.add("head");
@@ -165,11 +171,10 @@
         users.forEach(user => {
             const row = usersTable.insertRow();
             row.innerHTML = `
-                        <td> <input type="radio" id=${user.ID_Utilisateur} name='id_buttons' value=${user.ID_Utilisateur} ${firstUser ? 'checked' : ''} /> </td>
+                        <td> <input type="radio" id=${user.ID_Utilisateur} name='id_buttons_user_formation' value=${user.ID_Utilisateur} ${firstUser ? 'checked' : ''} /> </td>
                         <td>${user.Nom}</td>
                         <td>${user.Prenom}</td>
                         <td>${user.Genre}</td>
-                        <td><button class="popup-button userDetails"> Voir </button></td>
                     `;
             if (firstUser === true) {
                 selectedUser = user.ID_Utilisateur;
@@ -177,7 +182,6 @@
             firstUser = false;
         });
     }
-
 </script>
 
 </body>

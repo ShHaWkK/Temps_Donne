@@ -85,7 +85,7 @@ function displayServices(services) {
 }
 
 window.onload = function() {
-    checkSessionVolunteer()
+    checkSession()
         .then(() => {
             return getAllServices();
         })

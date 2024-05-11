@@ -33,8 +33,10 @@ echo "<title>Espace bénévole - Formations</title>";
         <!-- Onglet Mes Formations -->
         <div class="tab-section" id="myFormationsTab">
             <h1> Mes formations </h1>
-            <div class="service-list" id="my-formations">
+            <div class="scrollable-div" id="my-formations">
             </div>
+<!--            <h2>Prochaines séances :</h2>-->
+            <div id="nextSessions"></div>
         </div>
     </div>
 

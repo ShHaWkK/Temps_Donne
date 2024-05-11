@@ -16,6 +16,8 @@
             </table><br><br>
 
             <button class="confirm-button" id="confirmButtonAssign">Confirmer</button>
+            <button class="-cancel-button" id="cancelButtonAssign">Annuler</button>
+
         </div>
     </div>
 </center>

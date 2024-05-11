@@ -15,6 +15,7 @@ window.onload = function() {
         })
         .then(() => {
             addFormationDetailsListeners();
+            addNextSessionsListeners();
             addInscriptionListener();
         })
         .catch(error => {

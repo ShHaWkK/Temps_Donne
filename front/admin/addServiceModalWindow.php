@@ -14,16 +14,16 @@
         <form id="serviceForm" action="#" method="post">
 
             <label for="serviceName">Nom du service :</label>
-            <input type="text" id="serviceName" name="serviceName" required><br><br>
+            <input type="text" id="serviceName" name="serviceName"  value="Service" required><br><br>
 
             <label for="serviceDescription">Description :</label>
-            <textarea id="serviceDescription" name="serviceDescription" required></textarea><br><br>
+            <textarea id="serviceDescription" name="serviceDescription" content="Service" required></textarea><br><br>
 
             <label for="serviceLocation">Adresse :</label>
-            <input type="text" id="serviceLocation" name="serviceLocation" required><br><br>
+            <input type="text" id="serviceLocation" name="serviceLocation" value="Service" required><br><br>
 
             <label for="serviceDate">Date :</label>
-            <input type="date" id="serviceDate" name="serviceDate" required><br><br>
+            <input type="date" id="serviceDate" name="serviceDate" value="12-12-2025" required><br><br>
 
             <label for="serviceTypeSelector">Type de service :</label>
             <select id="serviceTypeSelector" name="serviceTypeSelector" required>
@@ -36,10 +36,10 @@
             </select><br><br>
 
             <label for="serviceStartTime">Heure de début :</label>
-            <input type="time" id="serviceStartTime" name="serviceStartTime" required><br><br>
+            <input type="time" id="serviceStartTime" name="serviceStartTime" value="12:00" required><br><br>
 
             <label for="serviceEndTime">Heure de fin :</label>
-            <input type="time" id="serviceEndTime" name="serviceEndTime" required><br><br>
+            <input type="time" id="serviceEndTime" name="serviceEndTime" value="14:00" required><br><br>
 
             <input class="confirm-button" id="confirm-button-addService" type="submit" value="Ajouter">
         </form>

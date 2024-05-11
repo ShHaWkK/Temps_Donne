@@ -19,7 +19,7 @@ include_once('./deleteServiceModalWindow.php');
 <center>
     <div class="main-container-tabs">
         <div class="line">
-            <button class="popup-button" id="openAddServiceButton">Ajouter un service</button>
+            <button class="tabButton addButton" id="openAddServiceButton">Ajouter un service</button>
             <script>
                 document.getElementById('openAddServiceButton').addEventListener('click', function() {
                     console.log("click");
@@ -27,7 +27,7 @@ include_once('./deleteServiceModalWindow.php');
                 });
             </script>
 
-            <button class="popup-button" id="openDeleteServiceModalButton"> Supprimer un service</button>
+            <button class="tabButton deleteButton" id="openDeleteServiceModalButton"> Supprimer un service</button>
 
             <script>
                 document.getElementById('openDeleteServiceModalButton').addEventListener('click', function(event) {
@@ -38,7 +38,7 @@ include_once('./deleteServiceModalWindow.php');
                 });
             </script>
 
-            <button class="popup-button" id="openAssignUserModalButton"> Affecter un utilisateur au service</button>
+            <button class="tabButton neutralButton" id="openAssignUserModalButton"> Affecter un utilisateur au service</button>
 
             <script>
                 document.getElementById('openAssignUserModalButton').addEventListener('click', function(event) {

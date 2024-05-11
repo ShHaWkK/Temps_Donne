@@ -200,6 +200,23 @@ class FormationRepository {
             $sessions[] = new FormationModel($row);
         }*/
         return $sessions;
+    }
+
+    public function getAllInscriptions()
+    {
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Inscriptions_Formations 
+                                    ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+//        $sessions = $stmt->fetch(PDO::FETCH_ASSOC);
+//        $sessions = [];
+        /*
+        while ($row = $stmt->fetch()) {
+            $sessions[] = new FormationModel($row);
+        }*/
+//        return $sessions;
 
     }
 }

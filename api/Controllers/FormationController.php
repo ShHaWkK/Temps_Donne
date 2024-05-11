@@ -22,6 +22,9 @@ class FormationController {
                             case 'browse':
                                 $this->browseFormations();
                                 break;
+                            case 'inscriptions':
+                                $this->getAllInscriptions();
+                                break;
                             case 'my-formations':
                                 $this->viewFormationsOfVolunteer($uri[4]);
                                 break;
@@ -257,6 +260,12 @@ class FormationController {
     private function getAllFormationSessions($formationId)
     {
         $sessions = $this->formationService->getAllFormationSessions($formationId);
+        ResponseHelper::sendResponse($sessions);
+    }
+
+    private function getAllInscriptions()
+    {
+        $sessions = $this->formationService->getAllInscriptions();
         ResponseHelper::sendResponse($sessions);
     }
 }

@@ -87,4 +87,10 @@ class FormationService {
     {
         return $this->repository->getAllFormationSessions($formationId);
     }
+
+    public function getAllInscriptions()
+    {
+        return $this->repository->getAllInscriptions();
+
+    }
 }

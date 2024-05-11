@@ -50,8 +50,10 @@
                     // '<p><h3>ID Formation: </h3>' + formationDetails.id + '</p>' +
                     '<p><h3>Titre: </h3>' + formationDetails.titre + '</p>' +
                     '<p><h3>Description: </h3>' + formationDetails.description + '</p>' +
-                    '<p><h3>Date de début: </h3>' + formationDetails.dateFormation + '</p>' +
-                    '<p><h3>Date de fin: </h3>' + formationDetails.duree + '</p>';
+                    '<p><h3>Date de début: </h3>' + formationDetails.dateDebut + '</p>' +
+                    '<p><h3>Date de fin: </h3>' + formationDetails.dateFin + '</p>';
+                    // '<p><h3>Organisateur: </h3>' + formationDetails.dateFin + '</p>';
+
 
                 // Afficher la fenêtre modale
                 const modal = document.getElementById('formationDetailsModal');

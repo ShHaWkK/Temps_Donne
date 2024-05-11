@@ -68,12 +68,12 @@ function displayFormations(formations) {
     formations.forEach(formation => {
         const row = formationTable.insertRow();
         row.innerHTML = `
-                        <td> <input type="radio" id=${formation.ID_Utilisateur} name='id_buttons' value=${formation.ID_Utilisateur} ${first ? 'checked' : ''} /> </td>
-                        <td class="formation-id">${formations.ID_Utilisateur}</td>
-                        <td>${formation.Nom}</td>
-                        <td>${formation.Prenom}</td>
-                        <td>${formation.Genre}</td>
-                        <td>${formation.Date_de_naissance}</td>
+                        <td> <input type="radio" id=${formation.id} name='id_buttons-formations' value=${formation.id} ${first ? 'checked' : ''} /> </td>
+                        <td >${formation.titre}</td>
+                        <td>${formation.description}</td>
+                        <td>${formation.dateDebut}</td>
+                        <td>${formation.dateFin}</td>
+<!--                        <td>${formation.Date_de_naissance}</td>-->
                     `;
         if (first === true) {
             selectedFormation = formation.ID_Utilisateur;
@@ -116,10 +116,18 @@ function displayInscriptions(inscriptions) {
                         <td class="formation-id">${inscription.ID_Formation}</td>
                         <td><button class="popup-button formationsDetails" id=${inscription.ID_Formation}> Voir </button></td>
                         <td>${inscription.Date_Inscription}</td>
-                        <td>${inscription.Attended}</td>
                     `;
+        
+        const attendedCell = document.createElement('td');
+        if (inscription.Attended == 0) {
+            attendedCell.textContent = 'En attente';
+        } else {
+            attendedCell.textContent = 'Validée';
+        }
+        row.appendChild(attendedCell);
+
         if (first === true) {
-            selectedFormation = formation.ID_Utilisateur;
+            selectedFormation = inscription.ID_Utilisateur;
         }
         first = false;
     });

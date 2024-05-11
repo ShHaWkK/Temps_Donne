@@ -15,7 +15,7 @@ echo "<title>Accueil - Au temps donné</title>";
       <center>
          <?php echo htmlspecialchars($data["BECOME_VOLUNTEER"] ?? 'Become a volunteer today!'); ?>
       </center>
-      <button><?php echo htmlspecialchars($data["JOIN_NOW"] ?? 'Join now!'); ?></button>
+        <button> <a class="nav-item" href="/form/register.php"><?php echo htmlspecialchars($data["JOIN_NOW"] ?? 'Join now!'); ?></a></button>
     </div>
     <button class="carousel-arrow">&gt;</button>
 </div>

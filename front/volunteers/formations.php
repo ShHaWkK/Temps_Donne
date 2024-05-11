@@ -39,7 +39,6 @@ echo "<title>Espace bénévole - Formations</title>";
             <div id="nextSessions"></div>
         </div>
     </div>
-
 </center>
 
 <script>

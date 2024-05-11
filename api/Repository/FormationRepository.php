@@ -45,17 +45,17 @@ class FormationRepository {
         $data = $stmt->fetch();
         return $data ? new FormationModel($data) : null;
     }
-    /*
+
         public function addFormation($data) {
-            $stmt = $this->db->prepare("INSERT INTO Formations (Titre, Description, Date_Formation, Duree, Lieu, ID_Organisateur) VALUES (?, ?, ?, ?, ?, ?)");
-            return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Formation'], $data['Duree'], $data['Lieu'], $data['ID_Organisateur']]);
+            $stmt = $this->db->prepare("INSERT INTO Formations (Titre, Description, Date_Debut_Formation, Date_Fin_Formation, ID_Organisateur) VALUES (?, ?, ?, ?, ?)");
+            return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Debut_Formation'], $data['Date_Fin_Formation'], $data['ID_Organisateur']]);
         }
 
 
         public function updateFormation($id, $data) {
-            $stmt = $this->db->prepare("UPDATE Formations SET Titre = ?, Description = ?, Date_Formation = ?, Duree = ?, Lieu = ? WHERE ID_Formation = ?");
+            $stmt = $this->db->prepare("UPDATE Formations SET Titre = ?, Description = ?, Date_Debut_Formation = ?, Date_Fin_Formation = ?, Lieu = ? WHERE ID_Formation = ?");
             return $stmt->execute([$data['Titre'], $data['Description'], $data['Date_Formation'], $data['Duree'], $data['Lieu'], $id]);
-        }*/
+        }
 
     public function deleteFormation($id) {
         $stmt = $this->db->prepare("DELETE FROM Formations WHERE ID_Formation = ?");
@@ -105,20 +105,6 @@ class FormationRepository {
         $stmt->execute([$formationId]);
         return $stmt->fetchAll();
     }
-
-    // old version
-    /*
-    public function markAttendance($userId, $formationId) {
-        try {
-            $stmt = $this->db->prepare("UPDATE Inscriptions_Formations SET Attended = TRUE WHERE ID_Utilisateur = ? AND ID_Formation = ?");
-            $stmt->execute([$userId, $formationId]);
-            return $stmt->rowCount() > 0;
-        } catch(PDOException $e) {
-            // Remonte l'erreur SQL
-            throw new Exception("Erreur SQL : " . $e->getMessage());
-        }
-    }
-    */
 
     public function markAttendance($userId, $formationId, $status) {
         try {
@@ -207,19 +193,12 @@ class FormationRepository {
         $stmt = $this->db->prepare("SELECT * 
                                     FROM Seances 
                                     WHERE Seances.ID_Formation = :id");
-        /*
-        $result = $stmt->execute([$formationId]);
-        $stmt = $this->db->prepare($sql);
-        */
+
         $stmt->bindParam(':id', $formationId, PDO::PARAM_INT);
         $stmt->execute();
 
         $sessions = $stmt->fetch(PDO::FETCH_ASSOC);
-//        $sessions = [];
-        /*
-        while ($row = $stmt->fetch()) {
-            $sessions[] = new FormationModel($row);
-        }*/
+
         return $sessions;
     }
 
@@ -229,13 +208,20 @@ class FormationRepository {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-//        $sessions = $stmt->fetch(PDO::FETCH_ASSOC);
-//        $sessions = [];
-        /*
-        while ($row = $stmt->fetch()) {
-            $sessions[] = new FormationModel($row);
-        }*/
-//        return $sessions;
+    }
 
+    public function getSessionRoom($roomId)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM Salles WHERE ID_Salle = :roomId ");
+        $stmt->bindParam(':roomId', $roomId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllRooms()
+    {
+        $stmt = $this->db->prepare("SELECT * FROM Salles");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -50,7 +50,7 @@
     console.log("On est dans addServiceModal");
 
     // Fonction pour ouvrir la fenêtre modale
-    function openAddFormationModal() {
+    function openAddServiceModal() {
         document.getElementById('addServiceModal').style.display = 'block';
     }
 

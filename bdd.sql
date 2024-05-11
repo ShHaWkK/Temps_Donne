@@ -132,8 +132,8 @@ CREATE TABLE Inscriptions_Formations (
                                          ID_Formation INT,
                                          Date_Inscription DATE,
                                          Statut ENUM('confirmee', 'en_attente', 'refusee') NOT NULL DEFAULT 'en_attente',
-                                         FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-                                         FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation),
+                                         FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
+                                         FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation) ON DELETE CASCADE,
                                          PRIMARY KEY (ID_Utilisateur, ID_Formation)
 );
 

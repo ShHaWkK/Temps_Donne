@@ -28,13 +28,17 @@
             <table id="usersTable">
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        displayUsers();
-                        console.log("Inside select");
+                        // return getAllUsers()
+                        fetch('http://localhost:8082/index.php/volunteers/All').
+                        then(users => {
+                            console.log(users);
+                            displayUsersInFormationModalWindow(users);
+                        })
                     });
                 </script>
             </table><br><br>
 
-            <input class="confirm-button" id="confirm-button-addFormation" type="submit" value="Ajouter">
+            <input class="confirm-button" id="confirm-button-addFormation"  onclick="addFormation()" type="submit" value="Ajouter">
         </form>
     </div>
 </div>
@@ -78,6 +82,102 @@
         const modal = document.getElementById('addFormationModal');
         modal.style.display = 'none';
     });
+
+    function addFormation() {
+        var apiUrl = 'http://localhost:8082/index.php/formations/create';
+
+        // Récupérer les valeurs des champs du formulaire
+        var titre = document.getElementById('formationName').value;
+        var description = document.getElementById('formationDescription').value;
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate').value;
+
+        // Créer un objet JSON avec les données du formulaire
+        const data = {
+            "Titre": titre,
+            "Description": description,
+            "Date_Debut_Formation": startDate,
+            "Date_Fin_Formation": endDate,
+            "ID_Organisateur": getCookie('user_id'),
+
+        };
+
+        // Options de la requête HTTP
+        var options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+
+        console.log(options);
+        console.log(data);
+
+        fetch(apiUrl, options)
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMessage => {
+                        throw new Error(errorMessage || 'Erreur inattendue.');
+                    });
+                }
+                return response.json(); // Analyser la réponse JSON
+            })
+            .then(data => {
+                // Afficher la réponse JSON dans une alerte
+                alert(JSON.stringify(data));
+                if (data && data.status && data.status.startsWith("success")) {
+                    alert("success");
+                    window.location.reload();
+                    console.log("success");
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la réponse de l\'API :', error.message);
+                alert('Erreur lors de la réponse de l\'API :', error.message);
+            });
+    }
+
+    function displayUsersInFormationModalWindow(users){
+        //On vérifie si le paramètre est valide
+        if (!Array.isArray(users)) {
+            console.error("Le paramètre 'users' doit être un tableau.");
+            return;
+        }
+
+        const usersTable = document.getElementById('usersTable');
+
+        usersTable.innerHTML = '';
+
+        // On ajoute l'en-tête du tableau
+        const tableHeader = ["", "Nom", "Prénom", "Genre","Détails"];
+
+        const rowHeader = usersTable.insertRow();
+        rowHeader.classList.add("head");
+
+        for (let i = 0; i < tableHeader.length; i++) {
+            const th = document.createElement("th");
+            th.textContent = tableHeader[i];
+            rowHeader.appendChild(th);
+        }
+
+        let firstUser = true;
+        users.forEach(user => {
+            const row = usersTable.insertRow();
+            row.innerHTML = `
+                        <td> <input type="radio" id=${user.ID_Utilisateur} name='id_buttons' value=${user.ID_Utilisateur} ${firstUser ? 'checked' : ''} /> </td>
+                        <td>${user.Nom}</td>
+                        <td>${user.Prenom}</td>
+                        <td>${user.Genre}</td>
+                        <td><button class="popup-button userDetails"> Voir </button></td>
+                    `;
+            if (firstUser === true) {
+                selectedUser = user.ID_Utilisateur;
+            }
+            firstUser = false;
+        });
+    }
+
 </script>
 
 </body>

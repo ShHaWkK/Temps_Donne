@@ -17,6 +17,7 @@ window.onload = function() {
                     addUserDetailsModalEventListeners();
                     addFormationDetailsListeners();
                     addStatusButtonEventListener();
+                    addFormationSeancesListeners();
                 });
         })
         .catch(error => {

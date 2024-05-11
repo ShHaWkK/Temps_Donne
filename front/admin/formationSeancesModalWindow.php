@@ -42,17 +42,15 @@
         const nextSeanceContainer = document.getElementById('seancesTable');
         if (nextSeance) {
             nextSeanceContainer.innerHTML =
-                '<p><h3>Date: </h3>' + nextSeance.Date + '</p>' +
-                '<p><h3>Heure de début: </h3>' + nextSeance.Heure_Debut_Seance + '</p>' +
-                '<p><h3>Heure de fin: </h3>' + nextSeance.Heure_Fin_Seance + '</p>';
+                '<td><h3>Date: </h3>' + nextSeance.Date + '</td>' +
+                '<td><h3>Heure de début: </h3>' + nextSeance.Heure_Debut_Seance + '</td>' +
+                '<td><h3>Heure de fin: </h3>' + nextSeance.Heure_Fin_Seance + '</td>';
         } else {
             nextSeanceContainer.innerHTML =
                 '<h2>Prochaine séance</h2>' +
                 '<p>Aucune séance planifiée pour le moment.</p>';
         }
     }
-
-
 
     function addFormationSeancesListeners() {
         console.log("On est dans addFormationSeancesListeners");

@@ -1,3 +1,14 @@
+function addFormationSeancesListeners() {
+    console.log("On est dans addFormationSeancesListeners");
+    document.querySelectorAll('.seanceDetails').forEach(button => {
+        console.log(button);
+        button.addEventListener('click', async function() {
+            await openFormationSeancesModal(button.id);
+        });
+        console.log("Il n'y a pas de boutons");
+    });
+}
+
 function getAllFormations(){
     return fetch('http://localhost:8082/index.php/formations')
         .then(response => {
@@ -100,7 +111,7 @@ async function displayFormations(formations) {
                         <td>${formation.description}</td>
                         <td>${formation.dateDebut}</td>
                         <td>${formation.dateFin}</td>
-                        <td><button class="popup-button seancesDetails" onclick="openFormationSeancesModal(this.id)" id=${formation.id}> Voir </button></td>                    `;
+                        <td><button class="popup-button seancesDetails" id=${formation.id}> Voir </button></td>                    `;
         if (first === true) {
             selectedFormation = formation.ID_Utilisateur;
         }

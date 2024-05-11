@@ -40,11 +40,13 @@
 
                 // Récupérer les détails de la formation
                 const formationDetailsResponse = await fetch(`http://localhost:8082/index.php/formations/${formationId}`);
+                console.log(formationDetailsResponse);
                 const formationDetails = await formationDetailsResponse.json();
                 console.log(formationDetails);
 
                 // Afficher les détails de la formation dans la fenêtre modale
                 const formationDetailsContainer = document.getElementById('formationDetails');
+
                 formationDetailsContainer.innerHTML =
                     '<h2>Détails de la formation</h2>' +
                     // '<p><h3>ID Formation: </h3>' + formationDetails.id + '</p>' +

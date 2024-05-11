@@ -113,4 +113,14 @@ class FormationService {
         return $this->repository->markAttendance($userId, $formationId,'en_attente');
     }
 
+    public function getSessionRoom($roomId)
+    {
+        return $this->repository->getSessionRoom($roomId);
+    }
+
+    public function getAllRooms()
+    {
+        return $this->repository->getAllRooms();
+    }
+
 }

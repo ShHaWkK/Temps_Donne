@@ -46,6 +46,12 @@ class FormationController {
                             case 'upcoming-sessions':
                                 $this->getUpcomingSessionsForFormation($uri[4]);
                                 break;
+                            case 'session-room':
+                                $this->getSessionRoom($uri[4]);
+                                break;
+                            case 'rooms':
+                                $this->getAllRooms();
+                                break;
                             default:
                                 $this->getFormation($uri[3]);
                                 break;
@@ -309,6 +315,34 @@ class FormationController {
             }
         } catch(Exception $e) {
             ResponseHelper::sendResponse("Erreur lors de la validation de la présence : " . $e->getMessage());
+        }
+    }
+
+    private function getSessionRoom($roomId)
+    {
+        try {
+            $result = $this->formationService->getSessionRoom($roomId);
+            if ($result) {
+                ResponseHelper::sendResponse($result);
+            } else {
+                ResponseHelper::sendNotFound("Not found");
+            }
+        } catch(Exception $e) {
+            ResponseHelper::sendResponse("Error: " . $e->getMessage());
+        }
+    }
+
+    private function getAllRooms()
+    {
+        try {
+            $result = $this->formationService->getAllRooms();
+            if ($result) {
+                ResponseHelper::sendResponse($result);
+            } else {
+                ResponseHelper::sendNotFound("Not found");
+            }
+        } catch(Exception $e) {
+            ResponseHelper::sendResponse("Error: " . $e->getMessage());
         }
     }
 

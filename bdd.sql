@@ -128,13 +128,15 @@ CREATE TABLE Seances(
 
 -- Table Inscriptions_Formations
 CREATE TABLE Inscriptions_Formations (
-                                         ID_Inscription INT AUTO_INCREMENT PRIMARY KEY,
                                          ID_Utilisateur INT,
                                          ID_Formation INT,
                                          Date_Inscription DATE,
+                                         Statut ENUM('confirmee', 'en_attente', 'refusee') NOT NULL DEFAULT 'en_attente',
                                          FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
-                                         FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation)
+                                         FOREIGN KEY (ID_Formation) REFERENCES Formations(ID_Formation),
+                                         PRIMARY KEY (ID_Utilisateur, ID_Formation)
 );
+
 ALTER TABLE Inscriptions_Formations
     ADD COLUMN Attended BOOLEAN NOT NULL DEFAULT FALSE;
 

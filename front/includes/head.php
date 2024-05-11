@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/table.css">
     <link rel="stylesheet" href="../css/cookie.css">
     <link rel="stylesheet" href="../css/services.css"
 </head>

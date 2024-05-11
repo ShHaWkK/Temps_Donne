@@ -5,7 +5,13 @@ window.onload = function() {
             return getAllFormations();
         })
         .then(formations => {
-            displayFormations(formations);
+            displayFormations(formations,'available-formations');
+        })
+        .then(() => {
+            return getUserFormations();
+        })
+        .then(formations => {
+            displayFormations(formations,'my-formations');
         })
         .then(() => {
             addFormationDetailsListeners();

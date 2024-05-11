@@ -33,6 +33,8 @@ class FormationService {
     }
 
     public function registerVolunteerForFormation($userId, $formationId) {
+        //A améliorer pour plus tard
+        /*
         $formation = $this->repository->getFormationById($formationId);
 
         if (!$formation) {
@@ -45,7 +47,7 @@ class FormationService {
         if ($currentParticipants >= $roomCapacity) {
             throw new Exception("La salle ne peut pas accueillir plus de participants.");
         }
-
+         */
         return $this->repository->registerVolunteerForFormation($userId, $formationId);
     }
 

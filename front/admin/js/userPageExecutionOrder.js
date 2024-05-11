@@ -1,6 +1,6 @@
 // Initialisation
 window.onload = function() {
-    checkSessionVolunteer()
+    checkSession()
         .then(() => {
             return getAllUsers();
         })

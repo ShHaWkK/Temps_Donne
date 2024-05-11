@@ -12,6 +12,3 @@
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
-
-    // Par défaut, afficher le premier onglet
-    document.getElementById("stockTab").style.display = "block";

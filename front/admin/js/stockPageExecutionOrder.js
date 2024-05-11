@@ -1,6 +1,6 @@
 // Initialisation
 window.onload = function() {
-    checkSessionVolunteer()
+    checkSession()
         .then(()=> {
             return getAllProducts();
         })
@@ -78,3 +78,6 @@ window.onload = function() {
             console.error("Une erreur s'est produite :", error);
         });
 }
+
+// Par défaut, afficher le premier onglet
+document.getElementById("stockTab").style.display = "block";

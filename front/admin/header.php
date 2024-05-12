@@ -91,10 +91,11 @@
         <a href="#" class="nav-item"><i class="fa fa-user"></i>Profil</a>
     </nav>
     <div class="sidebar-footer">
-        <a href="#" class="nav-item"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>
+        <a href="#" class="nav-item" id="logoutButton"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>
     </div>
 </aside>
 
+<script src="../scripts/logout.js"></script>
 <script>
     const menuButton = document.getElementById('menuButton');
     const sidebar = document.querySelector('.sidebar');

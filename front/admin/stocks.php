@@ -175,4 +175,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="./js/stockPageExecutionOrder.js"></script>
 
 </body>
+<?php
+include_once('../includes/footer.php');
+?>
 </html>

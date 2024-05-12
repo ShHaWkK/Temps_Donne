@@ -6,6 +6,7 @@ include_once('./header.php');
 include_once('./addServiceModalWindow.php');
 include_once ('./assignUserModalWindow.php');
 include_once('./deleteServiceModalWindow.php');
+include_once('../includes/footer.php');
 ?>
 
 <head>
@@ -77,4 +78,7 @@ include_once('./deleteServiceModalWindow.php');
 <script src="./js/serviceType.js"></script>
 <script src="./js/assignUserToService.js"></script>
 </body>
+<?php
+include_once('../includes/footer.php');
+?>
 </html>

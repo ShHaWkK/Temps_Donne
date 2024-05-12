@@ -1,5 +1,6 @@
 <?php
 include_once('../includes/lang.php');
+include_once ('../includes/header.php');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo htmlspecialchars($data["LANGUAGE_CODE"]); ?>">
@@ -33,6 +34,8 @@ include_once('../includes/lang.php');
 </div>
 
 <script src="./js/login_admin.js"></script>
-
+<?php
+include_once('../includes/footer.php');
+?>
 </body>
 </html>

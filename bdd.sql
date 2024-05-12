@@ -64,7 +64,7 @@ CREATE TABLE Services (
                           ID_ServiceType INT NOT NULL ,
                           startTime TIME NOT NULL ,
                           endTime TIME NOT NULL ,
-                          FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType) ON DELETE SET NULL
+                          FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType) ON DELETE CASCADE
 );
 # ALTER TABLE Services ADD COLUMN startTime TIME;
 # ALTER TABLE Services ADD COLUMN endTime TIME;

@@ -89,4 +89,7 @@ echo "<title>Espace Administrateur - Utilisateurs</title>";
 <script src="./js/userPageExecutionOrder.js"></script>
 
 </body>
+<?php
+include_once('../includes/footer.php');
+?>
 </html>

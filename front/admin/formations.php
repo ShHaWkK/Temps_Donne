@@ -81,4 +81,7 @@ echo "<title>Espace Administrateur - Formations</title>";
 <script src="./js/formationExecutionOrder.js"></script>
 
 </body>
+<?php
+include_once('../includes/footer.php');
+?>
 </html>

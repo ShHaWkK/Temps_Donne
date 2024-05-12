@@ -53,4 +53,7 @@ echo "<title>Espace bénévole - Formations</title>";
 <script src="./js/formations.js"></script>
 
 </body>
+<?php
+include_once('../includes/footer.php');
+?>
 </html>

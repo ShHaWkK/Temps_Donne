@@ -1,5 +1,3 @@
-document.write('<script src="../../scripts/getCookie.js"></script>');
-
 let currentWeek = new Date();
 let events;
 
@@ -34,9 +32,8 @@ async function getUserPlanning() {
         if (!response.ok) {
             alert('Erreur réseau');
         }
-        const data = await response.json();
-        //console.log(data);
-        return data;
+
+        return await response.json();
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
         return [];
@@ -45,11 +42,16 @@ async function getUserPlanning() {
 
 // Fonction pour afficher les semaines dans le calendrier
 function displayWeekTable() {
+    console.log('displayWeekTable');
     // Displaying information
     const startDate = new Date(currentWeek);
+    console.log(startDate);
     startDate.setDate(currentWeek.getDate() - currentWeek.getDay() + 1); // Monday of this week
+    console.log(startDate);
     const endDate = new Date(startDate);
+    console.log(endDate);
     endDate.setDate(endDate.getDate() + 6); // Sunday of this week
+    console.log(endDate);
     document.getElementById("currentWeek").textContent = formatDate(startDate) + " - " + formatDate(endDate);
 
     // Displaying the planning calendar
@@ -81,11 +83,10 @@ function displayWeekTable() {
 
     (async () => {
         events = await getUserPlanning();
-        console.log(events);
-        displayEvents(events);
+        await displayEvents(events);
+        //await displayEvents(events);
     })();
 }
-
 async function getEventData(serviceId) {
     try {
         const url = 'http://localhost:8082/index.php/services/' + serviceId;
@@ -94,7 +95,6 @@ async function getEventData(serviceId) {
             alert('Erreur réseau');
         }
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
@@ -108,40 +108,29 @@ async function displayEvents(events) {
     for (const event of events) {
         const index = events.indexOf(event);
         let eventData = await getEventData(event.ID_Service);
-        console.log(eventData);
 
         const startTime = parseInt(eventData.startTime.split(":")[0]);
         const endTime = parseInt(eventData.endTime.split(":")[0]);
-        /*
-        const startTime = parseInt(event.startTime.split(":")[0]);
-        const endTime = parseInt(event.endTime.split(":")[0]);
-        */
 
         const startDate = new Date(eventData.Date);
         const eventDayIndex = startDate.getDay();
         const eventColumnIndex = (eventDayIndex === 0) ? 7 : eventDayIndex;
 
-        /*
-        const startDate = new Date(event.Date);
-        const eventDayIndex = startDate.getDay();
-        const eventColumnIndex = (eventDayIndex === 0) ? 7 : eventDayIndex; // Si c'est dimanche, on met 7 pour obtenir la dernière colonne
-        */
-
         const startRow = startTime + 1;
         const endRow = endTime + 1;
 
         let formattedCurrentWeek = formatWeek(currentWeek);
+
         // Filling the cells for the event
         for (let row = startRow; row <= endRow; row++) {
             const cell = table.rows[row].cells[eventColumnIndex];
             const formattedEventWeek = formatWeek(startDate); // Formatage de la semaine de l'événement
             if (formattedCurrentWeek === formattedEventWeek) {
                 if (row === startRow) {
-                    // cell.textContent = event.activity;
                     cell.textContent = eventData.Nom_du_service;
                     cell.rowSpan = endRow - startRow + 1;
                     cell.classList.add("planning-event");
-                    cell.id="planningEvent";
+                    cell.id = "planningEvent";
                     cell.dataset.eventIndex = index; // Ajouter l'attribut "data-event-index"
                 } else {
                     cell.style.display = "none";
@@ -152,20 +141,32 @@ async function displayEvents(events) {
 }
 
 function displayNextWeek() {
+    console.log("displayNextWeek",currentWeek);
     currentWeek.setDate(currentWeek.getDate() + 7);
     displayWeekTable();
 }
 
 function displayPreviousWeek() {
+    console.log("displayPreviousWeek",currentWeek);
     currentWeek.setDate(currentWeek.getDate() - 7);
     displayWeekTable();
 }
 
 function displayCurrentWeek() {
-    currentWeek = new Date();
-    displayWeekTable();
+    currentWeek = new Date(); // Réinitialisation à la date actuelle
+    // const dayOfWeek = currentWeek.getDay(); // Jour de la semaine (0 - dimanche, 1 - lundi, ..., 6 - samedi)
+    // const diff = currentWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Nombre de jours à soustraire pour obtenir le lundi
+    // currentWeek.setDate(diff); // Réglez la date sur le lundi de cette semaine
+    // console.log("currentWeek in displayCurrentWeek",currentWeek);
+    displayWeekTable(); // Affichage du planning de la semaine actuelle
 }
 
-window.onload = function() {
-    displayWeekTable();
+window.onload = async function () {
+    try {
+        await checkSession(); // Attend la vérification de la session
+        const plannings = await getUserPlanning(); // Attend la récupération des données de planification
+        displayWeekTable(plannings); // Affiche la table de planification avec les données récupérées
+    } catch (error) {
+        console.error('Erreur lors de la vérification de la session ou de la récupération des données:', error);
+    }
 }

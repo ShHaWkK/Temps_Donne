@@ -42,4 +42,7 @@
 </body>
 <script src="js/carousel.js"></script>
 </body>
+<?php
+include_once('../includes/footer.php');
+?>
 </html>

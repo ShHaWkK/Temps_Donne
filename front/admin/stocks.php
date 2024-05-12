@@ -97,7 +97,6 @@ echo "<title>Espace Administrateur - Stocks</title>";
 
             <table id="stockTable">
             </table>
-
         </div>
 
         <!-- Onglet Collecte des Produits -->

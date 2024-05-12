@@ -3,12 +3,15 @@
 require_once './Services/CircuitService.php';
 require_once './Models/CircuitModel.php';
 require_once './Helpers/ResponseHelper.php';
+//require_once './pdf_generator/pdf_template.php';
 
 class CircuitController {
     private $circuitService;
+    private $circuitPdf;
 
     public function __construct() {
         $this->circuitService = new CircuitService(new CircuitRepository());
+        $this->circuitPdf = new CircuitPdf();
     }
 
     public function processRequest($method, $uri) {
@@ -32,7 +35,11 @@ class CircuitController {
                     }
                     break;
                 case 'POST':
-                    $this->createCircuit();
+                    if ($uri[3] == 'pdf'){
+                        $this->circuitPdf->LoadData();
+                    }else{
+                        $this->createCircuit();
+                    }
                     break;
                 case 'PUT':
                     if (isset($uri[3])) {

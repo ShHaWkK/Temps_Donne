@@ -123,7 +123,7 @@ function router($uri, $requestMethod) {
             break;
         case 'don':
             $controller = new DonController();
-            $controller = processRequest($requestMethod, $uri);
+            $controller->processRequest($requestMethod, $uri);
             break;
         case 'planning':
             $controller = new PlanningController();

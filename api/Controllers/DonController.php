@@ -3,6 +3,9 @@
 
 require_once './Services/DonService.php';
 require_once './Helpers/ResponseHelper.php';
+require_once './Models/DonModel.php';
+require_once './Repository/DonRepository.php';
+
 
 class DonController
 {

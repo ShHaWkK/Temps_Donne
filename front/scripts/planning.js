@@ -42,17 +42,19 @@ async function getUserPlanning() {
 
 // Fonction pour afficher les semaines dans le calendrier
 function displayWeekTable() {
-    console.log('displayWeekTable');
-    // Displaying information
-    const startDate = new Date(currentWeek);
-    console.log(startDate);
-    startDate.setDate(currentWeek.getDate() - currentWeek.getDay() + 1); // Monday of this week
-    console.log(startDate);
-    const endDate = new Date(startDate);
-    console.log(endDate);
-    endDate.setDate(endDate.getDate() + 6); // Sunday of this week
-    console.log(endDate);
-    document.getElementById("currentWeek").textContent = formatDate(startDate) + " - " + formatDate(endDate);
+        console.log('displayWeekTable');
+
+        // Calcul du lundi de la semaine actuelle
+        const day = currentWeek.getDay();
+        const diff = currentWeek.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(currentWeek.setDate(diff));
+
+        // Calcul du dimanche de la semaine actuelle
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+
+        // Affichage de la semaine actuelle dans le planning
+        document.getElementById("currentWeek").textContent = formatDate(monday) + " - " + formatDate(sunday);
 
     // Displaying the planning calendar
     const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
@@ -66,8 +68,8 @@ function displayWeekTable() {
     headerRow.insertCell().textContent = "Time";
     for (let i = 0; i < 7; i++) {
         const cell = headerRow.insertCell();
-        cell.textContent = days[i] + " " + formatDate(new Date(startDate));
-        startDate.setDate(startDate.getDate() + 1);
+        cell.textContent = days[i] + " " + formatDate(new Date(monday));
+        monday.setDate(monday.getDate() + 1);
     }
 
     // Création des lignes pour chaque heure
@@ -87,6 +89,7 @@ function displayWeekTable() {
         //await displayEvents(events);
     })();
 }
+
 async function getEventData(serviceId) {
     try {
         const url = 'http://localhost:8082/index.php/services/' + serviceId;

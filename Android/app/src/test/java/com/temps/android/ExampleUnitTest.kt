@@ -1,4 +1,4 @@
-package temps.android
+package com.temps.android
 
 import org.junit.Test
 

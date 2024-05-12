@@ -17,8 +17,9 @@
         </button>
 
         <!-- Barre de recherche et icône de recherche -->
+        <!--
         <div class="search-container">
-<!--
+
             <div class="search-icon">
                 <input class="search-input" type="text" placeholder="Recherche..." id="searchInput">
                 <a><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -34,13 +35,16 @@
                     <i class="fa-solid fa-user"> </i>Profil
                 </button>
 
-                <button class="popup-button  menu" >
-                    <i class="fa-solid fa-envelope"></i>Messages
-                </button>
-
+                <!--
+                                <button class="popup-button  menu" >
+                                    <i class="fa-solid fa-envelope"></i>Messages
+                               </button>
+                -->
+<!--
                 <button class="popup-button  menu" >
                     <i class="fa-solid fa-bell"></i>Notifications
                 </button>
+                -->
             </ul>
         </nav>
 
@@ -90,8 +94,8 @@
         <a href="./stocks.php" class="nav-item"><i class="fa fa-envelope"></i>Stocks</a>
         <a href="./planning.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Planning</a>
         <a href="./formations.php" class="nav-item"><i class="fa fa-graduation-cap"></i>Formations</a>
-        <a href="#" class="nav-item"><i class="fa fa-graduation-cap"></i>Maraudes</a>
-        <a href="#" class="nav-item"><i class="fa fa-user"></i>Profil</a>
+<!--        <a href="#" class="nav-item"><i class="fa fa-graduation-cap"></i>Maraudes</a>-->
+        <a href="./profile.php" class="nav-item"><i class="fa fa-user"></i>Profil</a>
     </nav>
     <div class="sidebar-footer">
         <a href="#" class="nav-item" id="logoutButton"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>

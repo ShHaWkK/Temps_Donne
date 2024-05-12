@@ -13,9 +13,9 @@ include_once('../includes/head.php');
 </head>
 <body>
 
-<center>
+    <div class="main-container">
     <h1>Profil</h1>
-</center>
+
 
     <div class="row">
         <div class="col-md-3 border-right">
@@ -52,7 +52,7 @@ include_once('../includes/head.php');
             </div>
         </div>
     </div>
-
+    </div>
 <script src="../scripts/getCookie.js"></script>
 <script>
     // URL de l'API à interroger

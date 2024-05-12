@@ -17,6 +17,7 @@ require_once 'Controllers/UserController.php';
 require_once 'Controllers/LoginController.php';
 require_once 'Controllers/ServiceController.php';
 require_once 'Controllers/FormationController.php';
+require_once 'Controllers/DonController.php';
 require_once 'Controllers/StockController.php';
 require_once 'Controllers/CircuitController.php';
 require_once 'Controllers/EntrepotController.php';
@@ -120,9 +121,9 @@ function router($uri, $requestMethod) {
             $controller = new ServiceController();
             $controller->processRequest($requestMethod,$uri);
             break;
-        case 'tickets':
-            //$controller = new TicketController();
-            // Ajoutez ici les cas pour les méthodes HTTP que vous souhaitez gérer pour les tickets
+        case 'don':
+            $controller = new DonController();
+            $controller = processRequest($requestMethod, $uri);
             break;
         case 'planning':
             $controller = new PlanningController();

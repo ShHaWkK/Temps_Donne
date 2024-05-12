@@ -1,6 +1,9 @@
 <?php
 
 
+require_once './Services/DonService.php';
+require_once './Helpers/ResponseHelper.php';
+
 class DonController
 {
     private $donService;

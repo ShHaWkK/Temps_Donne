@@ -613,7 +613,6 @@ CREATE TABLE DemandesBenevoles (
                                    ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
                                    ID_Demande INT,
                                    ID_Utilisateur INT,
-                                   FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande) ON DELETE CASCADE,
                                    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 

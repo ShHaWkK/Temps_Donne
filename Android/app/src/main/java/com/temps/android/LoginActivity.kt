@@ -6,16 +6,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.temps.android.api.RetrofitClient
 import com.temps.android.model.LoginCredentials
 import com.temps.android.model.LoginResponse
-import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        loginButton.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
+        binding.loginButton.setOnClickListener {
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 loginUser(email, password)
             } else {
@@ -30,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: retrofit2.Call<LoginResponse>, response: retrofit2.Response<LoginResponse>) {
                 if (response.isSuccessful && response.body()?.status == "success") {
                     Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_LONG).show()
-                    // Handle successful login, navigate to another activity or store login session
                 } else {
                     Toast.makeText(this@LoginActivity, "Login failed: ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
                 }

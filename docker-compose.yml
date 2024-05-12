@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Frontend Service
+  frontend:
+    image: php:8-apache
+    ports:
+      - "8083:80"
+    volumes:
+      - ./front:/var/www/html/
+
+  # API Service
+  api:
+    build: .
+    ports:
+      - "8082:80"
+    volumes:
+      - ./api:/var/www/html/
+
+  # Database Service
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: temps
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
+
+volumes:
+  db-data:

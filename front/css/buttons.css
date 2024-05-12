@@ -1,0 +1,37 @@
+
+.addButton{
+    background-color: #4CAF50;
+}
+
+.addButton:hover{
+    background-color: darkgreen;
+}
+
+.neutralButton{
+    background-color: #00334A;
+}
+
+.neutralButton:hover{
+    background-color: #002233;
+}
+
+.addButton.addCircuit.active{
+    display: none;
+}
+
+.holdButton{
+    background-color: lightsalmon;
+}
+
+.holdButton:hover{
+    background-color: darkorange;
+}
+
+
+.deleteButton{
+    background-color: indianred;
+}
+
+.deleteButton:hover{
+    background-color: darkred;
+}

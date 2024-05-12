@@ -1,0 +1,59 @@
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #007FA9; /* ou tout autre couleur de votre choix */
+    color: white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    margin-top: 20px;
+}
+
+.footer-container a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-container a:hover {
+    color: #82CFD8; /* Couleur plus claire pour l'effet hover */
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-column h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem; /* ou la taille que vous préférez */
+}
+
+.footer-column ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column li {
+    padding: 5px 0;
+}
+
+.footer-column li:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Ligne séparatrice */
+}
+
+/* Responsive design pour le footer */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+    }
+
+    .footer-column:not(:last-child) {
+        margin-bottom: 20px;
+    }
+}

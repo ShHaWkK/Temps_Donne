@@ -1,0 +1,109 @@
+ /* Styles CSS pour le tableau */
+ table {
+     width: 70%;
+     border-collapse: collapse;
+     margin: auto;
+ }
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    width: 100px;
+}
+
+th {
+    background-color: #f2f2f2;
+
+}
+
+tbody{
+    border: none;
+}
+
+.activity {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color:chocolate ;
+}
+
+.direction-button{
+    background-color: #00334A;
+    color: white;
+    cursor: pointer;
+    width: 15%;
+    padding: 15px;
+    border-radius: 20px;
+}
+ .direction-button:hover{
+     background-color: #002233;
+     cursor: pointer;
+ }
+
+ .information-tab{
+     border: none   ;
+ }
+
+ .now-button{
+     background-color: #00334A;
+     color: white;
+     cursor: pointer;
+     padding-left: 15px;
+     padding-right: 15px;
+     padding-top: 5px;
+     padding-bottom: 5px;
+     border-radius: 20px;
+ }
+
+ .planning-event{
+     color: black;
+     padding: 15px;
+     background-color: #82CFD8;
+     border-radius: 50px;
+     transition: background-color 0.3s;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+ }
+
+ .planning-event:hover{
+     background-color: #23B5BE;
+     transform: scale(1.05);
+     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+ }
+
+ /*Style de la fenêtre contextuelle pour les détails des événements*/
+ .modal {
+     display: none; /* Masquer la fenêtre modale par défaut */
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+ }
+
+ .modal-content {
+     background-color: #fefefe;
+     margin: 10% auto;
+     padding: 20px;
+     border: 1px solid #888;
+     width: 80%;
+ }
+
+ .close {
+     color: #aaa;
+     float: right;
+     font-size: 28px;
+     font-weight: bold;
+ }
+
+ .close:hover,
+ .close:focus {
+     color: black;
+     text-decoration: none;
+     cursor: pointer;
+ }

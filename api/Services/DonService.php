@@ -17,7 +17,6 @@ class DonService {
     }
 
     public function createDon($don) {
-        // Validation ou traitement de la logique métier avant insertion
         if ($don->montant <= 0) {
             throw new Exception("Le montant du don ne peut pas être négatif ou nul.", 400);
         }
@@ -25,7 +24,6 @@ class DonService {
     }
 
     public function updateDon($don) {
-        // Validation ou traitement de la logique métier avant mise à jour
         if ($don->montant <= 0) {
             throw new Exception("Le montant du don ne peut pas être négatif ou nul.", 400);
         }
@@ -33,7 +31,6 @@ class DonService {
     }
 
     public function deleteDon($id) {
-        // Vérification avant suppression, si nécessaire
         $existingDon = $this->getDonById($id);
         if (!$existingDon) {
             throw new Exception("Le don avec l'ID $id n'existe pas.", 404);

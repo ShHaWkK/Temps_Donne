@@ -35,5 +35,8 @@ include_once('../includes/head.php');
       </form>
     </div>
   </div>
+
+  <script src="../scripts/api_integration/login_volunteer.js"></script>
+
 </body>
 </html>

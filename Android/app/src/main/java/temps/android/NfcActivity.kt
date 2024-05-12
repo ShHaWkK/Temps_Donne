@@ -1,5 +1,7 @@
-package temps.android
 
+
+package temps.android
+/*
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
@@ -79,4 +81,4 @@ class NfcActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         return sb.toString()
     }
 
-}
+}*/

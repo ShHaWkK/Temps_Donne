@@ -8,8 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.temps.android.model.PlanningEvent
 import temps.android.R
 
-class PlanningAdapter(private val planningList: List<PlanningEvent>) :
+class PlanningAdapter(var planningList: MutableList<PlanningEvent>) :
     RecyclerView.Adapter<PlanningAdapter.PlanningViewHolder>() {
+
+    fun updateData(newData: List<PlanningEvent>) {
+        planningList.clear()
+        planningList.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+
 
     class PlanningViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(event: PlanningEvent) {

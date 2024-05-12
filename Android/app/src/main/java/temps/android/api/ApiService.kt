@@ -13,7 +13,9 @@ interface ApiService {
     fun loginUser(@Body credentials: LoginCredentials): Call<LoginResponse>
 
     @GET("planning/{userId}")
-    fun fetchPlannings(@Path("userId") userId: Int): Call<List<PlanningEvent>>
+    fun getUserPlanning(@Path("userId") userId: Int): Call<List<PlanningEvent>>
+
+
 
 }
 

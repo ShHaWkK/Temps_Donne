@@ -35,7 +35,6 @@ function validateFormAndSendData() {
             return false;
         }
     }
-
     sendDataToAPI();
 }
 

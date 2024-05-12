@@ -74,7 +74,7 @@ async function addNextSessionsListeners() {
                 nextSessionsContainer.innerHTML = sessionDetailsHTML;
             } else {
                 // Afficher un message si aucune session n'est disponible
-                nextSessionsContainer.innerHTML = '<p>Aucune session disponible pour cette formation.</p>';
+                nextSessionsContainer.innerHTML = '<p>Aucune séance disponible pour cette formation.</p>';
             }
         });
     });

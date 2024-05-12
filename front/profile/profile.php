@@ -12,7 +12,11 @@ include_once('../includes/head.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="container rounded bg-white mt-5 mb-5">
+
+<center>
+    <h1>Profil</h1>
+</center>
+
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -24,7 +28,7 @@ include_once('../includes/head.php');
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="text-right">Profile Settings</h2>
+                    <h2 class="text-right">Informations du profil</h2>
                 </div>
 
                 <div class="row mt-3">
@@ -48,7 +52,6 @@ include_once('../includes/head.php');
             </div>
         </div>
     </div>
-</div>
 
 <script src="../scripts/getCookie.js"></script>
 <script>

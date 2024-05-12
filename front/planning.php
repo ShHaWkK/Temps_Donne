@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<script src="./js/eventDetails.js"></script>
+<script src="./scripts/eventDetails.js"></script>
 
 </body>
 <?php

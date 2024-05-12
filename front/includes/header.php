@@ -62,10 +62,12 @@
 
         <!-- Search bar -->
         <div class="search-container">
+<!--
             <div class="search-icon">
                 <input class="search-input" type="text" placeholder="<?php echo htmlspecialchars($data["SEARCH_PLACEHOLDER"] ?? 'Search...'); ?>" id="searchInput">
                 <a><i class="fa-solid fa-magnifying-glass"></i></a>
             </div>
+            -->
         </div>
 
         <!-- Mobile search icon -->

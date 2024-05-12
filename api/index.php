@@ -27,6 +27,8 @@ require_once 'Controllers/PlanningController.php';
 require_once 'Controllers/SkillController.php';
 require_once 'Controllers/CamionController.php';
 require_once 'Controllers/CommercantController.php';
+require_once 'Controllers/DemandeController.php';
+
 require_once 'Helpers/ResponseHelper.php';
 //require_once  __DIR__ . '/vendor/autoload.php';
 
@@ -154,6 +156,9 @@ function router($uri, $requestMethod) {
             $controller=new CommercantController();
             $controller->processRequest($requestMethod,$uri);
             break;
+        case 'demand':
+            $controller=new DemandeController();
+            $controller->processRequest($requestMethod,$uri);
         default:
             exit_with_message('Not Found', 404);
             return;

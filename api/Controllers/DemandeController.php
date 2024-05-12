@@ -4,14 +4,20 @@ require_once './Services/DemandeService.php';
 require_once './Helpers/ResponseHelper.php';
 
 class DemandeController {
+
     private $demandeService;
+    private $db;
 
     public function __construct() {
-        $this->demandeService = new DemandeService(new DemandeRepository(), new BenevoleRepository(), new PlanningRepository(), new NotificationRepository());
+        $this->db = connectDB();
+        $this->demandeService = new DemandeService();
     }
 
     public function processRequest($method, $uri) {
         switch ($method) {
+            case 'POST':
+                $this->addDemande($uri[3],$uri[4]);
+                break;
             case 'GET':
                 if (isset($uri[3])) {
                     $this->getDemande($uri[3]);
@@ -19,15 +25,18 @@ class DemandeController {
                     $this->getAllDemandes();
                 }
                 break;
+                /*
             case 'POST':
                 if (isset($uri[3]) && $uri[3] === 'affecter') {
                     $this->affecterBenevole();
                 } elseif (isset($uri[3]) && $uri[3] === 'accepter') {
                     $this->accepterDemande();
                 } else {
-                    $this->createDemande();
-                }
+
+//                }
+//                $this->createDemande($uri[3],$uri[4]);
                 break;
+                */
             case 'PUT':
                 if (isset($uri[3])) {
                     $this->updateDemande($uri[3]);
@@ -85,5 +94,22 @@ class DemandeController {
         $data = json_decode(file_get_contents('php://input'), true);
         $this->demandeService->accepterDemande($data);
         ResponseHelper::sendResponse(['message' => 'Demande acceptée avec succès']);
+    }
+
+    private function addDemande( $UserId, $ServiceId)
+    {
+        try {
+            $result = $this->demandeService->addDemande($UserId, $ServiceId);
+            if ($result) {
+                ResponseHelper::sendResponse("Demand created successfully", 201);
+            } else {
+                ResponseHelper::sendResponse("Failed to create formation", 400);
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
+        }
+        /*
+        $this->demandeService->addDemande($UserId, $ServiceId);
+        ResponseHelper::sendResponse(['message' => 'Demande ajoutée avec succès']);*/
     }
 }

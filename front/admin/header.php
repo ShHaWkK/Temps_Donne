@@ -18,10 +18,12 @@
 
         <!-- Barre de recherche et icône de recherche -->
         <div class="search-container">
+<!--
             <div class="search-icon">
                 <input class="search-input" type="text" placeholder="Recherche..." id="searchInput">
                 <a><i class="fa-solid fa-magnifying-glass"></i></a>
             </div>
+-->
         </div>
 
         <!-- Boutons de navigation -->
@@ -82,7 +84,7 @@
     </div>
     -->
     <nav class="sidebar-nav">
-        <a href="./panel_volunteer.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>
+<!--        <a href="./panel_volunteer.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>-->
         <a href="./users.php" class="nav-item"><i class="fa fa-calendar-check"></i>Utilisateurs</a>
         <a href="./services.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Services</a>
         <a href="./stocks.php" class="nav-item"><i class="fa fa-envelope"></i>Stocks</a>

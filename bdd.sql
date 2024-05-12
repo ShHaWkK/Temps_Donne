@@ -93,8 +93,6 @@ CREATE TABLE Formations (
                             Description TEXT,
                             Date_Debut_Formation DATE,
                             Date_Fin_Formation DATE,
---                           Duree TIME,
---                           Lieu VARCHAR(255),
                             ID_Organisateur INT,
                             FOREIGN KEY (ID_Organisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE SET NULL
 );
@@ -580,13 +578,15 @@ CREATE TABLE Session (
 -- Ajout d'une table demandes
 -- Bénéfciaire
 CREATE TABLE Demandes (
-                          ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
+#                           ID_Demande INT AUTO_INCREMENT PRIMARY KEY,
                           ID_Utilisateur INT,
-                          ID_Service INT,
+                          ID_ServiceType INT,
                           Date_Demande DATE NOT NULL,
-                          Statut ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
+                          Statut ENUM('En attente', 'Acceptee', 'Refusee') DEFAULT 'En attente',
                           FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
-                          FOREIGN KEY (ID_Service) REFERENCES Services(ID_Service)
+                          FOREIGN KEY (ID_ServiceType) REFERENCES ServiceType(ID_ServiceType) ON DELETE CASCADE,
+                          PRIMARY KEY (ID_Utilisateur, ID_ServiceType)
+
 );
 
 

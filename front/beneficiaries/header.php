@@ -18,10 +18,12 @@
 
         <!-- Barre de recherche et icône de recherche -->
         <div class="search-container">
+<!--
             <div class="search-icon">
                 <input class="search-input" type="text" placeholder="Recherche..." id="searchInput">
                 <a><i class="fa-solid fa-magnifying-glass"></i></a>
             </div>
+            -->
         </div>
 
 
@@ -43,38 +45,27 @@
             </ul>
         </nav>
 
-        <div class="popover-container menu">
-            <ul class="popover-content" id="serviceList">
+        <!-- Menu déroulant pour les langues -->
+        <div class="popover-container">
+            <?php
+            $imagePath = htmlspecialchars($data["FLAG"]);
+            ?>
+            <button class="popup-button" onclick="toggleLanguageList()">
+                <img src="<?php echo $imagePath; ?>" width="30" height="30">
+            </button>
+            <ul class="popover-content" id="languageList">
                 <li>
-                    <a href="index.php" class="nav-item active">
-                        <i class="fa fa-home"></i> Accueil
+                    <a href="javascript:void(0);" onclick="changeLanguage('fr')">
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["FRENCH"]) ?></span>
                     </a>
                 </li>
                 <li>
-                    <a href="services.php" class="nav-item">
-                        <i class="fa-solid fa-users"></i> Services
-                    </a>
-                </li>
-                <li>
-                    <a href="dons.php" class="nav-item-space">
-                        <i class="fa-solid fa-hand-holding-dollar"></i> Faire un don
-                    </a>
-                </li>
-                <li>
-                    <a href="espace_beneficiaire.php" class="nav-item-space">
-                        <i class="fa-solid fa-handshake"></i> Espace bénéficiaire
-                    </a>
-                </li>
-                <li>
-                    <a href="espace_benevole.php" class="nav-item-space">
-                        <i class="fa-solid fa-hand-holding-heart"></i> Espace bénévole
+                    <a href="javascript:void(0);" onclick="changeLanguage('en')">
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["ENGLISH"] ); ?></span>
                     </a>
                 </li>
             </ul>
         </div>
-
-        <!-- Menu déroulant pour les langues -->
-
 
         <!-- Bouton de mode sombre -->
         <div class="dark-mode-toggle">
@@ -87,16 +78,13 @@
 </header>
 
 <aside class="sidebar bebas-neue">
-    <div class="profile-section">
-        <img src="../../images/Ethan.jpg" alt="Photo de profil">
-        <h2>Nom et Prénom</h2>
-    </div>
+
     <nav class="sidebar-nav">
-        <a href="./home.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>
-        <a href="#" class="nav-item"><i class="fa fa-calendar-check"></i>Demandes</a>
+        <a href="./profile.php" class="nav-item"><i class="fa fa-user"></i>Profil</a>
+<!--        <a href="./home.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>-->
+        <a href="demands.php" class="nav-item"><i class="fa fa-calendar-check"></i>Demandes</a>
         <a href="./planning.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Planning</a>
-        <a href="#" class="nav-item"><i class="fa fa-envelope"></i>Feedbacks</a>
-=        <a href="#" class="nav-item"><i class="fa fa-user"></i>Profil</a>
+        <a href="./feedbacks.php" class="nav-item"><i class="fa fa-envelope"></i>Feedbacks</a>
     </nav>
     <div class="sidebar-footer">
         <a href="#" class="nav-item" id="logoutButton"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>

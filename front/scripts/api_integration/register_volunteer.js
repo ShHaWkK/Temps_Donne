@@ -23,6 +23,7 @@ function sendDataToAPI() {
     var permis_b = document.getElementById('driverLicenseCheckbox').checked;
     var permis_poids_lourd = document.getElementById('heavyLicenseCheckbox').checked;
     var caces = document.getElementById('cacesCheckbox').checked;
+    var nationalite = document.getElementById('nationalite').value;
 
     // Créer un objet JSON avec les données du formulaire
     var data = {
@@ -33,6 +34,7 @@ function sendDataToAPI() {
         "Genre": genre,
         "Adresse": adresse,
         "Telephone": telephone,
+        "Nationalite":nationalite,
         "Date_de_naissance": date_naissance,
         "Statut": "Pending",
         "Situation": situation,
@@ -85,7 +87,7 @@ function sendDataToAPI() {
                     const userId = data["inserted_id"];
                     console.log(userId);
                     addSelectedSkills(userId);
-                    //window.location.href = "../../inscription_conn/connexion_benevole.php";
+                    window.location.href = "../../inscription_conn/connexion_benevole.php";
                     return data;
                 } else {
                     // Jetez une erreur avec le message de la réponse JSON

@@ -11,7 +11,7 @@ class CircuitController {
 
     public function __construct() {
         $this->circuitService = new CircuitService(new CircuitRepository());
-        $this->circuitPdf = new CircuitPdf();
+//        $this->circuitPdf = new CircuitPdf();
     }
 
     public function processRequest($method, $uri) {
@@ -35,8 +35,9 @@ class CircuitController {
                     }
                     break;
                 case 'POST':
-                    if ($uri[3] == 'pdf'){
-                        $this->circuitPdf->LoadData();
+                    if (isset ($uri[3])){
+                        if($uri[3] == 'pdf')
+                        $this->saveUploadedFile();
                     }else{
                         $this->createCircuit();
                     }
@@ -107,5 +108,36 @@ class CircuitController {
         } else {
             ResponseHelper::sendNotFound("Aucun circuit trouvé pour le chauffeur spécifié.");
         }
+    }
+
+    public function saveUploadedFile()
+    {
+        if (!($_FILES['circuit_pdf'])) {
+            throw new Exception("Aucun fichier n'a été téléchargé.");
+        }
+
+        $target_dir_file = "./uploads/"  . "Circuits/";
+
+        if (!file_exists($target_dir_file)) {
+            mkdir($target_dir_file, 0777, true);
+        }
+
+        $file_path = $target_dir_file . "Circuit_". date("Y-m-d_H-i-s") . ".pdf";
+
+        var_dump($file_path);
+
+        $file = $_FILES['circuit_pdf'];
+        $file_moved = move_uploaded_file($file['tmp_name'], $file_path);
+
+        var_dump($file_moved);
+
+        if (!$file_moved) {
+            throw new Exception("Une erreur s'est produite lors de l'enregistrement du permis.");
+        }
+
+        return [
+            'status' => "success",
+            'message' => "Le justificatif du permis a bien été enregistré.",
+        ];
     }
 }

@@ -70,8 +70,4 @@ function addStock() {
                 console.log("success");
             }
         })
-        .catch(error => {
-            console.error('Erreur:', error.message);
-            alert('Erreur:', error.message);
-        });
 }

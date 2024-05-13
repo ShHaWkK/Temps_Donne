@@ -23,7 +23,7 @@ echo "<title>Accueil - Au temps donné</title>";
 <div class="section">
     <div class="section-title"><?php echo htmlspecialchars($data["WHO_WE_ARE_TITLE"]); ?></div>
     <p class="section-content"><?php echo htmlspecialchars($data["WHO_WE_ARE_CONTENT"]); ?></p>
-    <button class="section-button"><i class="fa-solid fa-house"></i> <?php echo htmlspecialchars($data["DISCOVER_OUR_SERVICES"]); ?></button>
+    <button class="section-button"><a class="nav-item" href="./services/service.php"><i class="fa-solid fa-house"></i> <?php echo htmlspecialchars($data["DISCOVER_OUR_SERVICES"]); ?></a></button>
 </div>
 
 <div class="location-section">
@@ -35,15 +35,15 @@ echo "<title>Accueil - Au temps donné</title>";
 <div class="section">
     <div class="section-title"><?php echo htmlspecialchars($data["HOW_TO_HELP_TITLE"]); ?></div>
     <p class="section-content"><?php echo htmlspecialchars($data["HOW_TO_HELP_CONTENT"]); ?></p>
-    <button class="section-button"><i class="fa-solid fa-hand-holding-heart"></i> <?php echo htmlspecialchars($data["MAKE_A_DONATION"]); ?></button>
+    <button class="section-button"><a class="nav-item" href="./form/Donations.php"><i class="fa-solid fa-hand-holding-heart"></i> <?php echo htmlspecialchars($data["MAKE_A_DONATION"]); ?></a></button>
 </div>
+
+</body>
 
 <?php
 include_once('includes/cookie.php');
 include_once('includes/footer.php');
 ?>
-
-</body>
 <script>
     function changeLanguage(lang) {
         window.location.href = window.location.pathname + "?lang=" + lang;

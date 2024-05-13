@@ -9,7 +9,7 @@
 <!-- Structure de la fenêtre modale -->
 <div id="myModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="close-userDetails">&times;</span>
         <div id="userDetails"></div> <!-- Contenu des détails de l'utilisateur -->
         <div id="availabilities"></div> <!-- Contenu des disponibilités -->
         <div id="skills"></div> <!-- Contenu des compétences -->
@@ -18,7 +18,6 @@
 
 <script>
     function addUserDetailsModalEventListeners() {
-        console.log("wesh");
         document.querySelectorAll('.popup-button.userDetails').forEach(button => {
             button.addEventListener('click', function() {
                 const userId = button.closest('tr').querySelector('input[name="id_buttons"]').value;
@@ -80,7 +79,7 @@
     });
 
     // Fermer la fenêtre modale lorsqu'on clique sur la croix
-    document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('close-userDetails').addEventListener('click', function() {
         const modal = document.getElementById('myModal');
         modal.style.display = 'none';
     });

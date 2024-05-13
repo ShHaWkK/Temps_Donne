@@ -75,7 +75,7 @@ function generateRouteRequest(startAddress, endAddress, waypoints) {
     return request;
 }
 
-function displayRouteOnMap(map, request) {
+ function displayRouteOnMap(map, request) {
 
     // Créer un objet DirectionsService
     var directionsService = new google.maps.DirectionsService();
@@ -87,7 +87,7 @@ function displayRouteOnMap(map, request) {
             // Afficher l'itinéraire sur la carte
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(response);
-            document.getElementById('generateCircuitButton')
+            document.getElementById('generateCircuitButton');
         } else {
             // Gérer les erreurs
             alert('Impossible de calculer l\'itinéraire : ' + status);

@@ -157,8 +157,10 @@ echo "<title>Espace Administrateur - Stocks</title>";
 
                     document.getElementById('generateCircuitButton').classList.toggle('active');
 
-                    generatePDF();
-
+                    // Attendre une seconde avant d'exécuter generatePDF()
+                    setTimeout(() => {
+                        generatePDF();
+                    }, 500); // 1000 ms = 1 seconde
                 });
 
                 function afficherAdressesDansDiv(tableau, divId) {

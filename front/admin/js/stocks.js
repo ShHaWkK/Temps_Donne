@@ -135,7 +135,7 @@ async function getAllStocks() {
             return response.json();
         })
         .catch(error => {
-            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            console.error('Erreur lors de la récupération des stocks :', error);
             throw error;
         });
 }
@@ -152,7 +152,7 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
     stockTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["","ID", "Produit", "Quantite", "Poids Total", "Volume Total", "Date de reception","Date de péremption", "Statut", "Détails"];
+    const tableHeader = ["","ID", "Produit", "Quantite", "Poids Total", "Volume Total", "Date de reception","Date de péremption", "Statut"];
 
     const rowHeader = stockTable.insertRow();
     rowHeader.classList.add("head");
@@ -207,7 +207,6 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
             <td>${stock.Date_de_reception}</td>
             <td>${stock.Date_de_peremption}</td>
             <td>${stock.Statut}</td>
-            <td><button class="popup-button stockDetails">Voir</button></td>
         `;
         // Vérifier si la date de péremption est antérieure à la date actuelle
         const expirationDate = new Date(stock.Date_de_peremption);

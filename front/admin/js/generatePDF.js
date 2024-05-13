@@ -1,39 +1,50 @@
-function generatePDF(){
+function generatePDF() {
     //nom du fichier | file name
-    var nom_fichier = prompt("Nom du fichier PDF :");
-
     var element = document.getElementById('collectionTab').innerHTML;
+    // var element = document.body;
+    console.log(element);
 
     var opt = {
-        margin:  0.5,
-        filename:     `${nom_fichier}.pdf`,
-        image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 1 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak: { mode: 'avoid-all' }
+        margin: 0.5,
+        image: {type: 'jpeg', quality: 1},
+        html2canvas: {scale: 1},
+        jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
+        pagebreak: {mode: 'avoid-all'}
     };
 
-    if(nom_fichier != null){
-        html2pdf().set(opt).from(element).save();
-    } else {
-        alert("Veuillez choisir un nom ");
-    }
+    window.scrollTo(0, 0);
+    html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+        var dateDuJour = new Date().toISOString().split('T')[0];
+        var file_name = 'circuit_' + dateDuJour + '.pdf';
+
+        // Enregistrer le fichier PDF localement
+        pdf.save(file_name);
+
+        //Envoyer le fichier à l'API
+        sendPDFFile(pdf.output('blob', {type: 'application/pdf'}));
+    }).catch(function (error) {
+        console.error("Erreur lors de la conversion :", error);
+    });
 }
 
 function sendPDFFile(PDFfile) {
+    console.log("On est dans sendPDFFile");
     const apiUrl='http://localhost:8082/index.php/circuits/pdf';
 
-    var dateDuJour = new Date().toISOString().split('T')[0];
-    var file_name = 'circuit_' + dateDuJour + '.pdf';
+    if(PDFfile){
+        console.log("pdf",PDFfile);
+    }
 
     // Créer un objet FormData pour le fichier PDF
     var formData = new FormData();
-    formData.append('circuit_file', PDFfile, file_name);
+    formData.append('circuit_pdf', PDFfile, 'circuit_pdf');
+
+    console.log(formData);
 
     // Options de la requête HTTP
     var options = {
         method: 'POST',
-        body: formData
+        body: formData,
     };
 
     fetch(apiUrl, options)
@@ -49,13 +60,9 @@ function sendPDFFile(PDFfile) {
             console.log(JSON.stringify(data));
 
             if (data && data.status === "success") {
-                alert("Fichier PDF envoyé avec succès à l'API.");
+                alert("Fichier PDF efanvoyé avec succès à l'API.");
             } else {
                 throw new Error(data.message || "Erreur lors de l'envoi du fichier PDF à l'API.");
             }
         })
-        .catch(error => {
-            console.error('Erreur lors de l\'envoi du fichier PDF à l\'API :', error.message);
-            alert('Erreur lors de l\'envoi du fichier PDF à l\'API :', error.message);
-        });
 }

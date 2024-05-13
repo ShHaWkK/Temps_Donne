@@ -1,4 +1,5 @@
 import tkinter as tk
+import bcrypt
 from tkinter import ttk, messagebox
 from .main_window import MainWindow
 import mysql.connector
@@ -59,19 +60,23 @@ class LoginWindow:
             main_app = MainWindow(new_window, user, self.ticket_system, self.chat_manager, self.db_config)
         else:
             messagebox.showerror("Login failed", "Invalid credentials")
+
     def authenticate(self, username, password):
         query = """
-        SELECT ID_Utilisateur, Role FROM Utilisateurs
-        WHERE Nom = %s AND Mot_de_Passe = %s
-        """
+          SELECT ID_Utilisateur, Role, Mot_de_passe FROM Utilisateurs
+          WHERE Nom = %s
+          """
         try:
             connection = mysql.connector.connect(**self.db_config)
             cursor = connection.cursor(dictionary=True)
-            cursor.execute(query, (username, password))
+            cursor.execute(query, (username,))
             user = cursor.fetchone()
             cursor.close()
             connection.close()
-            return user
+            if user:
+                hashed_password = user['Mot_de_passe'].encode('utf-8')
+                if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+                    return user
         except mysql.connector.Error as err:
             print(f"Erreur d'authentification : {err}")
-            return None
+        return None

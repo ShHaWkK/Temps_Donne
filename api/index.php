@@ -31,9 +31,9 @@ require_once 'Controllers/CommercantController.php';
 require_once 'Controllers/DemandeController.php';
 
 require_once 'Helpers/ResponseHelper.php';
-//require_once  __DIR__ . '/vendor/autoload.php';
+require_once  __DIR__ . '/vendor/autoload.php';
 
-//require_once 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 
 error_reporting(E_ERROR | E_PARSE);

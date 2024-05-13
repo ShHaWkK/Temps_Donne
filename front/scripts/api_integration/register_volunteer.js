@@ -79,21 +79,21 @@ function sendDataToAPI() {
 
         })
         .then(data => {
-                // Afficher la réponse JSON dans la console
-                console.log(JSON.stringify(data));
+            // Afficher la réponse JSON dans la console
+            console.log(JSON.stringify(data));
 
-                if (data && data.status === "success") {
-                    alert("Demande correctement envoyée, en attente de validation");
-                    const userId = data["inserted_id"];
-                    console.log(userId);
-                    addSelectedSkills(userId);
-                    window.location.href = "../../inscription_conn/connexion_benevole.php";
-                    return data;
-                } else {
-                    // Jetez une erreur avec le message de la réponse JSON
-                    throw new Error(data.message || "Erreur lors de l'enregistrement de l'utilisateur.");
-                }
-            })
+            if (data && data.status === "success") {
+                alert("Demande correctement envoyée, en attente de validation");
+                const userId = data["inserted_id"];
+                console.log(userId);
+                addSelectedSkills(userId);
+                window.location.href = "../../inscription_conn/connexion_benevole.php";
+                return data;
+            } else {
+                // Jetez une erreur avec le message de la réponse JSON
+                throw new Error(data.message || "Erreur lors de l'enregistrement de l'utilisateur.");
+            }
+        })
         .catch(error => {
             //console.error('Erreur lors de l\'enregistrement de l\'utilisateur :', error.message);
             alert('Erreur lors de l\'enregistrement de l\'utilisateur :', error.message);

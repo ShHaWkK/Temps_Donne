@@ -10,7 +10,7 @@ echo "<title>Espace Administrateur - Stocks</title>";
 ?>
 
 <head>
-    <link rel="stylesheet" href="./css/table.css">
+<!--    <link rel="stylesheet" href="./css/table.css">-->
     <script src="./js/checkSessionAdmin.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRnUwwESRTk-EVVhTJEwjWz3CpiRnhScQ&libraries=places&callback=initMap"></script>
 </head>
@@ -110,13 +110,13 @@ echo "<title>Espace Administrateur - Stocks</title>";
             </div>
 
             <div class="line">
-                <label for="truckList"> <h2>Assigner un camion :</h2></label>
+                <label for="truckList"> <h2>Camion :</h2></label>
                 <select id="truckList" name="truckList">
                 </select>
             </div>
 
             <div class="line">
-                <h2>Assigner un chauffeur :</h2>
+                <h2>Chauffeur :</h2>
             </div>
             <div class="line">
                 <table class="driverTable" id="driverTable"></table>
@@ -132,11 +132,14 @@ echo "<title>Espace Administrateur - Stocks</title>";
             </div>
 
             <button class="tabButton addButton addCircuit" id="generateCircuitButton"> Générer le circuit </button>
+
             <script>
                 document.getElementById('generateCircuitButton').addEventListener('click', async function () {
                     // Attend la résolution de la promesse retournée par generateWaypoints
                     let waypoints = await generateWaypoints(document.getElementById('commercantTable'));
                     console.log("waypoints:", waypoints);
+
+                    afficherAdressesDansDiv(waypoints, 'circuit');
 
                     let selectedEntrepot = document.querySelector('select[name="entrepotFilterCollecte"]').value;
                     console.log("selectedEntrepot", selectedEntrepot);
@@ -148,16 +151,41 @@ echo "<title>Espace Administrateur - Stocks</title>";
                     console.log("request",request);
 
                     let order = getWaypointsOrder(request);
-                    console.log(order);
+                    console.log("order",order);
 
                     displayRouteOnMap(map, request);
 
                     document.getElementById('generateCircuitButton').classList.toggle('active');
 
+                    generatePDF();
+
                 });
+
+                function afficherAdressesDansDiv(tableau, divId) {
+                    const div = document.getElementById(divId);
+                    if (!div) {
+                        console.error("La div spécifiée n'existe pas.");
+                        return;
+                    }
+
+                    let contenuDiv = '<h2>Ordre de passage :</h2>\n<ul>';
+
+                    for (let i = 0; i < tableau.length; i++) {
+                        const adresse = tableau[i].location;
+                        contenuDiv += `\n<li>${adresse}</li>\n`;
+                    }
+
+                    contenuDiv += '</ul>';
+
+                    div.innerHTML = contenuDiv;
+                }
             </script>
 
+            <div class="section" id="circuit"></div>
+
             <div id="map" style="height: 400px; width: 100%;"></div>
+
+
         </div>
     </div>
 </center>
@@ -170,11 +198,9 @@ echo "<title>Espace Administrateur - Stocks</title>";
 <script src="js/displayDrivers.js"></script>
 <script src="../scripts/tabChange.js"></script>
 <script src="./js/displayCommercants.js"></script>
+<script src="./js/generatePDF.js"></script>
 <script src="./js/stocks.js"></script>
 <script src="./js/stockPageExecutionOrder.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
-<?php
-include_once('../includes/footer.php');
-?>
 </html>

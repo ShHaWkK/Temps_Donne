@@ -139,6 +139,7 @@ ALTER TABLE Inscriptions_Formations
     ADD COLUMN Attended BOOLEAN NOT NULL DEFAULT FALSE;
 
 -- Table ChatMessages
+/*
 CREATE TABLE ChatMessages (
                               ID_Message INT AUTO_INCREMENT PRIMARY KEY,
                               ID_Expediteur_Utilisateur INT,
@@ -146,9 +147,10 @@ CREATE TABLE ChatMessages (
                               Message TEXT,
                               Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                               Lu BOOLEAN DEFAULT FALSE,
-                              FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE ,
-                              FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
+                              FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur),
+                              FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur)
 );
+*/
 
 -- Table Feedbacks
 CREATE TABLE Feedbacks (
@@ -421,6 +423,23 @@ CREATE TABLE UtilisationMateriels (
                                       FOREIGN KEY (ID_Materiel) REFERENCES Materiels(ID_Materiel),
                                       FOREIGN KEY (ID_Evenement) REFERENCES Evenements(ID_Evenement)
 );
+-- Table ChatMessages
+CREATE TABLE ChatMessages
+(
+    ID_Message                  int auto_increment PRIMARY KEY,
+    ID_Expediteur_Utilisateur   int NULL,
+    ID_Destinataire_Utilisateur int NULL,
+    Message                     text NULL,
+    Timestamp                   datetime DEFAULT CURRENT_TIMESTAMP,
+    Lu                          tinyint(1) DEFAULT 0,
+    ticket_id                   int NULL,
+    CONSTRAINT ChatMessages_ibfk_1 FOREIGN KEY (ID_Expediteur_Utilisateur) REFERENCES Utilisateurs (ID_Utilisateur),
+    CONSTRAINT ChatMessages_ibfk_2 FOREIGN KEY (ID_Destinataire_Utilisateur) REFERENCES Utilisateurs (ID_Utilisateur),
+    CONSTRAINT ChatMessages_ibfk_3 FOREIGN KEY (ticket_id) REFERENCES Tickets (ID_Ticket)
+);
+
+CREATE INDEX ID_Destinataire_Utilisateur ON ChatMessages (ID_Destinataire_Utilisateur);
+CREATE INDEX ID_Expediteur_Utilisateur ON ChatMessages (ID_Expediteur_Utilisateur);
 
 -- Table Ressources
 
@@ -594,7 +613,7 @@ CREATE TABLE DemandesBenevoles (
                                    ID_DemandeBenevole INT AUTO_INCREMENT PRIMARY KEY,
                                    ID_Demande INT,
                                    ID_Utilisateur INT,
-                                   FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demande) ON DELETE CASCADE,
+#                                    FOREIGN KEY (ID_Demande) REFERENCES Demandes(ID_Demandes) ON DELETE CASCADE,
                                    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateurs(ID_Utilisateur) ON DELETE CASCADE
 );
 

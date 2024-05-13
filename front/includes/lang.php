@@ -5,7 +5,7 @@ if (headers_sent($filename, $linenum)) {
     exit;
 }
 
-$supportedLanguages = ['EN', 'FR']; 
+$supportedLanguages = ['EN', 'FR', 'IT'];
 $languageDirectory = __DIR__ . '/../lang/';
 
 $userLanguage = 'EN';

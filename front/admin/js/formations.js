@@ -80,7 +80,7 @@ async function displayFormations(formations) {
     formationTable.innerHTML = '';
 
     // On ajoute l'en-tête du tableau
-    const tableHeader = ["", "Titre", "Description", "Date de début", "Date de fin","Séances"];
+    const tableHeader = ["", "Titre", "Description", "Date de début", "Date de fin"];
 
     const rowHeader = formationTable.insertRow();
     rowHeader.classList.add("head");
@@ -95,12 +95,18 @@ async function displayFormations(formations) {
     formations.forEach(formation => {
         const row = formationTable.insertRow();
         row.innerHTML = `
-                        <td> <input type="radio" id=${formation.id} name='id_buttons-formations' value=${formation.id} ${first ? 'checked' : ''} /> </td>
+                        <td>
+                            <input type="radio" 
+                                   id="${formation.id}" 
+                                   name="id_buttons-formations" 
+                                   value="${formation.id}" 
+                                   ${first ? 'checked' : ''} 
+                                   onclick="selectedFormation=this.id; console.log(selectedFormation)" />
+                        </td>
                         <td >${formation.titre}</td>
                         <td>${formation.description}</td>
                         <td>${formation.dateDebut}</td>
-                        <td>${formation.dateFin}</td>
-                        <td><button class="popup-button seancesDetails" id=${formation.id}> Voir </button></td>                    `;
+                        <td>${formation.dateFin}</td>`;
         if (first === true) {
             selectedFormation = formation.ID_Utilisateur;
         }

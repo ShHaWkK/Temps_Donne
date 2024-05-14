@@ -14,6 +14,7 @@ window.onload = function() {
         .then(inscriptions => {
             displayInscriptions(inscriptions)
                 .then(() => {
+                    displaySeances(selectedFormation);
                     addUserDetailsModalEventListeners();
                     addFormationDetailsListeners();
                     addStatusButtonEventListener();

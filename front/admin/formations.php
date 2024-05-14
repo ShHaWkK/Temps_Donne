@@ -62,6 +62,7 @@ echo "<title>Espace Administrateur - Formations</title>";
                 <button class="tabButton addButton" id="openAddFormationModalButton" onclick="openAddFormationModal()"> Ajouter une formation </button>
                 <button class="tabButton deleteButton" id="openDeleteFormationModalButton" onclick="openDeleteFormationModal()"> Supprimer une formation</button>
                 <button class="tabButton neutralButton" id="openAddSessionModalButton" onclick="openAddSeanceModal()"> Plannifier une séance</button>
+                <button class="tabButton neutralButton seancesDetails" id="seancesDetails"> Voir les prochaines séances</button>
             </div>
 
             <table id="formationTable">

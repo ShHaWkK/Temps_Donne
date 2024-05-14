@@ -24,14 +24,16 @@
 <script>
     // Fonction pour ouvrir la fenêtre modale
     async function openFormationSeancesModal(formationId) {
-        document.getElementById('formation-seances-Modal').style.display = 'block';
+        console.log("fomationId",formationId);
         await displaySeances(formationId);
+        document.getElementById('formation-seances-Modal').style.display = 'block';
+
     }
 
     async function displaySeances(formationId) {
         // Récupérer l'ID de la formation associée à ce bouton
         // const formationId = button.id;
-        console.log("formationId", formationId);
+        console.log("formationId in display Seances", formationId);
 
         // Récupérer les détails de la prochaine séance associée à cette formation
         const nextSeanceResponse = await fetch(`http://localhost:8082/index.php/formations/formation-sessions/` + formationId);
@@ -42,6 +44,7 @@
         const nextSeanceContainer = document.getElementById('seancesTable');
         if (nextSeance) {
             nextSeanceContainer.innerHTML =
+                '<h2>Prochaines séances</h2>' +
                 '<td><h3>Date: </h3>' + nextSeance.Date + '</td>' +
                 '<td><h3>Heure de début: </h3>' + nextSeance.Heure_Debut_Seance + '</td>' +
                 '<td><h3>Heure de fin: </h3>' + nextSeance.Heure_Fin_Seance + '</td>';
@@ -54,13 +57,9 @@
 
     function addFormationSeancesListeners() {
         console.log("On est dans addFormationSeancesListeners");
-        console.log("boutons:",document.querySelectorAll('.seancesDetails'))
         document.querySelectorAll('.seancesDetails').forEach(button => {
-            console.log(button);
             button.addEventListener('click', async function() {
-                // Afficher la fenêtre modale
-                const modal = document.getElementById('formationDetailsModal');
-                modal.style.display = 'block';
+                await openFormationSeancesModal(selectedFormation);
             });
         });
     }

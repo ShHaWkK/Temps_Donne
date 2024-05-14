@@ -160,6 +160,7 @@ function router($uri, $requestMethod) {
         case 'demand':
             $controller=new DemandeController();
             $controller->processRequest($requestMethod,$uri);
+            break;
         default:
             exit_with_message('Not Found', 404);
             return;

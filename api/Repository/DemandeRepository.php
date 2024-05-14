@@ -8,6 +8,7 @@ class DemandeRepository {
         $this->db = connectDB();
     }
 
+    /*
     public function findAll() {
         $sql = "SELECT * FROM Demandes";
         $stmt = $this->db->prepare($sql);
@@ -26,8 +27,8 @@ class DemandeRepository {
     public function save($demande) {
         $dateDemande = date('Y-m-d H:i:s');
         $sql = is_null($demande['id_demande']) ?
-            "INSERT INTO Demandes (ID_Utilisateur, ID_Service, Date_Demande, Statut) VALUES (:id_utilisateur, :id_serviceType, :date_demande, :statut)" :
-            "UPDATE Demandes SET ID_Utilisateur = :id_utilisateur, ID_Service = :id_serviceType, Date_Demande = :date_demande, Statut = :statut WHERE ID_Demande = :id_demande";
+            "INSERT INTO Demandes (ID_Utilisateur, ID_ServiceType, Date_Demande, Statut) VALUES (:id_utilisateur, :id_serviceType, :date_demande, :statut)" :
+            "UPDATE Demandes SET ID_Utilisateur = :id_utilisateur, ID_ServiceType = :id_serviceType, Date_Demande = :date_demande, Statut = :statut WHERE ID_Demande = :id_demande";
         $stmt = $this->db->prepare($sql);
         if (!is_null($demande['id_demande'])) {
             $stmt->bindValue(':id_demande', $demande['id_demande'], PDO::PARAM_INT);
@@ -54,20 +55,26 @@ class DemandeRepository {
         $stmt->bindValue(':id_demande', $id_demande, PDO::PARAM_INT);
         $stmt->bindValue(':id_benevole', $id_benevole, PDO::PARAM_INT);
         $stmt->execute();
-    }
+    }*/
 
     public function addDemande($UserId, $ServiceId)
     {
         $dateDemande = date('Y-m-d H:i:s');
         $sql = "INSERT INTO Demandes (ID_Utilisateur, ID_ServiceType, Date_Demande) VALUES (:id_utilisateur, :id_serviceType, :date_demande)";
-        $stmt=$this->db->prepare($sql);
+        $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id_utilisateur', $UserId, PDO::PARAM_INT);
         $stmt->bindValue(':id_serviceType', $ServiceId, PDO::PARAM_INT);
-        $stmt->bindValue(':date_demande',$dateDemande,PDO::PARAM_STR);
+        $stmt->bindValue(':date_demande', $dateDemande, PDO::PARAM_STR);
 
-        $stmt->execute();
+        if ($stmt->execute()) {
+            return "success";
+        } else {
+            return false;
+        }
     }
 
+
+    /*
     public function accepterDemande($demandeId)
     {
         $sql="UPDATE Demandes SET Statut = 'Acceptee' WHERE ID_Demande= :id";
@@ -76,4 +83,5 @@ class DemandeRepository {
 
         $stmt->execute();
     }
+    */
 }

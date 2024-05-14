@@ -12,5 +12,10 @@ class ResponseHelper {
     public static function sendNotFound($message = "Not Found") {
         self::sendResponse(["message" => $message], 404);
     }
+
+    public static function sendMethodNotAllowed(string $string)
+    {
+        self::sendResponse([$string]);
+    }
 }
 ?>

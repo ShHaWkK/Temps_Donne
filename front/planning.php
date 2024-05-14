@@ -36,8 +36,7 @@
     </div>
 </div>
 
-<script src="./scripts/eventDetails.js"></script>
-
+<script src="../scripts/eventDetails.js"></script>
 </body>
 <?php
 include_once('../includes/footer.php');

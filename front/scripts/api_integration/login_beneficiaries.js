@@ -45,7 +45,7 @@ function loginBeneficiaire(){
                 console.log('getCookieID',getCookie('user_id'));
                 console.log('userId',userId);
 
-                alert("Connection success");
+                alert("Connexion réussie");
 
                 // Vérifier si les cookies ont été attribués correctement
                 if (getCookie('session_token') === sessionToken && parseInt(getCookie('user_id'), 10) === userId) {

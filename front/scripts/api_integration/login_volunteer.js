@@ -30,20 +30,16 @@ function loginVolunteer(){
         })
         .then(data => {
             // Afficher la réponse JSON dans une alerte
-            alert(JSON.stringify(data));
             if (data && data.status && data.status.startsWith("success")) {
                 // Récupérer le token de session
                 var sessionToken = data.session_token;
                 var userId = data.user_id;
 
+                alert("Connexion réussie");
+
                 // Créer un cookie avec le nom 'session_token'
                 document.cookie = 'session_token=' + sessionToken + '; path=/; max-age=86400';
                 document.cookie = 'user_id=' + userId + '; path=/; max-age=86400';
-
-                console.log('getCookieSession',getCookie('session_token'));
-                console.log('sessionToken',sessionToken);
-                console.log('getCookieID',getCookie('user_id'));
-                console.log('userId',userId);
 
                 // Vérifier si les cookies ont été attribués correctement
                 if (getCookie('session_token') === sessionToken && parseInt(getCookie('user_id'), 10) === userId) {

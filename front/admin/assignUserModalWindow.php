@@ -49,13 +49,22 @@
     });
 
     // Fonction pour ouvrir la fenêtre modale
-    function openAssignUserModal(serviceId) {
+    function openAssignUserModal(serviceId,role) {
         document.getElementById('assignModal').style.display = 'block';
         console.log("service_id_assign previous",service_id_assign)
         console.log("serviceId",serviceId);
         service_id_assign=serviceId;
         console.log("service_id_assign",service_id_assign);
-        displayVolunteers();
+
+        console.log("role",role);
+
+        if(role === 'beneficiary') {
+            displayBeneficiaries();
+        }
+        else{
+            displayVolunteers();
+        }
+
     }
 
     // Fermer la fenêtre modale lorsque l'utilisateur clique en dehors de celle-ci

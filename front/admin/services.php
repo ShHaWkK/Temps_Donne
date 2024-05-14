@@ -38,14 +38,25 @@ include_once('./deleteServiceModalWindow.php');
                 });
             </script>
 
-            <button class="tabButton neutralButton" id="openAssignUserModalButton"> Affecter un utilisateur au service</button>
+            <button class="tabButton neutralButton" id="openAssignVolunteerModalButton"> Affecter un bénévole au service</button>
 
             <script>
-                document.getElementById('openAssignUserModalButton').addEventListener('click', function(event) {
+                document.getElementById('openAssignVolunteerModalButton').addEventListener('click', function(event) {
                     event.preventDefault();
                     const serviceId = document.querySelector('input[name="id_buttons"]:checked').value;
                     console.log("click modal", serviceId);
-                    openAssignUserModal(serviceId);
+                    openAssignUserModal(serviceId,'volunteer');
+                });
+            </script>
+
+            <button class="tabButton neutralButton" id="openAssignBeneficiaryModalButton"> Assigner un bénéficiaire au service</button>
+
+            <script>
+                document.getElementById('openAssignBeneficiaryModalButton').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const serviceId = document.querySelector('input[name="id_buttons"]:checked').value;
+                    console.log("click modal", serviceId);
+                    openAssignUserModal(serviceId,'beneficiary');
                 });
             </script>
 

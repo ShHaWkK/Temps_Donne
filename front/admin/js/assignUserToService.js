@@ -12,6 +12,20 @@ function getAllVolunteers() {
         });
 }
 
+function getAllBeneficiaries() {
+    return fetch('http://localhost:8082/index.php/beneficiaries/Granted')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
+}
+
 function displayVolunteers() {
     getAllVolunteers()
         .then(volunteers => {
@@ -40,6 +54,43 @@ function displayVolunteers() {
                     <td>${volunteer.Prenom}</td>
                     <td>${volunteer.Genre}</td>
                     <td>${volunteer.Email}</td>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'affichage des volontaires :', error);
+        });
+}
+
+function displayBeneficiaries() {
+    console.log("displayBeneficiaries");
+    getAllBeneficiaries()
+        .then(beneficiaries => {
+            const usersTable = document.getElementById('usersTable');
+
+            usersTable.innerHTML = '';
+
+            // On ajoute l'en-tête du tableau
+            const tableHeader = ["","ID_Utilisateur", "Nom", "Prénom", "Genre", "Email"];
+
+            const rowHeader = usersTable.insertRow();
+            rowHeader.classList.add("head");
+
+            for (let i = 0; i < tableHeader.length; i++) {
+                const th = document.createElement("th");
+                th.textContent = tableHeader[i];
+                rowHeader.appendChild(th);
+            }
+
+            beneficiaries.forEach(beneficiary => {
+                const row = usersTable.insertRow();
+                row.innerHTML = `
+                    <td><input type="checkbox" id=${beneficiary.ID_Utilisateur} name='id_checkboxes' value=${beneficiary.ID_Utilisateur}></td>
+                    <td class="user-id">${beneficiary.ID_Utilisateur}</td>
+                    <td>${beneficiary.Nom}</td>
+                    <td>${beneficiary.Prenom}</td>
+                    <td>${beneficiary.Genre}</td>
+                    <td>${beneficiary.Email}</td>
                 `;
             });
         })

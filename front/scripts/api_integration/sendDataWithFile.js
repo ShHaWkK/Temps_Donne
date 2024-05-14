@@ -18,7 +18,7 @@ function sendDataWithFile(elementID) {
             alert(JSON.stringify(data));
         })
         .catch(error => {
-            console.error('Erreur lors de l\'envoi des fichiers à l\'API :', error);
-            alert('Erreur lors de l\'envoi des fichiers à l\'API.');
+            console.error('Erreur lors de l\'envoi des fichiers :', error);
+            alert('Erreur lors de l\'envoi des fichiers');
         });
 }

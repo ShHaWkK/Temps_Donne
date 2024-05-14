@@ -44,25 +44,44 @@ async function displayServices(){
 
 async function addDemand() {
     const userID = getCookie('user_id');
+    console.log("userID", userID);
+
     const serviceID = selectedService;
     console.log("serviceId", serviceID);
-    apiUrl = `http://localhost:8082/index.php/demand/${userID}/${serviceID}`;
+    const apiUrl = `http://localhost:8082/index.php/demand/${userID}/${serviceID}`;
     console.log(apiUrl);
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération des données.');
+
+    const options = {
+        method: 'POST'
+    };
+
+    try {
+        const response = await fetch(apiUrl, options);
+        const data = await response.json();
+        console.log('Réponse de l\'API :', data);
+
+        if (data.error) {
+            const errorMessage = data.error;
+            if (errorMessage.startsWith("SQLSTATE[23000]: Integrity constraint violation")) {
+                console.log("Il est impossible de faire 2 demandes pour le même service");
+                alert("Il est impossible de faire 2 demandes pour le même service");
+            } else {
+                console.log("Une autre erreur est survenue:", errorMessage);
+                alert("Une autre erreur est survenue: " + errorMessage);
             }
-            return response.json();
-        })
-        .catch(error => {
-            // Utiliser la variable error pour accéder à la réponse du serveur
-            error.text().then(text => {
-                console.error('Erreur lors de la récupération des données JSON :', error);
-                console.log('Contenu de la réponse du serveur:', text);
-            });
-        });
+        } else {
+            console.log("Demande envoyée avec succès");
+            alert("Demande envoyée avec succès");
+        }
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi des fichiers à l\'API :', error);
+        alert('Erreur');
+    }
 }
 
 window.onload = function() {
-displayServices();}
+    checkSession()
+        .then(() => {
+            displayServices();
+        })
+}

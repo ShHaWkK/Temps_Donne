@@ -50,8 +50,6 @@ class DemandeService {
             'startTime' => $horaire,
             'endTime' => $horaire
         ]);
-
-        
     }
 
     public function accepterDemande($UserId, $ServiceId)
@@ -61,6 +59,6 @@ class DemandeService {
 
     public function addDemande($UserId, $ServiceId)
     {
-        $this->demandeRepository->addDemande($UserId, $ServiceId);
+       return $this->demandeRepository->addDemande($UserId, $ServiceId);
     }
 }

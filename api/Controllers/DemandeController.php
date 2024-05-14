@@ -13,7 +13,8 @@ class DemandeController {
         $this->demandeService = new DemandeService();
     }
 
-    public function processRequest($method, $uri) {
+    public function processRequest($method, $uri)
+    {
         switch ($method) {
             case 'POST':
                 $this->addDemande($uri[3],$uri[4]);
@@ -100,10 +101,10 @@ class DemandeController {
     {
         try {
             $result = $this->demandeService->addDemande($UserId, $ServiceId);
-            if ($result) {
-                ResponseHelper::sendResponse("Demand created successfully", 201);
+            if (!$result) {
+                ResponseHelper::sendResponse("Failed to create Demand", 400);
             } else {
-                ResponseHelper::sendResponse("Failed to create formation", 400);
+                ResponseHelper::sendResponse("Demand created successfully", 201);
             }
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);

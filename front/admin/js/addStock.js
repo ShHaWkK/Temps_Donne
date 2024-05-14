@@ -27,8 +27,8 @@ function addStock() {
     var status = document.querySelector('select[name="status"]').value;
     var datePeremption = document.getElementById('datePeremption').value;
     var dateReception = currentDate.toISOString().split('T')[0];
-    var volumeTotal= totalVolumeCalculation(id_produit,quantite);
-    var poidsTotal = totalWeightCalculation(id_produit,quantite);
+    var volumeTotal = totalVolumeCalculation(id_produit, quantite);
+    var poidsTotal = totalWeightCalculation(id_produit, quantite);
 
     // Créer un objet JSON avec les données du formulaire
     const data = {
@@ -38,7 +38,7 @@ function addStock() {
         "Poids_Total": poidsTotal,
         "Volume_Total": volumeTotal,
         "Statut": status,
-        "Date_de_reception":dateReception,
+        "Date_de_reception": dateReception,
         "Date_de_peremption": datePeremption,
     };
 
@@ -64,10 +64,20 @@ function addStock() {
         })
         .then(data => {
             // Afficher la réponse JSON dans une alerte
-            alert(JSON.stringify(data));
-            if (data && data.status && data.status.startsWith("success")) {
-                window.location.reload();
+            if (data && data.status && data.status === "success") {
+                // Autres actions à prendre en cas de succès, comme afficher un message à l'utilisateur
+                alert(data.message); // Correction ici
                 console.log("success");
+                window.location.reload();
+            } else {
+                console.log(data.error); // Afficher l'erreur dans la console
+                alert(JSON.stringify(data));
+                window.location.reload();
             }
         })
+        .catch(error => {
+            console.error('Erreur lors de la requête fetch :', error);
+            // Autres actions à prendre en cas d'erreur, comme afficher un message d'erreur générique à l'utilisateur
+            alert('Une erreur est survenue lors de la requête. Veuillez réessayer plus tard.');
+        });
 }

@@ -1,27 +1,30 @@
 async function deleteStock() {
     const apiUrl = 'http://localhost:8082/index.php/stocks/' + selectedStock;
+    console.log(selectedStock);
     const options = {
         method: 'DELETE'
     };
 
     try {
-        const response = await fetch(apiUrl, options);
+        const response = await fetch(apiUrl, options); // Attendre la réponse de la requête
         if (!response.ok) {
-            throw new Error('Erreur lors de la requête');
+            const errorMessage = await response.json(); // Récupérer le message d'erreur de la réponse JSON
+            throw new Error(errorMessage.error || 'Erreur inattendue'); // Lancer une erreur avec le message d'erreur
         }
 
-        const data = await response.json();
+        const data = await response.json(); // Attendre la conversion de la réponse en JSON
         console.log('Réponse du serveur:', data);
         alert(JSON.stringify(data));
         // Recharger la page après l'approbation de l'utilisateur
         window.location.reload();
     } catch (error) {
-        console.error('Error :', error);
-        alert('Error : ',error);
+        console.error('Erreur :', error);
+        alert('Erreur : ' + error.message); // Afficher le message d'erreur dans une alerte
         // Recharger la page en cas d'erreur
         window.location.reload();
     }
 }
+
 
 async function deleteExpiredStocks(displayedStocks) {
     console.log("confirmButtonDeleteExpired",displayedStocks);
@@ -39,12 +42,11 @@ async function deleteExpiredStocks(displayedStocks) {
         try {
             const response = await fetch(apiUrl, { method: 'DELETE' });
             console.log('Réponse du serveur:', response);
-            alert(JSON.stringify(response));
             // Recharger la page après l'approbation de l'utilisateur
+            window.location.reload();
         } catch (error) {
             console.error('Error :', error);
             alert('Error : ',error);
-            // Recharger la page en cas d'erreur
             window.location.reload();
         }
     }

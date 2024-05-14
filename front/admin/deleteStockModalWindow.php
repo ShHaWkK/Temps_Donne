@@ -33,7 +33,7 @@
 
 <script>
     document.getElementById('confirmButtonDelete').addEventListener('click', function(event) {
-        deleteStock();
+        deleteStock(selectedStock);
     });
 
     document.getElementById('confirmButtonDeleteExpired').addEventListener('click', function(event) {

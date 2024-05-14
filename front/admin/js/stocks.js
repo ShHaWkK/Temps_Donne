@@ -6,7 +6,6 @@ let allTrucks=[];
 let allDrivers =[];
 let allCommercants=[];
 const currentDate = new Date();
-let selectedStock = null;
 let entrepotAddress = null;
 let statutFilter='all';
 let entrepotFilter='all';
@@ -198,7 +197,7 @@ function displayStocks(stocks, produitFiltre, statutFiltre, entrepotFiltre, tri)
     stocksFiltres.forEach(stock => {
         const row = stockTable.insertRow();
         row.innerHTML = `
-            <td> <input type="radio" id=${stock.ID_Stock} name='id_buttons' value=${stock.ID_Stock} ${firstStock ? 'checked' : ''} /> </td>
+            <td> <input type="radio" id=${stock.ID_Stock} name='id_buttons_stocks' value=${stock.ID_Stock} ${firstStock ? 'checked' : ''} /> </td>
             <td class="stock-id">${stock.ID_Stock}</td>
             <td>${getProductName(allProduits, stock.ID_Produit)}</td>
             <td>${stock.Quantite}</td>

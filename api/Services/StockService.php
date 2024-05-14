@@ -29,10 +29,45 @@ class StockService {
         return $this->stockRepository->findById($id);
     }
 
-    public function deleteStock($id)
-    {
-        return $this->stockRepository->delete($id);
+    public function deleteStock($stockId) {
+        try {
+            // Récupérer le stock à partir de l'ID
+            $stockData = $this->stockRepository->findById($stockId);
+            if (!$stockData) {
+                throw new Exception("Stock introuvable",$stockId);
+            }
+
+            // Récupérer l'entrepôt et le produit associés
+            $entrepot = $this->entrepotRepository->findById($stockData['ID_Entrepots']);
+            $produit = $this->produitRepository->findById($stockData['ID_Produit']);
+
+            if (!$entrepot || !$produit) {
+                throw new Exception("Entrepôt ou produit introuvable.");
+            }
+
+            // Calculer le volume à libérer
+            $volumeToFree = $stockData['Quantite'] * $produit['Volume'];
+
+            if ($entrepot['Volume_Utilise'] < $volumeToFree) {
+                throw new Exception("Volume à libérer dépasse le volume utilisé dans l'entrepôt.");
+            }
+
+            // Mise à jour du volume utilisé de l'entrepôt
+            $this->entrepotRepository->updateVolume($entrepot['ID_Entrepot'], $entrepot['Volume_Utilise'] - $volumeToFree);
+
+            // Suppression du stock de la base de données
+            $this->stockRepository->delete($stockId);
+
+            return true;
+        } catch (PDOException $e) {
+            error_log("Erreur de base de données lors de la suppression du stock: " . $e->getMessage());
+            throw new Exception("Erreur de base de données lors de la suppression du stock: " . $e->getMessage());
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            throw $e;
+        }
     }
+
 
     public function addStock($stockData) {
         try {
@@ -49,8 +84,9 @@ class StockService {
             }
 
             // Utilisation correcte des propriétés de l'objet
-            $volumeRequired = $stockData->quantite * $produit['volume'];
-            if (($entrepot['volume_total'] - $entrepot['volume_utilise']) < $volumeRequired) {
+            $volumeRequired = $stockData->quantite * $produit['Volume'];
+            if (($entrepot['Volume_Total'] - $entrepot['Volume_Utilise']) < $volumeRequired) {
+//                return $this->handleInsufficientVolume($stockData, $entrepot, $volumeRequired);
                 throw new Exception("Volume insuffisant dans l'entrepôt.");
             }
 
@@ -58,7 +94,7 @@ class StockService {
             $stockData->validate();
             $stockId = $this->stockRepository->save($stockData);
 
-            $this->entrepotRepository->updateVolume($entrepot['id'], $entrepot['volume_utilise'] + $volumeRequired);
+            $this->entrepotRepository->updateVolume($entrepot['ID_Entrepot'], $entrepot['Volume_Utilise'] + $volumeRequired);
             $this->generateQrCode($stockData);
 
             return $stockId;
@@ -70,9 +106,6 @@ class StockService {
             throw $e ;
         }
     }
-
-
-
 
     public function updateStock($id, $data) {
         $existingStock = $this->getStockById($id);
@@ -88,7 +121,7 @@ class StockService {
 
 
     private function handleInsufficientVolume($stockData, $entrepot, $volumeRequired) {
-        $maxQuantitePossible = floor(($entrepot['volume_total'] - $entrepot['volume_utilise']) / $stockData['volume']);
+        $maxQuantitePossible = floor($entrepot['Volume_Total'] - $entrepot['Volume_Utilise']);
         if ($maxQuantitePossible > 0) {
             $partialStockData = $stockData;
             $partialStockData['quantite'] = $maxQuantitePossible;
@@ -101,7 +134,6 @@ class StockService {
 
         throw new Exception("Pas assez d'espace dans l'entrepôt pour le stock.");
     }
-
 
     private function generateQrCode(StockModel $stock) {
         $data = [
@@ -129,8 +161,6 @@ class StockService {
         $stock->qr_code = $qrCodePath;
         $this->stockRepository->updateQrCodePath($stock->id_stock, $qrCodePath);
     }
-
-
 
     public function updateQrCodePath($stockId, $qrCodePath) {
         $this->stockRepository->updateQrCodePath($stockId, $qrCodePath);

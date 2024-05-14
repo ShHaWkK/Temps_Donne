@@ -13,14 +13,14 @@
         <h2>Suppression</h2>
         <p>Voulez-vous supprimer cet utilisateur ?</p>
         <div>
-            <button class="confirm-button" id="confirmButtonDelete">Confirmer</button>
+            <button class="confirm-button" id="confirmButtonDeleteUser">Confirmer</button>
             <button class="cancel-button" id="cancelButtonDelete">Annuler</button>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('confirmButtonDelete').addEventListener('click', function(event) {
+    document.getElementById('confirmButtonDeleteUser').addEventListener('click', function(event) {
         // Utilisez event.data.userId pour accéder à l'ID de l'utilisateur
         console.log(selectedUser);
         deleteUser(selectedUser);

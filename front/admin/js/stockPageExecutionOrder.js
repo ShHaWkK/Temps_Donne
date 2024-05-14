@@ -45,16 +45,6 @@ window.onload = function() {
         .then(commercants => {
             allCommercants = commercants;
         })
-        .then(() => {
-            addProductFilterEvent();
-            addEntrepotFilterEvent();
-            addStatusFilterEvent();
-            addSortEvents();
-            addAddStockEvent();
-            addSelectedButtonEvent();
-            addUserDetailsModalEventListeners();
-            addEntrepotFilterCollecteEvent();
-        })
         .then(async () => {
             displayProducts('productFilter');
             displayProducts('productSelector');
@@ -66,6 +56,17 @@ window.onload = function() {
             let filteredCommercants = await filterCommercants(allCommercants, '6 boulevard Gambetta, Saint Quentin, France');
             console.log("filteredCommcercants", filteredCommercants);
             displayCommercants(filteredCommercants);
+        })
+        .then(async () => {
+
+            addProductFilterEvent();
+            addEntrepotFilterEvent();
+            addStatusFilterEvent();
+            addSortEvents();
+            addAddStockEvent();
+            addSelectedStockButtonEvent();
+            addUserDetailsModalEventListeners();
+            addEntrepotFilterCollecteEvent();
 
             // On centre la carte sur l'entrepot sélectionné par défaut
             let selectedEntrepot = document.querySelector('select[name="entrepotFilterCollecte"]').value;

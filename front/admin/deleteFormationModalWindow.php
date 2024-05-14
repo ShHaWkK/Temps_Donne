@@ -13,7 +13,7 @@
         <h2>Suppression</h2>
         <p>Voulez-vous supprimer cette formation ?</p>
         <div>
-            <button class="confirm-button" id="confirmButtonDelete">Confirmer</button>
+            <button class="confirm-button" id="confirmButtonDeleteFormation">Confirmer</button>
             <button class="cancel-button" id="cancelButtonDelete">Annuler</button>
         </div>
     </div>
@@ -21,7 +21,7 @@
 
 <script>
     let formation_id_delete;
-    document.getElementById('confirmButtonDelete').addEventListener('click', function(event) {
+    document.getElementById('confirmButtonDeleteFormation').addEventListener('click', function(event) {
         console.log(formation_id_delete);
         deleteFormation(formation_id_delete);
     });

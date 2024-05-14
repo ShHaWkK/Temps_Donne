@@ -1,4 +1,5 @@
 //Récupérer informations des entrepots:
+let selectedStock;
 function getEntrepotName(entrepots, id) {
 
     let entrepotName = "Entrepot non trouvé";
@@ -124,8 +125,8 @@ function sortByDatePeremption(stocks, descending = false) {
 }
 
 //On récupère le stock sélectionné:
-function addSelectedButtonEvent(){
-    const buttons = document.getElementsByName('id_buttons');
+function addSelectedStockButtonEvent(){
+    const buttons = document.getElementsByName("id_buttons_stocks");
 
 // Parcourir tous les boutons radio et ajouter un écouteur d'événement de changement à chacun
     buttons.forEach(button => {

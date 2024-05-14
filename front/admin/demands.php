@@ -64,7 +64,7 @@ echo "<title>Espace Administrateur - Demandes</title>";
                     console.log("User ID: ", userId);
                     console.log("Service ID: ", serviceId);
 
-                    rejectUser(userId,serviceId)
+                    rejectDemand(userId,serviceId)
                         .then(() => {
                             openDeleteModal();
                         })

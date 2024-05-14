@@ -53,8 +53,6 @@ function addService() {
             return response.json(); // Analyser la réponse JSON
         })
         .then(data => {
-            // Afficher la réponse JSON dans une alerte
-            alert(JSON.stringify(data));
             if (data && data.status && data.status.startsWith("success")) {
                 alert("success");
                 window.location.reload();

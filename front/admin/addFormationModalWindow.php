@@ -78,8 +78,9 @@
         if (endDate <= startDate) {
             alert('La date de fin doit être ultérieure à la date de début.');
             event.preventDefault(); // Empêcher l'envoi du formulaire si la validation échoue
+        }else{
+            addFormation();
         }
-        addFormation();
     });
 
     // Écouter les messages envoyés par l'iframe parent
@@ -94,8 +95,9 @@
         modal.style.display = 'none';
     });
 
-    function addFormation() {
-        var apiUrl = 'http://localhost:8082/index.php/formations/create';
+
+    async function addFormation() {
+        var apiUrl = "http://localhost:8082/index.php/formations/create/";
 
         // Récupérer les valeurs des champs du formulaire
         var titre = document.getElementById('formationName').value;
@@ -116,15 +118,8 @@
         // Options de la requête HTTP
         var options = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-            timeout: 10000
+            body: JSON.stringify(data)
         };
-
-        console.log(options);
-        console.log(data);
 
         fetch(apiUrl, options)
             .then(response => {
@@ -139,8 +134,8 @@
                 alert(JSON.stringify(data));
             })
             .catch(error => {
-                console.error('Erreur lors de la réponse de l\'API :', error.message);
-                alert("failed to fetch");
+                console.error('Erreur lors de la réponse du serveur:', error.message);
+                // alert('Erreur lors de la réponse du serveur:', error.message);
             });
     }
 

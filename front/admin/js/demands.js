@@ -100,7 +100,53 @@ async function approveDemand(user_id, serviceType_id) {
 }
 
 async function putOnHoldDemand(user_id, serviceType_id){
+    const apiUrl = `http://localhost:8082/index.php/demand/hold/${user_id}/${serviceType_id}`;
+    const options = {
+        method: 'PUT'
+    };
 
+    try {
+        const response = await fetch(apiUrl, options);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la requête à l\'API');
+        }
+
+        const data = await response.json();
+        console.log('Réponse de l\'API :', data);
+        alert(JSON.stringify(data));
+        // Recharger la page après l'approbation de l'utilisateur
+        window.location.reload();
+    } catch (error) {
+        console.error('Erreur :', error);
+        alert('Erreur : ' + error.message);
+        // Recharger la page en cas d'erreur
+        window.location.reload();
+    }
+}
+
+async function rejectDemand(user_id, serviceType_id){
+    const apiUrl = `http://localhost:8082/index.php/demand/reject/${user_id}/${serviceType_id}`;
+    const options = {
+        method: 'PUT'
+    };
+
+    try {
+        const response = await fetch(apiUrl, options);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la requête à l\'API');
+        }
+
+        const data = await response.json();
+        console.log('Réponse de l\'API :', data);
+        alert(JSON.stringify(data));
+        // Recharger la page après l'approbation de l'utilisateur
+        window.location.reload();
+    } catch (error) {
+        console.error('Erreur :', error);
+        alert('Erreur : ' + error.message);
+        // Recharger la page en cas d'erreur
+        window.location.reload();
+    }
 }
 
 // Ajouter les événements aux boutons de sélection des demandes

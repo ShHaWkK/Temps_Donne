@@ -61,21 +61,21 @@ async function displayDemands(demands) {
         let user = await getUserByID(demand.ID_Utilisateur);
         let serviceType = await getServiceType(demand.ID_ServiceType);
         row.innerHTML = `
-                        <input type="radio" id="${demand.ID_Utilisateur}-${demand.ID_ServiceType}" name="id_buttons_user_demand" value="${demand.ID_Utilisateur}" ${firstDemand ? 'checked' : ''} />
+                        <input type="radio" id="${demand.ID_Utilisateur}-${demand.ID_ServiceType}" name="id_buttons_user_demand" value="${demand.ID_Utilisateur}-${demand.ID_ServiceType}" ${firstDemand ? 'checked' : ''} />
                         <td>${user.nom} ${user.prenom}</td>
                         <td>${serviceType.nom_Type_Service}</td>
                         <td>${demand.Statut}</td>
                         <td><button class="popup-button userDetails"> Voir </button></td>
                     `;
         if (firstDemand === true) {
-            selectedDemand = user.ID_Utilisateur;
+            selectedDemand = user.ID_Utilisateur + '-' + demand.ID_ServiceType;
         }
         firstDemand = false;
     }
 }
 
 async function approveDemand(user_id, serviceType_id) {
-    const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/approve';
+    const apiUrl = `http://localhost:8082/index.php/demand/approve/${user_id}/${serviceType_id}`;
     const options = {
         method: 'PUT'
     };
@@ -92,9 +92,32 @@ async function approveDemand(user_id, serviceType_id) {
         // Recharger la page après l'approbation de l'utilisateur
         window.location.reload();
     } catch (error) {
-        console.error('Error :', error);
-        alert('Error : ',error);
+        console.error('Erreur :', error);
+        alert('Erreur : ' + error.message);
         // Recharger la page en cas d'erreur
         window.location.reload();
     }
 }
+
+async function putOnHoldDemand(user_id, serviceType_id){
+
+}
+
+// Ajouter les événements aux boutons de sélection des demandes
+function addSelectedDemandButtonEvent(){
+    const buttons = document.getElementsByName('id_buttons_user_demand');
+
+// Parcourir tous les boutons radio et ajouter un écouteur d'événement de changement à chacun
+    buttons.forEach(button => {
+        button.addEventListener('change', function() {
+            // Vérifier si le bouton est coché
+            if (this.checked) {
+                // Mettre à jour la valeur sélectionnée avec la value du bouton coché
+                selectedDemand = this.value;
+                console.log("le bouton : ",this)
+                console.log("La valeur sélectionnée est : ", selectedDemand);
+            }
+        });
+    });
+}
+

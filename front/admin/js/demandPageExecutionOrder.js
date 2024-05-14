@@ -8,6 +8,9 @@
             console.log("demands",demands);
             return displayDemands(demands)
         })
+        .then(()=>{
+            addSelectedDemandButtonEvent();
+        })
         .catch(error => {
             console.error("Une erreur s'est produite :", error);
         });

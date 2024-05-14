@@ -57,6 +57,16 @@ class DemandeService {
         $this->demandeRepository->accepterDemande($UserId, $ServiceId);
     }
 
+    public function refuserDemande($UserId, $ServiceId)
+    {
+        $this->demandeRepository->refuserDemande($UserId, $ServiceId);
+    }
+
+    public function mettreEnAttenteDemande($UserId, $ServiceId)
+    {
+        $this->demandeRepository->mettreEnAttenteDemande($UserId, $ServiceId);
+    }
+
     public function addDemande($UserId, $ServiceId)
     {
        return $this->demandeRepository->addDemande($UserId, $ServiceId);
@@ -81,4 +91,5 @@ class DemandeService {
     {
         return $this->demandeRepository->getAllDemandsByStatus('Refusee');
     }
+
 }

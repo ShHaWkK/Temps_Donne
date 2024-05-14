@@ -30,22 +30,41 @@ echo "<title>Espace Administrateur - Demandes</title>";
         </div>
 
         <div class="line actions">
-            <button class="tabButton addButton" id="approveDemand"> Valider une demande</button>
+
+            <button class="tabButton addButton" id="approveDemand"> Approuver une demande </button>
             <script>
                 document.getElementById('approveDemand').addEventListener('click', function() {
-                    approveDemand(selectedDemand);
+                    // Diviser la valeur sélectionnée en deux parties pour différencier l'id utilisateur de l'id service
+                    const [userId, serviceId] = selectedDemand.split('-');
+                    console.log("selectedDemand",selectedDemand);
+                    console.log("User ID: ", userId);
+                    console.log("Service ID: ", serviceId);
+
+                    // Appeler la fonction approveDemand avec userId et serviceId
+                    approveDemand(userId, serviceId);
                 });
             </script>
             <button class="tabButton holdButton" id="holdDemand"> Mettre une demande en attente</button>
             <script>
                 document.getElementById('holdDemand').addEventListener('click', function() {
-                    putOnHoldDemand(selectedDemand);
+                    // Diviser la valeur sélectionnée en deux parties pour différencier l'id utilisateur de l'id service
+                    const [userId, serviceId] = selectedDemand.split('-');
+                    console.log("User ID: ", userId);
+                    console.log("Service ID: ", serviceId);
+
+                    // Appeler la fonction approveDemand avec userId et serviceId
+                    putOnHoldDemand(userId, serviceId);
                 });
             </script>
             <button class="tabButton deleteButton" id="rejectDemand"> Refuser une demande</button>
             <script>
                 document.getElementById('rejectDemand').addEventListener('click', function() {
-                    rejectUser(selectedDemand)
+                    // Diviser la valeur sélectionnée en deux parties pour différencier l'id utilisateur de l'id service
+                    const [userId, serviceId] = selectedDemand.split('-');
+                    console.log("User ID: ", userId);
+                    console.log("Service ID: ", serviceId);
+
+                    rejectUser(userId,serviceId)
                         .then(() => {
                             openDeleteModal();
                         })
@@ -59,8 +78,9 @@ echo "<title>Espace Administrateur - Demandes</title>";
 <script src="../scripts/getCookie.js"></script>
 <script src="./js/filtersUsers.js"></script>
 <script src="./js/users.js"></script>
-<script src="./js/demands.js"></script>
 <script src="./js/demandPageExecutionOrder.js"></script>
+<script src="./js/demands.js"></script>
+
 </body>
 
 <?php

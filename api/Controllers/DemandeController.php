@@ -53,7 +53,20 @@ class DemandeController {
                 */
             case 'PUT':
                 if (isset($uri[3])) {
-                    $this->updateDemande($uri[3]);
+                    switch ($uri[3]){
+                        case 'approve':
+                            $this->accepterDemande($uri[4],$uri[5]);
+                            break;
+                        case 'reject':
+                            $this->refuserDemande($uri[4],$uri[5]);
+                            break;
+                        case 'hold':
+                            $this->mettreEnAttenteDemande($uri[4],$uri[5]);
+                            break;
+                        default:
+                            $this->updateDemande($uri[3]);
+                            break;
+                    }
                 }
                 break;
             case 'DELETE':
@@ -104,10 +117,34 @@ class DemandeController {
         ResponseHelper::sendResponse(['message' => 'Bénévole affecté avec succès']);
     }
 
-    private function accepterDemande() {
-        $data = json_decode(file_get_contents('php://input'), true);
-        $this->demandeService->accepterDemande($data);
-        ResponseHelper::sendResponse(['message' => 'Demande acceptée avec succès']);
+    private function accepterDemande($UserId, $ServiceId)
+    {
+        try {
+            $this->demandeService->accepterDemande($UserId, $ServiceId);
+            ResponseHelper::sendResponse(['message' => 'Demande acceptée avec succès']);
+        }catch (Exception$e){
+            ResponseHelper::sendResponse(['error' => $e->getMessage()],400);
+        }
+    }
+
+    private function refuserDemande($UserId, $ServiceId)
+    {
+        try {
+            $this->demandeService->refuserDemande($UserId, $ServiceId);
+            ResponseHelper::sendResponse(['message' => 'Demande rejetée avec succès']);
+        }catch (Exception$e){
+            ResponseHelper::sendResponse(['error' => $e->getMessage()],400);
+        }
+    }
+
+    private function mettreEnAttenteDemande($UserId, $ServiceId)
+    {
+        try {
+            $this->demandeService->mettreEnAttenteDemande($UserId, $ServiceId);
+            ResponseHelper::sendResponse(['message' => 'Demande mise en attente avec succès']);
+        }catch (Exception$e){
+            ResponseHelper::sendResponse(['error' => $e->getMessage()],400);
+        }
     }
 
     private function addDemande( $UserId, $ServiceId)

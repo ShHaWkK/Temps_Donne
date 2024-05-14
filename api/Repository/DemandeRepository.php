@@ -74,17 +74,32 @@ class DemandeRepository {
         }
     }
 
-
-    /*
-    public function accepterDemande($demandeId)
+    public function accepterDemande($id_utilisateur, $id_servicetype)
     {
-        $sql="UPDATE Demandes SET Statut = 'Acceptee' WHERE ID_Demande= :id";
-        $stmt=$this->db->prepare($sql);
-        $stmt->bindValue(':id',$demandeId,PD0::PARAM_INT);
-
-        $stmt->execute();
+        $sql = "UPDATE Demandes SET Statut = 'Acceptee' WHERE ID_Utilisateur = :id_utilisateur AND ID_ServiceType = :id_servicetype";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $stmt->bindValue(':id_servicetype', $id_servicetype, PDO::PARAM_INT);
+        return $stmt->execute();
     }
-    */
+
+    public function refuserDemande($id_utilisateur, $id_servicetype)
+    {
+        $sql = "UPDATE Demandes SET Statut = 'Refusee' WHERE ID_Utilisateur = :id_utilisateur AND ID_ServiceType = :id_servicetype";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $stmt->bindValue(':id_servicetype', $id_servicetype, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function mettreEnAttenteDemande($id_utilisateur, $id_servicetype)
+    {
+        $sql = "UPDATE Demandes SET Statut = 'En attente' WHERE ID_Utilisateur = :id_utilisateur AND ID_ServiceType = :id_servicetype";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+        $stmt->bindValue(':id_servicetype', $id_servicetype, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 
     public function getAllDemandsByStatus($status)
     {
@@ -95,4 +110,5 @@ class DemandeRepository {
         $demands = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $demands;
     }
+
 }

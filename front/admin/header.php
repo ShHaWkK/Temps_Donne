@@ -35,11 +35,11 @@
                     <i class="fa-solid fa-user"> </i>Profil
                 </button>
 
-                <!--
+
                                 <button class="popup-button  menu" >
-                                    <i class="fa-solid fa-envelope"></i>Messages
+                                    <i class="fa-solid fa-envelope"></i> Demandes
                                </button>
-                -->
+
 <!--
                 <button class="popup-button  menu" >
                     <i class="fa-solid fa-bell"></i>Notifications
@@ -91,7 +91,8 @@
 <!--        <a href="./panel_volunteer.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>-->
         <a href="./users.php" class="nav-item"><i class="fa fa-calendar-check"></i>Utilisateurs</a>
         <a href="./services.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Services</a>
-        <a href="./stocks.php" class="nav-item"><i class="fa fa-envelope"></i>Stocks</a>
+        <a href="./stocks.php" class="nav-item"><i class="fa fa-cubes"></i>Stocks</a>
+        <a href="./demands.php" class="nav-item"><i class="fa fa-envelope"></i>Demandes</a>
         <a href="./planning.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Planning</a>
         <a href="./formations.php" class="nav-item"><i class="fa fa-graduation-cap"></i>Formations</a>
 <!--        <a href="#" class="nav-item"><i class="fa fa-graduation-cap"></i>Maraudes</a>-->

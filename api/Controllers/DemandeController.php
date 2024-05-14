@@ -21,7 +21,20 @@ class DemandeController {
                 break;
             case 'GET':
                 if (isset($uri[3])) {
-                    $this->getDemande($uri[3]);
+                    switch ($uri[3]){
+                        case 'Pending':
+                            $this->getAllPendingDemands();
+                            break;
+                        case 'Granted':
+                            $this->getAllGrantedDemands();
+                            break;
+                        case 'Denied':
+                            $this->getAllRejectedDemands();
+                            break;
+                        default:
+                            $this->getDemande($uri[3]);
+                            break;
+                    }
                 } else {
                     $this->getAllDemandes();
                 }
@@ -109,8 +122,43 @@ class DemandeController {
         } catch (Exception $e) {
             ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
         }
-        /*
-        $this->demandeService->addDemande($UserId, $ServiceId);
-        ResponseHelper::sendResponse(['message' => 'Demande ajoutée avec succès']);*/
+    }
+
+    private function getAllPendingDemands()
+    {
+        try {
+            $result = $this->demandeService->getAllPendingDemands();
+            ResponseHelper::sendResponse($result);
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    private function getAllGrantedDemands()
+    {
+        try {
+            $result = $this->demandeService->getAllGrantedDemands();
+            if (!$result) {
+                ResponseHelper::sendResponse("Failed to create Demand", 400);
+            } else {
+                ResponseHelper::sendResponse("Demand created successfully", 201);
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    private function getAllRejectedDemands()
+    {
+        try {
+            $result = $this->demandeService->getAllRejectedDemands();
+            if (!$result) {
+                ResponseHelper::sendResponse("Failed to create Demand", 400);
+            } else {
+                ResponseHelper::sendResponse("Demand created successfully", 201);
+            }
+        } catch (Exception $e) {
+            ResponseHelper::sendResponse(['error' => $e->getMessage()], 400);
+        }
     }
 }

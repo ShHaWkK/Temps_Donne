@@ -244,6 +244,9 @@ class UserController {
                 case 'beneficiaries':
                     $users =$this->userService->getAllUsersByRoleAndStatus('Beneficiaire',$statut);
                     break;
+                case 'admins':
+                    $users =$this->userService->getAllUsersByRoleAndStatus('Administrateur',$statut);
+                    break;
             }
             ResponseHelper::sendResponse($users);
         }catch (Exception $e){

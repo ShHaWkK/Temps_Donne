@@ -1,0 +1,100 @@
+let selectedDemand;
+
+function getAllDemands() {
+    console.log("getAllDemands");
+    return fetch('http://localhost:8082/index.php/demand')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des utilisateurs :', error);
+            throw error;
+        });
+}
+
+async function getServiceType(typeId){
+    try {
+        const url = 'http://localhost:8082/index.php/services/type/' + typeId;
+        const response = await fetch(url);
+        if (!response.ok) {
+            alert('Erreur réseau');
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        return [];
+    }
+}
+
+async function displayDemands(demands) {
+    console.log("we are here");
+    //On vérifie si le paramètre est valide
+    if (!Array.isArray(demands)) {
+        console.error("Le paramètre 'demands' doit être un tableau.");
+        return;
+    }
+
+    const demandsTable = document.getElementById('demandsTable');
+
+    demandsTable.innerHTML = '';
+
+    // On ajoute l'en-tête du tableau
+    const tableHeader = ["", "Utilisateur", "Type de Service","Statut", "Détails"];
+
+    const rowHeader = demandsTable.insertRow();
+    rowHeader.classList.add("head");
+
+    for (let i = 0; i < tableHeader.length; i++) {
+        const th = document.createElement("th");
+        th.textContent = tableHeader[i];
+        rowHeader.appendChild(th);
+    }
+
+    let firstDemand = true;
+    for (const demand of demands) {
+        const row = demandsTable.insertRow();
+        let user = await getUserByID(demand.ID_Utilisateur);
+        let serviceType = await getServiceType(demand.ID_ServiceType);
+        row.innerHTML = `
+                        <input type="radio" id="${demand.ID_Utilisateur}-${demand.ID_ServiceType}" name="id_buttons_user_demand" value="${demand.ID_Utilisateur}" ${firstDemand ? 'checked' : ''} />
+                        <td>${user.nom} ${user.prenom}</td>
+                        <td>${serviceType.nom_Type_Service}</td>
+                        <td>${demand.Statut}</td>
+                        <td><button class="popup-button userDetails"> Voir </button></td>
+                    `;
+        if (firstDemand === true) {
+            selectedDemand = user.ID_Utilisateur;
+        }
+        firstDemand = false;
+    }
+}
+
+async function approveDemand(user_id, serviceType_id) {
+    const apiUrl = 'http://localhost:8082/index.php/admins/' + user_id + '/approve';
+    const options = {
+        method: 'PUT'
+    };
+
+    try {
+        const response = await fetch(apiUrl, options);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la requête à l\'API');
+        }
+
+        const data = await response.json();
+        console.log('Réponse de l\'API :', data);
+        alert(JSON.stringify(data));
+        // Recharger la page après l'approbation de l'utilisateur
+        window.location.reload();
+    } catch (error) {
+        console.error('Error :', error);
+        alert('Error : ',error);
+        // Recharger la page en cas d'erreur
+        window.location.reload();
+    }
+}

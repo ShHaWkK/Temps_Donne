@@ -8,7 +8,7 @@ class DemandeRepository {
         $this->db = connectDB();
     }
 
-    /*
+
     public function findAll() {
         $sql = "SELECT * FROM Demandes";
         $stmt = $this->db->prepare($sql);
@@ -16,6 +16,7 @@ class DemandeRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /*
     public function findById($id) {
         $sql = "SELECT * FROM Demandes WHERE ID_Demande = :id";
         $stmt = $this->db->prepare($sql);
@@ -84,4 +85,14 @@ class DemandeRepository {
         $stmt->execute();
     }
     */
+
+    public function getAllDemandsByStatus($status)
+    {
+        $sql = "SELECT * FROM Demandes WHERE Statut = :status";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->execute();
+        $demands = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $demands;
+    }
 }

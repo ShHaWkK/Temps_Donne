@@ -16,17 +16,6 @@
             Menu
         </button>
 
-        <!-- Barre de recherche et icône de recherche -->
-        <div class="search-container">
-<!--
-            <div class="search-icon">
-                <input class="search-input" type="text" placeholder="Recherche..." id="searchInput">
-                <a><i class="fa-solid fa-magnifying-glass"></i></a>
-            </div>
-            -->
-        </div>
-
-
         <!-- Boutons de navigation -->
         <nav class="navigation-menu">
             <ul class="header-menu">
@@ -84,7 +73,7 @@
 <!--        <a href="./home.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>-->
         <a href="demands.php" class="nav-item"><i class="fa fa-calendar-check"></i>Demandes</a>
         <a href="./planning.php" class="nav-item"><i class="fa fa-calendar-alt"></i>Planning</a>
-        <a href="./feedbacks.php" class="nav-item"><i class="fa fa-envelope"></i>Feedbacks</a>
+<!--        <a href="./feedbacks.php" class="nav-item"><i class="fa fa-envelope"></i>Feedbacks</a>-->
     </nav>
     <div class="sidebar-footer">
         <a href="#" class="nav-item" id="logoutButton"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>

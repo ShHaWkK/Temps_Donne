@@ -61,4 +61,24 @@ class DemandeService {
     {
        return $this->demandeRepository->addDemande($UserId, $ServiceId);
     }
+
+    public function getAllPendingDemands()
+    {
+        try {
+            return $this->demandeRepository->getAllDemandsByStatus('En attente');
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la récupération des demandes : " . $e->getMessage());
+        }
+
+    }
+
+    public function getAllGrantedDemands()
+    {
+        return $this->demandeRepository->getAllDemandsByStatus('Acceptee');
+    }
+
+    public function getAllRejectedDemands()
+    {
+        return $this->demandeRepository->getAllDemandsByStatus('Refusee');
+    }
 }

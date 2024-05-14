@@ -53,8 +53,8 @@
         modal.style.display = 'none';
     });
 
-    async function deleteFormation(formation_id) {
-        const apiUrl = 'http://localhost:8082/index.php/services/' + service_id;
+    async function deleteFormation() {
+        const apiUrl = 'http://localhost:8082/index.php/formations/' + selectedFormation;
         const options = {
             method: 'DELETE'
         };

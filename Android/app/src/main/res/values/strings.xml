@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Android</string>
-    <string name="email" />
-    <string name="password" />
-    <string name="login" />
-    <string name="logo" />
-    <string name="sign_up" />
-</resources>

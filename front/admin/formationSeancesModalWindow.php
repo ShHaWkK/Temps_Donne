@@ -54,14 +54,14 @@
 
     function addFormationSeancesListeners() {
         console.log("On est dans addFormationSeancesListeners");
-        document.querySelectorAll('.seanceDetails').forEach(button => {
+        console.log("boutons:",document.querySelectorAll('.seancesDetails'))
+        document.querySelectorAll('.seancesDetails').forEach(button => {
             console.log(button);
             button.addEventListener('click', async function() {
                 // Afficher la fenêtre modale
                 const modal = document.getElementById('formationDetailsModal');
                 modal.style.display = 'block';
             });
-            console.log("Il n'y a pas de boutons");
         });
     }
 

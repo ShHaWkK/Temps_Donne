@@ -42,4 +42,5 @@ function displayFormations(formations,elementId){
                     `;
         formationContainer.appendChild(section);
     })
+    addFormationSeancesListeners();
 }

@@ -111,6 +111,9 @@ CREATE TABLE Salles(
                        Adresse VARCHAR(100) NOT NULL
 );
 
+INSERT INTO Salles (Capacite, Numero, Adresse)
+VALUES (15,15,'6 Boulevard Gambetta, Saint-Qunetin, France');
+
 -- Table Séances
 CREATE TABLE Seances(
                         ID_Seance INT AUTO_INCREMENT PRIMARY KEY,
@@ -276,15 +279,15 @@ CREATE TABLE Commercants (
 
 INSERT INTO Commercants (Nom, Adresse, Contrat, Frequence_Collecte, Date_Derniere_Collecte, LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE) VALUES
                                                                                                                                                            ('Supermarché A', '1 Rue de l\'Isle, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
-                                                                                                                                                           ('Boulangerie B', '10 Rue des Charpentiers, Saint-Quentin, France', 'a_renouveler', 'hebdomadaire', '2024-05-09', FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE),
-                                                                                                                                                           ('Épicerie C', '25 Rue d\'Isle, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Boulangerie B', '10 Rue des Charpentiers, Saint-Quentin, France', 'a_renouveler', 'hebdomadaire', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+                                                                                                                                                           ('Épicerie C', '25 Rue d\'Isle, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
                                                                                                                                                            ('Pharmacie D', '30 Rue de la République, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
                                                                                                                                                            ('Boucherie E', '5 Rue Victor Basch, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
                                                                                                                                                            ('Magasin F', '15 Avenue de Laon, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
                                                                                                                                                            ('Café G', '2 Rue des Canonniers, Saint-Quentin, France', 'en_attente', 'mensuelle', '2024-05-09', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
-                                                                                                                                                           ('Librairie H', '20 Rue des Toiles, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+                                                                                                                                                           ('Librairie H', '20 Rue des Toiles, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
                                                                                                                                                            ('Fleuriste I', '8 Rue de la Sellerie, Saint-Quentin, France', 'a_renouveler', 'quotidienne', '2024-05-09', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
-                                                                                                                                                           ('Caviste J', '12 Rue de Guise, Saint-Quentin, France', 'en_cours', 'hebdomadaire', '2024-05-09', FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE);
+                                                                                                                                                           ('Caviste J', '12 Rue de Guise, Saint-Quentin, France', 'en_cours', 'quotidienne', '2024-05-09', FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE);
 
 
 CREATE TABLE Trajets (

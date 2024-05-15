@@ -51,7 +51,7 @@
             "Date": seanceDate,
             "Heure_Debut_Seance": startTime,
             "Heure_Fin_Seance": endTime,
-            "ID_Salle": 1, 
+            "ID_Salle": 1,
             "ID_Formation": selectedFormation
         };
 

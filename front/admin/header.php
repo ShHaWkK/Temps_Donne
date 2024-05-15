@@ -30,21 +30,7 @@
         <!-- Boutons de navigation -->
         <nav class="navigation-menu">
             <ul class="header-menu">
-
-                <button class="popup-button  menu" >
-                    <i class="fa-solid fa-user"> </i>Profil
-                </button>
-
-
-                                <button class="popup-button  menu" >
-                                    <i class="fa-solid fa-envelope"></i> Demandes
-                               </button>
-
-<!--
-                <button class="popup-button  menu" >
-                    <i class="fa-solid fa-bell"></i>Notifications
-                </button>
-                -->
+                
             </ul>
         </nav>
 
@@ -81,12 +67,7 @@
 </header>
 
 <aside class="sidebar bebas-neue">
-<!--
-    <div class="profile-section">
-        <img src="../../images/Ethan.jpg" alt="Photo de profil">
-        <h2>Nom et Prénom</h2>
-    </div>
-    -->
+
     <nav class="sidebar-nav">
 <!--        <a href="./panel_volunteer.php" class="nav-item active"><i class="fa fa-home"></i>Accueil</a>-->
         <a href="./users.php" class="nav-item"><i class="fa fa-calendar-check"></i>Utilisateurs</a>

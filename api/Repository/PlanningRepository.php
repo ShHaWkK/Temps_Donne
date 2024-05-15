@@ -62,8 +62,6 @@ class PlanningRepository {
         return $this->db->lastInsertId();
     }
 
-
-    
     private function isPlanningAvailable($userId, $date, $startTime, $endTime) {
         // Requête pour vérifier si un planning avec les mêmes informations existe déjà
         $stmt = $this->db->prepare("SELECT * FROM Planning WHERE ID_Utilisateur = ? AND Date = ? AND ((startTime < ? AND endTime > ?) OR (startTime < ? AND endTime > ?) OR (startTime >= ? AND endTime <= ?))");
@@ -73,8 +71,6 @@ class PlanningRepository {
         // Si un planning existe déjà, il y a un conflit
         return !$planning;
     }
-    
-    
 
     public function update(PlanningModel $planning) {
         $stmt = $this->db->prepare("UPDATE Planning SET ID_Utilisateur = ?, activity = ?, description = ?, date = ?, startTime = ?, endTime = ? WHERE ID_Planning = ?");

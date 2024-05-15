@@ -69,6 +69,9 @@ class FormationController {
                             case 'feedback':
                                 $this->submitFeedback();
                                 break;
+                            case 'sessions':
+                                $this->addSession();
+                                break;
                             default:
                                 $this->createFormation();
                                 break;
@@ -341,6 +344,16 @@ class FormationController {
             } else {
                 ResponseHelper::sendNotFound("Not found");
             }
+        } catch(Exception $e) {
+            ResponseHelper::sendResponse("Error: " . $e->getMessage());
+        }
+    }
+
+    private function addSession()
+    {        $data = json_decode(file_get_contents('php://input'), true);
+        try {
+            $result = $this->formationService->addSession($data);
+            ResponseHelper::sendResponse("Session added successfully");
         } catch(Exception $e) {
             ResponseHelper::sendResponse("Error: " . $e->getMessage());
         }

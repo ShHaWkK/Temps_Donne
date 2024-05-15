@@ -19,27 +19,66 @@
             <label for="seanceDescription">Description :</label>
             <textarea id="seanceDescription" name="seanceDescription" content="Séance" required></textarea><br><br>
 
-            <label for="startDate">Date de début:</label>
-            <input type="date" id="startDate" name="startDate" value="12-09-2024" required><br><br>
+            <label for="seanceDate">Date:</label>
+            <input type="date" id="seanceDate" name="seanceDate" required><br><br>
 
-            <label for="endDate">Date de fin:</label>
-            <input type="date" id="endDate" name="endDate" value="12-12-2024" required><br><br>
+            <label for="startTime">Heure de début:</label>
+            <input type="time" id="startTime" name="startTime" required><br><br>
 
-            <table id="usersTable">
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        displayUsers();
-                        console.log("Inside select");
-                    });
-                </script>
-            </table><br><br>
+            <label for="endTime">Heure de fin:</label>
+            <input type="time" id="endTime" name="endTime" required><br><br>
 
-            <input class="confirm-button" id="confirm-button-addSeance" type="submit" value="Ajouter">
+            <input class="confirm-button" id="confirm-button-addSeance" onclick="addSeance()" TYPE="submit" value="Ajouter">
         </form>
     </div>
 </div>
 
 <script>
+    async function addSeance() {
+        var apiUrl = "http://localhost:8082/index.php/formations/sessions";
+
+        // Récupérer les valeurs des champs du formulaire
+        var titre = document.getElementById('seanceName').value;
+        var description = document.getElementById('seanceDescription').value;
+        var startTime = document.getElementById('startTime').value;
+        var endTime = document.getElementById('endTime').value;
+        var seanceDate = document.getElementById('seanceDate').value;
+
+        // Créer un objet JSON avec les données du formulaire
+        const data = {
+            "Titre": titre,
+            "Description": description,
+            "Date": seanceDate,
+            "Heure_Debut_Seance": startTime,
+            "Heure_Fin_Seance": endTime,
+            "ID_Salle": 1, 
+            "ID_Formation": selectedFormation
+        };
+
+        // Options de la requête HTTP
+        var options = {
+            method: 'POST',
+            body: JSON.stringify(data)
+        };
+
+        fetch(apiUrl, options)
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMessage => {
+                        throw new Error(errorMessage || 'Erreur inattendue.');
+                    });
+                }
+                return response.json(); // Analyser la réponse JSON
+            })
+            .then(data => {
+                alert(JSON.stringify(data));
+            })
+            .catch(error => {
+                console.error('Erreur lors de la réponse du serveur:', error.message);
+                // alert('Erreur lors de la réponse du serveur:', error.message);
+            });
+    }
+
     console.log("On est dans addSeanceModal");
 
     // Fonction pour ouvrir la fenêtre modale

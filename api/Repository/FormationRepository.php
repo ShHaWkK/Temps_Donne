@@ -224,4 +224,23 @@ class FormationRepository {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function addSession($data)
+    {
+        $sql = "INSERT INTO Seances (ID_Formation, ID_Salle, Description, Date, Heure_Debut_Seance, Heure_Fin_Seance)
+        VALUES (:id_formation, :id_salle, :description, :date, :heure_debut_seance, :heure_fin_seance)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id_formation', $data['ID_Formation'], PDO::PARAM_INT);
+        $stmt->bindValue(':id_salle', $data['ID_Salle'], PDO::PARAM_INT);
+        $stmt->bindValue(':description', $data['Description'], PDO::PARAM_STR);
+        $stmt->bindValue(':date', $data['Date'], PDO::PARAM_STR);
+        $stmt->bindValue(':heure_debut_seance', $data['Heure_Debut_Seance'], PDO::PARAM_STR);
+        $stmt->bindValue(':heure_fin_seance', $data['Heure_Fin_Seance'], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return "success";
+        } else {
+            return false;
+        }
+    }
 }

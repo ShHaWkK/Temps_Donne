@@ -123,4 +123,9 @@ class FormationService {
         return $this->repository->getAllRooms();
     }
 
+    public function addSession($data)
+    {
+        return $this->repository->addSession($data);
+    }
+
 }

@@ -1,3 +1,5 @@
+let selectedFormation = null;
+
 function getAllFormations(){
     return fetch('http://localhost:8082/index.php/formations')
         .then(response => {
@@ -109,6 +111,7 @@ async function displayFormations(formations) {
                         <td>${formation.dateFin}</td>`;
         if (first === true) {
             selectedFormation = formation.ID_Utilisateur;
+            console.log(selectedFormation)
         }
         first = false;
     });

@@ -99,6 +99,11 @@
                         <span class="text__general--heading"><?php echo htmlspecialchars($data["ENGLISH"] ); ?></span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript:void(0);" onclick="changeLanguage('IT')">
+                        <span class="text__general--heading"><?php echo htmlspecialchars($data["ITALIEN"] ); ?></span>
+                    </a>
+                </li>
             </ul>
         </div>
 
